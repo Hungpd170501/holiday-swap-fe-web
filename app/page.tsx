@@ -10,7 +10,7 @@ export default function Home() {
       <Header />
       <Container>
         <div className="pt-32 xl:px-9">
-          <div className="grid grid-cols-2">
+          <div className="grid md:grid-cols-2 grid-cols-1">
             <Banner />
           </div>
           <TopDestination />
