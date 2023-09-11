@@ -8,7 +8,7 @@ const TopDestinationCard = () => {
 
   return (
     <div
-      className="flex flex-row items-end justify-center"
+      className="flex flex-row items-end justify-center min-w-auto"
       onMouseEnter={() => setIsHoverd(true)}
       onMouseLeave={() => setIsHoverd(false)}
     >
@@ -23,15 +23,17 @@ const TopDestinationCard = () => {
       </div>
 
       <div
-        className={`text-white text-3xl px-[153px] flex flex-col items-center font-bold absolute ${
-          isHoverd ? "-translate-y-14 duration-300" : ""
+        className={`text-white md:text-3xl md:px-[153px] text-lg px-[80px] flex flex-col items-center font-bold absolute ${
+          isHoverd
+            ? "-translate-y-14 duration-300"
+            : "translate-y-0 duration-300"
         }`}
       >
         {isHoverd ? (
           <>
             <span>Vung Tau</span>
             <div className="text-base font-light text-white flex flex-col justify-center items-center">
-              <span className="">
+              <span className="flex justify-center md:w-[270px]">
                 Far far away, behind the word mountains, far from the countries
                 Vokalia and Consonantia,…
               </span>

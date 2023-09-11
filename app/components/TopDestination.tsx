@@ -6,15 +6,22 @@ import TopDestinationCard from "./TopDestinationCard";
 const TopDestination = () => {
   return (
     <div className="py-32 flex flex-col items-center">
-      <div className="text-5xl font-bold">
+      <div className="md:text-5xl text-3xl font-bold">
         Top <span className="text-common">Destination</span>
       </div>
-      <div className="text-[#8c8c8c] text-base flex flex-col items-center w-full py-14">
-        <span>Explore our top destinations voted by more than 100,000+</span>
-        <span>customers around the world.</span>
+      <div className="text-[#8c8c8c] text-base flex flex-col items-center md:w-full w-auto py-14">
+        <span>
+          Explore our top destinations voted by more than 100,000+ customers
+          around the world.
+        </span>
       </div>
 
-      <div className="grid grid-cols-3">
+      <div className="grid md:grid-cols-3 grid-cols-1 gap-8">
+        <TopDestinationCard />
+        <TopDestinationCard />
+        <TopDestinationCard />
+        <TopDestinationCard />
+        <TopDestinationCard />
         <TopDestinationCard />
       </div>
     </div>
