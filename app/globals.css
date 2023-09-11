@@ -16,34 +16,6 @@
   }
 }
 
-@font-face {
-  font-family: "Poppins";
-  src: url('../fonts/Poppins-Black.ttf');
-  font-weight: bolder;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Poppins";
-  src: url('../fonts/Poppins-Bold.ttf');
-  font-weight: bold;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Poppins";
-  src: url('../fonts/Poppins-Regular.ttf');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Poppins";
-  src: url('../fonts/Poppins-Italic.ttf');
-  font-weight: normal;
-  font-style: italic;
-}
-
 body {
   background-color: #f8f8f8;
   font-family: 'Poppins', sans-serif;

@@ -16,7 +16,7 @@ const Header = () => {
     setOpenMenu(!openMenu);
   };
   return (
-    <div className="w-full fixed z-10">
+    <div className="w-full fixed z-50">
       <Container>
         <div className="hidden md:block">
           <div className="flex flex-row justify-between items-center gap-3 py-8">

@@ -1,10 +1,21 @@
 import Image from "next/image";
 import Header from "./components/Header";
+import Banner from "./components/banner/Banner";
+import Container from "./components/Container";
+import TopDestination from "./components/TopDestination";
 
 export default function Home() {
   return (
-    <div>
+    <>
       <Header />
-    </div>
+      <Container>
+        <div className="pt-32 xl:px-9">
+          <div className="grid grid-cols-2">
+            <Banner />
+          </div>
+          <TopDestination />
+        </div>
+      </Container>
+    </>
   );
 }
