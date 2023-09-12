@@ -7,7 +7,7 @@ const TopDestination = () => {
   return (
     <div className="py-32 flex flex-col items-center">
       <div className="md:text-5xl text-3xl font-bold">
-        Top <span className="text-common">Destination</span>
+        Top <span className="text-common">Destinations</span>
       </div>
       <div className="text-[#8c8c8c] text-base flex flex-col items-center md:w-full w-auto py-14">
         <span>

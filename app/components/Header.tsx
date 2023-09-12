@@ -8,17 +8,24 @@ import ButtonLoginHeader from "./navbar/ButtonLoginHeader";
 import { BiMenu } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
 import Navbar from "./navbar/Navbar";
+import clsx from "clsx";
 
 const Header = () => {
   const [openMenu, setOpenMenu] = useState(false);
+  const [scroll, setScroll] = useState(false);
 
   const handleMenu = () => {
     setOpenMenu(!openMenu);
   };
   return (
-    <div className="w-full fixed z-50">
+    <div className="w-full fixed z-50" onScroll={() => setScroll(true)}>
       <Container>
-        <div className="hidden md:block">
+        <div
+          className={clsx(
+            `hidden md:block`,
+            scroll ? `bg-black border-b-2` : ""
+          )}
+        >
           <div className="flex flex-row justify-between items-center gap-3 py-8">
             <Logo />
             <Link />
