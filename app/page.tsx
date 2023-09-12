@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Banner from "./components/banner/Banner";
 import Container from "./components/Container";
 import TopDestination from "./components/TopDestination";
+import TopApartment from "./components/TopApartment";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
             <Banner />
           </div>
           <TopDestination />
+          <TopApartment />
         </div>
       </Container>
     </>

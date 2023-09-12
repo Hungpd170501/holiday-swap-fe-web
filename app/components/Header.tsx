@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Container from "./Container";
 import Logo from "./navbar/Logo";
 import Link from "./navbar/Link";
@@ -17,15 +17,32 @@ const Header = () => {
   const handleMenu = () => {
     setOpenMenu(!openMenu);
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY) {
+        setScroll(true);
+      } else {
+        setScroll(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [window.screenY]);
   return (
-    <div className="w-full fixed z-50" onScroll={() => setScroll(true)}>
-      <Container>
-        <div
-          className={clsx(
-            `hidden md:block`,
-            scroll ? `bg-black border-b-2` : ""
-          )}
-        >
+    <div className="w-full fixed z-50">
+      <Container
+        className={
+          scroll
+            ? "bg-white opacity-80 -translate-y-1 duration-300 shadow-md"
+            : ""
+        }
+      >
+        <div className={clsx(`hidden md:block`)}>
           <div className="flex flex-row justify-between items-center gap-3 py-8">
             <Logo />
             <Link />
