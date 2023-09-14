@@ -4,6 +4,7 @@ import Banner from "./components/banner/Banner";
 import Container from "./components/Container";
 import TopDestination from "./components/TopDestination";
 import TopApartment from "./components/TopApartment";
+import Footer from "./components/Footer";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
           <TopApartment />
         </div>
       </Container>
+      <Footer />
     </>
   );
 }

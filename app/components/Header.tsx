@@ -32,13 +32,13 @@ const Header = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [window.screenY]);
+  }, []);
   return (
     <div className="w-full fixed z-50">
       <Container
         className={
           scroll
-            ? "bg-white opacity-80 -translate-y-1 duration-300 shadow-md"
+            ? "bg-white opacity-90 -translate-y-1 duration-300 shadow-md"
             : ""
         }
       >

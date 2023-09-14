@@ -4,7 +4,7 @@ import React from "react";
 
 interface ContainerProps {
   children: React.ReactNode;
-  className?: String;
+  className?: string;
 }
 
 const Container: React.FC<ContainerProps> = ({ children, className }) => {
