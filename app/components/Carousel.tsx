@@ -2,13 +2,20 @@ import React, { useState, useRef } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useSwiper } from "swiper/react";
-import Image from "next/image";
 import { AiFillStar } from "react-icons/ai";
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 
 import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
 import SwiperButton from "./apartment/SwiperButton";
 
-const Carousel = ({ children: slices }) => {
+interface CarouselProps {
+  slices: string[];
+}
+
+const Carousel: React.FC<CarouselProps> = ({ slices }) => {
   const [hoveredIndex, setHoveredIndex] = useState(-1);
 
   const handleMouseEnter = (index: any) => {
@@ -22,8 +29,11 @@ const Carousel = ({ children: slices }) => {
   return (
     <div className="flex gap-4">
       <Swiper
+        modules={[Navigation, Pagination, Scrollbar, A11y]}
         spaceBetween={10}
         slidesPerView={3}
+        navigation
+        pagination={{ clickable: true }}
         onSlideChange={() => console.log("slide change")}
         onSwiper={(swiper) => console.log(swiper)}
         style={{ height: 500 }}
@@ -39,7 +49,7 @@ const Carousel = ({ children: slices }) => {
             <FaArrowLeft size={30} />
           </SwiperButton>
 
-          {slices.map((s: any, index: any) => (
+          {slices?.map((s: any, index: any) => (
             <SwiperSlide key={index}>
               <div
                 className="flex flex-row items-end justify-center min-w-auto"
