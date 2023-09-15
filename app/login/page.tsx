@@ -28,7 +28,7 @@ export default function page() {
         <div className="bg-gray-500 w-full  h-[0.5px]"></div>
         <div className="py-[40px] flex flex-col items-center">
           <div className="text-[25px]">Don't have account?</div>
-          <Link href="#" className="text-blue-400">
+          <Link href="/register" className="text-blue-400">
             Create an account
           </Link>
         </div>
