@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Container from "./Container";
 import Logo from "./navbar/Logo";
-import Link from "./navbar/Link";
+import LinkHeader from "./navbar/LinkHeader";
 import ButtonLoginHeader from "./navbar/ButtonLoginHeader";
 import { BiMenu } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
@@ -45,7 +45,7 @@ const Header = () => {
         <div className={clsx(`hidden md:block`)}>
           <div className="flex flex-row justify-between items-center gap-3 py-8">
             <Logo />
-            <Link />
+            <LinkHeader />
             <ButtonLoginHeader />
           </div>
         </div>
