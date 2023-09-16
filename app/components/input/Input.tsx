@@ -9,11 +9,11 @@ interface InputProps {
   label: string;
   type?: string;
   placeholder?: string;
-  //   disabled?: boolean;
-  //   formatPrice?: boolean;
-  //   required?: boolean;
-  //   register: UseFormRegister<FieldValues>;
-  //   errors: FieldErrors;
+  disabled?: boolean;
+  formatPrice?: boolean;
+  required?: boolean;
+  register: UseFormRegister<FieldValues>;
+  errors: FieldErrors;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -21,11 +21,11 @@ const Input: React.FC<InputProps> = ({
   label,
   type = "text",
   placeholder = "",
-  //   disabled,
-  //   formatPrice,
-  //   required,
-  //   register,
-  //   errors,
+  disabled,
+  formatPrice,
+  required,
+  register,
+  errors,
 }) => {
   return (
     <div className="w-full flex-col flex">
@@ -38,8 +38,8 @@ const Input: React.FC<InputProps> = ({
       <label className="py-3">{label}</label>
       <input
         id={id}
-        // disabled={disabled}
-        // {...register(id, { required })}
+        disabled={disabled}
+        {...register(id, { required })}
         placeholder={placeholder}
         type={type}
         className={`peer  p-4 pt-6 font-light bg-white border rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed

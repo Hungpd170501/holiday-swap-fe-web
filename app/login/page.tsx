@@ -12,8 +12,8 @@ export default function page() {
         <div className=" py-[40px] text-[30px]">Login</div>
         <div className="bg-gray-500 w-full h-[0.5px]"></div>
         <div className="grid grid-cols-2 gap-5 w-full py-[30px]">
-          <Input label="Username or Email" type="text" id="email" />
-          <Input label="Password" type="password" id="email" />
+          {/* <Input label="Username or Email" type="text" id="email" />
+          <Input label="Password" type="password" id="email" /> */}
         </div>
         <button className="bg-[#5C98F2] w-full h-[56px] rounded-md text-white">
           Login

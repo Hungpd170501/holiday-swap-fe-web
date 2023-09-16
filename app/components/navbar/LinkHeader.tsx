@@ -1,13 +1,12 @@
 "use client";
 
+import useLoginModal from "@/app/hooks/useLoginModal";
 import { useRouter, usePathname } from "next/navigation";
 import React from "react";
 
 const LinkHeader = () => {
   const route = useRouter();
   const pathname = usePathname();
-
-  console.log("Router", route);
 
   return (
     <div className="flex flex-row space-x-9 text-gray-500">

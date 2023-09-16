@@ -1,6 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import ClientOnly from "./components/ClientOnly";
+import ModalLogin from "./components/modal/ModalLogin";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -19,7 +21,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={font.className}>{children}</body>
+      <body className={font.className}>
+        <ClientOnly>
+          <ModalLogin />
+        </ClientOnly>
+        <div>{children}</div>
+      </body>
     </html>
   );
 }

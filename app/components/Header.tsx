@@ -9,9 +9,11 @@ import { BiMenu } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
 import Navbar from "./navbar/Navbar";
 import clsx from "clsx";
+import useLoginModal from "../hooks/useLoginModal";
 
 const Header = () => {
   const [openMenu, setOpenMenu] = useState(false);
+  const loginModal = useLoginModal();
   const [scroll, setScroll] = useState(false);
 
   const handleMenu = () => {
@@ -46,7 +48,7 @@ const Header = () => {
           <div className="flex flex-row justify-between items-center gap-3 py-8">
             <Logo />
             <LinkHeader />
-            <ButtonLoginHeader />
+            <ButtonLoginHeader onClick={loginModal.onOpen} />
           </div>
         </div>
 
