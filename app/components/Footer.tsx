@@ -87,7 +87,7 @@ export default function Footer() {
               Contact
             </Link>
           </div>
-          <div className="text-[#A7A7A7] flex flex-row items-center justify-end md:justify-start">
+          <div className="text-[#A7A7A7] flex flex-col  text-center items-center justify-center md:justify-start">
             Copyright © 2023 HolidaySwap. All Rights Reserved.
           </div>
         </div>

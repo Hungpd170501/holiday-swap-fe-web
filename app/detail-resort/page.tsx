@@ -5,7 +5,7 @@ import DetailContentTop from "../components/detailResort/DetailContentTop";
 import ImageDetailResort from "../components/detailResort/ImageDetailResort";
 import DetailContent from "../components/detailResort/DetailContent";
 import Footer from "../components/Footer";
-import SimpleMap from "../components/detailResort/Map";
+// import SimpleMap from "../components/detailResort/Map";
 import RightSideBar from "../components/detailResort/RightSideBar";
 
 export default function DetailResort() {
