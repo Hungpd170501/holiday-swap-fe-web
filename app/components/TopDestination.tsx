@@ -2,6 +2,7 @@
 
 import React from "react";
 import TopDestinationCard from "./TopDestinationCard";
+import { FaArrowRight } from "react-icons/fa6";
 
 const TopDestination = () => {
   return (
@@ -14,6 +15,11 @@ const TopDestination = () => {
           Explore our top destinations voted by more than 100,000+ customers
           around the world.
         </span>
+      </div>
+
+      <div className="flex gap-4 items-center my-4 p-2 border-b-2 border-slate-600 hover:border-[#5C98F2] cursor-pointer">
+        All Destination
+        <FaArrowRight size={15} />
       </div>
 
       <div className="grid md:grid-cols-3 grid-cols-1 gap-8">

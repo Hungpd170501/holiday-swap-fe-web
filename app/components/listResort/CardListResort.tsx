@@ -1,12 +1,19 @@
+"use client";
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { AiTwotoneStar } from "react-icons/ai";
 import { BsClock } from "react-icons/bs";
 export default function CardListResort() {
+  const route = useRouter();
   return (
     <div>
       <div className="grid md:grid-cols-3 grid-cols-1 gap-20 py-[30px] ">
-        <div className="flex flex-col ">
+        <div
+          onClick={() => route.push("/detail-resort")}
+          className="flex flex-col "
+        >
           <div className="overflow-hidden object-cover rounded-t-xl ">
             <Image
               src="/images/resort1.jpg"
@@ -35,7 +42,10 @@ export default function CardListResort() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col">
+        <div
+          onClick={() => route.push("/detail-resort")}
+          className="flex flex-col"
+        >
           <div className="overflow-hidden object-cover rounded-t-xl ">
             <Image
               src="/images/resort2.jpg"
@@ -64,7 +74,10 @@ export default function CardListResort() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col">
+        <div
+          onClick={() => route.push("/detail-resort")}
+          className="flex flex-col"
+        >
           <div className="overflow-hidden object-cover rounded-t-xl ">
             <Image
               src="/images/resort3.jpg"

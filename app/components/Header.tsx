@@ -3,15 +3,17 @@
 import React, { useState, useEffect } from "react";
 import Container from "./Container";
 import Logo from "./navbar/Logo";
-import Link from "./navbar/Link";
+import LinkHeader from "./navbar/LinkHeader";
 import ButtonLoginHeader from "./navbar/ButtonLoginHeader";
 import { BiMenu } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
 import Navbar from "./navbar/Navbar";
 import clsx from "clsx";
+import useLoginModal from "../hooks/useLoginModal";
 
 const Header = () => {
   const [openMenu, setOpenMenu] = useState(false);
+  const loginModal = useLoginModal();
   const [scroll, setScroll] = useState(false);
 
   const handleMenu = () => {
@@ -32,21 +34,21 @@ const Header = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [window.screenY]);
+  }, []);
   return (
     <div className="w-full fixed z-50">
       <Container
         className={
           scroll
-            ? "bg-white opacity-80 -translate-y-1 duration-300 shadow-md"
+            ? "bg-white opacity-90 -translate-y-1 duration-300 shadow-md"
             : ""
         }
       >
         <div className={clsx(`hidden md:block`)}>
           <div className="flex flex-row justify-between items-center gap-3 py-8">
             <Logo />
-            <Link />
-            <ButtonLoginHeader />
+            <LinkHeader />
+            <ButtonLoginHeader onClick={loginModal.onOpen} />
           </div>
         </div>
 

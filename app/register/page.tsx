@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../components/Header";
 import Input from "../components/input/Input";
-import BtnRegister from "../components/register/btnRegister";
+import BtnRegister from "../components/register/BtnRegister";
 import Link from "next/link";
 import Footer from "../components/Footer";
 
