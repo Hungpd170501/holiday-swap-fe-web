@@ -1,11 +1,29 @@
+"use client";
+
 import React from "react";
 import Header from "../components/Header";
 import Input from "../components/input/Input";
 import BtnRegister from "../components/register/BtnRegister";
 import Link from "next/link";
 import Footer from "../components/Footer";
+import { FieldValues, useForm } from "react-hook-form";
 
 export default function Register() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FieldValues>({
+    defaultValues: {
+      username: "",
+      password: "",
+      confirmPassword: "",
+      email: "",
+      firstName: "",
+      lasName: "",
+      phone: "",
+    },
+  });
   return (
     <div>
       <Header />
@@ -18,8 +36,10 @@ export default function Register() {
         </div>
         <div className="grid grid-cols-2 gap-5">
           <Input
+            register={register}
+            errors={errors}
             type="text"
-            id="userName"
+            id="username"
             label="Username*"
             placeholder="Username"
           />
@@ -27,12 +47,16 @@ export default function Register() {
 
         <div className="grid grid-cols-2 gap-5">
           <Input
+            register={register}
+            errors={errors}
             type="password"
             id="password"
             label="Password"
             placeholder="Password"
           />
           <Input
+            register={register}
+            errors={errors}
             type="password"
             id="confirmPassword"
             label="Confirm Password"
@@ -41,12 +65,16 @@ export default function Register() {
         </div>
         <div className="grid grid-cols-2 gap-5">
           <Input
+            register={register}
+            errors={errors}
             type="text"
             id="firstName"
             label="First Name"
             placeholder="First Name"
           />
           <Input
+            register={register}
+            errors={errors}
             type="text"
             id="lastName"
             label="Last Name"
@@ -55,10 +83,24 @@ export default function Register() {
         </div>
         <div className="grid grid-cols-2 gap-5">
           <div>Birth Date*</div>
-          <Input type="email" id="email" label="Email*" placeholder="Email" />
+          <Input
+            register={register}
+            errors={errors}
+            type="email"
+            id="email"
+            label="Email*"
+            placeholder="Email"
+          />
         </div>
         <div className="grid grid-cols-2 gap-5">
-          <Input type="text" id="phone" label="Phone" placeholder="Phone" />
+          <Input
+            register={register}
+            errors={errors}
+            type="text"
+            id="phone"
+            label="Phone"
+            placeholder="Phone"
+          />
           {/* <Input
             type="text"
             id="lastName"

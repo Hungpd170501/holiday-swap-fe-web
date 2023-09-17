@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import ClientOnly from "./components/ClientOnly";
 import ModalLogin from "./components/modal/ModalLogin";
+import ToasterProvider from "./providers/ToastProvider";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -24,6 +25,7 @@ export default function RootLayout({
       <body className={font.className}>
         <ClientOnly>
           <ModalLogin />
+          <ToasterProvider />
         </ClientOnly>
         <div>{children}</div>
       </body>

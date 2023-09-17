@@ -10,11 +10,20 @@ import { IoMdClose } from "react-icons/io";
 import Navbar from "./navbar/Navbar";
 import clsx from "clsx";
 import useLoginModal from "../hooks/useLoginModal";
+import { useSession } from "next-auth/react";
+import UserMenu from "./navbar/UserMenu";
 
-const Header = () => {
+interface HeaderProps {
+  currentUser?: Object | null;
+}
+
+const Header: React.FC<HeaderProps> = ({ currentUser }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const loginModal = useLoginModal();
   const [scroll, setScroll] = useState(false);
+
+  const { data: session } = useSession();
+  console.log("Session: ", { session });
 
   const handleMenu = () => {
     setOpenMenu(!openMenu);
@@ -48,7 +57,12 @@ const Header = () => {
           <div className="flex flex-row justify-between items-center gap-3 py-8">
             <Logo />
             <LinkHeader />
-            <ButtonLoginHeader onClick={loginModal.onOpen} />
+
+            {currentUser ? (
+              <UserMenu currentUser={currentUser} />
+            ) : (
+              <ButtonLoginHeader onClick={loginModal.onOpen} />
+            )}
           </div>
         </div>
 

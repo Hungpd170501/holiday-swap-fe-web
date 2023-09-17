@@ -7,8 +7,11 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Heading from "../Heading";
 import Input from "../input/Input";
 import Modal from "./Modal";
+import { signIn } from "next-auth/react";
+import { toast } from "react-hot-toast";
 
 export default function ModalLogin() {
+  const router = useRouter();
   const loginModal = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -24,11 +27,24 @@ export default function ModalLogin() {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log("Submit");
+    setIsLoading(true);
+    signIn("credentials", { ...data, redirect: false }).then((callback) => {
+      setIsLoading(false);
+      if (callback?.ok) {
+        toast.success("Logged in");
+        router.refresh();
+        loginModal.onClose();
+      }
+
+      if (callback?.error) {
+        toast.error(callback.error);
+      }
+    });
   };
 
   const toggle = useCallback(() => {
     loginModal.onClose();
+    router.push("/register");
   }, [loginModal]);
 
   const bodyContent = (

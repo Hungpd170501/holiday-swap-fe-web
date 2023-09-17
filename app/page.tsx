@@ -6,11 +6,17 @@ import TopDestination from "./components/TopDestination";
 import TopApartment from "./components/TopApartment";
 import Footer from "./components/Footer";
 import Modal from "./components/modal/Modal";
+import getCurrentUser from "./actions/getCurrentUser";
+import Provider from "./components/Provider";
 
-export default function Home() {
+export default async function Home() {
+  const currentUser = await getCurrentUser();
+
+  console.log("Current user: ", currentUser);
+
   return (
-    <>
-      <Header />
+    <Provider>
+      <Header currentUser={currentUser} />
       <Container>
         <div className="pt-32 xl:px-9">
           <div className="grid md:grid-cols-2 grid-cols-1">
@@ -21,6 +27,6 @@ export default function Home() {
         </div>
       </Container>
       <Footer />
-    </>
+    </Provider>
   );
 }
