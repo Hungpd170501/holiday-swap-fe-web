@@ -11,11 +11,9 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-
-    "@mui/x-date-pickers": "latest",
     "@mui/material": "^5.14.9",
+    "@mui/x-date-pickers": "latest",
     "@reduxjs/toolkit": "^1.9.5",
-
     "@types/node": "20.4.2",
     "@types/react": "18.2.15",
     "@types/react-dom": "18.2.7",
@@ -25,7 +23,7 @@
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.10",
     "google-map-react": "^2.2.1",
-    "next": "13.4.10",
+    "next": "^13.4.10",
     "next-auth": "^4.23.1",
     "postcss": "8.4.26",
     "react": "18.2.0",
@@ -38,10 +36,9 @@
     "react-redux": "^8.1.2",
     "swiper": "^10.2.0",
     "tailwindcss": "3.3.3",
-    "typescript": "5.1.6"
-  },
-  "description": "https://github.com/mui/mui-x/blob/v6.14.0/docs/data/date-pickers/date-picker/BasicDatePicker.tsx"
     "typescript": "5.1.6",
     "zustand": "^4.3.9"
-  }
+  },
+  "description": "https://github.com/mui/mui-x/blob/v6.14.0/docs/data/date-pickers/date-picker/BasicDatePicker.tsx",
+  "typescript": "5.1.6"
 }
