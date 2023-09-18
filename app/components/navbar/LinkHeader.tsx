@@ -5,13 +5,13 @@ import { useRouter, usePathname } from "next/navigation";
 import React from "react";
 
 const LinkHeader = () => {
-  const route = useRouter();
+  const router = useRouter();
   const pathname = usePathname();
 
   return (
     <div className="flex flex-row space-x-9 text-gray-500">
       <div
-        onClick={() => route.push("/")}
+        onClick={() => router.push("/")}
         className={`hover:text-black cursor-pointer flex flex-col items-center ${
           pathname === "/" ? "text-black" : ""
         }`}
@@ -24,7 +24,7 @@ const LinkHeader = () => {
         )}
       </div>
       <div
-        onClick={() => route.push("/list-resort")}
+        onClick={() => router.push("/list-resort")}
         className={`hover:text-black cursor-pointer flex flex-col items-center ${
           pathname === "/list-resort" ? "text-black" : ""
         }`}

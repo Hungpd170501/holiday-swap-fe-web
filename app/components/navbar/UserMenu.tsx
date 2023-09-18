@@ -3,6 +3,7 @@
 import MenuItem from "./MenuItem";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { Fragment, useCallback, useState } from "react";
 
 interface UserMenuProps {
@@ -11,6 +12,7 @@ interface UserMenuProps {
 
 const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
@@ -36,7 +38,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
         <div className="absolute rounded-xl shadow-md w-[40vw] md:w-52 bg-white overflow-hidden right-20 top-24 text-sm">
           <div className="flex flex-col cursor-pointer">
             <Fragment>
-              <MenuItem label="Dashboard" />
+              <MenuItem
+                onClick={() => router.push("/dashboard")}
+                label="Dashboard"
+              />
               <MenuItem label="Edit Profile" />
               <hr />
               <MenuItem onClick={() => signOut()} label="Logout" />

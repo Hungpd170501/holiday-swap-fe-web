@@ -1,21 +1,17 @@
-import Image from "next/image";
 import Header from "./components/Header";
 import Banner from "./components/banner/Banner";
 import Container from "./components/Container";
 import TopDestination from "./components/TopDestination";
 import TopApartment from "./components/TopApartment";
 import Footer from "./components/Footer";
-import Modal from "./components/modal/Modal";
 import getCurrentUser from "./actions/getCurrentUser";
 import Provider from "./components/Provider";
+import ClientOnly from "./components/ClientOnly";
 
 export default async function Home() {
   const currentUser = await getCurrentUser();
-
-  console.log("Current user: ", currentUser);
-
   return (
-    <Provider>
+    <ClientOnly>
       <Header currentUser={currentUser} />
       <Container>
         <div className="pt-32 xl:px-9">
@@ -27,6 +23,6 @@ export default async function Home() {
         </div>
       </Container>
       <Footer />
-    </Provider>
+    </ClientOnly>
   );
 }

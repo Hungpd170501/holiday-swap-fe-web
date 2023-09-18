@@ -33,5 +33,7 @@ export default async function getCurrentUser() {
     }
 
     return currentUser.data;
-  } catch (error: any) {}
+  } catch (error: any) {
+    console.log("error: ", error);
+  }
 }

@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import ClientOnly from "../components/ClientOnly";
+import Provider from "../components/Provider";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -21,7 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
-        <ClientOnly>{children}</ClientOnly>
+        <Provider>
+          <ClientOnly>{children}</ClientOnly>
+        </Provider>
       </body>
     </html>
   );

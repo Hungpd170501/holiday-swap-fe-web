@@ -14,7 +14,7 @@ import { useSession } from "next-auth/react";
 import UserMenu from "./navbar/UserMenu";
 
 interface HeaderProps {
-  currentUser?: Object | null;
+  currentUser?: any | null;
 }
 
 const Header: React.FC<HeaderProps> = ({ currentUser }) => {
@@ -57,7 +57,6 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
           <div className="flex flex-row justify-between items-center gap-3 py-8">
             <Logo />
             <LinkHeader />
-
             {currentUser ? (
               <UserMenu currentUser={currentUser} />
             ) : (

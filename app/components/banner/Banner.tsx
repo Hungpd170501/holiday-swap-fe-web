@@ -25,6 +25,8 @@ const Banner = () => {
           width={600}
           height={1080}
           className="object-cover hidden md:block rounded-[50px] relative"
+          blurDataURL="/images/banner.jpeg"
+          placeholder="blur"
         />
       </div>
     </div>
