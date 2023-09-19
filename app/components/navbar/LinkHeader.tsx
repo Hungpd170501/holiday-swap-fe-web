@@ -1,8 +1,8 @@
 "use client";
 
 import useLoginModal from "@/app/hooks/useLoginModal";
-import { useRouter, usePathname } from "next/navigation";
-import React from "react";
+import { useRouter, usePathname, redirect } from "next/navigation";
+import React, { useEffect } from "react";
 
 const LinkHeader = () => {
   const router = useRouter();
@@ -36,7 +36,12 @@ const LinkHeader = () => {
           <span></span>
         )}
       </div>
-      <div className="hover:text-black cursor-pointer">Apartment</div>
+      <div
+        onClick={() => router.push("/dashboard")}
+        className="hover:text-black cursor-pointer"
+      >
+        Apartment
+      </div>
     </div>
   );
 };

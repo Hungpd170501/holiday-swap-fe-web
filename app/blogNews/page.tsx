@@ -12,7 +12,7 @@ import getCurrentUser from "../actions/getCurrentUser";
 export default async function BlogNews() {
   const currentUser = await getCurrentUser();
   return (
-    <Provider>
+    <>
       <div className="bg-white">
         <Header currentUser={currentUser} />
         <div className="bg-[#F5F5F7] h-[370px] w-full flex items-center justify-center ">
@@ -31,6 +31,6 @@ export default async function BlogNews() {
         </Container>
         <Footer />
       </div>
-    </Provider>
+    </>
   );
 }

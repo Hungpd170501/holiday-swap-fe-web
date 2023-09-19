@@ -8,7 +8,6 @@ interface ButtonLoginHeaderProps {
 }
 
 const ButtonLoginHeader: React.FC<ButtonLoginHeaderProps> = ({ onClick }) => {
-  const route = useRouter();
   return (
     <button
       onClick={onClick}

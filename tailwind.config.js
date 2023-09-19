@@ -14,6 +14,9 @@ module.exports = {
       colors: {
         common: "#5C98F2",
       },
+      borderColor: {
+        common: "#5C98F2",
+      },
     },
   },
   plugins: [],
