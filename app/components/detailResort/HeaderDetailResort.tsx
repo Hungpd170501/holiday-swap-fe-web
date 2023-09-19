@@ -75,21 +75,6 @@ export default function BasicTabs() {
           />
         </Tabs>
       </Box>
-      {/* <CustomTabPanel value={value} index={0}>
-        Item One
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        Item Two
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        Item Three
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={3}>
-        Item 4
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={4}>
-        Item 5
-      </CustomTabPanel> */}
     </Box>
   );
 }

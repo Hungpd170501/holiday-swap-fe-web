@@ -22,6 +22,9 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
   const loginModal = useLoginModal();
   const [scroll, setScroll] = useState(false);
 
+  // const { data: session } = useSession();
+  // console.log("Session: ", { session });
+
   const handleMenu = () => {
     setOpenMenu(!openMenu);
   };
