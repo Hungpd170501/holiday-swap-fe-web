@@ -7,6 +7,7 @@ import DetailContent from "../components/detailResort/DetailContent";
 import Footer from "../components/Footer";
 // import SimpleMap from "../components/detailResort/Map";
 import RightSideBar from "../components/detailResort/RightSideBar";
+import TimeShareTable from "../components/detailResort/TimeShareTable";
 
 export default function DetailResort() {
   return (
@@ -25,6 +26,9 @@ export default function DetailResort() {
       <div className="flex flex-row px-[70px]  ">
         <DetailContent />
         <RightSideBar />
+      </div>
+      <div className="flex flex-row px-[70px] py-10 ">
+        <TimeShareTable />
       </div>
 
       <Footer />
