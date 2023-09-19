@@ -10,12 +10,12 @@ import { LuWarehouse } from "react-icons/lu";
 import { MdApartment } from "react-icons/md";
 import { HiOutlineHomeModern } from "react-icons/hi2";
 import { IoHomeOutline } from "react-icons/io5";
-import { IconType } from "react-icons/lib";
 import HomeType from "./HomeType";
 import Image from "next/image";
 import ButtonRegister from "./BtnRegister";
 import dynamic from "next/dynamic";
 import MapRegister from "./MapRegister";
+import LocationInput from "./LocationInput";
 
 enum STEPS {
   INFO = 0,
@@ -50,6 +50,24 @@ export const residenceTypes = [
   {
     label: "Secondary",
     icon: IoHomeOutline,
+  },
+];
+
+export const locations = [
+  {
+    label: "In the heart of an international site",
+  },
+  {
+    label: "Less than 30 minutes away from an international site",
+  },
+  {
+    label: "Less than 30 minutes away from a national site",
+  },
+  {
+    label: "Less than 30 minutes away from a local site",
+  },
+  {
+    label: "More than 30 minutes away from all tourist sites",
   },
 ];
 
@@ -304,9 +322,18 @@ const RegisterBody = () => {
           <div>
             <MapRegister />
 
-            <div>
+            <div className="flex-col py-5">
               <p>Location</p>
+              {locations.map((item, index) => (
+                <LocationInput
+                  key={index}
+                  label={item.label}
+                  onClick={(value) => setCustomValue("location", value)}
+                />
+              ))}
             </div>
+
+            <ButtonRegister onClick={handleSubmit(onSubmit)} label="Continue" />
           </div>
         </Container>
       </>

@@ -26,25 +26,9 @@ export default async function DetailResort() {
         <DetailContent />
         <RightSideBar />
       </div>
-      <div className="flex flex-col ">
-        <Header />
-        <div className="px-[70px]">
-          <HeaderDetailResort />
-        </div>
-        <div className="w-full h-[0.5px] bg-gray-300 mt-[0px]"></div>
-        <div className="px-[70px]">
-          <DetailContentTop />
-        </div>
-        <div className="px-[70px] pb-[20px]">
-          <ImageDetailResort />
-        </div>
-        <div className="flex flex-row px-[70px]  ">
-          <DetailContent />
-          <RightSideBar />
-        </div>
-        <div className="flex flex-row px-[70px] py-10 ">
-          <TimeShareTable />
-        </div>
+
+      <div className="flex flex-row px-[70px] py-10 ">
+        <TimeShareTable />
       </div>
     </div>
   );

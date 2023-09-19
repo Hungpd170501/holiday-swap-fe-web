@@ -6,6 +6,10 @@ import TimeShareHeader from "../components/time-share/TimeShareHeader";
 import TimeShareDetail from "../components/time-share/TimeShareDetail";
 import TimeShareList from "../components/time-share/TimeShareList";
 
+export const metadata = {
+  title: "Time Share",
+};
+
 export default function TimeShare() {
   return (
     <div>

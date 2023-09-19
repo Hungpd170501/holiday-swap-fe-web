@@ -7,12 +7,14 @@ import getCurrentUser from "../actions/getCurrentUser";
 import ClientOnly from "../components/ClientOnly";
 import Container from "../components/Container";
 
+export const metadata = {
+  title: "List Resort",
+};
+
 export default async function listResort() {
-  const currentUser = await getCurrentUser();
 
   return (
     <ClientOnly>
-      <Header currentUser={currentUser} />
       <Container>
         <div className="bg-[#F5F5F7] flex items-center justify-center ">
           <div className="text-5xl  pt-[250px] pb-[70px]">List Resort</div>
@@ -23,7 +25,7 @@ export default async function listResort() {
           <CardListResort />
         </div>
       </Container>
-      <Footer />
+    
     </ClientOnly>
   );
 }

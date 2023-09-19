@@ -89,7 +89,7 @@ export default function TimeShareComponents() {
         </TableBody>
       </Table>
       <Link
-        href="#"
+        href="/time-share"
         className="bg-[#5C98F2] px-3 py-3 rounded-xl my-2 text-white"
       >
         View more
