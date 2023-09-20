@@ -8,6 +8,8 @@ import getCurrentUser from "./actions/getCurrentUser";
 import Provider from "./components/Provider";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -34,12 +36,14 @@ export default async function RootLayout({
       <body className={font.className}>
         <Provider>
           <Header currentUser={currentUser} />
-          <ClientOnly>
-            <ModalLogin />
-            <ToasterProvider />
-          </ClientOnly>
+          <Suspense fallback={<Loading />}>
+            <ClientOnly>
+              <ModalLogin />
+              <ToasterProvider />
+            </ClientOnly>
 
-          {children}
+            {children}
+          </Suspense>
           <Footer />
         </Provider>
       </body>
