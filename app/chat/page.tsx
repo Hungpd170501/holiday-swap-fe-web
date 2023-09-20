@@ -8,8 +8,7 @@ import Header from "../components/Header";
 
 export default function Chat() {
   return (
-    <div className="mt-[10px]">
-      <Header />
+    <div className="mt-[10px] px-8">
       <div className="bg-[#F5F5F7] h-[370px] w-full flex items-center justify-center ">
         <div className="text-5xl mt-10">Message</div>
       </div>
@@ -32,7 +31,6 @@ export default function Chat() {
           <ChatRightSidebar />
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

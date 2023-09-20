@@ -99,7 +99,7 @@ export default function TimeShareList() {
                 <StyledTableCell align="right">{row.Sleep}</StyledTableCell>
                 <StyledTableCell align="right">{row.View}</StyledTableCell>
                 <div className="text-center bg-[#00748F] mt-3 w-[120px] -mr-[70px] mx-3 text-white">
-                  <Link href="#">{row.Button}</Link>
+                  <Link href="./detail-apartment">{row.Button}</Link>
                 </div>
               </StyledTableRow>
             </>
