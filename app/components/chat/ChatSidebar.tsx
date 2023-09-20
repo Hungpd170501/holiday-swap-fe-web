@@ -3,7 +3,7 @@ import { BsListUl } from "react-icons/bs";
 
 export default function ChatSidebar() {
   return (
-    <div className="w-[292px] h-[620px] bg-white">
+    <div className="w-[292px] h-[620px] bg-gray-200">
       <input
         className="px-2 py-1 border border-gray-300 bg-gray-100 rounded-sm mb-3 ml-3"
         type="text"

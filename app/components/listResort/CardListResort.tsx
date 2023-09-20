@@ -12,9 +12,9 @@ export default function CardListResort() {
       <div className="grid md:grid-cols-3 grid-cols-1 gap-20 py-[30px] ">
         <div
           onClick={() => route.push("/detail-resort")}
-          className="flex flex-col "
+          className="flex flex-col cursor-pointer "
         >
-          <div className="overflow-hidden object-cover rounded-t-xl ">
+          <div className="overflow-hidden object-cover rounded-t-xl w-full h-[200px] ">
             <Image
               src="/images/resort1.jpg"
               alt="destination"
@@ -44,9 +44,9 @@ export default function CardListResort() {
         </div>
         <div
           onClick={() => route.push("/detail-resort")}
-          className="flex flex-col"
+          className="flex flex-col cursor-pointer"
         >
-          <div className="overflow-hidden object-cover rounded-t-xl ">
+          <div className="overflow-hidden object-cover rounded-t-xl w-full h-[200px] ">
             <Image
               src="/images/resort2.jpg"
               alt="destination"
@@ -76,9 +76,9 @@ export default function CardListResort() {
         </div>
         <div
           onClick={() => route.push("/detail-resort")}
-          className="flex flex-col"
+          className="flex flex-col cursor-pointer"
         >
-          <div className="overflow-hidden object-cover rounded-t-xl ">
+          <div className="overflow-hidden object-cover rounded-t-xl w-full h-[200px] ">
             <Image
               src="/images/resort3.jpg"
               alt="destination"

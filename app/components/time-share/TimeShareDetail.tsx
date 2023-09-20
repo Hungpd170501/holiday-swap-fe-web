@@ -18,7 +18,7 @@ export default function TimeShareDetail() {
           <AiTwotoneStar color="#FFA11A" />
           <span className="pl-2">(1 Reviews)</span>
         </div>
-        <div className="flex flex-row items-center w-[850px] justify-between pb-[30px]">
+        <div className="flex flex-row items-center w-[850px] justify-between ">
           <div className="flex flex-row items-center pt-8 pb-5">
             <BsClock size={20} color="" className="mr-[10px]" />
             <span className="pl-1 text-gray-500 text-[17px]">5 Hours</span>

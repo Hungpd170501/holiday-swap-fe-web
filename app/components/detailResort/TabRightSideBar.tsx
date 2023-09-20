@@ -8,6 +8,7 @@ import Input from "../input/Input";
 import { BiCalendar } from "react-icons/bi";
 import { BsPeople } from "react-icons/bs";
 import { AiFillThunderbolt } from "react-icons/ai";
+import Link from "next/link";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -91,6 +92,9 @@ export default function TabRightSideBar() {
               <option className="text-gray-500" value="">
                 3
               </option>
+              <option className="text-gray-500" value="">
+                4
+              </option>
             </select>
           </div>
           <div className="flex flex-row items-center py-6">
@@ -99,9 +103,9 @@ export default function TabRightSideBar() {
               color="#5C98F2"
               className="mr-[10px]"
             />
-            <button className="bg-[#5C98F2] w-full h-[50px] text-white font-medium rounded-md">
-              Proceed Booking
-            </button>
+            <div className="bg-[#5C98F2] w-full h-[50px] text-white font-medium rounded-md flex flex-row justify-center items-center">
+              <Link href="./detail-booking">Proceed Booking</Link>
+            </div>
           </div>
         </div>
       </CustomTabPanel>
