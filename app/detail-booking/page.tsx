@@ -1,6 +1,6 @@
 import Container from "../components/Container";
 import React from "react";
-import { DetailBookingStep } from "../components/detail-booking/DetailBookingStep";
+import DetailBookingStep from "../components/detail-booking/DetailBookingStep";
 
 export default function DetailBooking() {
   return (

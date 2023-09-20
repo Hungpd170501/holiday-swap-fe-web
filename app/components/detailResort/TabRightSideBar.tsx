@@ -92,6 +92,9 @@ export default function TabRightSideBar() {
               <option className="text-gray-500" value="">
                 3
               </option>
+              <option className="text-gray-500" value="">
+                4
+              </option>
             </select>
           </div>
           <div className="flex flex-row items-center py-6">
