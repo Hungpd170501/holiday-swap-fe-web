@@ -5,9 +5,15 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { AiFillWarning } from "react-icons/ai";
-import { BiNotepad } from "react-icons/bi";
+import {
+  AiFillLike,
+  AiFillStar,
+  AiFillWarning,
+  AiTwotoneDislike,
+} from "react-icons/ai";
+import { BiNotepad, BiSolidDislike, BiSolidStarHalf } from "react-icons/bi";
 import DetailApartmentCarosel from "./DetailApartmentCarosel";
+import Link from "next/link";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -269,7 +275,191 @@ export default function DetailApartmentBot() {
         </div>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        Item Three
+        <div className="flex flex-col ">
+          <div className="flex flex-row">
+            <div>
+              <div className="text-[60px] font-bold text-common">4.7</div>
+              <div className="text-red-500">Out of 5</div>
+              <div className="flex flex-row">
+                <AiFillStar size={30} color="orange" />
+                <AiFillStar size={30} color="orange" />
+                <AiFillStar size={30} color="orange" />
+                <AiFillStar size={30} color="orange" />
+                <BiSolidStarHalf size={30} color="orange" />
+              </div>
+            </div>
+            <div className="ml-36">
+              <div className="flex flex-row items-center">
+                <div className="text-[20px] pr-3">5</div>
+                <div className="flex flex-row">
+                  <AiFillStar size={18} color="orange" />
+                  <AiFillStar size={18} color="orange" />
+                  <AiFillStar size={18} color="orange" />
+                  <AiFillStar size={18} color="orange" />
+                  <AiFillStar size={18} color="orange" />
+                </div>
+                <div>(272)</div>
+              </div>
+              <div className="flex flex-row items-center">
+                <div className="text-[20px] pr-3">4</div>
+                <div className="flex flex-row">
+                  <AiFillStar size={18} color="orange" />
+                  <AiFillStar size={18} color="orange" />
+                  <AiFillStar size={18} color="orange" />
+                  <AiFillStar size={18} color="orange" />
+                </div>
+                <div>(44)</div>
+              </div>
+              <div className="flex flex-row items-center">
+                <div className="text-[20px] pr-3">3</div>
+                <div className="flex flex-row">
+                  <AiFillStar size={18} color="orange" />
+                  <AiFillStar size={18} color="orange" />
+                  <AiFillStar size={18} color="orange" />
+                </div>
+                <div>(8)</div>
+              </div>
+              <div className="flex flex-row items-center">
+                <div className="text-[20px] pr-3">2</div>
+                <div className="flex flex-row">
+                  <AiFillStar size={18} color="orange" />
+                  <AiFillStar size={18} color="orange" />
+                </div>
+                <div>(6)</div>
+              </div>
+              <div className="flex flex-row items-center">
+                <div className="text-[20px] pr-3">1</div>
+                <div className="flex flex-row">
+                  <AiFillStar size={18} color="orange" />
+                </div>
+                <div>(5)</div>
+              </div>
+            </div>
+
+            <div className="w-[270px] flex flex-col items-center ml-28">
+              <div className="text-center">
+                Been to Marriott's BeachPlace Towers lately?
+              </div>
+              <button className="text-white bg-[#5C98F2] px-4 py-2">
+                Add Your Review
+              </button>
+            </div>
+          </div>
+          <div className="flex flex-col mt-16 ">
+            <div className="flex flex-row mb-1">
+              <AiFillStar size={25} color="orange" />
+              <AiFillStar size={25} color="orange" />
+              <AiFillStar size={25} color="orange" />
+              <AiFillStar size={25} color="orange" />
+              <AiFillStar size={25} color="orange" />
+            </div>
+            <div className="w-[800px]">
+              Location Location Location!!! The rooms are big and comfortable,
+              the staff is friendly and polite, but truly, the gem of this
+              resort is its location: across from the beach, near shops and
+              dining... Both family friendly and with a lively night life, We
+              just can't wait to go back!
+            </div>
+            <div className="flex flex-row w-full justify-between mt-2">
+              <div className="flex flex-row items-center">
+                <Link
+                  href="#"
+                  className="text-[20px] font-bold text-gray-500 mr-6"
+                >
+                  Thuc Bui
+                </Link>
+                <div className="text-[17px] text-gray-400">Up jun 23, 2023</div>
+              </div>
+              <div className="flex flex-row  items-center">
+                <div className="mr-2">Helpful?</div>
+                <div className="flex flex-row items-center mr-2">
+                  <AiFillLike />
+                  <div>2</div>
+                </div>
+                <div className="flex flex-row items-center">
+                  <AiTwotoneDislike />
+                  <div>1</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col mt-10 ">
+            <div className="flex flex-row mb-1">
+              <AiFillStar size={25} color="orange" />
+              <AiFillStar size={25} color="orange" />
+              <AiFillStar size={25} color="orange" />
+              <AiFillStar size={25} color="orange" />
+              <AiFillStar size={25} color="orange" />
+            </div>
+            <div className="w-[800px]">
+              Location Location Location!!! The rooms are big and comfortable,
+              the staff is friendly and polite, but truly, the gem of this
+              resort is its location: across from the beach, near shops and
+              dining... Both family friendly and with a lively night life, We
+              just can't wait to go back!
+            </div>
+            <div className="flex flex-row w-full justify-between mt-2">
+              <div className="flex flex-row items-center">
+                <Link
+                  href="#"
+                  className="text-[20px] font-bold text-gray-500 mr-6"
+                >
+                  Đức Thịnh
+                </Link>
+                <div className="text-[17px] text-gray-400">Up jun 23, 2023</div>
+              </div>
+              <div className="flex flex-row  items-center">
+                <div className="mr-2">Helpful?</div>
+                <div className="flex flex-row items-center mr-2">
+                  <AiFillLike />
+                  <div>2</div>
+                </div>
+                <div className="flex flex-row items-center">
+                  <AiTwotoneDislike />
+                  <div>1</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col mt-10 ">
+            <div className="flex flex-row mb-1">
+              <AiFillStar size={25} color="orange" />
+              <AiFillStar size={25} color="orange" />
+              <AiFillStar size={25} color="orange" />
+              <AiFillStar size={25} color="orange" />
+              <AiFillStar size={25} color="orange" />
+            </div>
+            <div className="w-[800px]">
+              Location Location Location!!! The rooms are big and comfortable,
+              the staff is friendly and polite, but truly, the gem of this
+              resort is its location: across from the beach, near shops and
+              dining... Both family friendly and with a lively night life, We
+              just can't wait to go back!
+            </div>
+            <div className="flex flex-row w-full justify-between mt-2">
+              <div className="flex flex-row items-center">
+                <Link
+                  href="#"
+                  className="text-[20px] font-bold text-gray-500 mr-6"
+                >
+                  Trọng Tín
+                </Link>
+                <div className="text-[17px] text-gray-400">Up jun 23, 2023</div>
+              </div>
+              <div className="flex flex-row  items-center">
+                <div className="mr-2">Helpful?</div>
+                <div className="flex flex-row items-center mr-2">
+                  <AiFillLike />
+                  <div>2</div>
+                </div>
+                <div className="flex flex-row items-center">
+                  <AiTwotoneDislike />
+                  <div>1</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </CustomTabPanel>
     </Box>
   );
