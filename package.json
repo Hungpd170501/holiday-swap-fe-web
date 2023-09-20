@@ -11,7 +11,12 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+
     "@material-tailwind/react": "^2.1.2",
+
+    "@flaticon/flaticon-uicons": "^2.4.0",
+    "@iconscout/react-unicons": "^2.0.2",
+
     "@mui/material": "^5.14.9",
     "@mui/x-date-pickers": "latest",
     "@reduxjs/toolkit": "^1.9.5",
@@ -21,6 +26,7 @@
     "autoprefixer": "10.4.14",
     "axios": "^1.5.0",
     "clsx": "^2.0.0",
+    "date-fns": "^2.30.0",
     "dayjs": "latest",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.10",
@@ -29,9 +35,11 @@
     "leaflet": "^1.9.4",
     "next": "^13.4.10",
     "next-auth": "^4.23.1",
+    "next-cloudinary": "^4.22.0",
     "postcss": "8.4.26",
-    "react": "18.2.0",
+    "react": "^18.2.0",
     "react-alice-carousel": "^2.7.1",
+    "react-date-range": "^1.4.0",
     "react-dom": "18.2.0",
     "react-esri-leaflet": "^2.0.1",
     "react-hook-form": "^7.46.1",
@@ -48,6 +56,7 @@
   "description": "https://github.com/mui/mui-x/blob/v6.14.0/docs/data/date-pickers/date-picker/BasicDatePicker.tsx",
   "typescript": "5.1.6",
   "devDependencies": {
-    "@types/leaflet": "^1.9.4"
+    "@types/leaflet": "^1.9.4",
+    "@types/react-date-range": "^1.4.4"
   }
 }

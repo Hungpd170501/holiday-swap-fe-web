@@ -1,20 +1,14 @@
 "use client";
 
-import { Checkbox } from "@mui/material";
 import React from "react";
-
+import Radio from "@mui/material/Radio";
+import FormControlLabel from "@mui/material/FormControlLabel";
 interface LocationInputProps {
-  onClick: (value: string) => void;
   label: string;
 }
 
-const LocationInput: React.FC<LocationInputProps> = ({ onClick, label }) => {
-  return (
-    <div className="flex items-center">
-      <Checkbox onClick={() => onClick(label)}></Checkbox>
-      {label}
-    </div>
-  );
+const LocationInput: React.FC<LocationInputProps> = ({ label }) => {
+  return <FormControlLabel value={label} control={<Radio />} label={label} />;
 };
 
 export default LocationInput;
