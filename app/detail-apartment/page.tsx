@@ -7,11 +7,10 @@ import Header from "../components/Header";
 export default function page() {
   return (
     <>
-      <Header />
       <div className="bg-blue-200 h-[370px] w-full flex items-center justify-center ">
         <div className="text-5xl mt-10">Detail Apartment</div>
       </div>
-      <div className="flex flex-row px-28 py-3 gap-5">
+      <div className="flex flex-row px-20 py-3 gap-5">
         <div>
           <DetailApartmentTop />
           <DetailApartmentBot />

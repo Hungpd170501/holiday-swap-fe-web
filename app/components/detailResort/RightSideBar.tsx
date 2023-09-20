@@ -9,12 +9,6 @@ import { FiPhoneCall } from "react-icons/fi";
 export default function RightSideBar() {
   return (
     <div className="flex flex-col">
-      <div className="w-[387px] h-auto bg-white shadow-xl rounded-lg mb-[40px]">
-        <div className="px-[40px] ">
-          <div>Best Change</div>
-          <TabRightSideBar />
-        </div>
-      </div>
       <div className="w-[387px] h-auto bg-white shadow-xl rounded-lg mb-[40px] ">
         <div className="ml-[40px] py-[20px] text-[20px]">
           Booking With Confidence

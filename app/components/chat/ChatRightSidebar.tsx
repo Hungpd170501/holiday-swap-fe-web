@@ -48,7 +48,7 @@ export default function BasicTabs() {
   };
 
   return (
-    <Box sx={{ width: "100%" }} className="-mt-[48px]">
+    <Box sx={{ width: "100%" }} className="-mt-[48px] bg-gray-200 h-[668px]">
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={value}
@@ -136,7 +136,7 @@ export default function BasicTabs() {
           <div>Total</div>
           <div>2000 Point</div>
         </div>
-        <button className="bg-[#5C98F2] px-24 py-3 rounded-lg text-white mt-4 hover:bg-blue-600">
+        <button className="bg-[#5C98F2] px-24 py-3 rounded-lg text-white mt-5 hover:bg-blue-600">
           Chấp Thuận
         </button>
       </CustomTabPanel>
