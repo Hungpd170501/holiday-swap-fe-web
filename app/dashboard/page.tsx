@@ -1,5 +1,6 @@
 import React from "react";
 import MyProfile from "../components/profile/MyProfile";
+import Sidebar from "../components/dashboard/Sidebar";
 
 export const metadata = {
   title: "DashBoard",
@@ -7,12 +8,9 @@ export const metadata = {
 
 export default function DashBoard() {
   return (
-    <div>
-      <div className="flex flex-row items-center gap-10 py-20 px-20">
-        <div>SideBar</div>
-        <div>
-          <MyProfile />
-        </div>
+    <div className="py-3">
+      <div>
+        <MyProfile />
       </div>
     </div>
   );

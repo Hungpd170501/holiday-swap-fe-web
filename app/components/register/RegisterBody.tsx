@@ -29,19 +29,19 @@ import Describe from "./Describe";
 import Image from "next/image";
 import TimeAvailable from "./TimeAvailable";
 import Images from "./Images";
+import Created from "./Created";
 
 enum STEPS {
   INFO = 0,
   HOMETYPE = 1,
-  LOCATION = 2,
-  HOMESIZE = 3,
-  PEOPLE = 4,
-  AMENITIES = 5,
-  DESCRIBE = 6,
-  TIMEAVAILABLE = 7,
-  IMAGES = 8,
-  CREATED = 9,
-  ACTIVEMEMBERSHIP = 10,
+  HOMESIZE = 2,
+  PEOPLE = 3,
+  AMENITIES = 4,
+  DESCRIBE = 5,
+  TIMEAVAILABLE = 6,
+  IMAGES = 7,
+  CREATED = 8,
+  ACTIVEMEMBERSHIP = 9,
 }
 
 export const homeTypes = [
@@ -577,10 +577,6 @@ const RegisterBody = () => {
     );
   }
 
-  if (step === STEPS.LOCATION) {
-    bodyContent = <Location handleSubmit={handleSubmit(onSubmit)} />;
-  }
-
   if (step === STEPS.HOMESIZE) {
     bodyContent = (
       <HomeSize
@@ -614,7 +610,11 @@ const RegisterBody = () => {
   }
 
   if (step === STEPS.IMAGES) {
-    bodyContent = <Images />;
+    bodyContent = <Images handleSubmit={handleSubmit(onSubmit)} />;
+  }
+
+  if (step === STEPS.CREATED) {
+    bodyContent = <Created handleSubmit={handleSubmit(onSubmit)} />;
   }
   return <div>{bodyContent}</div>;
 };
