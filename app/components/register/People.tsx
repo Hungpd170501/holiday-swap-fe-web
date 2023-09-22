@@ -18,8 +18,9 @@ const People: React.FC<PeopleProps> = ({ handleSubmit }) => {
       <HeadingRegister
         label="How many people does your home sleep?"
         width="w-5/12"
+        className="px-0 md:px-48"
       />
-      <Container className="py-5 grid grid-cols-2 gap-5">
+      <Container className="py-5 grid grid-cols-1 md:grid-cols-2 gap-5">
         <div className="flex flex-col py-4">
           <div className="py-14">
             {peoples.map((item, index) => (
@@ -37,7 +38,13 @@ const People: React.FC<PeopleProps> = ({ handleSubmit }) => {
           </div>
         </div>
 
-        <Image src="/images/size.png" alt="Home" width={600} height={720} />
+        <Image
+          className="hidden md:block"
+          src="/images/size.png"
+          alt="Home"
+          width={600}
+          height={720}
+        />
       </Container>
     </Fragment>
   );

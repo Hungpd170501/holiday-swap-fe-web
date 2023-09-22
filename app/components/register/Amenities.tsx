@@ -68,14 +68,14 @@ const Amenities: React.FC<AmenitiesProps> = ({ handleSubmit }) => {
       <HeadingRegister
         label="Tell the exchangers what amenities they will find in your home"
         width="w-6/12"
-        className="px-48"
+        className="px-0 md:px-48"
       />
-      <Container className="py-5 grid grid-cols-2 gap-10">
+      <Container className="py-5 grid grid-cols-1 md:grid-cols-2 gap-10">
         <div className="flex flex-col gap-5">
           {/* Your basics */}
           <div className="py-5">
             <div className="text-2xl font-bold py-3">Your basics</div>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {seeMoreBasics
                 ? basics.map((item, index) => (
                     <AminitiesInput
@@ -117,7 +117,7 @@ const Amenities: React.FC<AmenitiesProps> = ({ handleSubmit }) => {
             <div className="text-2xl font-bold py-3">
               Your Unique Facilities
             </div>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {seeMoreFacilities
                 ? facilities.map((item, index) => (
                     <AminitiesInput
@@ -158,7 +158,7 @@ const Amenities: React.FC<AmenitiesProps> = ({ handleSubmit }) => {
           {/* Kids Friendly */}
           <div className="py-5">
             <div className="text-2xl font-bold py-3">Kids Friendly</div>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {kids.map((item, index) => (
                 <AminitiesInput
                   key={index}
@@ -178,7 +178,7 @@ const Amenities: React.FC<AmenitiesProps> = ({ handleSubmit }) => {
           {/* Remote Friendly */}
           <div className="py-5">
             <div className="text-2xl font-bold py-3">Remote Friendly</div>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {remotes.map((item, index) => (
                 <AminitiesInput
                   key={index}
@@ -200,7 +200,7 @@ const Amenities: React.FC<AmenitiesProps> = ({ handleSubmit }) => {
             <div className="text-2xl font-bold py-3">
               Eco-Friendly Amenities
             </div>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {ecos.map((item, index) => (
                 <AminitiesInput
                   key={index}
@@ -247,7 +247,7 @@ const Amenities: React.FC<AmenitiesProps> = ({ handleSubmit }) => {
             </div>
 
             {haveAnimal === "Yes" ? (
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {allergies.map((item, index) => (
                   <AminitiesInput
                     key={index}
@@ -278,6 +278,7 @@ const Amenities: React.FC<AmenitiesProps> = ({ handleSubmit }) => {
             alt="Home"
             width={600}
             height={720}
+            className="hidden md:block"
           />
         </div>
       </Container>

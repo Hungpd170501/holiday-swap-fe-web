@@ -49,12 +49,12 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
       <Container
         className={
           scroll
-            ? "bg-white opacity-90 -translate-y-1 duration-300 shadow-md py-4"
-            : "py-4"
+            ? "bg-white opacity-90 -translate-y-1 duration-300 shadow-md py-5 md:block hidden"
+            : ""
         }
       >
         <div className={clsx(`hidden md:block`)}>
-          <div className="flex flex-row justify-between items-center gap-3 py-2">
+          <div className="flex flex-row justify-between items-center gap-3">
             <Logo />
             <LinkHeader />
             {currentUser ? (
@@ -64,11 +64,18 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
             )}
           </div>
         </div>
-
-        <div className="sm:block md:hidden absolute w-full">
-          <div className="flex flex-row justify-between items-center gap-3 py-8">
+      </Container>
+      <Container
+        className={
+          scroll
+            ? "bg-white opacity-90 -translate-y-1 duration-300 shadow-md py-4 block md:hidden"
+            : ""
+        }
+      >
+        <div className="sm:block md:hidden w-full py-4">
+          <div className="flex flex-row justify-between items-center gap-3 md:py-8 px-4">
             <Logo />
-            <div onClick={handleMenu} className="mx-8">
+            <div onClick={handleMenu} className="mx-4">
               {openMenu ? <IoMdClose size={30} /> : <BiMenu size={30} />}
             </div>
           </div>

@@ -24,7 +24,7 @@ const HomeType: React.FC<HomeTypeProps> = ({
     <Fragment>
       <HeadingRegister label="What's your home like?" width="w-2/12" />
       <Container className="py-8">
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-1 md:grid-cols-2">
           <div className="flex flex-col">
             <div className="font-normal">
               Let potential exchange partners learn more about you, motivating
@@ -71,7 +71,7 @@ const HomeType: React.FC<HomeTypeProps> = ({
             </div>
           </div>
 
-          <div>
+          <div className="hidden md:block">
             <Image src="/images/home.png" alt="Home" width={600} height={720} />
           </div>
         </div>

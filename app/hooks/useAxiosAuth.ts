@@ -2,12 +2,8 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import axios from "axios";
 
-export async function getSession() {
-  return await getServerSession(authOptions);
-}
-
 async function useAxiosAuth() {
-  const session = await getSession();
+  const session = await getServerSession(authOptions);
   const accessToken = session?.user?.access_token;
   const BASE_URL = process.env.API_URL;
 

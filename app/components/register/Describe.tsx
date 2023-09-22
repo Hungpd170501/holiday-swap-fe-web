@@ -25,7 +25,7 @@ const Describe: React.FC<DescribeProps> = ({
         label="How would you describe your home?"
         width="w-7/12"
       />
-      <Container className="grid grid-cols-2 gap-10 py-14">
+      <Container className="grid grid-cols-1 md:grid-cols-2 gap-10 py-14">
         <div className="flex flex-col gap-7">
           <div>
             <div className="text-lg font-bold">Your home: </div>
@@ -50,7 +50,7 @@ const Describe: React.FC<DescribeProps> = ({
           <ButtonRegister label="Continue" onClick={handleSubmit} />
         </div>
 
-        <div className="h-full">
+        <div className="h-full hidden md:block">
           <Image
             src="/images/describe.png"
             alt="Home"

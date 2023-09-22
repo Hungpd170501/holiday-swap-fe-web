@@ -15,14 +15,14 @@ const Images: React.FC<ImagesProps> = ({ handleSubmit }) => {
   return (
     <Fragment>
       <HeadingRegister label="What does your home look like?" width="w-9/12" />
-      <Container className="py-10 grid grid-cols-2 gap-10">
+      <Container className="py-10 grid grid-cols-1 md:grid-cols-2 gap-10">
         <div className="flex flex-col gap-5">
           <p className="text-lg font-bold text-center">
             Add photos of your home and increase your chances of finalizing an
             exchange.
           </p>
 
-          <div className="flex gap-5">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-5">
             <ImageUpload />
             <ImageUpload />
             <ImageUpload />
@@ -35,7 +35,7 @@ const Images: React.FC<ImagesProps> = ({ handleSubmit }) => {
           </div>
         </div>
 
-        <div className="h-full">
+        <div className="h-full hidden md:block">
           <Image src="/images/images.png" alt="Home" width={600} height={720} />
         </div>
       </Container>

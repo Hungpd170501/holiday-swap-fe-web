@@ -470,11 +470,11 @@ const RegisterBody = () => {
   let bodyContent = (
     <>
       <HeadingRegister label="Information" width="w-1/12" />
-      <div className="px-20 flex-col w-full bg-white">
+      <div className="px-4 md:px-20 flex-col w-full bg-white">
         <div className="flex items-center py-12 w-full text-3xl">
           First you fill information of you
         </div>
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <Input
             register={register}
             errors={errors}
@@ -485,7 +485,7 @@ const RegisterBody = () => {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <Input
             register={register}
             errors={errors}
@@ -503,7 +503,7 @@ const RegisterBody = () => {
             placeholder="Confirm Password"
           />
         </div>
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <Input
             register={register}
             errors={errors}
@@ -521,7 +521,7 @@ const RegisterBody = () => {
             placeholder="Last Name"
           />
         </div>
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>Birth Date*</div>
           <Input
             register={register}
@@ -532,7 +532,7 @@ const RegisterBody = () => {
             placeholder="Email"
           />
         </div>
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <Input
             register={register}
             errors={errors}

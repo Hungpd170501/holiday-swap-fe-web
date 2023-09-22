@@ -24,7 +24,7 @@ const HomeSize: React.FC<HomeSizeProps> = ({
   return (
     <Fragment>
       <HeadingRegister label="What size is your home?" width="w-4/12" />
-      <Container className="py-5 grid grid-cols-2 gap-5">
+      <Container className="py-5 grid grid-cols-1 md:grid-cols-2 gap-5">
         <div className="flex flex-col py-4">
           <Input
             register={register}
@@ -48,7 +48,13 @@ const HomeSize: React.FC<HomeSizeProps> = ({
           <ButtonRegister label="Continue" onClick={handleSubmit} />
         </div>
 
-        <Image src="/images/size.png" alt="Home" width={600} height={720} />
+        <Image
+          className="hidden md:block"
+          src="/images/size.png"
+          alt="Home"
+          width={600}
+          height={720}
+        />
       </Container>
     </Fragment>
   );

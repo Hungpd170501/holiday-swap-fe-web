@@ -15,7 +15,7 @@ const Created: React.FC<CreatedProps> = ({ handleSubmit }) => {
   return (
     <Fragment>
       <HeadingRegister label="Created success" width="w-10/12" />
-      <Container className="grid grid-cols-2 gap-320 py-10">
+      <Container className="grid grid-cols-1 md:grid-cols-2 gap-32 py-10">
         <div>
           <div className="flex flex-col w-full h-[500px] rounded-md bg-gray-300">
             <div className="w-full h-full flex justify-center items-center relative">
@@ -58,7 +58,7 @@ const Created: React.FC<CreatedProps> = ({ handleSubmit }) => {
           </div>
           <div className="py-32 flex flex-col justify-center items-center">
             <BsEye size={40} />
-            <div className="py-4">
+            <div className="py-4 text-center">
               Your home won't be visible to other members
             </div>
             <div className="flex justify-center py-8">

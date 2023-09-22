@@ -1,9 +1,10 @@
 import React from "react";
+import requireAuth from "@/app/libs/requireAuth";
 
 export const metadata = {
   title: "Change Password",
 };
 
 export default function DashBoard() {
-  return <div>Change password</div>;
+  return requireAuth(<div>Change password</div>);
 }
