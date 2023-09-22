@@ -8,7 +8,7 @@ import { BsEye } from "react-icons/bs";
 import ButtonRegister from "./BtnRegister";
 
 interface CreatedProps {
-    handleSubmit: () => void;
+  handleSubmit: () => void;
 }
 
 const Created: React.FC<CreatedProps> = ({ handleSubmit }) => {
@@ -17,7 +17,7 @@ const Created: React.FC<CreatedProps> = ({ handleSubmit }) => {
       <HeadingRegister label="Created success" width="w-10/12" />
       <Container className="grid grid-cols-2 gap-320 py-10">
         <div>
-          <div className="flex flex-col w-full h-[500px] rounded-md bg-slate-300">
+          <div className="flex flex-col w-full h-[500px] rounded-md bg-gray-300">
             <div className="w-full h-full flex justify-center items-center relative">
               <Image
                 src="/images/icons/house.png"

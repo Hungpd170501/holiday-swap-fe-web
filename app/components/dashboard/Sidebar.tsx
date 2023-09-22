@@ -5,31 +5,32 @@ import { GrPersonalComputer, GrSecure } from "react-icons/gr";
 import { FiEdit } from "react-icons/fi";
 import { useSelectedLayoutSegment } from "next/navigation";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
 const Sidebar = () => {
-  const [isActive, setIsActive] = useState("dashboard");
+  const pathName = usePathname();
   const sidebarOptions = [
     {
       name: "Dashboard",
       href: "/dashboard",
       icon: GrPersonalComputer,
-      current: isActive === "Dashboard" ? true : false,
+      current: pathName === "/dashboard" ? true : false,
     },
     {
       name: "Edit Profile",
       href: "/dashboard/editProfile",
       icon: FiEdit,
-      current: isActive === "Edit Profile" ? true : false,
+      current: pathName === "/dashboard/editProfile" ? true : false,
     },
     {
       name: "Change password",
       href: "/dashboard/changePassword",
       icon: GrSecure,
-      current: isActive === "Change password" ? true : false,
+      current: pathName === "/dashboard/changePassword" ? true : false,
     },
   ];
   return (
@@ -54,7 +55,6 @@ const Sidebar = () => {
                             : "text-gray-400 hover:text-white hover:bg-common",
                           "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                         )}
-                        onClick={() => setIsActive(option.name)}
                       >
                         <option.icon className="text-gray-300 group-hover:text-white h-6 w-6 shrink-0" />
                         {option.name}

@@ -49,8 +49,8 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
       <Container
         className={
           scroll
-            ? "bg-white opacity-90 -translate-y-1 duration-300 shadow-md"
-            : ""
+            ? "bg-white opacity-90 -translate-y-1 duration-300 shadow-md py-4"
+            : "py-4"
         }
       >
         <div className={clsx(`hidden md:block`)}>
