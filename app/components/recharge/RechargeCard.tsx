@@ -12,11 +12,18 @@ import useAxiosAuth from "@/app/hooks/useAxiosAuth";
 import Button from "../Button";
 import axios from "axios";
 import useAxiosAuthClient from "@/app/hooks/useAxiosAuthClient";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { useSession } from "next-auth/react";
 
 export default function RechargeCard() {
   const [clickedCard, setClickedCard] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [amount, setAmount] = useState("1000000");
+  const [orderInfor, setOrderInfor] = useState("nap_tien_vnp");
+  const returnUrl = "http://localhost:3000";
   const axiosAuthClient = useAxiosAuthClient();
+  const router = useRouter();
 
   const handleCardClick = (index: number) => {
     if (clickedCard === index) {
@@ -61,23 +68,16 @@ export default function RechargeCard() {
     },
   ];
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FieldValues>({
-    defaultValues: {
-      amount: 0,
-      orderInfor: "nap_tien_vpn",
-    },
-  });
-
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    setIsLoading(true);
-    const res = await axiosAuthClient.get(`/payment/Create_payment`, data);
-    console.log(res);
+  const handleTopup = async () => {
+    const res = await axiosAuthClient(
+      `/payment/Create_payment?amount=${amount}&orderInfor=${orderInfor}&returnURL=${returnUrl}`
+    );
+    if (res.status === 200) {
+      router.push(res.data.url);
+    } else {
+      toast.error("Some thing went wrong!");
+    }
   };
-
   return (
     <div className="px-20">
       <div className="px-20">
@@ -112,19 +112,18 @@ export default function RechargeCard() {
         <div className="flex flex-row w-full justify-center">
           <div className="flex flex-col items-center mt-16">
             <div className="text-common text-[30px] font-bold mb-4">
-              Nhập số lượng point cần nạp
+              Enter the number of points to top-up
             </div>
             <input
               className="border border-gray-500 w-[700px] px-4 py-2 focus-visible:outline-none rounded-lg"
-              type="number"
-              disabled={isLoading}
-              id="amount"
-              {...register("amount")}
+              type="text"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
             />
             <button
               className=" bg-[#5C98F2] px-4 py-4 rounded-xl text-white mt-10 hover:bg-blue-500"
-              type="submit"
-              onClick={handleSubmit(onSubmit)}
+              type="button"
+              onClick={handleTopup}
             >
               Thanh Toán
             </button>

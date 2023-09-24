@@ -5,7 +5,7 @@ import axios from "axios";
 async function useAxiosAuth() {
   const session = await getServerSession(authOptions);
   const accessToken = session?.user?.access_token;
-  const BASE_URL = process.env.API_URL;
+  const BASE_URL = "https://holiday-swap.click/api/v1";
 
   // Create a new instance of Axios with the interceptor
   const axiosWithAuth = axios.create({

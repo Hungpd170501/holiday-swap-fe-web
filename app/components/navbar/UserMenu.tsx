@@ -18,6 +18,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
     setIsOpen((value) => !value);
   }, []);
 
+  const handleRouter = (route: string) => {
+    router.push(route);
+    setIsOpen(false);
+  };
+
   return (
     <>
       <div
@@ -39,10 +44,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           <div className="flex flex-col cursor-pointer">
             <Fragment>
               <MenuItem
-                onClick={() => router.push("/dashboard")}
+                onClick={() => handleRouter("/dashboard")}
                 label="Dashboard"
               />
-              <MenuItem label="Edit Profile" />
+              <MenuItem
+                onClick={() => handleRouter("/recharge")}
+                label="Recharge"
+              />
               <hr />
               <MenuItem onClick={() => signOut()} label="Logout" />
             </Fragment>

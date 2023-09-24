@@ -6,6 +6,7 @@ import axios from "axios";
 
 const useAxiosAuthClient = () => {
   const { data: session } = useSession();
+  console.log("Session:", session?.user);
 
   const BASE_URL = "https://holiday-swap.click/api/v1";
 
