@@ -1,6 +1,6 @@
 import useAxiosAuth from "../hooks/useAxiosAuth";
 
-export default async function getCurrentUser() {
+export default async function GetCurrentUser() {
   try {
     const axiosAuth = useAxiosAuth();
 

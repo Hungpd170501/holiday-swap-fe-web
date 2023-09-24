@@ -4,7 +4,7 @@ import { Poppins } from "next/font/google";
 import ClientOnly from "./components/ClientOnly";
 import ModalLogin from "./components/modal/ModalLogin";
 import ToasterProvider from "./providers/ToastProvider";
-import getCurrentUser from "./actions/getCurrentUser";
+import GetCurrentUser from "./actions/getCurrentUser";
 import Provider from "./components/Provider";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -30,7 +30,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const currentUser = await getCurrentUser();
+  const currentUser = await GetCurrentUser();
   return (
     <html lang="en">
       <body className={font.className}>
