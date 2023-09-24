@@ -19,7 +19,7 @@ import { useSession } from "next-auth/react";
 export default function RechargeCard() {
   const [clickedCard, setClickedCard] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [amount, setAmount] = useState("1000000");
+  const [amount, setAmount] = useState("0");
   const [orderInfor, setOrderInfor] = useState("nap_tien_vnp");
   const returnUrl = "http://localhost:3000";
   const axiosAuthClient = useAxiosAuthClient();
@@ -68,7 +68,11 @@ export default function RechargeCard() {
     },
   ];
 
-  const handleTopup = async () => {
+  const handleTopup = async (
+    amount: string,
+    orderInfor: string,
+    returnUrl: string
+  ) => {
     const res = await axiosAuthClient(
       `/payment/Create_payment?amount=${amount}&orderInfor=${orderInfor}&returnURL=${returnUrl}`
     );
@@ -122,8 +126,8 @@ export default function RechargeCard() {
             />
             <button
               className=" bg-[#5C98F2] px-4 py-4 rounded-xl text-white mt-10 hover:bg-blue-500"
-              type="button"
-              onClick={handleTopup}
+              type="submit"
+              onClick={() => handleTopup(amount, orderInfor, returnUrl)}
             >
               Thanh Toán
             </button>
