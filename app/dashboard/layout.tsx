@@ -9,11 +9,11 @@ export default async function DashboardLayout({
 }) {
   return (
     <Provider>
-      <div className="flex flex-row gap-10 py-20">
+      <div className="flex flex-row gap-10 pt-20">
         <div>
           <Sidebar />
         </div>
-        <main>{children}</main>
+        <main className="w-full pr-14">{children}</main>
       </div>
     </Provider>
   );

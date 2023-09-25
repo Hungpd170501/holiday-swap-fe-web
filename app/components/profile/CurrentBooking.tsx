@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import BookingReview from "../dashboard/BookingReview";
 
 export default function CurrentBooking() {
   return (
@@ -35,11 +36,14 @@ export default function CurrentBooking() {
         </div>
       </div>
       <div className="w-full h-[1px] bg-gray-300 -mt-[50px] "></div>
-      <div className="flex flex-row justify-between py-20">
+      <div className="flex flex-row justify-between pt-20">
         <div className="text-[20px] text-common font-bold">Resort Review</div>
         <Link className="text-gray-400" href="#">
           View All Resort Review
         </Link>
+      </div>
+      <div>
+        <BookingReview />
       </div>
     </div>
   );
