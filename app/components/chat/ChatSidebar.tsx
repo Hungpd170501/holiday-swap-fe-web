@@ -1,13 +1,16 @@
 import React from "react";
-import { BsListUl } from "react-icons/bs";
+import { BsListUl, BsSearch } from "react-icons/bs";
 
 export default function ChatSidebar() {
   return (
     <div className="w-[292px] h-[620px] bg-gray-200">
-      <input
-        className="px-2 py-1 border border-gray-300 bg-gray-100 rounded-sm mb-3 ml-3"
-        type="text"
-      />
+      <div className="flex flex-row  items-center">
+        <input
+          className="px-2 py-1 border border-gray-300 bg-gray-100 rounded-sm mb-3 ml-3"
+          type="text"
+        />
+        <BsSearch size={23} className="mb-2 ml-2" />
+      </div>
 
       <div className="flex flex-row items-center ml-3 px-2 py-2 bg-blue-100 rounded-tl-md rounded-bl-md mb-6">
         <div>

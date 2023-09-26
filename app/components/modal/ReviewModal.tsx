@@ -8,9 +8,13 @@ import RatingPickerRview from "./RatingPickerReview";
 interface ReviewModalProps {
   visible: boolean;
   onCancel: () => void;
+  onOk: () => void;
 }
-
-const ReviewModal: React.FC<ReviewModalProps> = ({ visible, onCancel }) => {
+const ReviewModal: React.FC<ReviewModalProps> = ({
+  visible,
+  onCancel,
+  onOk,
+}) => {
   return (
     <Modal
       className="w-auto h-auto" // Sử dụng class CSS để điều chỉnh kích thước modal
@@ -18,7 +22,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ visible, onCancel }) => {
       centered
       visible={visible}
       onCancel={onCancel}
-      onOk={onCancel}
+      onOk={onOk}
       style={{ maxWidth: "100%", maxHeight: "80%" }} // Sử dụng style để thiết lập maxWidth và maxHeight
     >
       <div>
