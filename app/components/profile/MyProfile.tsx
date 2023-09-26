@@ -2,7 +2,11 @@ import Link from "next/link";
 import React from "react";
 import CurrentBooking from "./CurrentBooking";
 
-export default function MyProfile() {
+interface MyProfileProps {
+  currentUser?: any | null;
+}
+
+const MyProfile: React.FC<MyProfileProps> = ({ currentUser }) => {
   return (
     <div>
       <div className="bg-gray-200 w-auto h-auto rounded-lg">
@@ -24,9 +28,9 @@ export default function MyProfile() {
                 <div>Email</div>
               </div>
               <div className="flex flex-col mr-16 text-gray-600">
-                <div>Thuc Bui</div>
-                <div>March 10, 2001</div>
-                <div>buitrithuc1008@gmail.com</div>
+                <div>{currentUser?.username}</div>
+                <div>{currentUser?.dob}</div>
+                <div>{currentUser?.email}</div>
               </div>
               <div className="flex flex-col mr-10 text-gray-400">
                 <div>Gender</div>
@@ -34,9 +38,9 @@ export default function MyProfile() {
                 <div> Phone</div>
               </div>
               <div className="flex flex-col text-gray-600">
-                <div>Male</div>
+                <div>{currentUser?.gender}</div>
                 <div>VietNam</div>
-                <div>0856597778</div>
+                <div>{currentUser?.phone}</div>
               </div>
             </div>
           </div>
@@ -45,4 +49,6 @@ export default function MyProfile() {
       <CurrentBooking />
     </div>
   );
-}
+};
+
+export default MyProfile;

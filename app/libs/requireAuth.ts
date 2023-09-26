@@ -1,11 +1,10 @@
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import GetCurrentUser from "../actions/getCurrentUser";
 
 export default async function requireAuth(context: any) {
-  const session = await getServerSession(authOptions);
+  const currentUser = await GetCurrentUser();
 
-  if (!session?.user.access_token) {
+  if (!currentUser) {
     redirect("/");
   } else {
     return context;
