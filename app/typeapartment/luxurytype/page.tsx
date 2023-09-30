@@ -153,7 +153,7 @@ export default function LuxuryType() {
             </div>
           </div>
         </div>
-        <div>
+        <div className="my-8">
           <BookingApartment />
         </div>
       </div>
