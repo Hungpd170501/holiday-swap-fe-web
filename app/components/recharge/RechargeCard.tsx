@@ -72,6 +72,7 @@ export default function RechargeCard() {
     const res = await axiosAuthClient(
       `/payment/Create_payment?amount=${amount}&orderInfor=${orderInfor}&returnURL=${returnUrl}`
     );
+    console.log(amount);
     if (res.status === 200) {
       router.push(res.data.url);
     } else {
