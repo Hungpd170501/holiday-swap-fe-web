@@ -8,6 +8,7 @@ declare module "next-auth" {
       iat: number;
       jti: string;
       refresh_token: string;
+      email: string;
     };
   }
 }

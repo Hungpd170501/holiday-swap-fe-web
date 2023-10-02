@@ -12,6 +12,7 @@ import clsx from "clsx";
 import useLoginModal from "../hooks/useLoginModal";
 import { useSession } from "next-auth/react";
 import UserMenu from "./navbar/UserMenu";
+import { usePathname } from "next/navigation";
 
 interface HeaderProps {
   currentUser?: any | null;
@@ -20,6 +21,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ currentUser }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const loginModal = useLoginModal();
+  const pathName = usePathname();
   const [scroll, setScroll] = useState(false);
 
   // const { data: session } = useSession();
@@ -45,7 +47,12 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
     };
   }, []);
   return (
-    <div className="w-full fixed z-50">
+    <div
+      className={clsx(
+        `w-full z-50`,
+        pathName !== "/chat" || "/chatUser" ? "" : "fixed"
+      )}
+    >
       <Container
         className={
           scroll

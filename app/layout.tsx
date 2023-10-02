@@ -35,16 +35,16 @@ export default async function RootLayout({
     <html lang="en">
       <body className={font.className}>
         <Provider>
-          <Header currentUser={currentUser} />
           <Suspense fallback={<Loading />}>
+            <Header currentUser={currentUser} />
             <ClientOnly>
               <ModalLogin />
               <ToasterProvider />
             </ClientOnly>
 
             {children}
+            <Footer />
           </Suspense>
-          <Footer />
         </Provider>
       </body>
     </html>
