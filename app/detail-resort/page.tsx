@@ -7,7 +7,8 @@ import DetailContent from "../components/detailResort/DetailContent";
 import Footer from "../components/Footer";
 // import SimpleMap from "../components/detailResort/Map";
 import RightSideBar from "../components/detailResort/RightSideBar";
-import TimeShareTable from "../components/detailResort/TimeShareTable";
+import CardApartmentType from "../components/apartment/CardApartmentType";
+import TabRightSideBar from "../components/detailResort/TabRightSideBar";
 
 export default async function DetailResort() {
   return (
@@ -28,7 +29,7 @@ export default async function DetailResort() {
       </div>
 
       <div className="flex flex-row px-[70px] py-10 ">
-        <TimeShareTable />
+        <CardApartmentType />
       </div>
     </div>
   );
