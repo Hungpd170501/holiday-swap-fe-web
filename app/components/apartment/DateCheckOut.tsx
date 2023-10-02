@@ -5,7 +5,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker as MuiDatePicker } from "@mui/x-date-pickers/DatePicker"; // Rename the import
 
-export default function DatePickerDemo() {
+export default function DateCheckOut() {
   // Rename the function
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>

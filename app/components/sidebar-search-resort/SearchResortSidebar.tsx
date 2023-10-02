@@ -36,6 +36,7 @@ export default function SearchResortSidebar() {
         <DurationPicker />
       </div>
       <div>
+        <div>Date</div>
         <DatePickerDemo />
       </div>
       <div>
