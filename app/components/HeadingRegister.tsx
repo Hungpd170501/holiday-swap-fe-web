@@ -22,7 +22,6 @@ const HeadingRegister: React.FC<HeadingRegsiterProps> = ({
           {label}
         </div>
       </div>
-      <div className={`border-common border-2 ${width}`}></div>
     </Fragment>
   );
 };

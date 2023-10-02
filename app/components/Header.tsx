@@ -46,11 +46,12 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
   return (
     <div
       className={clsx(
         `w-full z-50`,
-        pathName !== "/chat" || "/chatUser" ? "" : "fixed"
+        pathName === ("/chat" || "/chatUser") ? "" : "fixed"
       )}
     >
       <Container

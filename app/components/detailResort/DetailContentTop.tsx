@@ -5,13 +5,15 @@ import { IoIosPeople } from "react-icons/io";
 import { FaWifi } from "react-icons/fa";
 import { BsCalendarDate } from "react-icons/bs";
 
-export default function DetailContentTop() {
+interface DetailContentTopProps {
+  resortName?: string;
+}
+
+const DetailContentTop: React.FC<DetailContentTopProps> = ({ resortName }) => {
   return (
     <div className="">
       <div className="flex-col">
-        <div className="pt-20 pb-6 text-[40px]">
-          Africa – Amazing African Safari
-        </div>
+        <div className="pt-20 pb-6 text-[40px]">{resortName}</div>
         <div className="flex flex-row items-center">
           <AiTwotoneStar color="#FFA11A" />
           <AiTwotoneStar color="#FFA11A" />
@@ -44,4 +46,6 @@ export default function DetailContentTop() {
       </div>
     </div>
   );
-}
+};
+
+export default DetailContentTop;

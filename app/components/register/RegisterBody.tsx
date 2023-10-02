@@ -20,29 +20,25 @@ import { LiaBedSolid } from "react-icons/lia";
 import { GiPersonInBed } from "react-icons/gi";
 import dynamic from "next/dynamic";
 import HeadingRegister from "../HeadingRegister";
-import HomeType from "./HomeType";
-import Location from "./Location";
-import HomeSize from "./HomeSize";
-import People from "./People";
-import Amenities from "./Amenities";
-import Describe from "./Describe";
-import Image from "next/image";
-import TimeAvailable from "./TimeAvailable";
-import Images from "./Images";
-import Created from "./Created";
+import axios from "axios";
+import DateTimePicker from "../DateTimePicker";
+import useAxiosAuthClient from "@/app/hooks/useAxiosAuthClient";
+import toast from "react-hot-toast";
+import useLoginModal from "@/app/hooks/useLoginModal";
+import { useRouter } from "next/navigation";
 
-enum STEPS {
-  INFO = 0,
-  HOMETYPE = 1,
-  HOMESIZE = 2,
-  PEOPLE = 3,
-  AMENITIES = 4,
-  DESCRIBE = 5,
-  TIMEAVAILABLE = 6,
-  IMAGES = 7,
-  CREATED = 8,
-  ACTIVEMEMBERSHIP = 9,
-}
+// enum STEPS {
+//   INFO = 0,
+//   HOMETYPE = 1,
+//   HOMESIZE = 2,
+//   PEOPLE = 3,
+//   AMENITIES = 4,
+//   DESCRIBE = 5,
+//   TIMEAVAILABLE = 6,
+//   IMAGES = 7,
+//   CREATED = 8,
+//   ACTIVEMEMBERSHIP = 9,
+// }
 
 export const homeTypes = [
   {
@@ -404,41 +400,42 @@ export const allergies = [
 ];
 
 const RegisterBody = () => {
-  const [step, setStep] = useState(STEPS.INFO);
+  // const [step, setStep] = useState(STEPS.INFO);
   const [isLoading, setIsLoading] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const axiosAuthClient = useAxiosAuthClient();
+  const loginModal = useLoginModal();
+  const router = useRouter();
+
+  const handleChangeDate = (value: any) => {
+    setDate(value);
+  };
 
   const {
     register,
     handleSubmit,
-    watch,
     setValue,
+    watch,
     formState: { errors },
-    reset,
   } = useForm<FieldValues>({
     defaultValues: {
       username: "",
       password: "",
-      confirmPassword: "",
       email: "",
-      firstName: "",
-      lasName: "",
       phone: "",
-      basic: [],
-      facility: [],
-      kid: [],
-      remote: [],
-      eco: [],
-      allergy: [],
+      gender: "",
+      role: { roleId: 1 },
+      dob: new Date(),
     },
   });
 
-  const onBack = () => {
-    setStep((value) => value - 1);
-  };
+  // const onBack = () => {
+  //   setStep((value) => value - 1);
+  // };
 
-  const onNext = () => {
-    setStep((value) => value + 1);
-  };
+  // const onNext = () => {
+  //   setStep((value) => value + 1);
+  // };
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -448,31 +445,36 @@ const RegisterBody = () => {
     });
   };
 
-  const homeType = watch("homeType");
-  const residenceType = watch("residenceType");
-  const location = watch("location");
-  const size = watch("size");
-
-  const Map = useMemo(
-    () =>
-      dynamic(() => import("./MapRegister"), {
-        ssr: false,
-      }),
-    [location]
-  );
+  // const homeType = watch("homeType");
+  // const residenceType = watch("residenceType");
+  // const location = watch("location");
+  // const size = watch("size");
+  const gender = watch("gender");
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    if (step !== STEPS.ACTIVEMEMBERSHIP) {
-      return onNext();
-    }
+    setIsLoading(true);
+    axios
+      .post("https://holiday-swap.click/api/v1/auth/register", data)
+      .then(() => {
+        toast.success("Register Success");
+        router.push("/");
+        loginModal.onOpen();
+      })
+      .catch((error) => {
+        toast.error("Something went wrong");
+        console.log("Error register", error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   let bodyContent = (
     <>
-      <HeadingRegister label="Information" width="w-1/12" />
+      <HeadingRegister label="Register" width="w-1/12" />
       <div className="px-4 md:px-20 flex-col w-full bg-white">
         <div className="flex items-center py-12 w-full text-3xl">
-          First you fill information of you
+          You fill information of you
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <Input
@@ -482,6 +484,14 @@ const RegisterBody = () => {
             id="username"
             label="Username*"
             placeholder="Username"
+          />
+          <Input
+            register={register}
+            errors={errors}
+            type="text"
+            id="email"
+            label="Email*"
+            placeholder="Email"
           />
         </div>
 
@@ -503,34 +513,30 @@ const RegisterBody = () => {
             placeholder="Confirm Password"
           />
         </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <Input
-            register={register}
-            errors={errors}
-            type="text"
-            id="firstName"
-            label="First Name"
-            placeholder="First Name"
-          />
-          <Input
-            register={register}
-            errors={errors}
-            type="text"
-            id="lastName"
-            label="Last Name"
-            placeholder="Last Name"
-          />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <div>Birth Date*</div>
-          <Input
-            register={register}
-            errors={errors}
-            type="email"
-            id="email"
-            label="Email*"
-            placeholder="Email"
-          />
+          <div className="w-full flex flex-col">
+            <div>Birth Date*</div>
+
+            <DateTimePicker
+              id="dob"
+              date={date}
+              onChange={(value: any) => handleChangeDate(value)}
+            />
+          </div>
+
+          <div className="w-full flex flex-col">
+            <label className="py-3">Gender</label>
+            <select
+              onChange={(e) => setCustomValue("gender", e.target.value)}
+              className="peer  p-4 pt-6 font-light bg-white border rounded-md outline-none transition disabled:opacity-70"
+            >
+              <option value="">Any</option>
+              <option value="MALE">Male</option>
+              <option value="FEMALE">Female</option>
+              <option value="OTHER">Other</option>
+            </select>
+          </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <Input
@@ -567,55 +573,55 @@ const RegisterBody = () => {
     </>
   );
 
-  if (step === STEPS.HOMETYPE) {
-    bodyContent = (
-      <HomeType
-        onClick={(homeType) => setCustomValue("homeType", homeType)}
-        selected={homeType}
-        handleSubmit={handleSubmit(onSubmit)}
-      />
-    );
-  }
+  // if (step === STEPS.HOMETYPE) {
+  //   bodyContent = (
+  //     <HomeType
+  //       onClick={(homeType) => setCustomValue("homeType", homeType)}
+  //       selected={homeType}
+  //       handleSubmit={handleSubmit(onSubmit)}
+  //     />
+  //   );
+  // }
 
-  if (step === STEPS.HOMESIZE) {
-    bodyContent = (
-      <HomeSize
-        register={register}
-        errors={errors}
-        handleSubmit={handleSubmit(onSubmit)}
-      />
-    );
-  }
+  // if (step === STEPS.HOMESIZE) {
+  //   bodyContent = (
+  //     <HomeSize
+  //       register={register}
+  //       errors={errors}
+  //       handleSubmit={handleSubmit(onSubmit)}
+  //     />
+  //   );
+  // }
 
-  if (step === STEPS.PEOPLE) {
-    bodyContent = <People handleSubmit={handleSubmit(onSubmit)} />;
-  }
+  // if (step === STEPS.PEOPLE) {
+  //   bodyContent = <People handleSubmit={handleSubmit(onSubmit)} />;
+  // }
 
-  if (step === STEPS.AMENITIES) {
-    bodyContent = <Amenities handleSubmit={handleSubmit(onSubmit)} />;
-  }
+  // if (step === STEPS.AMENITIES) {
+  //   bodyContent = <Amenities handleSubmit={handleSubmit(onSubmit)} />;
+  // }
 
-  if (step === STEPS.DESCRIBE) {
-    bodyContent = (
-      <Describe
-        register={register}
-        errors={errors}
-        handleSubmit={handleSubmit(onSubmit)}
-      />
-    );
-  }
+  // if (step === STEPS.DESCRIBE) {
+  //   bodyContent = (
+  //     <Describe
+  //       register={register}
+  //       errors={errors}
+  //       handleSubmit={handleSubmit(onSubmit)}
+  //     />
+  //   );
+  // }
 
-  if (step === STEPS.TIMEAVAILABLE) {
-    bodyContent = <TimeAvailable handleSubmit={handleSubmit(onSubmit)} />;
-  }
+  // if (step === STEPS.TIMEAVAILABLE) {
+  //   bodyContent = <TimeAvailable handleSubmit={handleSubmit(onSubmit)} />;
+  // }
 
-  if (step === STEPS.IMAGES) {
-    bodyContent = <Images handleSubmit={handleSubmit(onSubmit)} />;
-  }
+  // if (step === STEPS.IMAGES) {
+  //   bodyContent = <Images handleSubmit={handleSubmit(onSubmit)} />;
+  // }
 
-  if (step === STEPS.CREATED) {
-    bodyContent = <Created handleSubmit={handleSubmit(onSubmit)} />;
-  }
+  // if (step === STEPS.CREATED) {
+  //   bodyContent = <Created handleSubmit={handleSubmit(onSubmit)} />;
+  // }
   return <div>{bodyContent}</div>;
 };
 
