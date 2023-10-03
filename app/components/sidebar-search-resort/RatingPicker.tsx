@@ -11,17 +11,19 @@ export default function RatingPicker() {
 
   return (
     <div className="flex flex-col">
-      <div className="pb-3">Rating</div>
+      <div className="pb-3 font-bold">Rating</div>
       <div className="flex flex-row mb-10">
         {[0, 1, 2, 3, 4].map((starIndex) =>
           rating >= starIndex + 1 ? (
             <AiFillStar
+              size={25}
               key={starIndex}
               onClick={() => handleStarClick(starIndex)}
-              color="yellow"
+              color="orange"
             />
           ) : (
             <AiOutlineStar
+              size={25}
               key={starIndex}
               onClick={() => handleStarClick(starIndex)}
             />

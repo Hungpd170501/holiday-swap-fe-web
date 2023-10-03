@@ -5,6 +5,7 @@ import MonthPicker from "./MonthPicker";
 import DurationPicker from "./DurationPicker";
 import MinMaxPrice from "./MinMaxPrice";
 import RatingPicker from "./RatingPicker";
+import ResortStar from "./ResortStar";
 
 export default function SearchResortSidebar() {
   return (
@@ -19,10 +20,10 @@ export default function SearchResortSidebar() {
         </div>
       </div>
       <div className="flex flex-col">
-        <div className="pb-5">Keyword</div>
+        <div className="pb-5 font-bold">Keyword</div>
         <div className="relative flex flex-row items-center">
           <input
-            className="peer mb-10 p-2 font-light w-[258px] h-[48px] bg-white border rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed"
+            className="peer mb-10 p-2 font-light w-[258px] h-[57px] bg-white border border-[#C4C4C4] rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed"
             type="text"
             id="search"
           />
@@ -32,18 +33,28 @@ export default function SearchResortSidebar() {
           />
         </div>
       </div>
-      <div>
+      {/* <div>
         <DurationPicker />
-      </div>
+      </div> */}
       <div>
-        <div>Date</div>
+        <div className="font-bold">Check In</div>
         <DatePickerDemo />
       </div>
-      <div>
+
+      <div className="mt-10">
+        <div className="font-bold">Check Out</div>
+        <DatePickerDemo />
+      </div>
+
+      {/* <div>
         <MonthPicker />
+      </div> */}
+
+      <div className="mt-10">
+        <MinMaxPrice />
       </div>
       <div>
-        <MinMaxPrice />
+        <ResortStar />
       </div>
       <div>
         <RatingPicker />

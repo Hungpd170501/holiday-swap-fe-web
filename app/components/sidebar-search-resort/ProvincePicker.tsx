@@ -42,6 +42,12 @@ const ProvincePicker = () => {
           </span>
         </label>
       ))}
+      <input
+        className="peer mb-10 p-2 font-light w-[258px] h-[48px] bg-white border border-[#C4C4C4] rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed"
+        type="text"
+        id="search"
+        placeholder="Type the province"
+      />
     </div>
   );
 };

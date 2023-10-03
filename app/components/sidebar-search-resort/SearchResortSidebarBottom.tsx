@@ -13,19 +13,16 @@ export default function SearchResortSidebarBottom() {
         <div className=" text-[20px] pl-2 text-blue-500 font-bold">
           Type Filter
         </div>
-        <AiOutlineMinus />
       </div>
-      <div>
+      {/* <div>
         <AgePicker />
-      </div>
+      </div> */}
       <div>
         <ProvincePicker />
       </div>
+
       <div>
-        <DestinationPicker />
-      </div>
-      <div>
-        <button className="bg-[#5C98F2] font-bold text-white rounded-xl px-24  py-3 mt-10 hover:bg-blue-500">
+        <button className="bg-[#5C98F2] font-bold text-white rounded-xl px-24  py-3  hover:bg-blue-500">
           Search
         </button>
       </div>

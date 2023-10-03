@@ -37,6 +37,7 @@ import BookingApartment from "@/app/components/apartment/BookingApartment";
 import CaroselApartment from "@/app/components/apartment/CaroselApartment";
 import CardApartmentType from "@/app/components/apartment/CardApartmentType";
 import Link from "next/link";
+import TimeShareList from "@/app/components/time-share/TimeShareList";
 
 export default function LuxuryType() {
   return (
@@ -258,7 +259,7 @@ export default function LuxuryType() {
         </ul>
       </div>
       <div className="w-full my-10">
-        <CaroselApartment />
+        <TimeShareList />
       </div>{" "}
       <div className="w-full h-[1px] bg-gray-500 my-10"></div>
       <div className="flex flex-row w-full justify-center">

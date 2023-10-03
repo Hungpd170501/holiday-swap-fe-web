@@ -17,7 +17,7 @@ export default function SearchResult() {
               alt="destination"
               height={800}
               width={500}
-              className="object-cover rounded-t-xl relative hover:scale-110 hover:transition-transform duration-500 hover:duration-500"
+              className=" h-[300px] object-cover rounded-t-xl relative hover:scale-110 hover:transition-transform duration-500 hover:duration-500"
             />
           </div>
           <div className="bg-white w-[428px] h-[270px] shadow-xl rounded-b-xl pl-[50px] pr-[100px] py-[30px] md:W-[20px]">
@@ -46,7 +46,7 @@ export default function SearchResult() {
               alt="destination"
               height={800}
               width={500}
-              className="object-cover rounded-t-xl relative hover:scale-110 hover:transition-transform duration-500 hover:duration-500"
+              className=" h-[300px] object-cover rounded-t-xl relative hover:scale-110 hover:transition-transform duration-500 hover:duration-500"
             />
           </div>
           <div className="bg-white w-[428px] h-[270px] shadow-xl rounded-b-xl pl-[50px] pr-[100px] py-[30px] md:W-[20px]">
@@ -77,7 +77,7 @@ export default function SearchResult() {
               alt="destination"
               height={800}
               width={500}
-              className="object-cover rounded-t-xl relative hover:scale-110 hover:transition-transform duration-500 hover:duration-500"
+              className=" h-[300px] object-cover rounded-t-xl relative hover:scale-110 hover:transition-transform duration-500 hover:duration-500"
             />
           </div>
           <div className="bg-white w-[428px] h-[270px] shadow-xl rounded-b-xl pl-[50px] pr-[100px] py-[30px] md:W-[20px]">
@@ -106,7 +106,7 @@ export default function SearchResult() {
               alt="destination"
               height={800}
               width={500}
-              className="object-cover rounded-t-xl relative hover:scale-110 hover:transition-transform duration-500 hover:duration-500"
+              className=" h-[300px] object-cover rounded-t-xl relative hover:scale-110 hover:transition-transform duration-500 hover:duration-500"
             />
           </div>
           <div className="bg-white w-[428px] h-[270px] shadow-xl rounded-b-xl pl-[50px] pr-[100px] py-[30px] md:W-[20px]">
@@ -137,7 +137,7 @@ export default function SearchResult() {
               alt="destination"
               height={800}
               width={500}
-              className="object-cover rounded-t-xl relative hover:scale-110 hover:transition-transform duration-500 hover:duration-500"
+              className=" h-[300px] object-cover rounded-t-xl relative hover:scale-110 hover:transition-transform duration-500 hover:duration-500"
             />
           </div>
           <div className="bg-white w-[428px] h-[270px] shadow-xl rounded-b-xl pl-[50px] pr-[100px] py-[30px] md:W-[20px]">
