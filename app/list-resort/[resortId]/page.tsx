@@ -4,6 +4,7 @@ import DetailContent from "@/app/components/detailResort/DetailContent";
 import DetailContentTop from "@/app/components/detailResort/DetailContentTop";
 import HeaderDetailResort from "@/app/components/detailResort/HeaderDetailResort";
 import ImageDetailResort from "@/app/components/detailResort/ImageDetailResort";
+import PropertyCard from "@/app/components/detailResort/PropertyCard";
 import RightSideBar from "@/app/components/detailResort/RightSideBar";
 import React from "react";
 
@@ -32,12 +33,18 @@ const ResortPage = async ({ params }: { params: IParams }) => {
       </div>
 
       <div className="flex flex-row px-[70px] py-10 ">
-        <div className="w-full px-10">
+        {/* <div className="w-full px-10">
           <div className="flex-col flex">
             <div className="grid grid-cols-1 md:grid-cols-3 mb-10 gap-y-5">
               <CardApartmentType propertyTypes={resort?.propertyTypes} />
             </div>
           </div>
+        </div> */}
+        <div className=" w-full">
+          <PropertyCard />
+          <PropertyCard />
+          <PropertyCard />
+          <PropertyCard />
         </div>
       </div>
     </div>
