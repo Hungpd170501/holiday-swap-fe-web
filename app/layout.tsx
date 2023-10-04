@@ -10,6 +10,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { Suspense } from "react";
 import Loading from "./loading";
+import { getServerSession } from "next-auth/next";
 
 const font = Poppins({
   subsets: ["latin"],

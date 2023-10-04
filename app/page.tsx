@@ -2,7 +2,6 @@ import Banner from "./components/banner/Banner";
 import Container from "./components/Container";
 import TopDestination from "./components/TopDestination";
 import TopApartment from "./components/TopApartment";
-import getCurrentUser from "./actions/getCurrentUser";
 import ClientOnly from "./components/ClientOnly";
 
 export default async function Home() {

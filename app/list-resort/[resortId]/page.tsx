@@ -32,7 +32,13 @@ const ResortPage = async ({ params }: { params: IParams }) => {
       </div>
 
       <div className="flex flex-row px-[70px] py-10 ">
-        <CardApartmentType />
+        <div className="w-full px-10">
+          <div className="flex-col flex">
+            <div className="grid grid-cols-1 md:grid-cols-3 mb-10 gap-y-5">
+              <CardApartmentType propertyTypes={resort?.propertyTypes} />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

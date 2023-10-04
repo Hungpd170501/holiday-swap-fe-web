@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import React from "react";
 
@@ -12,6 +14,7 @@ const ImageDetailResort: React.FC<ImageDetailResortProps> = ({
     <div className=" flex flex-row justify-between">
       {resortImages?.slice(0, 1).map((item: any) => (
         <Image
+          key={item.id}
           src={item.link}
           alt="destination"
           height={800}
@@ -23,6 +26,7 @@ const ImageDetailResort: React.FC<ImageDetailResortProps> = ({
         <div className="grid grid-cols-2 gap-3 pl-[20px]">
           {resortImages?.slice(1, 3).map((item: any) => (
             <Image
+              key={item.id}
               src={item.link}
               alt="destination"
               height={800}
@@ -34,6 +38,7 @@ const ImageDetailResort: React.FC<ImageDetailResortProps> = ({
         <div className="grid grid-cols-2 gap-3 pl-[20px]">
           {resortImages?.slice(3, 5).map((item: any) => (
             <Image
+              key={item.id}
               src={item.link}
               alt="destination"
               height={800}
