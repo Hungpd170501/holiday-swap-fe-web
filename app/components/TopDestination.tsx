@@ -22,12 +22,7 @@ const TopDestination = () => {
         <FaArrowRight size={15} />
       </div>
 
-      <div className="grid md:grid-cols-3 grid-cols-1 gap-8">
-        <TopDestinationCard />
-        <TopDestinationCard />
-        <TopDestinationCard />
-        <TopDestinationCard />
-        <TopDestinationCard />
+      <div>
         <TopDestinationCard />
       </div>
     </div>

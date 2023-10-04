@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { GrPersonalComputer, GrSecure } from "react-icons/gr";
+import { GrPersonalComputer, GrSecure, GrUpgrade } from "react-icons/gr";
 import { FiEdit } from "react-icons/fi";
 import { PiNotepadBold } from "react-icons/pi";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
@@ -9,6 +9,7 @@ import { AiOutlineStar } from "react-icons/ai";
 import { MdOutlineSwapHorizontalCircle } from "react-icons/md";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { IoBanSharp } from "react-icons/io5";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -36,7 +37,7 @@ const SidebarStaff = () => {
       current: pathName === "/staff/createresort" ? true : false,
     },
   ];
-  const sidebarBooking = [
+  const sidebarMember = [
     {
       name: "List Membership",
       href: "/staff/listmember",
@@ -44,9 +45,15 @@ const SidebarStaff = () => {
       current: pathName === "/staff/listmember" ? true : false,
     },
     {
+      name: "Upgrade Member",
+      href: "/staff/upgrademembership",
+      icon: GrUpgrade,
+      current: pathName === "/staff/upgrademembership" ? true : false,
+    },
+    {
       name: "Banned",
       href: "/staff/banned",
-      icon: LiaFileInvoiceDollarSolid,
+      icon: IoBanSharp,
       current: pathName === "/staff/banned" ? true : false,
     },
   ];
@@ -103,7 +110,7 @@ const SidebarStaff = () => {
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
               <li>
                 <ul role="list" className="-mx-2 space-y-1">
-                  {sidebarBooking.map((option) => (
+                  {sidebarMember.map((option) => (
                     <li key={option.name}>
                       <Link
                         href={option.href}

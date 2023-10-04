@@ -1,13 +1,16 @@
-import requireAuth from "../libs/requireAuth";
 import React from "react";
-import DashBoardAdmin from "./dashboard/DashBoardAdmin";
-import DashboardAdminPage from "./dashboard/page";
+import requireAuth from "../libs/requireAuth";
+import DashboardAdmin from "../components/admin/DashboardAdmin";
 
-export default async function AdminPage() {
+export const metadata = {
+  title: "DashBoard",
+};
+
+export default async function DashBoard() {
   return requireAuth(
     <div className="py-3">
       <div>
-        <DashboardAdminPage />
+        <DashboardAdmin />
       </div>
     </div>
   );
