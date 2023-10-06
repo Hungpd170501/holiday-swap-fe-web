@@ -1,13 +1,7 @@
 "use client";
 
 import React from "react";
-import {
-  Chart as ChartJS,
-  ArcBorderRadius,
-  Tooltip,
-  Legend,
-  ArcElement,
-} from "chart.js";
+import { Chart as ChartJS, Tooltip, Legend, ArcElement } from "chart.js";
 import { Pie } from "react-chartjs-2";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -25,7 +19,7 @@ const ChartUser = () => {
   return (
     <div className="p-5 w-full flex flex-col items-center">
       <div className="font-bold text-xl text-black">Users in system</div>
-      <div className="p-4">
+      <div className="">
         <Pie data={data}></Pie>
       </div>
     </div>
