@@ -101,7 +101,11 @@ const rows = [
   ),
 ];
 
-export default function ListResortAll() {
+interface ListResortAllProps {
+  resorts?: any;
+}
+
+const ListResortAll: React.FC<ListResortAllProps> = ({ resorts }) => {
   return (
     <>
       <div className="flex flex-row justify-between items-center mt-10">
@@ -116,28 +120,23 @@ export default function ListResortAll() {
               </StyledTableCell>
               <StyledTableCell
                 className="!bg-white !text-black !text-[17px] !font-semibold"
-                align="right"
+                align="left"
               >
                 Adress
               </StyledTableCell>
               <StyledTableCell
                 className="!bg-white !text-black !text-[17px] !font-semibold"
-                align="right"
+                align="left"
               >
-                Type
+                Property Type
               </StyledTableCell>
               <StyledTableCell
                 className="!bg-white !text-black !text-[17px] !font-semibold"
-                align="right"
+                align="left"
               >
-                Price{" "}
+                Amenity Type{" "}
               </StyledTableCell>
-              <StyledTableCell
-                className="!bg-white !text-black !text-[17px] !font-semibold"
-                align="right"
-              >
-                rules{" "}
-              </StyledTableCell>
+
               <StyledTableCell
                 className="!bg-white !text-black !text-[17px] !font-semibold"
                 align="right"
@@ -147,33 +146,34 @@ export default function ListResortAll() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {resorts?.content.map((row: any) => (
               <StyledTableRow key={row.resortname}>
                 <StyledTableCell
                   className="!py-5 !text-common"
                   component="th"
                   scope="row"
                 >
-                  <Link href="/staff/staffdetailresort">{row.resortname}</Link>
+                  <Link
+                    href="/staff/staffdetailresort"
+                    className="hover:underline"
+                  >
+                    {row.resortName}
+                  </Link>
                 </StyledTableCell>
                 <StyledTableCell className="!py-5 !text-common" align="right">
                   {row.address}
                 </StyledTableCell>
-                <StyledTableCell className="!py-5 " align="right">
-                  {row.meter}
+                <StyledTableCell className="!py-5 " align="left">
+                  {row.propertyTypes.map((item: any) => (
+                    <div>{item.propertyTypeName}</div>
+                  ))}
                 </StyledTableCell>
-                <StyledTableCell
-                  className="!py-5 !text-green-500 "
-                  align="right"
-                >
-                  {row.bedroom}
+                <StyledTableCell className="!py-5 " align="left">
+                  {row.resortAmenityTypes.map((item: any) => (
+                    <div>{item.resortAmenityTypeName}</div>
+                  ))}
                 </StyledTableCell>
-                <StyledTableCell
-                  className="!py-5 !text-green-500 "
-                  align="right"
-                >
-                  {row.rules}
-                </StyledTableCell>
+
                 <StyledTableCell
                   className="!py-5 !text-green-500 "
                   align="right"
@@ -187,4 +187,6 @@ export default function ListResortAll() {
       </TableContainer>
     </>
   );
-}
+};
+
+export default ListResortAll;

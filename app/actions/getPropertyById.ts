@@ -1,3 +1,5 @@
+"use client";
+
 import axios from "axios";
 
 interface IParams {
@@ -9,7 +11,7 @@ export default async function getPropertyById(params: IParams) {
     const { propertyId } = params;
 
     const property = await axios.get(
-      `${process.env.API_URL}/property-types/${propertyId}`
+      `https://holiday-swap.click/api/v1/property-types/${propertyId}`
     );
 
     if (!property) {

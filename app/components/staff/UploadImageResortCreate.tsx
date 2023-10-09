@@ -1,9 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { Modal, Upload } from "antd";
 import type { RcFile, UploadProps } from "antd/es/upload";
 import type { UploadFile } from "antd/es/upload/interface";
+
+interface UploadImageResortCreateProps {
+  handleImageChange: (value: any[]) => void;
+}
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -13,48 +17,16 @@ const getBase64 = (file: RcFile): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-const UploadImageResortCreate: React.FC = () => {
+const UploadImageResortCreate: React.FC<UploadImageResortCreateProps> = ({
+  handleImageChange,
+}) => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
-  const [fileList, setFileList] = useState<UploadFile[]>([
-    {
-      uid: "-1",
-      name: "image.png",
-      status: "done",
-      url: "",
-    },
-    {
-      uid: "-2",
-      name: "image.png",
-      status: "done",
-      url: "",
-    },
-    {
-      uid: "-3",
-      name: "image.png",
-      status: "done",
-      url: "",
-    },
-    {
-      uid: "-4",
-      name: "image.png",
-      status: "done",
-      url: "",
-    },
-    // {
-    //   uid: "-xxx",
-    //   percent: 50,
-    //   name: "image.png",
-    //   status: "uploading",
-    //   url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    // },
-    // {
-    //   uid: "-5",
-    //   name: "image.png",
-    //   status: "error",
-    // },
-  ]);
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [imageList, setImageList] = useState<any[]>([]);
+  const [fileListResult, setFileListResult] = useState<any[]>([]);
+  const formData = new FormData();
 
   const handleCancel = () => setPreviewOpen(false);
 
@@ -70,8 +42,9 @@ const UploadImageResortCreate: React.FC = () => {
     );
   };
 
-  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
+  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
+  };
 
   const uploadButton = (
     <div>
@@ -79,10 +52,30 @@ const UploadImageResortCreate: React.FC = () => {
       <div style={{ marginTop: 8 }}>Upload</div>
     </div>
   );
+
+  const handleChangeImageResult = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const selectedFiles = e.target.files;
+    if (selectedFiles) {
+      const fileArray: Blob[] = Array.from(selectedFiles);
+      const binaryDataArray: string[] = [];
+
+      // Read the contents of each file and convert to binary
+      for (const file of fileArray) {
+        const binaryData = await getBase64(file as any);
+        binaryDataArray.push(binaryData);
+      }
+
+      // Call handleImageChange with the binary data array
+      handleImageChange(binaryDataArray);
+    }
+  };
+
   return (
     <>
       <Upload
-        action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+        // action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
         listType="picture-card"
         fileList={fileList}
         onPreview={handlePreview}
@@ -90,6 +83,12 @@ const UploadImageResortCreate: React.FC = () => {
       >
         {fileList.length >= 8 ? null : uploadButton}
       </Upload>
+      <input
+        type="file"
+        accept="image/*"
+        multiple
+        onChange={handleChangeImageResult}
+      />
       <Modal
         open={previewOpen}
         title={previewTitle}

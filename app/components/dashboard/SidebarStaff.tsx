@@ -8,8 +8,9 @@ import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 import { AiOutlineStar } from "react-icons/ai";
 import { MdOutlineSwapHorizontalCircle } from "react-icons/md";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { IoBanSharp } from "react-icons/io5";
+import { signOut } from "next-auth/react";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -17,6 +18,12 @@ function classNames(...classes: string[]) {
 
 const SidebarStaff = () => {
   const pathName = usePathname();
+  const router = useRouter();
+
+  const handelSignOut = () => {
+    router.push("/");
+    signOut();
+  };
   const sidebarMyaccount = [
     {
       name: "Dashboard",
@@ -36,6 +43,12 @@ const SidebarStaff = () => {
       icon: GrSecure,
       current: pathName === "/staff/createresort" ? true : false,
     },
+    {
+      name: "Create Property",
+      href: "/staff/createproperty",
+      icon: GrSecure,
+      current: pathName === "/staff/createproperty" ? true : false,
+    },
   ];
   const sidebarMember = [
     {
@@ -49,12 +62,6 @@ const SidebarStaff = () => {
       href: "/staff/upgrademembership",
       icon: GrUpgrade,
       current: pathName === "/staff/upgrademembership" ? true : false,
-    },
-    {
-      name: "Banned",
-      href: "/staff/banned",
-      icon: IoBanSharp,
-      current: pathName === "/staff/banned" ? true : false,
     },
   ];
   const sidebarExchange = [
@@ -158,7 +165,10 @@ const SidebarStaff = () => {
             </ul>
           </div>
           <div>
-            <button className="bg-[#5C98F2] px-4 py-3 rounded-md text-white">
+            <button
+              onClick={handelSignOut}
+              className="bg-[#5C98F2] px-4 py-3 rounded-md text-white"
+            >
               Sign Out
             </button>
           </div>

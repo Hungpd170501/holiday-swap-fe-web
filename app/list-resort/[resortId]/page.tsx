@@ -1,3 +1,4 @@
+import getProperitesByResortId from "@/app/actions/getPropertiesByResortId";
 import getResortById from "@/app/actions/getResortById";
 import CardApartmentType from "@/app/components/apartment/CardApartmentType";
 import DetailContent from "@/app/components/detailResort/DetailContent";
@@ -14,6 +15,7 @@ interface IParams {
 
 const ResortPage = async ({ params }: { params: IParams }) => {
   const resort = await getResortById(params);
+  const properties = await getProperitesByResortId(params);
 
   return (
     <div className="flex flex-col ">
@@ -41,10 +43,9 @@ const ResortPage = async ({ params }: { params: IParams }) => {
           </div>
         </div> */}
         <div className=" w-full">
-          <PropertyCard />
-          <PropertyCard />
-          <PropertyCard />
-          <PropertyCard />
+          {properties?.map((item: any) => (
+            <PropertyCard key={item.id} data={item} id={item.id} />
+          ))}
         </div>
       </div>
     </div>

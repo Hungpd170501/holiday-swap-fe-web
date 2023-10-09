@@ -1,6 +1,8 @@
-import React from 'react';
-import Point from './Point';
+import React from "react";
+import Point from "./Point";
+import getPoint from "@/app/actions/getPoint";
 
-export default function PointPage() {
-    return <Point />
+export default async function PointPage() {
+  const point = await getPoint();
+  return <Point point={point} />;
 }

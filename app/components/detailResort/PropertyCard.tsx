@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { AiFillThunderbolt, AiOutlineFundView } from "react-icons/ai";
 import { BiSolidBed } from "react-icons/bi";
@@ -9,40 +11,104 @@ import { FaBath, FaCcPaypal } from "react-icons/fa6";
 import { GiBathtub, GiHouse } from "react-icons/gi";
 import { BsQuestionCircle, BsWifi } from "react-icons/bs";
 import { MdBalcony } from "react-icons/md";
+import useDetailPropertyModal from "@/app/hooks/useDetailPropertyModal";
+import Image from "next/image";
 
-export default function PropertyCard() {
+interface PropertyCardProps {
+  data?: any;
+  id?: any;
+}
+
+const PropertyCard: React.FC<PropertyCardProps> = ({ data, id }) => {
+  const detailPropertyModal = useDetailPropertyModal();
+
   return (
     <>
       <div className="bg-white rounded-lg w-full h-auto py-3 px-2 shadow-lg mb-4">
         <div className="flex flex-row items-center">
-          <h4 className="font-semibold mr-3 text-[20px] cursor-pointer hover:underline">
-            Villa Three Bedroom
-          </h4>
-          <p className="text-[#06AEC3] text-[15px] bg-green-50 px-[2px] py-[2px]">
+          <div
+            className="font-semibold mr-3 text-[20px] cursor-pointer hover:underline"
+            onClick={() => detailPropertyModal.onOpen(data, id)}
+          >
+            {data?.propertyType?.propertyTypeName}
+          </div>
+          <p className="text-common text-[15px] bg-green-50 px-[2px] py-[2px]">
             Private Swimming Pool
           </p>
         </div>
         <div className="flex flex-row gap-8">
           <div className="flex flex-col">
             <div className="mt-5 mb-2">
-              <img
-                className="w-[210px] h-[100px] rounded-md"
-                src="/images/resort1.jpg"
-                alt=""
-              />
+              {data?.propertyImageResponses.slice(0, 1).map((item: any) => (
+                <Image
+                  className="rounded-md"
+                  src={item.link}
+                  alt="image"
+                  width={210}
+                  height={100}
+                />
+              ))}
             </div>
             <div>
               <div className="py-2">
                 <BiSolidBed size={30} />
               </div>
               <p className="text-[17px] font-bold">
-                2 single beds and 2 king beds
+                {`${
+                  data.numberKingBeds !== 0
+                    ? `${
+                        data.numberKingBeds !== 1
+                          ? `${data.numberKingBeds} king beds`
+                          : `${data.numberKingBeds} king bed`
+                      }`
+                    : ""
+                } ${
+                  data.numberQueensBeds !== 0
+                    ? `${
+                        data.numberQueensBeds !== 1
+                          ? ` and ${data.numberQueensBeds} queen beds`
+                          : ` and ${data.numberQueensBeds} queen bed`
+                      }`
+                    : ""
+                } ${
+                  data.numberTwinBeds !== 0
+                    ? `${
+                        data.numberTwinBeds !== 1
+                          ? ` and ${data.numberTwinBeds} twin beds`
+                          : ` and ${data.numberTwinBeds} twin bed`
+                      }`
+                    : ""
+                } ${
+                  data.numberFullBeds !== 0
+                    ? `${
+                        data.numberFullBeds !== 1
+                          ? ` and ${data.numberFullBeds} full beds`
+                          : ` and ${data.numberFullBeds} full bed`
+                      }`
+                    : ""
+                } ${
+                  data.numberSofaBeds !== 0
+                    ? `${
+                        data.numberSofaBeds !== 1
+                          ? ` and ${data.numberSofaBeds} sofa beds`
+                          : ` and ${data.numberSofaBeds} sofa bed`
+                      }`
+                    : ""
+                } ${
+                  data.numberMurphyBeds !== 0
+                    ? `${
+                        data.numberMurphyBeds !== 1
+                          ? ` and ${data.numberMurphyBeds} murphy beds`
+                          : ` and ${data.numberMurphyBeds} murphy bed`
+                      }`
+                    : ""
+                }`}
               </p>
             </div>
             <div className="flex flex-row items-center mt-2">
               <AiOutlineFundView color="#06AEC3" />
-              <span className="text-[15px] text-[#06AEC3] ml-2">
-                Garden View
+              <span className="text-[15px] text-common ml-2">
+                {data?.propertyView.propertyViewName}
               </span>
             </div>
             <div className="flex flex-row items-center mt-2">
@@ -54,7 +120,7 @@ export default function PropertyCard() {
             <div className="flex flex-row items-center mt-2">
               <GiHouse color="#616161" />
               <span className="text-[15px] ml-2 text-gray-700">
-                190m² | Floor: 1
+                {data?.roomSize}m² | Floor: 1
               </span>
             </div>
             <div className="flex flex-row items-center mt-2">
@@ -157,4 +223,6 @@ export default function PropertyCard() {
       </div>
     </>
   );
-}
+};
+
+export default PropertyCard;

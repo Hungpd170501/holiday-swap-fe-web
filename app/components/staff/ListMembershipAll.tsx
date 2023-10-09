@@ -9,6 +9,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Link from "next/link";
+import { format } from "date-fns";
+import DropDownBanMember from "./DropDownBanMember";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -100,7 +102,11 @@ const rows = [
   ),
 ];
 
-export default function ListMembershipAll() {
+interface ListMembershipAllProps {
+  users?: any;
+}
+
+const ListMembershipAll: React.FC<ListMembershipAllProps> = ({ users }) => {
   return (
     <>
       <div>
@@ -122,7 +128,7 @@ export default function ListMembershipAll() {
                 className="!bg-white !text-black !text-[17px] !font-semibold"
                 align="right"
               >
-                Adress
+                Gender
               </StyledTableCell>
               <StyledTableCell
                 className="!bg-white !text-black !text-[17px] !font-semibold"
@@ -140,13 +146,25 @@ export default function ListMembershipAll() {
                 className="!bg-white !text-black !text-[17px] !font-semibold"
                 align="right"
               >
-                apartment{" "}
+                Status{" "}
+              </StyledTableCell>
+              <StyledTableCell
+                className="!bg-white !text-black !text-[17px] !font-semibold"
+                align="right"
+              >
+                Day of birth{" "}
+              </StyledTableCell>
+              <StyledTableCell
+                className="!bg-white !text-black !text-[17px] !font-semibold"
+                align="right"
+              >
+                Action{" "}
               </StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.name}>
+            {users?.map((row: any) => (
+              <StyledTableRow key={row.userId}>
                 <StyledTableCell
                   className="!py-5 !text-common"
                   component="th"
@@ -158,11 +176,16 @@ export default function ListMembershipAll() {
                       src="/images/resort1.jpg"
                       alt=""
                     />
-                    <Link href="/staff/editmembership">{row.name}</Link>
+                    <Link
+                      href="/staff/editmembership"
+                      className="hover:underline"
+                    >
+                      {row.username}
+                    </Link>
                   </div>
                 </StyledTableCell>
                 <StyledTableCell className="!py-5 !text-common" align="right">
-                  {row.address}
+                  {row.gender}
                 </StyledTableCell>
                 <StyledTableCell className="!py-5 " align="right">
                   {row.email}
@@ -177,7 +200,16 @@ export default function ListMembershipAll() {
                   className="!py-5 !text-green-500 "
                   align="right"
                 >
-                  {row.apartment}
+                  {row.status}
+                </StyledTableCell>
+                <StyledTableCell
+                  className="!py-5 !text-green-500 "
+                  align="right"
+                >
+                  {format(new Date(row.dob), "yyyy-MM-dd")}
+                </StyledTableCell>
+                <StyledTableCell className="!py-5" align="right">
+                  <DropDownBanMember />
                 </StyledTableCell>
               </StyledTableRow>
             ))}
@@ -186,4 +218,6 @@ export default function ListMembershipAll() {
       </TableContainer>
     </>
   );
-}
+};
+
+export default ListMembershipAll;

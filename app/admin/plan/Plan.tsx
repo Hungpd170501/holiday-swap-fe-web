@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   MagnifyingGlassIcon,
   ChevronUpDownIcon,
@@ -23,6 +23,7 @@ import {
   IconButton,
   Tooltip,
 } from "@material-tailwind/react";
+import useCreatePlanModal from "@/app/hooks/useCreatePlanModal";
 
 const TABS = [
   {
@@ -50,37 +51,14 @@ const TABLE_HEAD = [
   "",
 ];
 
-const TABLE_ROWS = [
-  {
-    planId: 1,
-    planName: "Membership 1",
-    description: "Description",
-    price: 10,
-    priceType: "RECURRING",
-    planPriceInterval: "MONTHLY",
-    active: true,
-  },
-  {
-    planId: 2,
-    planName: "Membership 2",
-    description: "Description",
-    price: 10,
-    priceType: "RECURRING",
-    planPriceInterval: "MONTHLY",
-    active: true,
-  },
-  {
-    planId: 3,
-    planName: "Membership 3",
-    description: "Description",
-    price: 10,
-    priceType: "RECURRING",
-    planPriceInterval: "MONTHLY",
-    active: true,
-  },
-];
+interface PlanProps {
+  plan?: any;
+}
 
-const Plan = () => {
+const Plan: React.FC<PlanProps> = ({ plan }) => {
+  const [planList, setPlanList] = useState<any>(plan);
+  const createPlanModal = useCreatePlanModal();
+
   return (
     <Card className="h-auto w-full">
       <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -97,7 +75,11 @@ const Plan = () => {
             <Button variant="outlined" size="sm">
               view all
             </Button>
-            <Button className="flex items-center gap-3 bg-common" size="sm">
+            <Button
+              onClick={createPlanModal.onOpen}
+              className="flex items-center gap-3 bg-common"
+              size="sm"
+            >
               <BsClipboard2PlusFill size={10} className="h-4 w-4" /> Add plan
             </Button>
           </div>
@@ -120,7 +102,7 @@ const Plan = () => {
           </div>
         </div>
       </CardHeader>
-      <CardBody className="overflow-scroll px-0">
+      <CardBody className="overflow-auto px-0">
         <table className="mt-4 w-full min-w-max table-auto text-left">
           <thead>
             <tr>
@@ -144,109 +126,96 @@ const Plan = () => {
             </tr>
           </thead>
           <tbody>
-            {TABLE_ROWS.map(
-              (
-                {
-                  planId,
-                  planName,
-                  description,
-                  price,
-                  priceType,
-                  planPriceInterval,
-                  active,
-                },
-                index
-              ) => {
-                const isLast = index === TABLE_ROWS.length - 1;
-                const classes = isLast
-                  ? "p-4"
-                  : "p-4 border-b border-blue-gray-50";
+            {planList?.map((item: any, index: number) => {
+              const isLast = index === planList.length - 1;
+              const classes = isLast
+                ? "p-4"
+                : "p-4 border-b border-blue-gray-50";
 
-                return (
-                  <tr key={planId}>
-                    <td className={classes}>
-                      <div className="flex items-center gap-3">
-                        <div className="flex flex-col">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {planId}
-                          </Typography>
-                        </div>
-                      </div>
-                    </td>
-                    <td className={classes}>
+              return (
+                <tr key={item.planId}>
+                  <td className={classes}>
+                    <div className="flex items-center gap-3">
                       <div className="flex flex-col">
                         <Typography
                           variant="small"
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {planName}
+                          {item.planId}
                         </Typography>
                       </div>
-                    </td>
-                    <td className={classes}>
-                      <div className="w-max">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {description}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td className={classes}>
+                    </div>
+                  </td>
+                  <td className={classes}>
+                    <div className="flex flex-col">
                       <Typography
                         variant="small"
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {price}
+                        {item.planName}
                       </Typography>
-                    </td>
-                    <td className={classes}>
+                    </div>
+                  </td>
+                  <td className={classes}>
+                    <div className="w-max">
                       <Typography
                         variant="small"
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {priceType}
+                        {item.description}
                       </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {planPriceInterval}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <div className="w-max">
-                        <Chip
-                          variant="ghost"
-                          size="sm"
-                          value={active ? "Active" : "In-active"}
-                          color={active ? "green" : "blue-gray"}
-                        />
-                      </div>
-                    </td>
-                    <td className={classes}>
-                      <Tooltip content="Edit User">
-                        <IconButton variant="text">
-                          <PencilIcon className="h-4 w-4" />
-                        </IconButton>
-                      </Tooltip>
-                    </td>
-                  </tr>
-                );
-              }
-            )}
+                    </div>
+                  </td>
+                  <td className={classes}>
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal"
+                    >
+                      {item.price}
+                    </Typography>
+                  </td>
+                  <td className={classes}>
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal"
+                    >
+                      {item.priceType}
+                    </Typography>
+                  </td>
+                  <td className={classes}>
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal"
+                    >
+                      {item.planPriceInterval}
+                    </Typography>
+                  </td>
+                  <td className={classes}>
+                    <div className="w-max">
+                      <Chip
+                        variant="ghost"
+                        size="sm"
+                        value={item.active ? "Active" : "In-active"}
+                        color={item.active ? "green" : "blue-gray"}
+                      />
+                    </div>
+                  </td>
+                  <td className={classes}>
+                    <Tooltip content="Edit User">
+                      <IconButton variant="text">
+                        <PencilIcon className="h-4 w-4" />
+                      </IconButton>
+                    </Tooltip>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </CardBody>

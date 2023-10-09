@@ -3,6 +3,7 @@ import CardListResort from "../components/listResort/CardListResort";
 import ClientOnly from "../components/ClientOnly";
 import Container from "../components/Container";
 import getListResort from "../actions/getListResort";
+import DetailPropertyModal from "../components/modal/ModalBaseDetail";
 
 export const metadata = {
   title: "List Resort",

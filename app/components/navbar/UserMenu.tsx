@@ -1,7 +1,7 @@
 "use client";
 
 import MenuItem from "./MenuItem";
-import { signOut } from "next-auth/react";
+import SignOutMiddle from "@/app/libs/signOut";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { Fragment, useCallback, useState } from "react";
@@ -52,7 +52,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                 label="Recharge"
               />
               <hr />
-              <MenuItem onClick={() => signOut()} label="Logout" />
+              <MenuItem onClick={() => SignOutMiddle()} label="Logout" />
             </Fragment>
           </div>
         </div>

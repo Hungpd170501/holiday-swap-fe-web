@@ -4,9 +4,11 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useRouter } from "next/navigation";
+import useAxiosAuthClient from "@/app/hooks/useAxiosAuthClient";
 
 export default function DropDownBanMember() {
   const route = useRouter();
+  const axiosAuthClient = useAxiosAuthClient();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -37,8 +39,8 @@ export default function DropDownBanMember() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Ban</MenuItem>
-        <MenuItem onClick={handleClose}>UnBan</MenuItem>
+        <MenuItem onClick={handleClose}>Active</MenuItem>
+        <MenuItem onClick={handleClose}>In-active</MenuItem>
       </Menu>
     </div>
   );

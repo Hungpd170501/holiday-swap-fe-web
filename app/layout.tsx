@@ -1,5 +1,4 @@
 import "./globals.css";
-import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import ClientOnly from "./components/ClientOnly";
 import ModalLogin from "./components/modal/ModalLogin";
@@ -10,7 +9,8 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { Suspense } from "react";
 import Loading from "./loading";
-import { getServerSession } from "next-auth/next";
+import ModalDetailProperty from "./components/modal/ModalDetailProperty";
+import ModalCreatePlan from "./components/modal/ModalCreatePlan";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -39,7 +39,9 @@ export default async function RootLayout({
           <Suspense fallback={<Loading />}>
             <Header currentUser={currentUser} />
             <ClientOnly>
+              <ModalDetailProperty />
               <ModalLogin />
+              <ModalCreatePlan />
               <ToasterProvider />
             </ClientOnly>
 

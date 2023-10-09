@@ -1,15 +1,15 @@
 import axios from "axios";
 
-export default async function getResortAmenities() {
+export default async function getAmenityResortType() {
   try {
-    const amenities = await axios.get(
+    const amenityResortType = await axios.get(
       `${process.env.API_URL}/resort-amenity-types?pageNo=0&pageSize=20&sortBy=id`
     );
 
-    if (!amenities) {
+    if (!amenityResortType) {
       return null;
     }
 
-    return amenities.data;
+    return amenityResortType.data.content;
   } catch (error) {}
 }

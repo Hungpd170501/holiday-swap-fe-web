@@ -1,10 +1,12 @@
+import getListUser from "@/app/actions/getListUser";
 import ListMembershipAll from "@/app/components/staff/ListMembershipAll";
 import React from "react";
 
-export default function ListMember() {
+export default async function ListMember() {
+  const users = await getListUser();
   return (
     <div>
-      <ListMembershipAll />
+      <ListMembershipAll users={users} />
     </div>
   );
 }

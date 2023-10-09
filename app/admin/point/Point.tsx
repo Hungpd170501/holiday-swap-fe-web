@@ -7,55 +7,62 @@ import {
   Input,
   Button,
 } from "@material-tailwind/react";
-import { Fragment } from "react";
+import { ChangeEvent, Fragment, useEffect, useState } from "react";
+import { format } from "date-fns";
+import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
+import useAxiosAuthClient from "@/app/hooks/useAxiosAuthClient";
+import toast from "react-hot-toast";
 
 const TABLE_HEAD = ["ID", "Point Price", "Created Date", "Status", ""];
 
-const TABLE_ROWS = [
-  {
-    id: "1",
-    pointPrice: "1000",
-    date: "23/04/18",
-    active: true,
-  },
-  {
-    id: "2",
-    pointPrice: "2000",
-    date: "23/04/18",
-    active: false,
-  },
-  {
-    id: "3",
-    pointPrice: "3000",
-    date: "19/09/17",
-    active: false,
-  },
-  {
-    id: "4",
-    pointPrice: "4000",
-    date: "24/12/08",
-    active: false,
-  },
-  {
-    id: "5",
-    pointPrice: "5000",
-    date: "04/10/21",
-    active: false,
-  },
-];
+interface PointProps {
+  point?: any;
+}
 
-export default function Point() {
-  const onClick = () => {
-    console.log("Click");
+const Point: React.FC<PointProps> = ({ point }) => {
+  const [listPoint, setListPoint] = useState<any>(point);
+  const [isLoading, setIsLoading] = useState(false);
+  const [price, setPrice] = useState<string>();
+  const axiosAuthClient = useAxiosAuthClient();
+
+  const handleCreatePrice = async () => {
+    setIsLoading(true);
+    axiosAuthClient
+      .post(`/point/create?price=${price}`)
+      .then(async (response) => {
+        toast.success("Create point success");
+        setPrice("");
+        const newPoint = await axiosAuthClient.get("/point");
+        setListPoint(newPoint.data);
+      })
+      .catch(() => {
+        toast.error("Something went wrong!");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
+
   return (
     <Fragment>
       <div className="text-xl font-bold text-common mb-9">Management Point</div>
       <div>
         <div className="w-[100px] mb-4">
-          <Input variant="standard" label="Price point" />
+          <Input
+            variant="standard"
+            label="Price point"
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setPrice(e.target.value)
+            }
+          />
         </div>
-        <Button className="bg-common">Create</Button>
+        <Button
+          disabled={isLoading}
+          onClick={handleCreatePrice}
+          className="bg-common"
+        >
+          Create
+        </Button>
       </div>
       <Card className="h-full w-full overflow-y-auto overflow-x-hidden mt-6">
         <table className="w-full min-w-max table-auto text-left">
@@ -78,61 +85,69 @@ export default function Point() {
             </tr>
           </thead>
           <tbody>
-            {TABLE_ROWS.map(({ id, pointPrice, date, active }, index) => (
-              <tr key={id} className="even:bg-blue-gray-50/50">
-                <td className="p-4">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {id}
-                  </Typography>
-                </td>
-                <td className="p-4">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {pointPrice}
-                  </Typography>
-                </td>
-                <td className="p-4">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {date}
-                  </Typography>
-                </td>
-                <td className="p-4">
-                  <div className="w-max">
-                    <Chip
-                      variant="ghost"
-                      size="sm"
-                      value={active ? "Active" : "In-active"}
-                      color={active ? "green" : "blue-gray"}
-                    />
-                  </div>
-                </td>
-                <td className="p-4">
-                  <Typography
-                    as="a"
-                    href="#"
-                    variant="small"
-                    color="blue-gray"
-                    className="font-medium"
-                  >
-                    Edit
-                  </Typography>
-                </td>
-              </tr>
-            ))}
+            <tr key={listPoint?.id} className="even:bg-blue-gray-50/50">
+              <td className="p-4">
+                <Typography
+                  variant="small"
+                  color="blue-gray"
+                  className="font-normal"
+                >
+                  {listPoint?.id}
+                </Typography>
+              </td>
+              <td className="p-4">
+                <Typography
+                  variant="small"
+                  color="blue-gray"
+                  className="font-normal"
+                >
+                  {listPoint?.pointPrice}
+                </Typography>
+              </td>
+              <td className="p-4">
+                <Typography
+                  variant="small"
+                  color="blue-gray"
+                  className="font-normal"
+                >
+                  {format(new Date(listPoint?.pointCreatedDate), "dd-MM-yyyy")}
+                </Typography>
+              </td>
+              <td className="p-4">
+                <div className="w-max">
+                  <Chip
+                    variant="ghost"
+                    size="sm"
+                    value={
+                      listPoint?.pointStatus === "ACTIVE"
+                        ? "Active"
+                        : "In-active"
+                    }
+                    color={
+                      listPoint?.pointStatus === "ACTIVE"
+                        ? "green"
+                        : "blue-gray"
+                    }
+                  />
+                </div>
+              </td>
+              <td className="p-4">
+                <Typography
+                  as="a"
+                  href="#"
+                  variant="small"
+                  color="blue-gray"
+                  className="font-medium"
+                >
+                  Edit
+                </Typography>
+              </td>
+            </tr>
           </tbody>
         </table>
       </Card>
     </Fragment>
   );
-}
+};
+
+export default Point;

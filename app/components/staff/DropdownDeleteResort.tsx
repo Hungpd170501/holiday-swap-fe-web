@@ -37,9 +37,9 @@ export default function DropdownDeleteResort() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Delete</MenuItem>
-        <MenuItem onClick={handleClose}>Disable</MenuItem>
-        <MenuItem onClick={handleClose}>Enable</MenuItem>
+        <MenuItem onClick={handleClose}>Edit</MenuItem>
+        <MenuItem onClick={handleClose}>Active</MenuItem>
+        <MenuItem onClick={handleClose}>In-active</MenuItem>
       </Menu>
     </div>
   );
