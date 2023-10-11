@@ -78,7 +78,7 @@ const CreateResort: React.FC<CreateResortProps> = ({
 
     const requestData = {
       resortName: data.resortName,
-      description: data.description,
+      resortDescription: data.resortDescription,
       locationId: null,
       amenities: data.amenities,
       propertyTypes: data.propertyTypes,
@@ -86,7 +86,7 @@ const CreateResort: React.FC<CreateResortProps> = ({
     const resortDataBlob = new Blob([JSON.stringify(requestData)], {
       type: "application/json",
     });
-    formData.append("resortRequest", resortDataBlob);
+    formData.append("resort", resortDataBlob);
     file.forEach((element) => {
       formData.append("resortImage", element);
     });
@@ -100,8 +100,8 @@ const CreateResort: React.FC<CreateResortProps> = ({
         toast.success("Create resort success");
         reset();
       })
-      .catch(() => {
-        toast.error("Something went wrong");
+      .catch((response) => {
+        toast.error(response.response.data.message);
       })
       .finally(() => {
         setIsLoading(false);
@@ -151,8 +151,8 @@ const CreateResort: React.FC<CreateResortProps> = ({
           <div className="w-[277px] text-gray-700">Description</div>
           <Textarea
             label="Description*"
-            {...register("description")}
-            id="description"
+            {...register("resortDescription")}
+            id="resortDescription"
             disabled={isLoading}
             required
           />
