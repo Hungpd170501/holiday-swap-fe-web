@@ -4,12 +4,14 @@ export default async function GetCurrentUser() {
   try {
     const axiosAuth = useAxiosAuth();
 
-    const currentUser = await (await axiosAuth).get("/user/profile");
+    const currentUser = await (await axiosAuth).get("/users/profile");
 
     if (!currentUser) {
       return null;
     }
 
     return currentUser.data;
-  } catch (error: any) {}
+  } catch (error: any) {
+    console.log(error);
+  }
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import {
   MagnifyingGlassIcon,
@@ -22,7 +22,17 @@ import {
   Avatar,
   IconButton,
   Tooltip,
+  Menu,
+  MenuHandler,
+  MenuItem,
+  MenuList,
 } from "@material-tailwind/react";
+import { format } from "date-fns";
+import { BiBlock } from "react-icons/bi";
+import { BsCheck2Circle } from "react-icons/bs";
+import { MdOutlinePending } from "react-icons/md";
+import useAxiosAuthClient from "@/app/hooks/useAxiosAuthClient";
+import toast from "react-hot-toast";
 
 const TABS = [
   {
@@ -39,57 +49,59 @@ const TABS = [
   },
 ];
 
-const TABLE_HEAD = ["Staff", "Function", "Status", "Employed", ""];
+const TABLE_HEAD = [
+  "Email & Username",
+  "Gender",
+  "Date of birth",
+  "Phone",
+  "Role",
+  "Status",
+  "",
+];
 
-const TABLE_ROWS = [
+const statusList = [
   {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
-    name: "John Michael",
-    email: "john@creative-tim.com",
-    job: "Manager",
-    org: "Organization",
-    online: true,
-    date: "23/04/18",
+    status: "ACTIVE",
+    icon: BsCheck2Circle,
+    color: "#2fde26",
   },
   {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
-    name: "Alexa Liras",
-    email: "alexa@creative-tim.com",
-    job: "Programator",
-    org: "Developer",
-    online: false,
-    date: "23/04/18",
+    status: "BLOCKED",
+    icon: BiBlock,
+    color: "#e62538",
   },
   {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
-    name: "Laurent Perrier",
-    email: "laurent@creative-tim.com",
-    job: "Executive",
-    org: "Projects",
-    online: false,
-    date: "19/09/17",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-4.jpg",
-    name: "Michael Levi",
-    email: "michael@creative-tim.com",
-    job: "Programator",
-    org: "Developer",
-    online: true,
-    date: "24/12/08",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-5.jpg",
-    name: "Richard Gran",
-    email: "richard@creative-tim.com",
-    job: "Manager",
-    org: "Executive",
-    online: false,
-    date: "04/10/21",
+    status: "PENDING",
+    icon: MdOutlinePending,
+    color: "#e06d14",
   },
 ];
 
-export default function ListStaff() {
+interface ListStaffProps {
+  listUser?: any;
+}
+
+const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
+  const [userList, setUserList] = useState(listUser?.content || []);
+
+  const axiosAuthClient = useAxiosAuthClient();
+
+  const handleOnChangeStatus = (id: any, value: any) => {
+    const body = value;
+    axiosAuthClient
+      .put(`/users/${id}/status`, body)
+      .then(() => {
+        toast.success("Update status success");
+        setUserList((prevUserList: any) =>
+          prevUserList.map((user: any) =>
+            user.userId === id ? { ...user, status: value } : user
+          )
+        );
+      })
+      .catch((response) => {
+        toast.error(response.response.data.message);
+      });
+  };
   return (
     <Card className="h-auto w-full">
       <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -111,6 +123,7 @@ export default function ListStaff() {
             </Button>
           </div>
         </div>
+
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <Tabs value="all" className="w-full md:w-max">
             <TabsHeader>
@@ -153,32 +166,36 @@ export default function ListStaff() {
             </tr>
           </thead>
           <tbody>
-            {TABLE_ROWS.map(
-              ({ img, name, email, job, org, online, date }, index) => {
-                const isLast = index === TABLE_ROWS.length - 1;
-                const classes = isLast
-                  ? "p-4"
-                  : "p-4 border-b border-blue-gray-50";
+            {userList.map((item: any, index: number) => {
+              const isLast = index === userList.length - 1;
+              const classes = isLast
+                ? "p-4"
+                : "p-4 border-b border-blue-gray-50";
 
+              if (item.role.roleId === 1 || item.role.roleId === 3) {
                 return (
-                  <tr key={name}>
+                  <tr key={item.userId}>
                     <td className={classes}>
                       <div className="flex items-center gap-3">
-                        <Avatar src={img} alt={name} size="sm" />
+                        <Avatar
+                          src="/images/placeholder.jpg"
+                          alt="avatar"
+                          size="sm"
+                        />
                         <div className="flex flex-col">
                           <Typography
                             variant="small"
                             color="blue-gray"
                             className="font-normal"
                           >
-                            {name}
+                            {item.email}
                           </Typography>
                           <Typography
                             variant="small"
                             color="blue-gray"
                             className="font-normal opacity-70"
                           >
-                            {email}
+                            {item.username}
                           </Typography>
                         </div>
                       </div>
@@ -190,47 +207,179 @@ export default function ListStaff() {
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {job}
+                          {item.gender}
                         </Typography>
+                      </div>
+                    </td>
+                    <td className={classes}>
+                      <div className="flex flex-col">
                         <Typography
                           variant="small"
                           color="blue-gray"
                           className="font-normal opacity-70"
                         >
-                          {org}
+                          {format(new Date(item.dob), "dd-MM-yyyy")}
                         </Typography>
                       </div>
                     </td>
+                    <td className={classes}>
+                      <div className="flex flex-col">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {item.phone}
+                        </Typography>
+                      </div>
+                    </td>
+
+                    <td className={classes}>
+                      <div className="flex flex-col">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {item.role.name}
+                        </Typography>
+                      </div>
+                    </td>
+
                     <td className={classes}>
                       <div className="w-max">
                         <Chip
                           variant="ghost"
                           size="sm"
-                          value={online ? "Active" : "In-active"}
-                          color={online ? "green" : "blue-gray"}
+                          value={
+                            item.status === "ACTIVE" ? "Active" : "Blocked"
+                          }
+                          color={
+                            item.status === "ACTIVE" ? "green" : "blue-gray"
+                          }
                         />
                       </div>
                     </td>
+
                     <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {date}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Tooltip content="Edit User">
-                        <IconButton variant="text">
-                          <PencilIcon className="h-4 w-4" />
-                        </IconButton>
-                      </Tooltip>
+                      <Menu placement="bottom-start">
+                        <MenuHandler>
+                          <Button ripple={false} variant="text">
+                            <Tooltip content="Update status">
+                              <PencilIcon className="h-4 w-4" />
+                            </Tooltip>
+                          </Button>
+                        </MenuHandler>
+                        <MenuList className="max-h-[20rem] max-w-[18rem]">
+                          {(() => {
+                            if (item.status === "ACTIVE") {
+                              return (
+                                <>
+                                  {statusList
+                                    .slice(1, 3)
+                                    .map((status: any, index: number) => (
+                                      <MenuItem
+                                        key={index}
+                                        value={status.status}
+                                        className="flex items-center gap-2"
+                                        onClick={() =>
+                                          handleOnChangeStatus(
+                                            item.userId,
+                                            status.status
+                                          )
+                                        }
+                                      >
+                                        <status.icon
+                                          size={18}
+                                          color={status.color}
+                                        />
+
+                                        <span
+                                          className={`text-[${status.color}]`}
+                                        >
+                                          {status.status}
+                                        </span>
+                                      </MenuItem>
+                                    ))}
+                                </>
+                              );
+                            } else if (item.status === "BLOCKED") {
+                              const newArrray = statusList.filter(
+                                (item) =>
+                                  item.status === "ACTIVE" ||
+                                  item.status === "PENDING"
+                              );
+                              return (
+                                <>
+                                  {newArrray.map(
+                                    (status: any, index: number) => (
+                                      <MenuItem
+                                        key={index}
+                                        value={status.status}
+                                        className="flex items-center gap-2"
+                                        onClick={() =>
+                                          handleOnChangeStatus(
+                                            item.userId,
+                                            status.status
+                                          )
+                                        }
+                                      >
+                                        <status.icon
+                                          size={18}
+                                          color={status.color}
+                                        />
+
+                                        <span
+                                          className={`text-[${status.color}]`}
+                                        >
+                                          {status.status}
+                                        </span>
+                                      </MenuItem>
+                                    )
+                                  )}
+                                </>
+                              );
+                            } else if (item.status === "PENDING") {
+                              return (
+                                <>
+                                  {statusList
+                                    .slice(0, 2)
+                                    .map((status: any, index: number) => (
+                                      <MenuItem
+                                        key={index}
+                                        value={status.status}
+                                        className="flex items-center gap-2"
+                                        onClick={() =>
+                                          handleOnChangeStatus(
+                                            item.userId,
+                                            status.status
+                                          )
+                                        }
+                                      >
+                                        <status.icon
+                                          size={18}
+                                          color={status.color}
+                                        />
+
+                                        <span
+                                          className={`text-[${status.color}]`}
+                                        >
+                                          {status.status}
+                                        </span>
+                                      </MenuItem>
+                                    ))}
+                                </>
+                              );
+                            }
+                            return null;
+                          })()}
+                        </MenuList>
+                      </Menu>
                     </td>
                   </tr>
                 );
               }
-            )}
+            })}
           </tbody>
         </table>
       </CardBody>
@@ -249,4 +398,6 @@ export default function ListStaff() {
       </CardFooter>
     </Card>
   );
-}
+};
+
+export default ListStaff;
