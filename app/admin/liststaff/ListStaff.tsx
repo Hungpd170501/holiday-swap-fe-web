@@ -251,12 +251,26 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
                         <Chip
                           variant="ghost"
                           size="sm"
-                          value={
-                            item.status === "ACTIVE" ? "Active" : "Blocked"
-                          }
-                          color={
-                            item.status === "ACTIVE" ? "green" : "blue-gray"
-                          }
+                          value={(() => {
+                            if (item.status === "ACTIVE") {
+                              return "ACTIVE";
+                            } else if (item.status === "BLOCKED") {
+                              return "BLOCKED";
+                            } else if (item.status === "PENDING") {
+                              return "PENDING";
+                            }
+
+                            return null;
+                          })()}
+                          color={(() => {
+                            if (item.status === "ACTIVE") {
+                              return "green";
+                            } else if (item.status === "BLOCKED") {
+                              return "red";
+                            } else if (item.status === "PENDING") {
+                              return "orange";
+                            }
+                          })()}
                         />
                       </div>
                     </td>
