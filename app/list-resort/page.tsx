@@ -15,7 +15,7 @@ export default function listResortPage() {
   return (
     <ClientOnly>
       <SearchBarResot />
-      <Container>
+      <Container className="pt-10">
         <ListResort />
       </Container>
     </ClientOnly>
