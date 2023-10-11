@@ -14,9 +14,11 @@ import {
 import InputCreatePropertyType from "./InputCreatePropertyType";
 import InputAmenitiesType from "./InputAmenitiesType";
 import useAxiosAuthClient from "@/app/hooks/useAxiosAuthClient";
+import { Textarea } from "@material-tailwind/react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 interface CreateResortProps {
   amenitiesArray?: any;
@@ -27,15 +29,15 @@ const CreateResort: React.FC<CreateResortProps> = ({
   amenitiesArray,
   propertyTypesArray,
 }) => {
+  const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState<any[]>([]);
   const router = useRouter();
 
   const handleChange = (e: any) => {
-    const selectedFile = e.target.files;
-    if (selectedFile) {
-      const fileArray = Array.from(selectedFile);
-      setFile(fileArray);
+    const selectedFiles = Array.from(e.target.files);
+    if (selectedFiles) {
+      setFile(selectedFiles);
     }
   };
 
@@ -76,33 +78,43 @@ const CreateResort: React.FC<CreateResortProps> = ({
 
     const requestData = {
       resortName: data.resortName,
+      description: data.description,
       locationId: null,
       amenities: data.amenities,
       propertyTypes: data.propertyTypes,
-
-      // resortImage: data.resortImage,
     };
     const resortDataBlob = new Blob([JSON.stringify(requestData)], {
       type: "application/json",
     });
     formData.append("resortRequest", resortDataBlob);
-    formData.append("resortImage", file as any);
+    file.forEach((element) => {
+      formData.append("resortImage", element);
+    });
+    const config = {
+      headers: { Authorization: `Bearer ${session?.user.access_token}` },
+    };
+
     axios
-      .post("https://holiday-swap.click/api/v1/resorts", formData)
+      .post("https://holiday-swap.click/api/v1/resorts", formData, config)
       .then(() => {
         toast.success("Create resort success");
         reset();
       })
       .catch(() => {
         toast.error("Something went wrong");
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
   return (
     <div>
       <div>
-        <span className="hover:underline" onClick={() => router.push("/staff")}>Dashboard</span> {">"}{" "}
-        <span className="text-common">Create Resort</span>
+        <span className="hover:underline" onClick={() => router.push("/staff")}>
+          Dashboard
+        </span>{" "}
+        {">"} <span className="text-common">Create Resort</span>
       </div>
       <div className=" w-[600px] py-10">
         <div className="flex flex-row items-center w-full "></div>
@@ -134,14 +146,18 @@ const CreateResort: React.FC<CreateResortProps> = ({
             required
           />
         </div>
-        {/* <div className=" flex flex-row mb-14">
-          <div className="w-[277px] text-gray-700">Address*</div>
-          <input
-            type="text"
-            placeholder="Address"
-            className="text-gray-800 px-1 w-full bg-[#F8F8F8] border-b border-gray-500 focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent"
+
+        <div className=" flex flex-row mb-14">
+          <div className="w-[277px] text-gray-700">Description</div>
+          <Textarea
+            label="Description*"
+            {...register("description")}
+            id="description"
+            disabled={isLoading}
+            required
           />
-        </div> */}
+        </div>
+
         <div className="flex flex-row mb-10">
           <InputCreatePropertyType
             propertyTypesResort={propertyTypesArray}

@@ -1,15 +1,16 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { ChangeEvent, useCallback, useState } from "react";
+import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import Heading from "../Heading";
 import Input from "../input/Input";
 import Modal from "./Modal";
 import { toast } from "react-hot-toast";
 import useCreatePlanModal from "@/app/hooks/useCreatePlanModal";
 import { Select, Option, Textarea } from "@material-tailwind/react";
 import useAxiosAuthClient from "@/app/hooks/useAxiosAuthClient";
+import { useSession } from "next-auth/react";
+import axios from "axios";
 
 export const priceType = [
   {
@@ -42,17 +43,23 @@ export const planPriceInterval = [
 ];
 
 export default function ModalCreatePlan() {
+  const { data: session } = useSession();
   const router = useRouter();
   const createPlanModal = useCreatePlanModal();
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState<any[]>([]);
+  const [priceTypeValue, setPriceTypeValue] = useState<any>();
+  const [planPriceIntervalValue, setPlanPriceIntervalValue] = useState<any>();
   const axiosAuthClient = useAxiosAuthClient();
 
-  const handleChangeImage = (e: any) => {
+  const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
       return null;
     } else {
-      setFile(e.target.files[0]);
+      const selectedFile = Array.from(e.target.files);
+      if (selectedFile) {
+        setFile(selectedFile);
+      }
     }
   };
 
@@ -60,8 +67,9 @@ export default function ModalCreatePlan() {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
-  } = useForm<FieldValues>();
+  } = useForm();
 
   const setCustomeValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -71,35 +79,44 @@ export default function ModalCreatePlan() {
     });
   };
 
-  const handleChangePriceType = (e: ChangeEvent<HTMLSelectElement>) => {
-    setCustomeValue("priceType", e);
+  const handleChangePriceType = (value: any) => {
+    setPriceTypeValue(value);
   };
 
-  const handleChangePlanPriceInterval = (e: ChangeEvent<HTMLSelectElement>) => {
-    setCustomeValue("planPriceInterval", e);
+  const handleChangePlanPriceInterval = (value: any) => {
+    setPlanPriceIntervalValue(value);
   };
+
+  useEffect(() => {
+    setCustomeValue("priceType", priceTypeValue);
+    setCustomeValue("planPriceInterval", planPriceIntervalValue);
+  }, [priceTypeValue, planPriceIntervalValue, file]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
     const formData = new FormData();
-
-    const planName = data.planName;
-    const description = data.description;
-    const price = data.price;
-    const priceType = data.priceType;
-    const planPriceInterval = data.planPriceInterval;
 
     formData.append("planName", data.planName);
     formData.append("description", data.description);
     formData.append("price", data.price);
     formData.append("priceType", data.priceType);
     formData.append("planPriceInterval", data.planPriceInterval);
-    formData.append("image", file as any);
+    formData.append(
+      "image",
+      new Blob([JSON.stringify(file)], { type: "image/jpeg" })
+    );
 
-    axiosAuthClient
-      .post("/plan", formData)
+    const config = {
+      headers: { Authorization: `Bearer ${session?.user.access_token}` },
+    };
+
+    axios
+      .post("https://holiday-swap.click/api/v1/plan", formData, config)
       .then(() => {
         toast.success("Create plan success");
+        reset();
+        setPriceTypeValue(null);
+        setPlanPriceIntervalValue(null);
       })
       .catch(() => {
         toast.error("Something went wrong");
@@ -137,9 +154,9 @@ export default function ModalCreatePlan() {
       <div className="grid grid-cols-2 gap-4">
         <Select
           id="priceType"
-          onChange={() => handleChangePriceType}
           label="Price Type"
-          value=""
+          value={priceTypeValue}
+          onChange={handleChangePriceType}
         >
           {priceType.map((item) => (
             <Option key={item.id} value={item.priceType}>
@@ -148,10 +165,10 @@ export default function ModalCreatePlan() {
           ))}
         </Select>
         <Select
-          onChange={() => handleChangePlanPriceInterval}
           label="Plan Price Interval"
           id="planPriceInterval"
-          value=""
+          value={planPriceIntervalValue}
+          onChange={handleChangePlanPriceInterval}
         >
           {planPriceInterval.map((item) => (
             <Option key={item.id} value={item.planPriceInterval}>

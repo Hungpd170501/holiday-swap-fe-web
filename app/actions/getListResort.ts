@@ -1,9 +1,11 @@
+"use client";
+
 import axios from "axios";
 
-export default async function getListResort() {
+export default async function getListResort(pageNo: string) {
   try {
     const listResort = await axios.get(
-      `${process.env.API_URL}/resorts?pageNo=0&pageSize=10`
+      `https://holiday-swap.click/api/v1/resorts?pageNo=${pageNo}&pageSize=9`
     );
 
     if (!listResort) {

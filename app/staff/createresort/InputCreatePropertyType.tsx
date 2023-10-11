@@ -62,8 +62,6 @@ const InputCreatePropertyType: React.FC<InputCreatePropertyTypeProps> = ({
             <Fragment key={index}>{propertyType}</Fragment>
           ))}
         </div>
-
-   
       </Fragment>
       <button onClick={handleAddPropertyType}>
         <AiOutlinePlusCircle size={30} />

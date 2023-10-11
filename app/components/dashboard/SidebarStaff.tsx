@@ -5,8 +5,12 @@ import { GrPersonalComputer, GrSecure, GrUpgrade } from "react-icons/gr";
 import { FiEdit } from "react-icons/fi";
 import { PiNotepadBold } from "react-icons/pi";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
+import { IoCreateOutline } from "react-icons/io5";
 import { AiOutlineStar } from "react-icons/ai";
-import { MdOutlineSwapHorizontalCircle } from "react-icons/md";
+import {
+  MdOutlineSwapHorizontalCircle,
+  MdCreateNewFolder,
+} from "react-icons/md";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { IoBanSharp } from "react-icons/io5";
@@ -40,13 +44,13 @@ const SidebarStaff = () => {
     {
       name: "Create Resort",
       href: "/staff/createresort",
-      icon: GrSecure,
+      icon: MdCreateNewFolder,
       current: pathName === "/staff/createresort" ? true : false,
     },
     {
       name: "Create Property",
       href: "/staff/createproperty",
-      icon: GrSecure,
+      icon: IoCreateOutline,
       current: pathName === "/staff/createproperty" ? true : false,
     },
   ];

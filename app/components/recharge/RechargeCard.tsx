@@ -4,15 +4,17 @@ import useAxiosAuthClient from "@/app/hooks/useAxiosAuthClient";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
+import axios from "axios";
 
 export default function RechargeCard() {
   const [clickedCard, setClickedCard] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [amount, setAmount] = useState("0");
   const [orderInfor, setOrderInfor] = useState("nap_tien_vnp");
-  const returnUrl = "http://localhost:3000";
+  const returnUrl = "http://localhost:3000/recharge/success";
   const axiosAuthClient = useAxiosAuthClient();
   const router = useRouter();
+  const { data: session } = useSession();
 
   const handleCardClick = (index: number) => {
     if (clickedCard === index) {
@@ -62,15 +64,30 @@ export default function RechargeCard() {
     orderInfor: string,
     returnUrl: string
   ) => {
-    const res = await axiosAuthClient(
-      `/payment/Create_payment?amount=${amount}&orderInfor=${orderInfor}&returnURL=${returnUrl}`
-    );
-    console.log(amount);
-    if (res.status === 200) {
-      router.push(res.data.url);
-    } else {
-      toast.error("Some thing went wrong!");
-    }
+    // const res = await axiosAuthClient(
+    //   `/payment/Create_payment?amount=${amount}&orderInfor=${orderInfor}&returnURL=${returnUrl}`
+    // );
+    // console.log(amount);
+    // if (res.status === 200) {
+    //   router.push(res.data.url);
+    // } else {
+    //   toast.error("Some thing went wrong!");
+    // }
+    const config = {
+      headers: { Authorization: `Bearer ${session?.user.access_token}` },
+    };
+    axios
+      .get(
+        `https://holiday-swap.click/api/v1/payment/Create_payment?amount=${amount}&orderInfor=${orderInfor}&returnURL=${returnUrl}`,
+        config
+      )
+      .then((response) => {
+        router.push(response.data.url);
+      })
+      .catch((response) => {
+        console.log("Response", response.response.data.message);
+        toast.error(response.response.data.message);
+      });
   };
   return (
     <div className="px-20">
