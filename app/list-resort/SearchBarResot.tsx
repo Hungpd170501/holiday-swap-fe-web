@@ -6,7 +6,7 @@ import { BiSearch } from "react-icons/bi";
 
 const SearchBarResot = () => {
   return (
-    <div className="bg-[#5C98F2] flex items-center py-24 justify-center relative">
+    <div className="bg-resort-banner bg-cover bg-no-repeat bg-center flex items-center py-64 justify-center relative opacity-80">
       <div className="bg-white rounded-3xl md:w-[830px] w-auto flex-row z-20 grid md:grid-cols-4 sm:grid-cols-1 absolute mt-36">
         <div className="flex flex-col gap-2 p-6">
           <p>Name resort</p>

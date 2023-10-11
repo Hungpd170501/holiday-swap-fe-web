@@ -19,6 +19,9 @@ module.exports = withMT({
       borderColor: {
         common: "#5C98F2",
       },
+      backgroundImage: {
+        "resort-banner": "url('/images/resort1.jpg')",
+      },
     },
   },
   plugins: [],
