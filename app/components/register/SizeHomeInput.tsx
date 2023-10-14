@@ -4,36 +4,48 @@ import React, { useState } from "react";
 import { IconType } from "react-icons/lib";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { GrSubtractCircle } from "react-icons/gr";
+import Image from "next/image";
+import { FieldValues, UseFormRegister } from "react-hook-form";
 
 interface SizeHomeInputProps {
-  icon: IconType;
+  id: string;
+  icon: string;
   label: string;
   count: number;
+  register: UseFormRegister<FieldValues>;
+  setCustomeValue: (id: string, value: any[]) => void;
 }
 
 const SizeHomeInput: React.FC<SizeHomeInputProps> = ({
-  icon: Icon,
+  id,
+  register,
+  icon,
   label,
   count,
+  setCustomeValue,
 }) => {
   const [number, setNumber] = useState(count);
 
   const descreaseCount = (count: number) => {
     if (count <= 1) {
-      return 0;
+      return count;
+    } else {
+      setNumber((value) => value - 1);
+      const newCount = count - 1;
+      setCustomeValue(id, newCount as any);
     }
-
-    setNumber((value) => value - 1);
   };
 
   const increaseCount = (count: number) => {
     setNumber((value) => value + 1);
+    const newCount = count + 1;
+    setCustomeValue(id, newCount as any);
   };
 
   return (
     <div className="grid grid-cols-2 gap-6 py-4">
       <div className="gap-3 flex items-center">
-        <Icon size={50} />
+        <Image src={icon} width={40} height={40} alt="icon" />
         <p>{label}</p>
       </div>
 
@@ -45,7 +57,12 @@ const SizeHomeInput: React.FC<SizeHomeInputProps> = ({
         >
           <GrSubtractCircle size={30} />
         </button>
-        <div className="w-4">{number}</div>
+        <input
+          id={id}
+          value={number}
+          {...register(id)}
+          className="w-4 border-0 outline-none focus:outline-none"
+        />
         <button
           onClick={() => increaseCount(number)}
           type="button"

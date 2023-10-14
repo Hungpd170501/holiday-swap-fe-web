@@ -82,61 +82,66 @@ export const locations = [
 
 export const sizes = [
   {
+    id: "numberBedsRoom",
     label: "Bedrooms",
-    icon: MdOutlineBedroomParent,
+    icon: "/images/icons/bed-room.png",
     count: 1,
   },
   {
+    id: "numberBathRoom",
     label: "Bathrooms",
-    icon: MdOutlineBathroom,
+    icon: "/images/icons/bath-room.png",
     count: 1,
   },
 ];
 
 export const peoples = [
   {
-    label: "Single beds",
-    icon: MdSingleBed,
+    id: "numberKingBeds",
+    label: "King beds",
+    icon: "/images/icons/king-bed.png",
     count: 0,
   },
   {
-    label: "Double beds",
-    icon: LiaBedSolid,
+    id: "numberQueenBeds",
+    label: "Queen beds",
+    icon: "/images/icons/queen-bed.png",
     count: 0,
   },
   {
-    label: "Big double beds",
-    icon: LiaBedSolid,
+    id: "numberSingleBeds",
+    label: "Single Beds",
+    icon: "/images/icons/single-bed.png",
     count: 0,
   },
   {
-    label: "Children's beds",
-    icon: MdSingleBed,
+    id: "numberDoubleBeds",
+    label: "Double Beds",
+    icon: "/images/icons/double-bed.png",
     count: 0,
   },
   {
-    label: "Baby cribs",
-    icon: MdOutlineCrib,
+    id: "numberTwinBeds",
+    label: "Twin Beds",
+    icon: "/images/icons/twin-bed.png",
     count: 0,
   },
   {
-    label: "Single put-up beds",
-    icon: GiPersonInBed,
+    id: "numberFullBeds",
+    label: "Full Beds",
+    icon: "/images/icons/double-bed.png",
     count: 0,
   },
   {
-    label: "Double put-up beds",
-    icon: LiaBedSolid,
+    id: "numberSofaBeds",
+    label: "Sofa Beds",
+    icon: "/images/icons/sofa-bed.png",
     count: 0,
   },
   {
-    label: "Children's put-up beds",
-    icon: GiPersonInBed,
-    count: 0,
-  },
-  {
-    label: "Portable cribs",
-    icon: MdOutlineCrib,
+    id: "numberMurphyBeds",
+    label: "Murphy Beds",
+    icon: "/images/icons/murphy-bed.png",
     count: 0,
   },
 ];

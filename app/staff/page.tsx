@@ -3,7 +3,7 @@ import requireAuth from "../libs/requireAuth";
 import DashBoardStaff from "./dashboardstaff/page";
 
 export const metadata = {
-  title: "DashBoard",
+  title: "Staff Dashboard",
 };
 
 export default async function DashBoard() {
@@ -12,6 +12,7 @@ export default async function DashBoard() {
       <div>
         <DashBoardStaff />
       </div>
-    </div>
+    </div>,
+    [3]
   );
 }

@@ -12,7 +12,6 @@ const useAxiosAuthClient = () => {
   // Create a new instance of Axios with the interceptor
   const axiosWithAuth = axios.create({
     baseURL: BASE_URL,
-    headers: { "Content-Type": "application/json" },
   });
 
   useEffect(() => {
