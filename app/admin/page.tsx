@@ -12,6 +12,7 @@ export default async function DashBoard() {
       <div>
         <DashboardAdminPage />
       </div>
-    </div>
+    </div>,
+    [1]
   );
 }

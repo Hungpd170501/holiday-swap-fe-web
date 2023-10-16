@@ -11,6 +11,7 @@ import { Suspense } from "react";
 import Loading from "./loading";
 import ModalDetailProperty from "./components/modal/ModalDetailProperty";
 import ModalCreatePlan from "./components/modal/ModalCreatePlan";
+import ModalCreateOwnership from "./components/modal/ModalCreateOwnership";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -42,6 +43,7 @@ export default async function RootLayout({
               <ModalDetailProperty />
               <ModalLogin />
               <ModalCreatePlan />
+              <ModalCreateOwnership />
               <ToasterProvider />
             </ClientOnly>
 

@@ -15,6 +15,6 @@ export default async function DashBoard() {
         <MyProfile currentUser={currentUser} />
       </div>
     </div>,
-    [2]
+    [2, 1]
   );
 }

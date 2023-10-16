@@ -1,5 +1,6 @@
 "use client";
 
+import useCreateOwnershipModal from "@/app/hooks/useCreateOwnershipModal";
 import {
   MagnifyingGlassIcon,
   ChevronUpDownIcon,
@@ -102,6 +103,7 @@ interface OwnershipProps {
 
 const Ownership: React.FC<OwnershipProps> = ({ ownershipUser }) => {
   const [ownershipUserList, setOwnershipUserList] = useState(ownershipUser);
+  const createOwnershipModal = useCreateOwnershipModal();
 
   return (
     <Card className="h-full w-full">
@@ -113,7 +115,11 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser }) => {
             </Typography>
           </div>
           <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-            <Button className="flex items-center gap-3" size="sm">
+            <Button
+              onClick={createOwnershipModal.onOpen}
+              className="flex items-center gap-3"
+              size="sm"
+            >
               <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Add ownership
             </Button>
           </div>
@@ -224,7 +230,7 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser }) => {
                       />
                     </div>
                   </td>
-                
+
                   <td className={classes}>
                     <div className="w-max">
                       <Chip
