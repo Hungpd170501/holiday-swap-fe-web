@@ -28,13 +28,13 @@ const ModalDetailProperty = () => {
       </div>
       <div className="w-2/6 h-full overflow-x-hidden overflow-y-auto">
         <div className="font-bold text-common text-lg">
-          {data?.propertyType.propertyTypeName}
+          {data?.propertyName}
         </div>
 
         <div className="flex flex-row items-center gap-2">
           <BiSolidBed size={18} color="#5C98F2" />
           <div className="text-base text-common font-bold">
-            {data?.propertyType.propertyTypeDescription}
+            {data?.propertyDescription}
           </div>
         </div>
 

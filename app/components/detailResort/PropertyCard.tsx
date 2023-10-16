@@ -30,7 +30,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ data, id }) => {
             className="font-semibold mr-3 text-[20px] cursor-pointer hover:underline"
             onClick={() => detailPropertyModal.onOpen(data, id)}
           >
-            {data?.propertyType?.propertyTypeName}
+            {data?.propertyName}
           </div>
           <p className="text-common text-[15px] bg-green-50 px-[2px] py-[2px]">
             Private Swimming Pool
@@ -53,56 +53,8 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ data, id }) => {
               <div className="py-2">
                 <BiSolidBed size={30} />
               </div>
-              <p className="text-[17px] font-bold">
-                {`${
-                  data.numberKingBeds !== 0
-                    ? `${
-                        data.numberKingBeds !== 1
-                          ? `${data.numberKingBeds} king beds`
-                          : `${data.numberKingBeds} king bed`
-                      }`
-                    : ""
-                } ${
-                  data.numberQueensBeds !== 0
-                    ? `${
-                        data.numberQueensBeds !== 1
-                          ? ` and ${data.numberQueensBeds} queen beds`
-                          : ` and ${data.numberQueensBeds} queen bed`
-                      }`
-                    : ""
-                } ${
-                  data.numberTwinBeds !== 0
-                    ? `${
-                        data.numberTwinBeds !== 1
-                          ? ` and ${data.numberTwinBeds} twin beds`
-                          : ` and ${data.numberTwinBeds} twin bed`
-                      }`
-                    : ""
-                } ${
-                  data.numberFullBeds !== 0
-                    ? `${
-                        data.numberFullBeds !== 1
-                          ? ` and ${data.numberFullBeds} full beds`
-                          : ` and ${data.numberFullBeds} full bed`
-                      }`
-                    : ""
-                } ${
-                  data.numberSofaBeds !== 0
-                    ? `${
-                        data.numberSofaBeds !== 1
-                          ? ` and ${data.numberSofaBeds} sofa beds`
-                          : ` and ${data.numberSofaBeds} sofa bed`
-                      }`
-                    : ""
-                } ${
-                  data.numberMurphyBeds !== 0
-                    ? `${
-                        data.numberMurphyBeds !== 1
-                          ? ` and ${data.numberMurphyBeds} murphy beds`
-                          : ` and ${data.numberMurphyBeds} murphy bed`
-                      }`
-                    : ""
-                }`}
+              <p className="text-[17px] font-bold w-52">
+                {data?.propertyDescription}
               </p>
             </div>
             <div className="flex flex-row items-center mt-2">
@@ -143,7 +95,10 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ data, id }) => {
               <FaBath color="#616161" />
               <span className="text-[15px] ml-2 text-gray-700">Bathub</span>
             </div>
-            <div className="text-common underline cursor-pointer">
+            <div
+              className="text-common hover:underline cursor-pointer"
+              onClick={() => detailPropertyModal.onOpen(data, id)}
+            >
               Room Amenities
             </div>
           </div>
@@ -210,8 +165,8 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ data, id }) => {
                       <p className="text-red-700 text-[15px]">
                         Only 1 room left
                       </p>
-                      <button className="bg-[#2B5BEA] text-white px-2 py-2 rounded-md">
-                        Access Lower Price
+                      <button className="hover:bg-[#2B5BEA] bg-common text-white px-2 py-2 rounded-md">
+                        Booking
                       </button>
                     </div>
                   </div>

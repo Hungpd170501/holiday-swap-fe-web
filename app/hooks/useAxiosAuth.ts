@@ -10,7 +10,6 @@ async function useAxiosAuth() {
   // Create a new instance of Axios with the interceptor
   const axiosWithAuth = axios.create({
     baseURL: BASE_URL,
-    headers: { "Content-Type": "application/json" },
   });
 
   axiosWithAuth.interceptors.request.use((config) => {

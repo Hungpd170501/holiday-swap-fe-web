@@ -43,7 +43,7 @@ const ResortPage = async ({ params }: { params: IParams }) => {
           </div>
         </div> */}
         <div className=" w-full">
-          {properties?.map((item: any) => (
+          {resort?.propertyResponses.map((item: any) => (
             <PropertyCard key={item.id} data={item} id={item.id} />
           ))}
         </div>

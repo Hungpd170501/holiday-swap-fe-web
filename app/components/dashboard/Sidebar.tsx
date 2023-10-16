@@ -5,7 +5,7 @@ import { GrPersonalComputer, GrSecure } from "react-icons/gr";
 import { FiEdit } from "react-icons/fi";
 import { PiNotepadBold } from "react-icons/pi";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
-import { AiOutlineStar } from "react-icons/ai";
+import { AiOutlineStar, AiOutlineHome } from "react-icons/ai";
 import { MdOutlineSwapHorizontalCircle } from "react-icons/md";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -35,6 +35,12 @@ const Sidebar = () => {
       href: "/dashboard/changePassword",
       icon: GrSecure,
       current: pathName === "/dashboard/changePassword" ? true : false,
+    },
+    {
+      name: "Ownership",
+      href: "/dashboard/ownership",
+      icon: AiOutlineHome,
+      current: pathName === "/dashboard/ownership" ? true : false,
     },
   ];
 

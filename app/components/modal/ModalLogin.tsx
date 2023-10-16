@@ -37,7 +37,7 @@ export default function ModalLogin() {
       }
 
       if (callback?.error) {
-        toast.error(callback.error);
+        toast.error("Invalid email or password");
       }
     });
   };
