@@ -33,6 +33,7 @@ import { BsCheck2Circle } from "react-icons/bs";
 import { MdOutlinePending } from "react-icons/md";
 import useAxiosAuthClient from "@/app/hooks/useAxiosAuthClient";
 import toast from "react-hot-toast";
+import { useSession } from "next-auth/react";
 
 const TABS = [
   {
@@ -83,13 +84,17 @@ interface ListStaffProps {
 
 const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
   const [userList, setUserList] = useState(listUser?.content || []);
+  const { data: session } = useSession();
 
   const axiosAuthClient = useAxiosAuthClient();
 
   const handleOnChangeStatus = (id: any, value: any) => {
     const body = value;
+    const config = {
+      headers: { "Content-type": "application/json" },
+    };
     axiosAuthClient
-      .put(`/users/${id}/status`, body)
+      .put(`/users/${id}/status`, body, config)
       .then(() => {
         toast.success("Update status success");
         setUserList((prevUserList: any) =>
