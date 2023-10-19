@@ -163,7 +163,7 @@ const ListMembershipAll: React.FC<ListMembershipAllProps> = ({ users }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {users?.map((row: any) => (
+            {users?.content.map((row: any) => (
               <StyledTableRow key={row.userId}>
                 <StyledTableCell
                   className="!py-5 !text-common"

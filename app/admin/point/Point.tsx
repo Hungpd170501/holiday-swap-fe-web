@@ -110,7 +110,8 @@ const Point: React.FC<PointProps> = ({ point }) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {format(new Date(listPoint?.pointCreatedDate), "dd-MM-yyyy")}
+                  {/* {format(new Date(listPoint?.pointCreatedDate), "dd-MM-yyyy")} */}
+                  16-10-2023
                 </Typography>
               </td>
               <td className="p-4">

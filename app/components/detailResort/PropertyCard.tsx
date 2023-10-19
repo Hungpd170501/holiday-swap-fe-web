@@ -13,6 +13,7 @@ import { BsQuestionCircle, BsWifi } from "react-icons/bs";
 import { MdBalcony } from "react-icons/md";
 import useDetailPropertyModal from "@/app/hooks/useDetailPropertyModal";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface PropertyCardProps {
   data?: any;
@@ -21,6 +22,7 @@ interface PropertyCardProps {
 
 const PropertyCard: React.FC<PropertyCardProps> = ({ data, id }) => {
   const detailPropertyModal = useDetailPropertyModal();
+  const router = useRouter();
 
   return (
     <>
@@ -165,7 +167,10 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ data, id }) => {
                       <p className="text-red-700 text-[15px]">
                         Only 1 room left
                       </p>
-                      <button className="hover:bg-[#2B5BEA] bg-common text-white px-2 py-2 rounded-md">
+                      <button
+                        onClick={() => router.push("/booking")}
+                        className="hover:bg-[#2B5BEA] bg-common text-white px-2 py-2 rounded-md"
+                      >
                         Booking
                       </button>
                     </div>

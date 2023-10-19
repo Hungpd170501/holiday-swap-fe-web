@@ -54,7 +54,13 @@ const ModalDetailProperty = () => {
                   key={amenity.id}
                   className="flex flex-row items-center my-2"
                 >
-                  <AiOutlineCheckCircle size={20} />
+                  {/* <AiOutlineCheckCircle size={20} /> */}
+                  <Image
+                    src={amenity.inRoomAmenityLinkIcon}
+                    height={30}
+                    width={30}
+                    alt="icon"
+                  />
                   <div className="text-sm">{amenity?.inRoomAmenityName}</div>
                 </div>
               ))}

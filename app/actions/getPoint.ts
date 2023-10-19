@@ -5,6 +5,8 @@ export default async function getPoint() {
     const axiosAuth = useAxiosAuth();
     const point = await (await axiosAuth).get("/point");
 
+    console.log("Check point", point.data);
+
     if (!point) {
       return null;
     }
