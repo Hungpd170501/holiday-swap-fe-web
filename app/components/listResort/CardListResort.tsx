@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { AiTwotoneStar } from "react-icons/ai";
 import { BsClock } from "react-icons/bs";
+import { Carousel } from "@material-tailwind/react";
 
 interface CardListResortProps {
   data: any;
@@ -13,35 +14,32 @@ interface CardListResortProps {
 const CardListResort: React.FC<CardListResortProps> = ({ data }) => {
   const route = useRouter();
   return (
-    <div
-      onClick={() => route.push(`/list-resort/${data.id}`)}
-      className="flex flex-col cursor-pointer "
-    >
-      <div className="overflow-hidden object-cover rounded-t-xl w-full h-[200px] ">
-        <Image
-          src={data?.resortImages[0]?.link}
-          alt="destination"
-          height={800}
-          width={350}
-          className="object-cover rounded-t-xl relative hover:scale-110 hover:transition-transform duration-500 hover:duration-500"
-        />
+    <div className="flex flex-col cursor-pointer">
+      <div>
+        <Carousel className="relative rounded-t-xl w-full h-[400px] rounded-xl z-40">
+          {data?.resortImages.slice(0, 5).map((item: any) => (
+            <Image
+              onClick={() => route.push(`/apartment/${data.id}`)}
+              key={item.id}
+              src={item.link}
+              alt="destination"
+              fill
+              className="object-cover h-full rounded-xl"
+            />
+          ))}
+        </Carousel>
       </div>
-      <div className="bg-white w-[350px] h-[270px] shadow-xl rounded-b-xl pl-[50px] pr-[100px] py-[30px] md:W-[20px]">
-        <div className="text-[20px]">{data?.resortName}</div>
-        <div className="flex flex-row items-center py-2 ">
-          <AiTwotoneStar color="yellow" />
-          <AiTwotoneStar color="yellow" />
-          <AiTwotoneStar color="yellow" />
-          <AiTwotoneStar color="yellow" />
-          <span className="pl-1">(1 Review)</span>
-        </div>
-        <div className="flex flex-row items-center pt-3 pb-5">
-          <BsClock />
-          <span className="pl-1">5 Hours</span>
-        </div>
-        <div className="flex flex-row">
-          <div>From</div>
-          <div className="text-xl text-blue-300 pl-5">$700</div>
+      <div
+        onClick={() => route.push(`/apartment/${data.id}`)}
+        className="w-full py-5"
+      >
+        <div className="text-base font-bold">{data?.resortName}</div>
+        <div className="text-gray-600 text-base">Stay with Tin</div>
+        <div className="text-gray-600 text-base">6 - 11 Nov</div>
+        <div className="py-2 text-base">
+          <div>
+            <span className="font-bold">50 point</span> night
+          </div>
         </div>
       </div>
     </div>

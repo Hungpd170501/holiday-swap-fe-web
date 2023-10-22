@@ -61,7 +61,7 @@ const ModalBaseDetail: React.FC<ModalBaseDetailProps> = ({
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-hidden fixed inset-0 z-50 outline-none focus:outline-none bg-gray-800/70">
-        <div className="relative w-full md:w-5/6 my-6 mx-auto h-full lg:h-[700px] md:h-[700px]">
+        <div className="relative w-full md:w-4/6 my-6 mx-auto h-full lg:h-[700px] md:h-[700px]">
           {/* Content */}
           <div
             className={`translate duration-300 h-full ${

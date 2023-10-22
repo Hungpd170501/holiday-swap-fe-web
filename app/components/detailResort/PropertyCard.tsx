@@ -24,6 +24,8 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ data, id }) => {
   const detailPropertyModal = useDetailPropertyModal();
   const router = useRouter();
 
+  const handleBooking = () => {};
+
   return (
     <>
       <div className="bg-white rounded-lg w-full h-auto py-3 px-2 shadow-lg mb-4">

@@ -12,6 +12,7 @@ module.exports = withMT({
       backgroundColor: {
         common: "#5C98F2",
         header: "#F8F8F8",
+        hover: "#5393f3",
       },
       colors: {
         common: "#5C98F2",

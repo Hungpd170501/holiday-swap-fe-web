@@ -12,6 +12,7 @@ import Loading from "./loading";
 import ModalDetailProperty from "./components/modal/ModalDetailProperty";
 import ModalCreatePlan from "./components/modal/ModalCreatePlan";
 import ModalCreateOwnership from "./components/modal/ModalCreateOwnership";
+import ModalApartmentAmenities from "./components/modal/ModalApartmentAmenities";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -44,6 +45,7 @@ export default async function RootLayout({
               <ModalLogin />
               <ModalCreatePlan />
               <ModalCreateOwnership />
+              <ModalApartmentAmenities />
               <ToasterProvider />
             </ClientOnly>
 

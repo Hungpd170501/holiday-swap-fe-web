@@ -43,10 +43,33 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
         <div className="absolute rounded-xl shadow-md w-[40vw] md:w-52 bg-white overflow-hidden right-20 top-24 text-sm">
           <div className="flex flex-col cursor-pointer">
             <Fragment>
-              <MenuItem
-                onClick={() => handleRouter("/dashboard")}
-                label="Dashboard"
-              />
+              {(() => {
+                if (currentUser?.role.roleId === 1) {
+                  return (
+                    <MenuItem
+                      onClick={() => handleRouter("/admin")}
+                      label="Dashboard Admin"
+                    />
+                  );
+                } else if (
+                  currentUser?.role.roleId === 2 ||
+                  currentUser?.role.roleId === 4
+                ) {
+                  return (
+                    <MenuItem
+                      onClick={() => handleRouter("/dashboard")}
+                      label="Dashboard"
+                    />
+                  );
+                } else if (currentUser?.role.roleId === 3) {
+                  return (
+                    <MenuItem
+                      onClick={() => handleRouter("/staff")}
+                      label="Dashboard Staff"
+                    />
+                  );
+                }
+              })()}
               <MenuItem
                 onClick={() => handleRouter("/recharge")}
                 label="Recharge"

@@ -1,10 +1,12 @@
-import ListApproveResort from "@/app/components/staff/ListApproveResort";
+import getOwnershipStaff from "@/app/actions/getOwnershipStaff";
+import ListApproveOwnership from "@/app/components/staff/ListApproveOwnership";
 import React from "react";
 
-export default function ListApprove() {
+export default async function ListApprove() {
+  const ownershipStaff = await getOwnershipStaff();
   return (
     <div>
-      <ListApproveResort />
+      <ListApproveOwnership ownershipStaff={ownershipStaff} />
     </div>
   );
 }

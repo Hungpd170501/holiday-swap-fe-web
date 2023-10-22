@@ -6,6 +6,8 @@ import getListResort from "../actions/getListResort";
 import DetailPropertyModal from "../components/modal/ModalBaseDetail";
 import ListResort from "./ListResort";
 import SearchBarResot from "./SearchBarResot";
+import CalendarAparment from "./CalendarAparment";
+import ListAparment from "./ListAparment";
 
 // export const metadata = {
 //   title: "List Resort",
@@ -14,10 +16,7 @@ import SearchBarResot from "./SearchBarResot";
 export default function listResortPage() {
   return (
     <ClientOnly>
-      <SearchBarResot />
-      <Container className="pt-10">
-        <ListResort />
-      </Container>
+      <ListAparment />
     </ClientOnly>
   );
 }

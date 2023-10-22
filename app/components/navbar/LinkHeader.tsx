@@ -24,13 +24,13 @@ const LinkHeader = () => {
         )}
       </div>
       <div
-        onClick={() => router.push("/list-resort")}
+        onClick={() => router.push("/apartment")}
         className={`hover:text-black cursor-pointer flex flex-col items-center ${
-          pathname === "/list-resort" ? "text-black" : ""
+          pathname === "/apartment" ? "text-black" : ""
         }`}
       >
-        Resort
-        {pathname === "/list-resort" ? (
+        Aparment
+        {pathname === "/apartment" ? (
           <span className="bg-gray-300 rounded-full w-2 h-2"></span>
         ) : (
           <span></span>

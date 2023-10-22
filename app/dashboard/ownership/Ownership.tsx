@@ -99,10 +99,13 @@ const TABLE_ROWS = [
 
 interface OwnershipProps {
   ownershipUser?: any;
+  resort?: any;
+  currentUser?: any;
 }
 
-const Ownership: React.FC<OwnershipProps> = ({ ownershipUser }) => {
+const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUser }) => {
   const [ownershipUserList, setOwnershipUserList] = useState(ownershipUser);
+  const [listResort, setListResort] = useState(resort);
   const createOwnershipModal = useCreateOwnershipModal();
 
   return (
@@ -116,7 +119,7 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser }) => {
           </div>
           <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
             <Button
-              onClick={createOwnershipModal.onOpen}
+              onClick={() => createOwnershipModal.onOpen(listResort.content, currentUser)}
               className="flex items-center gap-3"
               size="sm"
             >
@@ -166,7 +169,7 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser }) => {
             </tr>
           </thead>
           <tbody>
-            {ownershipUserList.map((item: any, index: any) => {
+            {ownershipUserList?.content.map((item: any, index: any) => {
               const isLast = index === ownershipUserList.length - 1;
               const classes = isLast
                 ? "p-4"
