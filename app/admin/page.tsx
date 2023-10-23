@@ -3,7 +3,7 @@ import requireAuth from "../libs/requireAuth";
 import DashboardAdminPage from "./dashboard/page";
 
 export const metadata = {
-  title: "DashBoard",
+  title: "Dashboard Admin",
 };
 
 export default async function DashBoard() {

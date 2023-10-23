@@ -3,6 +3,10 @@ import CreateProperty from "./CreateProperty";
 import getPropertyView from "@/app/actions/getPropertyView";
 import getInRoomAmenities from "@/app/actions/getInRoomAmenities";
 
+export const metadata = {
+  title: "Create Property",
+};
+
 export default async function CreatePropertyPage() {
   const propertyTypes = await getPropertyType();
   const propertyViews = await getPropertyView();

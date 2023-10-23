@@ -13,6 +13,7 @@ import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import useAxiosAuthClient from "@/app/hooks/useAxiosAuthClient";
 import toast from "react-hot-toast";
 
+
 const TABLE_HEAD = ["ID", "Point Price", "Created Date", "Status", ""];
 
 interface PointProps {

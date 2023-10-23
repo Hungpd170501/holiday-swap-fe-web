@@ -9,9 +9,9 @@ import SearchBarResot from "./SearchBarResot";
 import CalendarAparment from "./CalendarAparment";
 import ListAparment from "./ListAparment";
 
-// export const metadata = {
-//   title: "List Resort",
-// };
+export const metadata = {
+  title: "Apartments",
+};
 
 export default function listResortPage() {
   return (

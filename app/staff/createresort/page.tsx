@@ -4,6 +4,10 @@ import CreateResort from "./CreateResort";
 import getAmenityResortType from "@/app/actions/getAmenityResortType";
 import getPropertyType from "@/app/actions/getPropertyType";
 
+export const metadata = {
+  title: "Create Resort",
+};
+
 export default async function CreateResortPage() {
   const amineties = await getAmenityResortType();
   const propertyTypes = await getPropertyType();

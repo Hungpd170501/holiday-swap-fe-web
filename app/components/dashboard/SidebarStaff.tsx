@@ -70,10 +70,10 @@ const SidebarStaff = () => {
   ];
   const sidebarExchange = [
     {
-      name: "List Approve",
-      href: "/staff/listapprove",
+      name: "List Approve Ownership",
+      href: "/staff/listapproveOwnership",
       icon: MdOutlineSwapHorizontalCircle,
-      current: pathName === "/staff/listapprove" ? true : false,
+      current: pathName === "/staff/listapproveOwnership" ? true : false,
     },
     {
       name: "Infomation",

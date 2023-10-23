@@ -2,6 +2,10 @@ import getListResort from "@/app/actions/getListResort";
 import ListResortAll from "@/app/components/staff/ListResortAll";
 import React from "react";
 
+export const metadata = {
+  title: "List Resort Staff",
+};
+
 export default async function ListResort() {
   const resorts = await getListResort("0");
   return (

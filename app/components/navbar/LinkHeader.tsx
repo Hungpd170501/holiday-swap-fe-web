@@ -36,12 +36,7 @@ const LinkHeader = () => {
           <span></span>
         )}
       </div>
-      <div
-        onClick={() => router.push("/dashboard")}
-        className="hover:text-black cursor-pointer"
-      >
-        Apartment
-      </div>
+     
     </div>
   );
 };
