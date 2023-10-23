@@ -1,20 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
-import { GrPersonalComputer, GrSecure, GrUpgrade } from "react-icons/gr";
 import { FiEdit } from "react-icons/fi";
 import { PiNotepadBold } from "react-icons/pi";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 import { IoCreateOutline } from "react-icons/io5";
-import { AiOutlineStar } from "react-icons/ai";
 import {
   MdOutlineSwapHorizontalCircle,
-  MdCreateNewFolder,
+  MdComputer,
+  MdOutlineCreateNewFolder,
 } from "react-icons/md";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { IoBanSharp } from "react-icons/io5";
 import { signOut } from "next-auth/react";
+import { LuArrowUpSquare } from "react-icons/lu";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -32,7 +31,7 @@ const SidebarStaff = () => {
     {
       name: "Dashboard",
       href: "/staff",
-      icon: GrPersonalComputer,
+      icon: MdComputer,
       current: pathName === "/staff" ? true : false,
     },
     {
@@ -44,7 +43,7 @@ const SidebarStaff = () => {
     {
       name: "Create Resort",
       href: "/staff/createresort",
-      icon: MdCreateNewFolder,
+      icon: MdOutlineCreateNewFolder,
       current: pathName === "/staff/createresort" ? true : false,
     },
     {
@@ -64,7 +63,7 @@ const SidebarStaff = () => {
     {
       name: "Upgrade Member",
       href: "/staff/upgrademembership",
-      icon: GrUpgrade,
+      icon: LuArrowUpSquare,
       current: pathName === "/staff/upgrademembership" ? true : false,
     },
   ];

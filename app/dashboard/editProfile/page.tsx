@@ -170,6 +170,7 @@ export default function EditProfile() {
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    [2]
   );
 }
