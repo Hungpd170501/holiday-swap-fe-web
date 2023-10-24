@@ -13,6 +13,7 @@ import useLoginModal from "../hooks/useLoginModal";
 import { useSession } from "next-auth/react";
 import UserMenu from "./navbar/UserMenu";
 import { usePathname } from "next/navigation";
+import { requestNotificationPermission } from "../libs/pushNotification";
 
 interface HeaderProps {
   currentUser?: any | null;
@@ -45,6 +46,10 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
+  }, []);
+
+  useEffect(() => {
+    requestNotificationPermission();
   }, []);
 
   return (

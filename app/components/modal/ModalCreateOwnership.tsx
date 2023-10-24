@@ -63,7 +63,8 @@ export default function ModalCreateOwnership() {
   const [properties, setProperties] = useState<any[]>([]);
   const [propertyValue, setPropertyValue] = useState();
   const [visibleCalendar, setVisibleCalendar] = useState(false);
-  const [dateRange, setDateRange] = useState(initialDateRange);
+  const [startYear, setStartYear] = useState(new Date());
+  const [endYear, setEndYear] = useState(new Date());
   const axiosAuthClient = useAxiosAuthClient();
 
   const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
@@ -131,9 +132,9 @@ export default function ModalCreateOwnership() {
       roomId: data.roomId,
     };
     const coOwner = {
-      endTime: dateRange.endDate,
-      startTime: dateRange.startDate,
-      type: "DEEDED",
+      endTime: "2028-01-01",
+      startTime: "2023-01-01",
+      type: "RIGHT_TO_USE",
       timeFrames: [
         {
           weekNumber: data.weekNumber as number,
@@ -160,6 +161,8 @@ export default function ModalCreateOwnership() {
       .post("https://holiday-swap.click/api/co-owners", formData)
       .then(() => {
         toast.success("Create ownership success!");
+        createOwnershipModal.onClose();
+
         reset();
       })
       .catch((response) => {
@@ -205,34 +208,38 @@ export default function ModalCreateOwnership() {
           } `}
         >
           <div className={`p-2 border-r border-gray-600`}>
-            <div className="text-xs">Start-time</div>
+            <div className="text-xs">Start year</div>
             <input
-              type="text"
-              readOnly
+              type="number"
+              min={new Date().getFullYear()}
+              max={new Date().getFullYear() + 25}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                const selectedYear = parseInt(e.target.value);
+                const newStartDate = new Date(selectedYear, 0, 1); // Month is 0-based, so 0 represents January
+                setStartYear(newStartDate);
+              }}
               className="border-0 text-base text-gray-600 focus:outline-none w-full"
-              value={`${format(new Date(dateRange.startDate), "dd/MM/yyyy")}`}
+              value={startYear.getFullYear()}
             />
           </div>
           <div className={`p-2 border-gray-600  `}>
-            <div className="text-xs">End-time</div>
+            <div className="text-xs">End year</div>
             <input
-              type="text"
-              readOnly
+              type="number"
+              min={new Date().getFullYear()}
+              max={new Date().getFullYear() + 25}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                const selectedYear = parseInt(e.target.value);
+                const newEndDate = new Date(selectedYear, 0, 1); // Month is 0-based, so 0 represents January
+                setEndYear(newEndDate);
+              }}
               className="border-0 text-base text-gray-600 focus:outline-none w-full"
-              value={`${format(new Date(dateRange.endDate), "dd/MM/yyyy")}`}
+              value={endYear.getFullYear()}
             />
           </div>
         </div>
       </div>
-      {visibleCalendar ? (
-        <CalendarAparment
-          value={dateRange}
-          onChange={(value: any) => setDateRange(value.selection)}
-          className="w-[700px] absolute top-36 -left-10 z-50 !text-[1em]"
-        />
-      ) : (
-        ""
-      )}
+
       <div className="grid grid-cols-2 gap-4">
         <Input
           id="weekNumber"

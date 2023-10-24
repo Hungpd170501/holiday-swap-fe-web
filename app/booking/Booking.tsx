@@ -6,6 +6,7 @@ import Calendar from "../components/input/Calendar";
 import SearchBooking from "./SearchBooking";
 import ListRoom from "./ListRoom";
 import BookingPriceCard from "./BookingPriceCard";
+import BookingInformation from "./BookingInformation";
 
 interface BookingProps {
   currentUser?: any;
@@ -25,25 +26,17 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
 
   const handleDateRange = (dateRange: any) => {
     setDateRange(dateRange);
-  }
+  };
 
   return (
     <Container>
-      <div className="py-32 grid grid-cols-3 gap-5">
-        <div className="col-span-2">
-          <SearchBooking handleDateRange={handleDateRange}  />
-          <div className="py-7">
-            <ListRoom handleChooseRoomProp={handleChooseRoomProp} />
-          </div>
+      <div className="grid grid-cols-2 gap-28 py-32 px-20">
+        <div className="w-full">
+          <BookingInformation />
         </div>
-
-        {isVisible ? (
-          <div className="col-span-1">
-            <BookingPriceCard data={selectedRoomData} roomId={roomId} dateRange={dateRange} currentUser={currentUser} />
-          </div>
-        ) : (
-          ""
-        )}
+        <div className="w-full sticky">
+          <BookingPriceCard />
+        </div>
       </div>
     </Container>
   );

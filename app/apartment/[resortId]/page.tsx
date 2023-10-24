@@ -24,10 +24,6 @@ const ResortPage = async ({ params }: { params: IParams }) => {
 
   return (
     <Container>
-      <Head>
-        <title>{resort.resortName}</title>
-        {/* You can also set other metadata properties here */}
-      </Head>
       <ApartmentDetail resort={resort} />
     </Container>
   );

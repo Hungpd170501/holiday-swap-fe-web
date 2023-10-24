@@ -4,79 +4,47 @@ import React, { useState } from "react";
 import useAxiosAuthClient from "../hooks/useAxiosAuthClient";
 import useLoginModal from "../hooks/useLoginModal";
 import toast from "react-hot-toast";
+import Image from "next/image";
+import { AiFillStar } from "react-icons/ai";
 
-interface BookingPriceCardProps {
-  data: any;
-  roomId: any;
-  dateRange: any;
-  currentUser?: any;
-}
-const BookingPriceCard: React.FC<BookingPriceCardProps> = ({
-  data,
-  roomId,
-  dateRange,
-  currentUser,
-}) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const axiosAuthClient = useAxiosAuthClient();
-  const loginModal = useLoginModal();
-
-  const handleBooking = () => {
-    setIsLoading(true);
-
-    if (!currentUser) {
-      loginModal.onOpen();
-      setIsLoading(false);
-      return null;
-    }
-
-    const config = { headers: { "Content-type": "application/json" } };
-
-    const data = {
-      propertyId: 1,
-      roomId: roomId,
-      userId: currentUser.userId,
-      checkInDate: new Date(dateRange.startDate),
-      checkOutDate: new Date(dateRange.endDate),
-    };
-
-    axiosAuthClient
-      .post(`https://holiday-swap.click/api/booking/create`, data, config)
-      .then(() => {
-        toast.success("Booking success!");
-      })
-      .catch((response) => {
-        toast.error(response.response.data.message);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
-
+const BookingPriceCard = () => {
   return (
-    <div className="bg-white p-4 flex flex-col rounded-md">
-      <div className="border-b border-dotted border-gray-500">
-        <div className="font-bold text-lg py-6">Price Details</div>
+    <div className="bg-white p-4 flex flex-col rounded-xl shadow-xl sticky top-44">
+      <div className="w-full py-4 border-b border-gray-400">
+        {/* Information Apartment */}
+        <div className="grid grid-cols-3 gap-3">
+          <div className="col-span-1 h-44 w-full relative">
+            <Image
+              src="/images/resort1.jpg"
+              fill
+              alt="image"
+              className="object-cover rounded-lg"
+            />
+          </div>
 
-        <div className="flex flex-col py-4">
-          <div className="flex flex-row justify-between items-center">
-            <div className="text-base font-normal">1 room x 1 night</div>
-            <div className="text-base font-normal">
-              {data.pricePerNight} point
+          <div className="flex flex-col justify-between col-span-2">
+            <div className="text-sm">A deluxe quiet double room in London</div>
+            <div className="flex flex-row items-center">
+              <AiFillStar size={15} />
+              4.8
             </div>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-row items-center justify-center py-4">
-        <button
-          disabled={isLoading}
-          onClick={handleBooking}
-          type="button"
-          className="bg-common hover:bg-blue-500 w-full p-3 rounded-md font-bold text-white text-lg"
-        >
-          Booking
-        </button>
+      {/* Price Details */}
+      <div className="flex flex-col py-8 w-full border-b border-gray-400">
+        <div className="text-2xl font-bold py-3">Price Details</div>
+        <div className="flex flex-row justify-between text-base text-gray-600">
+          <div>Cleaning fee</div>
+          <div>80 point</div>
+        </div>
+      </div>
+
+      {/* Total */}
+      <div className="flex flex-row justify-between py-8 text-base font-bold">
+        <div>Total</div>
+        <div>80 point</div>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { GrSubtractCircle } from "react-icons/gr";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import CalendarAparment from "../CalendarAparment";
+import { useRouter } from "next/navigation";
 
 interface ApartmentBookingProps {
   dateRange: any;
@@ -18,6 +19,7 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
 }) => {
   const [visibleGuest, setVisibleGuest] = useState(false);
   const [visibleCalendar, setVisibleCalendar] = useState(false);
+  const router = useRouter();
 
   const handleVisibleCalendar = () => {
     if (visibleGuest) {
@@ -158,7 +160,10 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
 
         {/* Button Booking */}
         <div className="py-4">
-          <button className="w-full p-4 bg-common hover:bg-hover text-white text-center font-bold text-lg rounded-lg">
+          <button
+            onClick={() => router.push("/booking")}
+            className="w-full p-4 bg-common hover:bg-hover text-white text-center font-bold text-lg rounded-lg"
+          >
             Booking
           </button>
         </div>

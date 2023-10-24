@@ -27,6 +27,7 @@ import {
   MenuList,
   MenuItem,
 } from "@material-tailwind/react";
+import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { BiBlock } from "react-icons/bi";
@@ -102,15 +103,12 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
         body,
         config
       )
-      .then(() => {
+      .then(async () => {
         toast.success("Update status success");
-        setOwnershipUserList((prevUserList: any) =>
-          prevUserList.content.map((ownership: any) =>
-            ownership.id.userId === userId
-              ? { ...ownership, status: value }
-              : ownership
-          )
+        const ownership = await axios.get(
+          `https://holiday-swap.click/api/co-owners?pageNo=0&pageSize=50&sortBy=property_id`
         );
+        setOwnershipUserList(ownership.data);
       })
       .catch((response) => {
         toast.error(response.response.data.message);
@@ -180,7 +178,7 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
             </tr>
           </thead>
           <tbody>
-            {ownershipUserList?.content.map((item: any, index: any) => {
+            {ownershipUserList?.content?.map((item: any, index: any) => {
               const isLast = index === ownershipUserList.length - 1;
               const classes = isLast
                 ? "p-4"
