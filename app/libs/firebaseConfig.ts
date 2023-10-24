@@ -12,7 +12,10 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const firebase = initializeApp(firebaseConfig);
+if (typeof window !== "undefined") {
+  const firebase = initializeApp(firebaseConfig);
+}
+
 const messaging = getMessaging();
 export const fetchToken = (setTokenFound: any) => {
   return getToken(messaging, {

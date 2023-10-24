@@ -217,9 +217,11 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
           <div className="">HolidaySwap service fee</div>
 
           <div>
-            {calculateNightDifference(dateRange.startDate, dateRange.endDate) *
-              apartment.availableTime.pricePerNight *
-              (10 / 100)}{" "}
+            {Number(
+              calculateNightDifference(dateRange.startDate, dateRange.endDate) *
+                apartment.availableTime.pricePerNight *
+                (10 / 100)
+            ).toFixed(1)}{" "}
             point
           </div>
         </div>

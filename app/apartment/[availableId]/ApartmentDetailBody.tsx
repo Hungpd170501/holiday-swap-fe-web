@@ -4,7 +4,7 @@ import useAparmentAmenitiesModal from "@/app/hooks/useApartmentAmenitiesModal";
 import Image from "next/image";
 import React, { useState } from "react";
 import CalendarAparment from "../CalendarAparment";
-import { differenceInDays, format } from "date-fns";
+import { addDays, differenceInDays, format } from "date-fns";
 
 interface ApartmentDetailBodyProps {
   apartment?: any;
@@ -25,6 +25,39 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
     const nightDifference = differenceInDays(end, start);
     return nightDifference;
   };
+
+  const getUnavailableDates = (startTime: any, endTime: any): Date[] => {
+    const allDatesInRange = Array.from(
+      { length: differenceInDays(endTime, startTime) + 1 },
+      (_, i) => addDays(startTime, i)
+    );
+
+    const currentDate = new Date(startTime);
+    const datesOutsideRange: Date[] = [];
+
+    while (currentDate < startTime) {
+      datesOutsideRange.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    currentDate.setTime(new Date(endTime).getTime() + 24 * 60 * 60 * 1000); // Move to the day after endTime
+
+    while (currentDate <= endTime) {
+      datesOutsideRange.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return datesOutsideRange;
+  };
+
+  const [disableDate, setDisableDate] = useState(
+    getUnavailableDates(
+      new Date(apartment.availableTime.startTime),
+      new Date(apartment.availableTime.endTime)
+    )
+  );
+
+  console.log("disable date", disableDate);
 
   return (
     <div className="w-full py-4 flex flex-col">
@@ -188,14 +221,15 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
               ? "Add your travel dates for exact pricing"
               : `${format(
                   new Date(dateRange.startDate),
-                  "d MM yyyy"
-                )} - ${format(new Date(dateRange.endDate), "d MM yyyy")}`}
+                  "dd MMM yyyy"
+                )} - ${format(new Date(dateRange.endDate), "dd MMM yyyy")}`}
           </div>
         </div>
         <CalendarAparment
           value={dateRange}
           onChange={(value: any) => handleChangeDateRange(value)}
           className="w-[90%] !text-[1em]"
+          disabledDates={disableDate}
         />
       </div>
     </div>

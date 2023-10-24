@@ -10,13 +10,13 @@ interface ApartmentDetailProps {
   apartment?: any;
 }
 
-const initialDateRange = {
-  startDate: new Date(),
-  endDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-  key: "selection",
-};
-
 const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment }) => {
+  const initialDateRange = {
+    startDate: new Date(apartment.availableTime.startTime),
+    endDate: new Date(new Date(apartment.availableTime.endTime)),
+    key: "selection",
+  };
+
   const [dateRange, setDateRange] = useState(initialDateRange);
 
   const handleChangeDateRange = (value: any) => {
