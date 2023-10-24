@@ -3,18 +3,10 @@
 import Image from "next/image";
 import React, { useEffect } from "react";
 import SearchBanner from "./SearchBanner";
-import { requestNotificationPermission } from "@/app/libs/pushNotification";
 import { isSupported } from "firebase/messaging";
+import "../../../public/firebase-messaging-sw";
 
 const Banner = () => {
-  useEffect(() => {
-    (async () => {
-      const hasFirebaseMessagingSupport = await isSupported();
-      if (hasFirebaseMessagingSupport) {
-        await requestNotificationPermission();
-      }
-    })();
-  }, []);
   return (
     <div className="flex-1 py-4">
       <div className="flex gap-8 space-x-5 w-full">

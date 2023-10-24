@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getMessaging, onBackgroundMessage } from "firebase/messaging/sw";
+import { getMessaging, getToken } from "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD0uYWamp5ev2LzUWwXnFtc3JnBOfJK01w",
@@ -12,24 +12,30 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
-const messaging = getMessaging(app);
-onBackgroundMessage(messaging, (payload: any) => {
-  console.log(
-    "[firebase-messaging-sw.js] Received background message ",
-    payload
-  );
-  // Customize notification here
-  const notificationTitle = "Background Message Title";
-  const notificationOptions = {
-    body: "Background Message body.",
-    icon: "/firebase-logo.png",
-  };
 
-  (self as any).registration.showNotification(
-    notificationTitle,
-    notificationOptions
-  );
-});
+function requestPermission() {
+  console.log("Requesting permission...");
+  Notification.requestPermission().then((permission) => {
+    console.log(permission);
 
-export default messaging;
+    if (permission === "granted") {
+      console.log("Notification permission granted.");
+      const app = initializeApp(firebaseConfig);
+      const messaging = getMessaging(app);
+      getToken(messaging, {
+        vapidKey:
+          " BLmQDlFHNaqPD4qF1hr_9I9Nj0NhGMb48VRVvVWjwExBMqeB6DKahaipG5R5DvY9g3G360QF3MDF1RWzYGrnZmE24",
+      }).then((currentToken) => {
+        if (currentToken) {
+          console.log("current token", currentToken);
+        } else {
+          console.log("can not get token");
+        }
+      });
+    } else {
+      console.log("do not have commist");
+    }
+  });
+}
+
+requestPermission();
