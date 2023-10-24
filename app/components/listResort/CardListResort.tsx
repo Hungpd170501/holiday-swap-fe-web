@@ -19,7 +19,7 @@ const CardListResort: React.FC<CardListResortProps> = ({ data }) => {
         <Carousel className="relative rounded-t-xl w-full h-[400px] rounded-xl z-40">
           {data?.property.propertyImage.slice(0, 5).map((item: any) => (
             <Image
-              onClick={() => route.push(`/apartment/${data.property.id}`)}
+              onClick={() => route.push(`/apartment/${data.availableTime.id}`)}
               key={item.id}
               src={item.link}
               alt="destination"
@@ -30,7 +30,7 @@ const CardListResort: React.FC<CardListResortProps> = ({ data }) => {
         </Carousel>
       </div>
       <div
-        onClick={() => route.push(`/apartment/${data.property.property.id}`)}
+        onClick={() => route.push(`/apartment/${data.availableTime.id}`)}
         className="w-full py-5"
       >
         <div className="text-base font-bold">{data?.property.propertyName}</div>

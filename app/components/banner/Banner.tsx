@@ -3,8 +3,6 @@
 import Image from "next/image";
 import React, { useEffect } from "react";
 import SearchBanner from "./SearchBanner";
-import { isSupported } from "firebase/messaging";
-import "../../../public/firebase-messaging-sw";
 
 const Banner = () => {
   return (

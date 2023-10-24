@@ -2,7 +2,7 @@
 
 import React, { ChangeEvent, useState } from "react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
-import { format } from "date-fns";
+import { differenceInDays, format } from "date-fns";
 import { GrSubtractCircle } from "react-icons/gr";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import CalendarAparment from "../CalendarAparment";
@@ -10,16 +10,25 @@ import { useRouter } from "next/navigation";
 
 interface ApartmentBookingProps {
   dateRange: any;
+  apartment: any;
   handleChangeDateRange: (value: any) => void;
 }
 
 const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
   dateRange,
+  apartment,
   handleChangeDateRange,
 }) => {
   const [visibleGuest, setVisibleGuest] = useState(false);
   const [visibleCalendar, setVisibleCalendar] = useState(false);
   const router = useRouter();
+
+  const calculateNightDifference = (startDate: any, endDate: any) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const nightDifference = differenceInDays(end, start);
+    return nightDifference;
+  };
 
   const handleVisibleCalendar = () => {
     if (visibleGuest) {
@@ -42,7 +51,10 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
   return (
     <div className="bg-white p-4 rounded-xl flex flex-col border border-gray-400 shadow-lg sticky top-28">
       <span className="flex flex-row text-gray-800 text-lg py-5">
-        <span className="font-bold text-lg text-black">95 point</span>/night
+        <span className="font-bold text-lg text-black">
+          {apartment.availableTime.pricePerNight} point
+        </span>
+        /night
       </span>
 
       <div className="flex flex-col rounded-lg boder border-gray-600">
@@ -172,9 +184,27 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
       {/* Fee service */}
       <div className="py-5 flex flex-col gap-4 border-b border-gray-600">
         <div className="flex flex-row justify-between items-center text-base text-gray-800">
-          <div className="">95 point x 1 night</div>
+          <div className="">
+            {apartment.availableTime.pricePerNight} point x{" "}
+            {calculateNightDifference(
+              dateRange.startDate,
+              dateRange.endDate
+            ) === 1
+              ? `${calculateNightDifference(
+                  dateRange.startDate,
+                  dateRange.endDate
+                )} night`
+              : `${calculateNightDifference(
+                  dateRange.startDate,
+                  dateRange.endDate
+                )} nights`}
+          </div>
 
-          <div>95 point</div>
+          <div>
+            {calculateNightDifference(dateRange.startDate, dateRange.endDate) *
+              apartment.availableTime.pricePerNight}{" "}
+            point
+          </div>
         </div>
 
         <div className="flex flex-row justify-between items-center text-base text-gray-800">
@@ -186,7 +216,12 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
         <div className="flex flex-row justify-between items-center text-base text-gray-800">
           <div className="">HolidaySwap service fee</div>
 
-          <div>10 point</div>
+          <div>
+            {calculateNightDifference(dateRange.startDate, dateRange.endDate) *
+              apartment.availableTime.pricePerNight *
+              (10 / 100)}{" "}
+            point
+          </div>
         </div>
       </div>
 

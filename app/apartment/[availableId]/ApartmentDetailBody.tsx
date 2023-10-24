@@ -7,13 +7,13 @@ import CalendarAparment from "../CalendarAparment";
 import { differenceInDays, format } from "date-fns";
 
 interface ApartmentDetailBodyProps {
-  resort?: any;
+  apartment?: any;
   dateRange: any;
   handleChangeDateRange: (value: any) => void;
 }
 
 const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
-  resort,
+  apartment,
   dateRange,
   handleChangeDateRange,
 }) => {
@@ -132,23 +132,23 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
       <div className="flex flex-col py-8 border-b border-gray-500">
         <div className="text-2xl font-bold py-5">What this place offers</div>
         <div className="grid grid-cols-2 gap-5">
-          {resort.resortAmenityTypes[0].resortAmenities
+          {apartment.property.inRoomAmenityType[0].inRoomAmenities
             .slice(0, 10)
             .map((item: any) => (
               <div key={item.id} className="flex flex-row gap-4 items-center">
                 <Image
-                  src={item.resortAmenityLinkIcon}
+                  src={item.inRoomAmenityLinkIcon}
                   alt="icon"
                   width={30}
                   height={30}
                 />
-                <div>{item.resortAmenityName}</div>
+                <div>{item.inRoomAmenityName}</div>
               </div>
             ))}
         </div>
 
         <div
-          onClick={() => apartmentAmenitiesModal.onOpen(resort)}
+          onClick={() => apartmentAmenitiesModal.onOpen(apartment)}
           className="py-4"
         >
           <div className="py-3 px-4 border border-gray-500 rounded-lg w-48 text-center hover:bg-blue-gray-100 hover:cursor-pointer">
