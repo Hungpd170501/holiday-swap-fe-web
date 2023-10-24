@@ -5,8 +5,9 @@ import { GrPersonalComputer, GrSecure } from "react-icons/gr";
 import { FiEdit } from "react-icons/fi";
 import { PiNotepadBold } from "react-icons/pi";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
-import { AiOutlineStar, AiOutlineHome } from "react-icons/ai";
-import { MdOutlineSwapHorizontalCircle } from "react-icons/md";
+import { AiOutlineStar, AiOutlineHome, AiOutlineUnlock } from "react-icons/ai";
+import { HiMiniComputerDesktop } from "react-icons/hi2";
+import { MdComputer, MdOutlineSwapHorizontalCircle } from "react-icons/md";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BiWallet } from "react-icons/bi";
@@ -21,7 +22,7 @@ const Sidebar = () => {
     {
       name: "Dashboard",
       href: "/dashboard",
-      icon: GrPersonalComputer,
+      icon: MdComputer,
       current: pathName === "/dashboard" ? true : false,
     },
     {
@@ -33,7 +34,7 @@ const Sidebar = () => {
     {
       name: "Change password",
       href: "/dashboard/changePassword",
-      icon: GrSecure,
+      icon: AiOutlineUnlock,
       current: pathName === "/dashboard/changePassword" ? true : false,
     },
     {
