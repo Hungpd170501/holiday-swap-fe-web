@@ -10,6 +10,7 @@ interface CalendarApartmentProps {
   onChange: (value: RangeKeyDict | any) => void;
   disabledDates?: Date[];
   className?: string;
+  minDate: Date;
 }
 
 const CalendarAparment: React.FC<CalendarApartmentProps> = ({
@@ -17,6 +18,7 @@ const CalendarAparment: React.FC<CalendarApartmentProps> = ({
   onChange,
   disabledDates,
   className,
+  minDate,
 }) => {
   return (
     <DateRange
@@ -28,7 +30,8 @@ const CalendarAparment: React.FC<CalendarApartmentProps> = ({
       months={2}
       direction="horizontal"
       showDateDisplay={false}
-      minDate={new Date()}
+      minDate={minDate}
+      maxDate={new Date(new Date().getTime() + 24 * 60 * 60 * 1095000)}
       disabledDates={disabledDates}
       className={`${className}`}
     />

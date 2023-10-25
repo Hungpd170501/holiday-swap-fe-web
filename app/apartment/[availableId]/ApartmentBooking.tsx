@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { differenceInDays, format } from "date-fns";
 import { GrSubtractCircle } from "react-icons/gr";
@@ -11,17 +11,67 @@ import { useRouter } from "next/navigation";
 interface ApartmentBookingProps {
   dateRange: any;
   apartment: any;
+  dateOut: any;
   handleChangeDateRange: (value: any) => void;
+  apartmentAllowGuest: number;
 }
 
 const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
   dateRange,
   apartment,
+  dateOut,
   handleChangeDateRange,
+  apartmentAllowGuest,
 }) => {
   const [visibleGuest, setVisibleGuest] = useState(false);
   const [visibleCalendar, setVisibleCalendar] = useState(false);
+  const [adultsGuest, setAdultsGuest] = useState(1);
+  const [childrenGuest, setChildrenGuest] = useState(0);
+  const [totalGuest, setTotalGuest] = useState(1);
+  const [totalPrice, setTotalPrice] = useState(0);
   const router = useRouter();
+
+  const handleDescreaseAdultGuest = (value: number) => {
+    if (value <= 1) {
+      return 1;
+    }
+
+    setAdultsGuest(value - 1);
+    setTotalGuest(totalGuest - 1);
+  };
+
+  const handleInscreaseAdultGuest = (value: number) => {
+    if (
+      value >= apartmentAllowGuest ||
+      value + childrenGuest >= apartmentAllowGuest
+    ) {
+      return value;
+    }
+
+    setAdultsGuest(value + 1);
+    setTotalGuest(totalGuest + 1);
+  };
+
+  const handldeDescreaseChildrenGuest = (value: number) => {
+    if (value <= 0) {
+      return 0;
+    }
+
+    setChildrenGuest(value - 1);
+    setTotalGuest(totalGuest - 1);
+  };
+
+  const handleInscreaseChildrenGuest = (value: number) => {
+    if (
+      value >= apartmentAllowGuest ||
+      value + adultsGuest >= apartmentAllowGuest
+    ) {
+      return value;
+    }
+
+    setChildrenGuest(value + 1);
+    setTotalGuest(totalGuest + 1);
+  };
 
   const calculateNightDifference = (startDate: any, endDate: any) => {
     const start = new Date(startDate);
@@ -48,13 +98,33 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
     }
   };
 
+  useEffect(() => {
+    // Calculate the number of nights
+    const nightDifference = calculateNightDifference(
+      dateRange.startDate,
+      dateRange.endDate
+    );
+
+    // Calculate the price for the nights
+    const nightsPrice = nightDifference * apartment.availableTime.pricePerNight;
+
+    // Calculate the HolidaySwap service fee
+    const serviceFee = (nightsPrice * 10) / 100;
+
+    // Calculate the total price (nights price + cleaning fee + service fee)
+    const total = nightsPrice + 10 + serviceFee;
+
+    // Update the total price in the state
+    setTotalPrice(total);
+  }, [dateRange, apartment]);
+
   return (
     <div className="bg-white p-4 rounded-xl flex flex-col border border-gray-400 shadow-lg sticky top-28">
       <span className="flex flex-row text-gray-800 text-lg py-5">
-        <span className="font-bold text-lg text-black">
-          {apartment.availableTime.pricePerNight} point
+        <span className="font-bold text-2xl text-black">
+          {totalPrice} point{" "}
+          <span className="text-gray-600 text-lg">total</span>
         </span>
-        /night
       </span>
 
       <div className="flex flex-col rounded-lg boder border-gray-600">
@@ -109,6 +179,8 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
             value={dateRange}
             onChange={(value: any) => handleChangeDateRange(value)}
             className="w-[700px] absolute top-36 -left-[352px] z-30 !text-[1em]"
+            disabledDates={dateOut}
+            minDate={dateRange.startDate}
           />
         ) : (
           ""
@@ -123,7 +195,11 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
         >
           <div className="flex flex-col">
             <div className="text-xs">GUEST</div>
-            <div className="text-gray-800 text-base">1 guest</div>
+            <div className="text-gray-800 text-base">
+              {totalGuest === 1
+                ? `${totalGuest} guest`
+                : `${totalGuest} guests`}
+            </div>
           </div>
 
           {visibleGuest ? (
@@ -140,11 +216,17 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
                 <div className="text-xs text-gray-700">18+ yrs</div>
               </div>
               <div className="flex flex-row gap-3">
-                <button type="button">
+                <button
+                  onClick={() => handleDescreaseAdultGuest(adultsGuest)}
+                  type="button"
+                >
                   <GrSubtractCircle size={20} />
                 </button>
-                <div>1</div>
-                <button type="button">
+                <div className="w-5 text-center">{adultsGuest}</div>
+                <button
+                  onClick={() => handleInscreaseAdultGuest(adultsGuest)}
+                  type="button"
+                >
                   <AiOutlinePlusCircle size={20} />
                 </button>
               </div>
@@ -156,11 +238,17 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
                 <div className="text-xs text-gray-700">18+ yrs</div>
               </div>
               <div className="flex flex-row gap-3">
-                <button type="button">
+                <button
+                  onClick={() => handldeDescreaseChildrenGuest(childrenGuest)}
+                  type="button"
+                >
                   <GrSubtractCircle size={20} />
                 </button>
-                <div>1</div>
-                <button type="button">
+                <div className="w-5 text-center">{childrenGuest}</div>
+                <button
+                  onClick={() => handleInscreaseChildrenGuest(childrenGuest)}
+                  type="button"
+                >
                   <AiOutlinePlusCircle size={20} />
                 </button>
               </div>
@@ -233,7 +321,7 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
         <div className="flex flex-row justify-between items-center text-base text-black">
           <div className="">Total</div>
 
-          <div>115 point</div>
+          <div>{totalPrice} point</div>
         </div>
       </div>
     </div>
