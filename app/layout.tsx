@@ -7,12 +7,14 @@ import GetCurrentUser from "./actions/getCurrentUser";
 import Provider from "./components/Provider";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import Loading from "./loading";
 import ModalDetailProperty from "./components/modal/ModalDetailProperty";
 import ModalCreatePlan from "./components/modal/ModalCreatePlan";
 import ModalCreateOwnership from "./components/modal/ModalCreateOwnership";
 import ModalApartmentAmenities from "./components/modal/ModalApartmentAmenities";
+import "@/styles/index.scss";
+import "rc-slider/assets/index.css";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -29,31 +31,31 @@ export const metadata = {
 };
 
 export default async function RootLayout({
-  children,
-}: {
+                                           children,
+                                         }: {
   children: React.ReactNode;
 }) {
   const currentUser = await GetCurrentUser();
   return (
     <html lang="en">
-      <body className={font.className}>
-        <Provider>
-          <Suspense fallback={<Loading />}>
-            <Header currentUser={currentUser} />
-            <ClientOnly>
-              <ModalDetailProperty />
-              <ModalLogin />
-              <ModalCreatePlan />
-              <ModalCreateOwnership />
-              <ModalApartmentAmenities />
-              <ToasterProvider />
-            </ClientOnly>
+    <body className={font.className}>
+    <Provider>
+      <Suspense fallback={<Loading />}>
+        <Header currentUser={currentUser} />
+        <ClientOnly>
+          <ModalDetailProperty />
+          <ModalLogin />
+          <ModalCreatePlan />
+          <ModalCreateOwnership />
+          <ModalApartmentAmenities />
+          <ToasterProvider />
+        </ClientOnly>
 
-            {children}
-            <Footer />
-          </Suspense>
-        </Provider>
-      </body>
+        {children}
+        <Footer />
+      </Suspense>
+    </Provider>
+    </body>
     </html>
   );
 }
