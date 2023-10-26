@@ -34,11 +34,14 @@ const CardListResort: React.FC<CardListResortProps> = ({ data }) => {
         className="w-full py-5"
       >
         <div className="text-base font-bold">{data?.property.propertyName}</div>
-        <div className="text-gray-600 text-base">Stay with Tin</div>
+        <div className="text-gray-600 text-base">Stay with {data?.user.username}</div>
         <div className="text-gray-600 text-base">6 - 11 Nov</div>
         <div className="py-2 text-base">
           <div>
-            <span className="font-bold">50 point</span> night
+            <span className="font-bold">
+              {data?.availableTime.pricePerNight} point
+            </span>
+            /night
           </div>
         </div>
       </div>

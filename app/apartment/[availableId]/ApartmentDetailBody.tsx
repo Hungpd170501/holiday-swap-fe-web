@@ -206,8 +206,8 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
           value={dateRange}
           onChange={(value: any) => handleChangeDateRange(value)}
           className="w-[90%] !text-[1em]"
-          disabledDates={dateOut}
           minDate={dateRange.startDate}
+          disabledDates={dateOut}
         />
       </div>
     </div>

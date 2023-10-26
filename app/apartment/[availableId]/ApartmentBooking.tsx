@@ -7,11 +7,14 @@ import { GrSubtractCircle } from "react-icons/gr";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import CalendarAparment from "../CalendarAparment";
 import { useRouter } from "next/navigation";
+import { PlusCircleOutlined, MinusCircleOutlined } from "@ant-design/icons";
+import useLoginModal from "@/app/hooks/useLoginModal";
 
 interface ApartmentBookingProps {
   dateRange: any;
   apartment: any;
   dateOut: any;
+  currentUser?: any;
   handleChangeDateRange: (value: any) => void;
   apartmentAllowGuest: number;
 }
@@ -20,15 +23,18 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
   dateRange,
   apartment,
   dateOut,
+  currentUser,
   handleChangeDateRange,
   apartmentAllowGuest,
 }) => {
   const [visibleGuest, setVisibleGuest] = useState(false);
   const [visibleCalendar, setVisibleCalendar] = useState(false);
+  const [dateRangeBooking, setDateRangeBooking] = useState<Date[]>(dateRange);
   const [adultsGuest, setAdultsGuest] = useState(1);
   const [childrenGuest, setChildrenGuest] = useState(0);
   const [totalGuest, setTotalGuest] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
+  const loginModal = useLoginModal();
   const router = useRouter();
 
   const handleDescreaseAdultGuest = (value: number) => {
@@ -98,6 +104,35 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
     }
   };
 
+  const startDateISOString = dateRange.startDate.toISOString();
+  const endDateISOString = dateRange.endDate.toISOString();
+
+  const fixedDateRange = {
+    startDate: startDateISOString,
+    endDate: endDateISOString,
+    key: dateRange.key,
+  };
+
+  const handleBooking = () => {
+    if (!currentUser) {
+      loginModal.onOpen();
+    } else {
+      router.push(
+        `/booking?apartmentId=${apartment.property.id}&apartmentImage=${
+          apartment.property.propertyImage[0].link
+        }&aparmentName=${apartment.property.propertyName}&priceNight=${
+          apartment.availableTime.pricePerNight
+        }&roomId=${apartment.coOwnerId.roomId}&userId=${
+          currentUser.userId
+        }&totalPrice=${totalPrice}&totalGuest=${totalGuest}&dateRangeBooking=${JSON.stringify(
+          dateRangeBooking
+        )}&dateRange=${JSON.stringify(
+          fixedDateRange
+        )}&apartmentAllowGuest=${apartmentAllowGuest}`
+      );
+    }
+  };
+
   useEffect(() => {
     // Calculate the number of nights
     const nightDifference = calculateNightDifference(
@@ -117,6 +152,8 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
     // Update the total price in the state
     setTotalPrice(total);
   }, [dateRange, apartment]);
+
+  console.log("Check date range", fixedDateRange);
 
   return (
     <div className="bg-white p-4 rounded-xl flex flex-col border border-gray-400 shadow-lg sticky top-28">
@@ -177,7 +214,10 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
         {visibleCalendar ? (
           <CalendarAparment
             value={dateRange}
-            onChange={(value: any) => handleChangeDateRange(value)}
+            onChange={(value: any) => {
+              handleChangeDateRange(value);
+              setDateRangeBooking(value.selection);
+            }}
             className="w-[700px] absolute top-36 -left-[352px] z-30 !text-[1em]"
             disabledDates={dateOut}
             minDate={dateRange.startDate}
@@ -213,21 +253,33 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
             <div className="flex flex-row items-center justify-between py-3">
               <div className="flex flex-col">
                 <div className="font-bold">Adults</div>
-                <div className="text-xs text-gray-700">18+ yrs</div>
+                <div className="text-xs text-gray-700">Age 18+</div>
               </div>
-              <div className="flex flex-row gap-3">
+              <div className="flex flex-row items-center gap-3">
                 <button
                   onClick={() => handleDescreaseAdultGuest(adultsGuest)}
                   type="button"
                 >
-                  <GrSubtractCircle size={20} />
+                  <MinusCircleOutlined
+                    style={{
+                      fontSize: 30,
+                      color: `${adultsGuest <= 1 ? "gray" : ""}`,
+                    }}
+                  />
                 </button>
                 <div className="w-5 text-center">{adultsGuest}</div>
                 <button
                   onClick={() => handleInscreaseAdultGuest(adultsGuest)}
                   type="button"
                 >
-                  <AiOutlinePlusCircle size={20} />
+                  <PlusCircleOutlined
+                    style={{
+                      fontSize: 30,
+                      color: `${
+                        totalGuest >= apartmentAllowGuest ? "gray" : ""
+                      }`,
+                    }}
+                  />
                 </button>
               </div>
             </div>
@@ -235,21 +287,33 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
             <div className="flex flex-row items-center justify-between py-3">
               <div className="flex flex-col">
                 <div className="font-bold">Children</div>
-                <div className="text-xs text-gray-700">18+ yrs</div>
+                <div className="text-xs text-gray-700">Ages 12 - 17</div>
               </div>
-              <div className="flex flex-row gap-3">
+              <div className="flex flex-row items-center gap-3">
                 <button
                   onClick={() => handldeDescreaseChildrenGuest(childrenGuest)}
                   type="button"
                 >
-                  <GrSubtractCircle size={20} />
+                  <MinusCircleOutlined
+                    style={{
+                      fontSize: 30,
+                      color: `${childrenGuest <= 0 ? "gray" : ""}`,
+                    }}
+                  />
                 </button>
                 <div className="w-5 text-center">{childrenGuest}</div>
                 <button
                   onClick={() => handleInscreaseChildrenGuest(childrenGuest)}
                   type="button"
                 >
-                  <AiOutlinePlusCircle size={20} />
+                  <PlusCircleOutlined
+                    style={{
+                      fontSize: 30,
+                      color: `${
+                        totalGuest >= apartmentAllowGuest ? "gray" : ""
+                      }`,
+                    }}
+                  />
                 </button>
               </div>
             </div>
@@ -261,7 +325,7 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
         {/* Button Booking */}
         <div className="py-4">
           <button
-            onClick={() => router.push("/booking")}
+            onClick={handleBooking}
             className="w-full p-4 bg-common hover:bg-hover text-white text-center font-bold text-lg rounded-lg"
           >
             Booking

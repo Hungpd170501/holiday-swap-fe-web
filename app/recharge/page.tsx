@@ -12,6 +12,7 @@ export default function Recharge() {
       <div>
         <RechargeCard />
       </div>
-    </div>
+    </div>,
+    [2, 4]
   );
 }

@@ -13,6 +13,9 @@ import ModalDetailProperty from "./components/modal/ModalDetailProperty";
 import ModalCreatePlan from "./components/modal/ModalCreatePlan";
 import ModalCreateOwnership from "./components/modal/ModalCreateOwnership";
 import ModalApartmentAmenities from "./components/modal/ModalApartmentAmenities";
+import ModalEditDateBooking from "./components/modal/ModalEditDateBooking";
+import ModalEditGuestBooking from "./components/modal/ModalEditGuestBooking";
+import { DateRangeProvider } from "./apartment/DateRangeContext";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -38,7 +41,8 @@ export default async function RootLayout({
     <html lang="en">
       <body className={font.className}>
         <Provider>
-          <Suspense fallback={<Loading />}>
+          <DateRangeProvider>
+            <Suspense fallback={<Loading />}>
             <Header currentUser={currentUser} />
             <ClientOnly>
               <ModalDetailProperty />
@@ -46,12 +50,15 @@ export default async function RootLayout({
               <ModalCreatePlan />
               <ModalCreateOwnership />
               <ModalApartmentAmenities />
+              <ModalEditDateBooking />
+              <ModalEditGuestBooking />
               <ToasterProvider />
             </ClientOnly>
 
             {children}
             <Footer />
           </Suspense>
+          </DateRangeProvider>
         </Provider>
       </body>
     </html>

@@ -1,129 +1,71 @@
 "use client";
+
+import Image from "next/image";
 import * as React from "react";
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import { differenceInDays, format } from "date-fns";
+import { useRouter } from "next/navigation";
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-
-function createData(
-  resortname: string,
-  livingdate: string,
-  total: string,
-  paymentstatus: string
-) {
-  return { resortname, livingdate, total, paymentstatus };
+interface MyBookingListProps {
+  historyBooking: any;
 }
 
-const rows = [
-  createData(
-    "JW Marriott Phu Quoc Emerald Bay Resort & Spa",
-    "	February 1, 2030",
-    "	$392.40",
-    "Pending"
-  ),
-  createData("Amanoi Resort", "	February 1, 2030", "	$392.40", "Pending"),
-  createData(
-    "JSix Senses Ninh Van Bay",
-    "	February 1, 2030",
-    "	$392.40",
-    "Pending"
-  ),
-  createData(
-    "Vinpearl Resort & Spa Phu Quoc",
-    "	February 1, 2030",
-    "	$392.40",
-    "Pending"
-  ),
-  createData(
-    "InterContinental Danang Sun Peninsula Resort",
-    "	February 1, 2030",
-    "	$392.40",
-    "Pending"
-  ),
-  createData(
-    "Vinpearl Luxury Da Nang",
-    "	February 1, 2030",
-    "	$392.40",
-    "Pending"
-  ),
-];
+const MyBookingList: React.FC<MyBookingListProps> = ({ historyBooking }) => {
+  const router = useRouter();
+  const calculateNightDifference = (startDate: any, endDate: any) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const nightDifference = differenceInDays(end, start);
+    return nightDifference;
+  };
 
-export default function MyBookingList() {
   return (
-    <TableContainer className="mt-10" component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell className="!bg-white !text-black !text-[17px] !font-semibold">
-              Resort Name{" "}
-            </StyledTableCell>
-            <StyledTableCell
-              className="!bg-white !text-black !text-[17px] !font-semibold"
-              align="right"
-            >
-              Living Date{" "}
-            </StyledTableCell>
-            <StyledTableCell
-              className="!bg-white !text-black !text-[17px] !font-semibold"
-              align="right"
-            >
-              ToTal{" "}
-            </StyledTableCell>
-            <StyledTableCell
-              className="!bg-white !text-black !text-[17px] !font-semibold"
-              align="right"
-            >
-              Payment Status{" "}
-            </StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.resortname}>
-              <StyledTableCell
-                className="!py-5 !text-common"
-                component="th"
-                scope="row"
-              >
-                {row.resortname}
-              </StyledTableCell>
-              <StyledTableCell className="!py-5 !text-common" align="right">
-                {row.livingdate}
-              </StyledTableCell>
-              <StyledTableCell className="!py-5 " align="right">
-                {row.total}
-              </StyledTableCell>
-              <StyledTableCell className="!py-5 !text-green-500 " align="right">
-                {row.paymentstatus}
-              </StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div className="py-6">
+      {historyBooking?.map((item: any) => (
+        <div
+          onClick={() => router.push(`/dashboard/myBooking/${item.bookingId}`)}
+          key={item.bookingId}
+          className="grid grid-cols-12 h-[150px] bg-white rounded-lg shadow-lg justify-between hover:cursor-pointer my-5"
+        >
+          <div className="col-span-9">
+            <div className="grid grid-cols-9 h-full gap-5">
+              <div className="col-span-3 w-full h-full relative rounded-lg">
+                <Image
+                  src="/images/resort1.jpg"
+                  fill
+                  alt="image"
+                  className="w-full object-cover rounded-lg"
+                />
+              </div>
+              <div className="col-span-6 flex flex-col">
+                <div className="py-2">
+                  <div className="text-xs text-gray-700">{item.resortName}</div>
+                  <div className="text-lg font-bold ">{item.propertyName}</div>
+                </div>
+                <div className="text-base text-gray-700">
+                  {format(new Date(item.checkInDate), "dd, MMM yyyy")} -{" "}
+                  {format(new Date(item.checkOutDate), "dd, MMM yyyy")}
+                </div>
+                <div className="text-base text-gray-700">
+                  Number of nights:{" "}
+                  {calculateNightDifference(
+                    item.checkInDate,
+                    item.checkOutDate
+                  )}
+                </div>
+                <div className="text-base text-gray-700">
+                  Total: <span className="text-black">{item.price} point</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-span-3 flex flex-row justify-center items-center">
+            <div className="text-lg text-green-600">{item.status}</div>
+          </div>
+        </div>
+      ))}
+    </div>
   );
-}
+};
+
+export default MyBookingList;

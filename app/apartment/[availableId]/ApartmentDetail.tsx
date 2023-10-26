@@ -9,9 +9,13 @@ import { addDays, addMonths, subDays } from "date-fns";
 
 interface ApartmentDetailProps {
   apartment?: any;
+  currentUser?: any;
 }
 
-const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment }) => {
+const ApartmentDetail: React.FC<ApartmentDetailProps> = ({
+  apartment,
+  currentUser,
+}) => {
   const initialDateRange = {
     startDate: new Date(apartment.availableTime.startTime),
     endDate: new Date(apartment.availableTime.endTime),
@@ -74,6 +78,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment }) => {
         </div>
         <div className="col-span-4 sticky top-0 h-full">
           <ApartmentBooking
+            currentUser={currentUser}
             apartment={apartment}
             dateOut={dateOut}
             dateRange={dateRange}
