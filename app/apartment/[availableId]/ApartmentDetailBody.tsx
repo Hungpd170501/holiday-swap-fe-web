@@ -4,17 +4,27 @@ import useAparmentAmenitiesModal from "@/app/hooks/useApartmentAmenitiesModal";
 import Image from "next/image";
 import React, { useState } from "react";
 import CalendarAparment from "../CalendarAparment";
-import { differenceInDays, format } from "date-fns";
+import {
+  addDays,
+  addMonths,
+  differenceInDays,
+  format,
+  isAfter,
+  isBefore,
+  subDays,
+} from "date-fns";
 
 interface ApartmentDetailBodyProps {
-  resort?: any;
+  apartment?: any;
   dateRange: any;
+  dateOut: any;
   handleChangeDateRange: (value: any) => void;
 }
 
 const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
-  resort,
+  apartment,
   dateRange,
+  dateOut,
   handleChangeDateRange,
 }) => {
   const apartmentAmenitiesModal = useAparmentAmenitiesModal();
@@ -132,23 +142,23 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
       <div className="flex flex-col py-8 border-b border-gray-500">
         <div className="text-2xl font-bold py-5">What this place offers</div>
         <div className="grid grid-cols-2 gap-5">
-          {resort.resortAmenityTypes[0].resortAmenities
+          {apartment.property.inRoomAmenityType[0].inRoomAmenities
             .slice(0, 10)
             .map((item: any) => (
               <div key={item.id} className="flex flex-row gap-4 items-center">
                 <Image
-                  src={item.resortAmenityLinkIcon}
+                  src={item.inRoomAmenityLinkIcon}
                   alt="icon"
                   width={30}
                   height={30}
                 />
-                <div>{item.resortAmenityName}</div>
+                <div>{item.inRoomAmenityName}</div>
               </div>
             ))}
         </div>
 
         <div
-          onClick={() => apartmentAmenitiesModal.onOpen(resort)}
+          onClick={() => apartmentAmenitiesModal.onOpen(apartment)}
           className="py-4"
         >
           <div className="py-3 px-4 border border-gray-500 rounded-lg w-48 text-center hover:bg-blue-gray-100 hover:cursor-pointer">
@@ -188,14 +198,16 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
               ? "Add your travel dates for exact pricing"
               : `${format(
                   new Date(dateRange.startDate),
-                  "d MM yyyy"
-                )} - ${format(new Date(dateRange.endDate), "d MM yyyy")}`}
+                  "dd MMM yyyy"
+                )} - ${format(new Date(dateRange.endDate), "dd MMM yyyy")}`}
           </div>
         </div>
         <CalendarAparment
           value={dateRange}
           onChange={(value: any) => handleChangeDateRange(value)}
           className="w-[90%] !text-[1em]"
+          disabledDates={dateOut}
+          minDate={dateRange.startDate}
         />
       </div>
     </div>

@@ -4,6 +4,7 @@ import React from "react";
 import { DateRange, Range, RangeKeyDict } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import dayjs from 'dayjs';
 
 interface CalendarApartmentProps {
   value: Range | any;
@@ -28,7 +29,8 @@ const CalendarAparment: React.FC<CalendarApartmentProps> = ({
       months={2}
       direction="horizontal"
       showDateDisplay={false}
-      minDate={new Date()}
+      minDate={dayjs().toDate()}
+      maxDate={new Date(new Date().getTime() + 24 * 60 * 60 * 1095000)}
       disabledDates={disabledDates}
       className={`${className}`}
     />

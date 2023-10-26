@@ -1,12 +1,12 @@
 import React, { FC } from "react";
 import { DEMO_STAY_LISTINGS } from "@/data/listings";
-import { StayDataType } from "@/data/types";
 import StartRating from "./StartRating";
 import BtnLikeIcon from "./BtnLikeIcon";
 import SaleOffBadge from "./SaleOffBadge";
 import Badge from "@/shared/Badge";
 import Link from "next/link";
 import GallerySlider from "./GallerySlider";
+import { StayDataType } from '@/app/components/map/type';
 
 export interface StayCardProps {
   className?: string;
@@ -58,7 +58,7 @@ const StayCard: FC<StayCardProps> = ({
       <div className={size === "default" ? "p-4 space-y-4" : "p-3 space-y-1"}>
         <div className={size === "default" ? "space-y-2" : "space-y-1"}>
           <span className="text-sm text-neutral-500 dark:text-neutral-400">
-            {listingCategory.name} · {bedrooms} beds
+            {listingCategory} · {bedrooms} beds
           </span>
           <div className="flex items-center space-x-2">
             {isAds && <Badge name="ADS" color="green" />}
@@ -98,7 +98,7 @@ const StayCard: FC<StayCardProps> = ({
         <div className="w-14 border-b border-neutral-100 dark:border-neutral-800"></div>
         <div className="flex justify-between items-center">
           <span className="text-base font-semibold">
-            {price}
+            P{price}
             {` `}
             {size === "default" && (
               <span className="text-sm text-neutral-500 dark:text-neutral-400 font-normal">

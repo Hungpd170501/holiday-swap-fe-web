@@ -10,6 +10,7 @@ import {
 } from "react-icons/ai";
 import { GrSubtractCircle } from "react-icons/gr";
 import CalendarAparment from "./CalendarAparment";
+import dayjs from 'dayjs';
 
 const initialDateRange = {
   startDate: new Date(),
@@ -85,8 +86,7 @@ const SearchBarResot = () => {
         <CalendarAparment
           value={dateRange}
           className="w-[700px] absolute top-[400px] left-96 z-30"
-          onChange={(value: any) => setDateRange(value.selection)}
-        />
+          onChange={(value: any) => setDateRange(value.selection)}/>
       ) : (
         ""
       )}

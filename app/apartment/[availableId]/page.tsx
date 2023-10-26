@@ -5,30 +5,26 @@ import React from "react";
 import ApartmentDetail from "./ApartmentDetail";
 import Head from "next/head";
 import { Metadata } from "next";
+import getApartmentById from "@/app/actions/getAparmetById";
 
 interface IParams {
-  resortId?: string;
+  availableId?: string;
 }
 
 export const generateMetadata = async ({ params }: { params: IParams }) => {
-  const resort = await getResortById(params);
+  const apartment = await getApartmentById(params);
 
   return {
-    title: resort.resortName,
+    title: apartment?.property.propertyName,
   };
 };
 
 const ResortPage = async ({ params }: { params: IParams }) => {
-  const resort = await getResortById(params);
-  const properties = await getProperitesByResortId(params);
+  const apartment = await getApartmentById(params);
 
   return (
     <Container>
-      <Head>
-        <title>{resort.resortName}</title>
-        {/* You can also set other metadata properties here */}
-      </Head>
-      <ApartmentDetail resort={resort} />
+      <ApartmentDetail apartment={apartment} />
     </Container>
   );
 };

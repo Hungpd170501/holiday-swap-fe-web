@@ -1,10 +1,18 @@
 "use client";
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { DateRangePicker } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import styled from 'styled-components';
-export function Search({ setCheckOutDate, setCheckInDate, top, left, position }) {
+
+interface SearchProps {
+    setCheckOutDate: Dispatch<SetStateAction<number>>;
+    setCheckInDate: Dispatch<SetStateAction<number>>;
+    top: string;
+    left: string;
+    position: string;
+}
+export function Search({ setCheckOutDate, setCheckInDate, top, left, position }: SearchProps) {
     const [startDate, setStartDate] = useState(new Date())
     const [endDate, setEndDate] = useState(new Date())
 

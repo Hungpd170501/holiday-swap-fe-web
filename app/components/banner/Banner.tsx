@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import SearchBanner from "./SearchBanner";
 
 const Banner = () => {

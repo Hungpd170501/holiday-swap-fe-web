@@ -5,7 +5,7 @@ import {
   DEMO_STAY_CATEGORIES,
   DEMO_EXPERIENCES_CATEGORIES,
 } from "./taxonomies";
-import { CarDataType, ExperiencesDataType, StayDataType } from "./types";
+import { CarDataType, ExperiencesDataType } from "./types";
 import { DEMO_AUTHORS } from "./authors";
 import car1 from "@/images/cars/1.png";
 import car2 from "@/images/cars/2.png";
@@ -23,6 +23,7 @@ import car13 from "@/images/cars/13.png";
 import car14 from "@/images/cars/14.png";
 import car15 from "@/images/cars/15.png";
 import car16 from "@/images/cars/16.png";
+import { StayDataType } from '@/app/components/map/type';
 const carsImgs = [
   car1,
   car2,
@@ -54,9 +55,8 @@ const DEMO_STAY_LISTINGS = __stayListing.map((post, index): StayDataType => {
     saleOff: !index ? "-20% today" : post.saleOff,
     isAds: !index ? true : post.isAds,
     author: DEMO_AUTHORS.filter((user) => user.id === post.authorId)[0],
-    listingCategory: category,
+    listingCategory: category.name,
     href: post.href,
-    isOverlap: __stayListing.filter((i) => i.map==post.map).length > 1,
   };
 });
 

@@ -3,7 +3,7 @@ import { StaticImageData } from "next/image";
 //  ######  CustomLink  ######## //
 export interface CustomLink {
   label: string;
-  href: Route<string> | string;
+  href: string;
   targetBlank?: boolean;
 }
 
@@ -86,7 +86,6 @@ export interface StayDataType {
     lat: number;
     lng: number;
   };
-  isOverlap: boolean | null;
 }
 
 //

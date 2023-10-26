@@ -1,7 +1,11 @@
+import { ApartmentForRentResponse, StayDataType } from '@/app/components/map/type';
+
 "user client";
+
+import ApartmentForRentApis from '@/app/components/map/apis/ApartmentForRentApis';
 import React, { useState, useEffect } from "react";
 // import GoogleMapReact, { Coords } from 'google-map-react';
-import GoogleMapReact, { Coords } from 'google-map-react';
+import GoogleMapReact, { Coords } from 'google-map-react-concurrent';
 import SearchBar from "./SearchBar";
 import { DEMO_STAY_LISTINGS } from "@/data/listings";
 import Checkbox from "@/shared/Checkbox";
@@ -12,22 +16,61 @@ import TabFilters from "./AnyReactComponent/TabFilters";
 import LocationInput from "./AnyReactComponent/LocationInput";
 
 
-const DEMO_EXPERIENCES = DEMO_STAY_LISTINGS.filter((_, i) => i < 24);
+// const DEMO_EXPERIENCES = DEMO_STAY_LISTINGS.filter((_, i) => i < 24);
 
+function mapApartmentToStayCard(apartmentForRentResponse: ApartmentForRentResponse): StayDataType[] {
+  return apartmentForRentResponse.content.map((apartmentForRent) => {
+    return {
+      id: `${apartmentForRent.coOwnerId.propertyId}-${apartmentForRent.coOwnerId.userId}-${apartmentForRent.coOwnerId.roomId}-${apartmentForRent.availableTime.id}`,
+      // author: apartmentForRent.user.username,
+      // date: null,
+      href: `/list-resort`,
+      galleryImgs: apartmentForRent.property.propertyImage.map((image) => image.link),
+      title: apartmentForRent.property.propertyName,
+      commentCount: 5,
+      viewCount: 100,
+      reviewStart: 5,
+      reviewCount: 100,
+      roomSize: apartmentForRent.property.roomSize,
+      price: apartmentForRent.availableTime.pricePerNight,
+      listingCategory: apartmentForRent.property.propertyType.propertyTypeName,
+      bedrooms: apartmentForRent.property.numberBedsRoom,
+      bathrooms: apartmentForRent.property.numberBathRoom,
+      map: {
+        lat: apartmentForRent.resort.latitude,
+        lng: apartmentForRent.resort.longitude,
+      },
+    } as unknown as StayDataType;
+  });
+}
 
 interface MainMapProps {
     data: any;
   }
 
 const MainMap: React.FC<MainMapProps> = ({data}) => {
-    const [coordinates, setCoordinates] = useState<Coords>({ lat: 0, lng: 0 });
-    const [places, setPlaces] = useState(null);
+    const [coordinates, setCoordinates] = useState<Coords>({ lat: 10.200809, lng: 103.966850 });
+    const [places, setPlaces] = useState<StayDataType[]>([]);
     const [Bounds, setBounds] = useState({ ne: { lat: 0, lng: 0 }, sw: { lat: 0, lng: 0 } });
     const [currentHoverID, setCurrentHoverID] = useState<string | number>(-1);
     const [showFullMapFixed, setShowFullMapFixed] = useState(false);
     const [placeId, setPlaceId] = useState<string | null>(null);
 
-    // useEffect(() => {
+  useEffect(() => {
+    fetchApartmentForRents();
+  }, []);
+
+  const fetchApartmentForRents = () => {
+    ApartmentForRentApis.getAll()
+      .then((res) => {
+        setPlaces(mapApartmentToStayCard(res));
+        console.log(res);
+      })
+      .catch((err) => console.error(err));
+  };
+
+
+  // useEffect(() => {
     //   console.log(placeId);
     // }, [placeId]);
 
@@ -45,7 +88,7 @@ const MainMap: React.FC<MainMapProps> = ({data}) => {
                 {/* --- */}
 
                 <div className="grid grid-cols-1 gap-3">
-                  {DEMO_EXPERIENCES.map((item) => (
+                  {places.map((item) => (
                     <div
                       key={item.id}
                       onMouseEnter={() => setCurrentHoverID((_) => item.id)}
@@ -55,9 +98,11 @@ const MainMap: React.FC<MainMapProps> = ({data}) => {
                     </div>
                   ))}
                 </div>
-                <div className="flex mt-16 justify-center items-center">
-                  <Pagination />
-                </div>
+                {places && places.length > 0 &&
+                  <div className="flex mt-16 justify-center items-center">
+                    <Pagination />
+                  </div>
+                }
             </div>
             <div className="h-[60vh] md:h-full w-full relative">
                 {/* Map Header Component, with setCoordinate State passed in as props */}
@@ -97,7 +142,7 @@ const MainMap: React.FC<MainMapProps> = ({data}) => {
                     }}
                     // defaultCenter={coordinates}
                     // center={coordinates} 
-                    defaultCenter={DEMO_EXPERIENCES[0].map}
+                    defaultCenter={places[0]?.map??coordinates}
                     defaultZoom={12}
                     yesIWantToUseGoogleMapApiInternals
                     // margin={[50,50,50,50]}
@@ -111,7 +156,7 @@ const MainMap: React.FC<MainMapProps> = ({data}) => {
                     // onChildClick={() => {}}\
                     
                 >
-                  {DEMO_EXPERIENCES.map((item) => (
+                  {places.map((item) => (
                     <AnyReactComponent
                       isSelected={currentHoverID === item.id}
                       key={item.id}

@@ -5,8 +5,8 @@ import StartRating from "./StartRating";
 import BtnLikeIcon from "./BtnLikeIcon";
 import SaleOffBadge from "./SaleOffBadge";
 import Badge from "@/shared/Badge";
-import { StayDataType } from "@/data/types";
 import Link from "next/link";
+import { StayDataType } from '@/app/components/map/type';
 
 export interface PropertyCardHProps {
   className?: string;
@@ -27,6 +27,10 @@ const PropertyCardH: FC<PropertyCardHProps> = ({
     saleOff,
     isAds,
     price,
+    roomSize,
+    bedrooms,
+    bathrooms,
+    listingCategory,
     reviewStart,
     reviewCount,
     id,
@@ -58,7 +62,7 @@ const PropertyCardH: FC<PropertyCardHProps> = ({
             <i className="las la-bed text-lg"></i>
           </span>
           <span className="text-xs text-neutral-500 dark:text-neutral-400">
-            6 beds
+            {bedrooms} beds
           </span>
         </div>
 
@@ -68,7 +72,7 @@ const PropertyCardH: FC<PropertyCardHProps> = ({
             <i className="las la-bath text-lg"></i>
           </span>
           <span className="text-xs text-neutral-500 dark:text-neutral-400">
-            3 baths
+            {bathrooms} baths
           </span>
         </div>
 
@@ -78,7 +82,7 @@ const PropertyCardH: FC<PropertyCardHProps> = ({
             <i className="las la-expand-arrows-alt text-lg"></i>
           </span>
           <span className="text-xs text-neutral-500 dark:text-neutral-400">
-            1200 Sq. Fit
+            {roomSize} Sq. Fit
           </span>
         </div>
       </div>
@@ -102,7 +106,7 @@ const PropertyCardH: FC<PropertyCardHProps> = ({
               name={
                 <div className="flex items-center">
                   <i className="text-sm las la-user-friends"></i>
-                  <span className="ml-1">Family</span>
+                  <span className="ml-1">{listingCategory}</span>
                 </div>
               }
               color="yellow"
@@ -119,7 +123,7 @@ const PropertyCardH: FC<PropertyCardHProps> = ({
           <div className="flex w-full justify-between items-end">
             <StartRating reviewCount={reviewCount} point={reviewStart} />
             <span className="flex items-center justify-center px-2.5 py-1.5 border-2 border-secondary-500 rounded-lg leading-none text-sm font-medium text-secondary-500">
-              {`${price}`}
+              {`P${price}`}
             </span>
           </div>
         </div>

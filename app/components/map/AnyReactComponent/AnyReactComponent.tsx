@@ -2,10 +2,10 @@
 
 import { Transition } from "@headlessui/react";
 import StayCard from "./StayCard";
-import { StayDataType } from "@/data/types";
 import React, { FC, Fragment } from "react";
 import { useState } from "react";
 import ApartmentIcon from '@mui/icons-material/Apartment';
+import { StayDataType } from '@/app/components/map/type';
 
 export interface AnyReactComponentProps {
   className?: string;
@@ -35,7 +35,7 @@ const AnyReactComponent: FC<AnyReactComponentProps> = ({
             : ""
         }`}
       >
-        {isSelected && <span>{listing?.price}</span>}
+        {isSelected && <span>P{listing?.price}</span>}
         {!isSelected && <ApartmentIcon className="!text-base"/>}
       </span>
       <Transition

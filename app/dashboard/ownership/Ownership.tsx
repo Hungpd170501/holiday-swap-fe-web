@@ -22,6 +22,7 @@ import {
   IconButton,
   Tooltip,
 } from "@material-tailwind/react";
+import { format } from "date-fns";
 import { useState } from "react";
 
 const TABS = [
@@ -103,7 +104,11 @@ interface OwnershipProps {
   currentUser?: any;
 }
 
-const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUser }) => {
+const Ownership: React.FC<OwnershipProps> = ({
+  ownershipUser,
+  resort,
+  currentUser,
+}) => {
   const [ownershipUserList, setOwnershipUserList] = useState(ownershipUser);
   const [listResort, setListResort] = useState(resort);
   const createOwnershipModal = useCreateOwnershipModal();
@@ -119,7 +124,9 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
           </div>
           <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
             <Button
-              onClick={() => createOwnershipModal.onOpen(listResort.content, currentUser)}
+              onClick={() =>
+                createOwnershipModal.onOpen(listResort.content, currentUser)
+              }
               className="flex items-center gap-3"
               size="sm"
             >
@@ -208,7 +215,7 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
                         color="blue-gray"
                         className="font-normal"
                       >
-                        16-10-2023
+                        {format(new Date(item.startTime), "dd-MM-yyyy")}
                       </Typography>
                     </div>
                   </td>
@@ -219,7 +226,7 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
                         color="blue-gray"
                         className="font-normal"
                       >
-                        20-10-2023
+                        {format(new Date(item.endTime), "dd-MM-yyyy")}
                       </Typography>
                     </div>
                   </td>
