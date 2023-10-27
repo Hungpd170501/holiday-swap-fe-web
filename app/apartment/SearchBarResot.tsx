@@ -86,6 +86,7 @@ const SearchBarResot = () => {
           value={dateRange}
           className="w-[700px] absolute top-[400px] left-96 z-30"
           onChange={(value: any) => setDateRange(value.selection)}
+          minDate={new Date()}
         />
       ) : (
         ""
