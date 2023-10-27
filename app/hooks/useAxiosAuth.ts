@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import axios from "axios";
 
-async function useAxiosAuth() {
+const useAxiosAuth = async () => {
   const session = await getServerSession(authOptions);
   const accessToken = session?.user?.access_token;
   const BASE_URL = "https://holiday-swap.click/api/v1";
@@ -20,6 +20,6 @@ async function useAxiosAuth() {
   });
 
   return axiosWithAuth;
-}
+};
 
 export default useAxiosAuth;
