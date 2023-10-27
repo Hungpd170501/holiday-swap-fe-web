@@ -1,7 +1,7 @@
 import useAxiosAuth from "../hooks/useAxiosAuth";
 import GetCurrentUser from "./getCurrentUser";
 
-export default async function getTransfer() {
+export default async function GetTransfer() {
   try {
     const axiosAuth = useAxiosAuth();
     const currentUser = await GetCurrentUser();

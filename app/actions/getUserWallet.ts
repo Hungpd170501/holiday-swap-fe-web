@@ -1,6 +1,6 @@
 import useAxiosAuth from "../hooks/useAxiosAuth";
 
-export default async function getUserWallet() {
+export default async function GetUserWallet() {
   try {
     const axiosAuth = useAxiosAuth();
 

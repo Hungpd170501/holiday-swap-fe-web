@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default async function getInRoomAmenities() {
+export default async function GetInRoomAmenities() {
   try {
     const inRoomAmenities = await axios.get(
       `${process.env.API_URL}/in-room-amenities?pageNo=0&pageSize=50&sortBy=id`

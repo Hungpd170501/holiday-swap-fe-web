@@ -4,7 +4,7 @@ interface IParams {
   bookingId: any;
 }
 
-export default async function getBookingHistoryById(params: IParams) {
+export default async function GetBookingHistoryById(params: IParams) {
   try {
     const axiosAuth = useAxiosAuth();
     const { bookingId } = params;

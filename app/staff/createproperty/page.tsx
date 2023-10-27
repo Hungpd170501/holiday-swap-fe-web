@@ -1,16 +1,16 @@
-import getPropertyType from "@/app/actions/getPropertyType";
+import GetPropertyType from "@/app/actions/getPropertyType";
 import CreateProperty from "./CreateProperty";
-import getPropertyView from "@/app/actions/getPropertyView";
-import getInRoomAmenities from "@/app/actions/getInRoomAmenities";
+import GetPropertyView from "@/app/actions/getPropertyView";
+import GetInRoomAmenities from "@/app/actions/getInRoomAmenities";
 
 export const metadata = {
   title: "Create Property",
 };
 
 export default async function CreatePropertyPage() {
-  const propertyTypes = await getPropertyType();
-  const propertyViews = await getPropertyView();
-  const inRoomAmenities = await getInRoomAmenities();
+  const propertyTypes = await GetPropertyType();
+  const propertyViews = await GetPropertyView();
+  const inRoomAmenities = await GetInRoomAmenities();
   return (
     <CreateProperty
       propertyTypes={propertyTypes}

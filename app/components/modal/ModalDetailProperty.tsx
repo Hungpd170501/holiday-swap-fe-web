@@ -6,7 +6,7 @@ import ModalBaseDetail from "./ModalBaseDetail";
 import Image from "next/image";
 import { BiSolidBed } from "react-icons/bi";
 import { AiOutlineCheckCircle } from "react-icons/ai";
-import getImagePropertiesById from "@/app/actions/getImagePropertiesById";
+import GetImagePropertiesById from "@/app/actions/getImagePropertiesById";
 
 const ModalDetailProperty = () => {
   const detailPropertyModal = useDetailPropertyModal();

@@ -6,7 +6,7 @@ interface IParams {
   propertyId?: string;
 }
 
-export default async function getPropertyById(params: IParams) {
+export default async function GetPropertyById(params: IParams) {
   try {
     const { propertyId } = params;
 

@@ -6,7 +6,7 @@ interface IParams {
   propertyId?: string;
 }
 
-export default async function getImagePropertiesById(params: IParams) {
+export default async function GetImagePropertiesById(params: IParams) {
   try {
     const { propertyId } = params;
 

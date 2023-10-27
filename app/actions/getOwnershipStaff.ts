@@ -2,7 +2,7 @@ import useAxiosAuth from "../hooks/useAxiosAuth";
 import GetCurrentUser from "./getCurrentUser";
 import axios from "axios";
 
-export default async function getOwnershipStaff() {
+export default async function GetOwnershipStaff() {
   try {
     const currentUser = await GetCurrentUser();
     const ownership = await axios.get(

@@ -3,7 +3,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import CardListResort from "../components/listResort/CardListResort";
 import Pagination from "../components/Pagination";
-import getListResort from "../actions/getListResort";
 import axios from "axios";
 
 const data = {

@@ -1,13 +1,12 @@
 import React from "react";
 import Point from "./Point";
-import getPoint from "@/app/actions/getPoint";
+import GetPoint from "@/app/actions/getPoint";
 
 export const metadata = {
   title: "Manage Point Admin",
 };
 
-
 export default async function PointPage() {
-  const point = await getPoint();
+  const point = await GetPoint();
   return <Point point={point} />;
 }
