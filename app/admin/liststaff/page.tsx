@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import ListStaff from "../../components/admin/ListStaff";
 import GetListUser from "@/app/actions/getListUser";
 
@@ -8,5 +8,9 @@ export const metadata = {
 
 export default async function ListStaffPage() {
   const listUser = await GetListUser();
-  return <ListStaff listUser={listUser} />;
+  return (
+    <Fragment>
+      <ListStaff listUser={listUser} />;
+    </Fragment>
+  );
 }
