@@ -1,5 +1,5 @@
 import React from "react";
-import Ownership from "./Ownership";
+import Ownership from "../../components/dashboard/Ownership";
 import GetOwnershipByUserId from "@/app/actions/getOwnershipByUserId";
 import GetListResort from "@/app/actions/getListResort";
 import GetCurrentUser from "@/app/actions/getCurrentUser";
