@@ -38,6 +38,7 @@ export default function DashBoard() {
           Update Password
         </button>
       </div>
-    </div>
+    </div>,
+    [2, 4]
   );
 }
