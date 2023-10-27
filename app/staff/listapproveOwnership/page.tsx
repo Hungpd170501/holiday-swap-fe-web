@@ -8,6 +8,7 @@ export const metadata = {
 
 export default async function ListApprove() {
   const ownershipStaff = await GetOwnershipStaff();
+  
   return (
     <Fragment>
       <ListApproveOwnership ownershipStaff={ownershipStaff} />
