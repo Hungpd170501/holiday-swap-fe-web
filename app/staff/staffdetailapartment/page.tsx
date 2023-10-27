@@ -1,5 +1,4 @@
 import TabRightSideBar from "@/app/components/detailResort/TabRightSideBar";
-import StaffDetailApartmentmid from "@/app/components/staff/StaffDetailApartmentmid";
 import Link from "next/link";
 import React from "react";
 import { BsFillHouseCheckFill } from "react-icons/bs";
@@ -73,9 +72,7 @@ export default function StaffDetailApartment() {
             </div>
           </div>
         </div>
-        <div>
-          <StaffDetailApartmentmid />
-        </div>
+        <div></div>
       </div>
       <div className="flex flex-row items-center">
         <div className="flex flex-row items-center ">
