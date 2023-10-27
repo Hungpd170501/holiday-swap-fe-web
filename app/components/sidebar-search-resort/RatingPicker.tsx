@@ -5,7 +5,7 @@ import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 export default function RatingPicker() {
   const [rating, setRating] = useState(0);
 
-  const handleStarClick = (index) => {
+  const handleStarClick = (index: number) => {
     setRating(index + 1);
   };
 
