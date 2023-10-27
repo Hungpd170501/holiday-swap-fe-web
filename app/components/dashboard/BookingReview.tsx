@@ -57,9 +57,7 @@ export default function BookingReview() {
           </button>
         </div>
       </div>
-      {showModal && (
-        <ReviewModal visible={showModal} onCancel={handleModalCancel} />
-      )}
+      {showModal && <div>Modal</div>}
     </div>
   );
 }
