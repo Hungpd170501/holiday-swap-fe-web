@@ -1,5 +1,5 @@
 import React from "react";
-import ListStaff from "./ListStaff";
+import ListStaff from "../../components/admin/ListStaff";
 import GetListUser from "@/app/actions/getListUser";
 
 export const metadata = {

@@ -1,5 +1,5 @@
 import React from "react";
-import Point from "./Point";
+import Point from "../../components/admin/Point";
 import GetPoint from "@/app/actions/getPoint";
 
 export const metadata = {
