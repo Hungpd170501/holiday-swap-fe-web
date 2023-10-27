@@ -105,8 +105,8 @@ export default function StaffEditResort() {
             className="w-full border border-gray-500 px-2 py-2"
             name=""
             id=""
-            cols="50"
-            rows="10"
+            cols={50}
+            rows={10}
             value="Leave your guidebooks at home and dive into the local cultures that make each destination so special. We’ll connect you with our exclusive experiences. Each trip is carefully crafted to let enjoy your vacation.
 A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents."
           ></textarea>
