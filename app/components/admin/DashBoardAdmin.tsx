@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import ChartUser from "./ChartUser";
-import ChartBooking from "./ChartBooking";
-import ChartIncome from "./ChartIncome";
+import ChartUser from "../../admin/dashboard/ChartUser";
+import ChartBooking from "../../admin/dashboard/ChartBooking";
+import ChartIncome from "../../admin/dashboard/ChartIncome";
 
 const DashBoardAdmin = () => {
   return (
