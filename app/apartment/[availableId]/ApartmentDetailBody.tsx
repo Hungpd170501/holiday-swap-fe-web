@@ -122,7 +122,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
 
       {/* Where your will sleep */}
       <div className="flex flex-col py-8 border-b border-gray-500">
-        <div className="text-2xl font-bold py-5">Where you'll sleep</div>
+        <div className="text-2xl font-bold py-5">Where you&apos;ll sleep</div>
         <div className="flex flex-col p-6 rounded-lg border border-gray-500 w-48">
           <Image
             src="/images/icons/bed-room.png"

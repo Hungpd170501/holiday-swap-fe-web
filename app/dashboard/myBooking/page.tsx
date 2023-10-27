@@ -5,6 +5,7 @@ import React from "react";
 
 export default async function MyBooking() {
   const historyBooking = await GetBookingHistory();
+  console.log("Check booking", historyBooking);
   return (
     <div>
       <div>

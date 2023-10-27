@@ -1,13 +1,17 @@
+import { getServerSession } from "next-auth";
 import useAxiosAuth from "../hooks/useAxiosAuth";
-import useAxiosAuthClient from "../hooks/useAxiosAuthClient";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import axios from "axios";
 
 export default async function GetConversations() {
   try {
-    const axiosAuth = useAxiosAuth();
-
-    const conversations = await (
-      await axiosAuth
-    ).get("/conversation/current-user");
+    const session = await getServerSession(authOptions);
+    const accessToken = session?.user?.access_token;
+    const config = { headers: { Authorization: `Bearer ${accessToken}` } };
+    const conversations = await axios.get(
+      `${process.env.API_URL}/conversation/current-user`,
+      config
+    );
 
     console.log("Conversations", conversations.data);
 

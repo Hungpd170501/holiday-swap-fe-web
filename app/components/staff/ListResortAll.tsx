@@ -146,8 +146,8 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {resorts?.content.map((row: any) => (
-              <StyledTableRow key={row.resortname}>
+            {resorts?.content.map((row: any, index: number) => (
+              <StyledTableRow key={index}>
                 <StyledTableCell
                   className="!py-5 !text-common"
                   component="th"
@@ -164,13 +164,13 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts }) => {
                   {row.address}
                 </StyledTableCell>
                 <StyledTableCell className="!py-5 " align="left">
-                  {row.propertyTypes.map((item: any) => (
-                    <div>{item.propertyTypeName}</div>
+                  {row.propertyTypes.map((item: any, index: number) => (
+                    <div key={index}>{item.propertyTypeName}</div>
                   ))}
                 </StyledTableCell>
                 <StyledTableCell className="!py-5 " align="left">
-                  {row.resortAmenityTypes.map((item: any) => (
-                    <div>{item.resortAmenityTypeName}</div>
+                  {row.resortAmenityTypes.map((item: any, index: number) => (
+                    <div key={index}>{item.resortAmenityTypeName}</div>
                   ))}
                 </StyledTableCell>
 

@@ -16,8 +16,9 @@ const ModalDetailProperty = () => {
   const bodyContent = (
     <div className="flex h-[90%] flex-row">
       <div className="w-4/6 h-full grid grid-cols-2 gap-2 overflow-x-hidden overflow-y-auto mr-5">
-        {data?.propertyImageResponses.map((item: any) => (
+        {data?.propertyImageResponses.map((item: any, index: number) => (
           <Image
+            key={index}
             src={item.link}
             alt="resort-detail"
             width={400}

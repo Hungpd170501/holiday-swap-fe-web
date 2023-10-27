@@ -562,7 +562,7 @@ const RegisterBody = () => {
         <div className="flex flex-row w-full items-center justify-center pt-10 pb-4    ">
           <input type="checkbox" />
           <div>
-            * Creating an account means you're okay with our Terms of Service
+            * Creating an account means you&apos;re okay with our Terms of Service
             and Privacy Statement.
           </div>
         </div>

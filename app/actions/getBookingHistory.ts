@@ -1,11 +1,15 @@
-import useAxiosAuth from "../hooks/useAxiosAuth";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import axios from "axios";
 
-export default async function GetBookingHistory() {
+export default async function getBookingHistory() {
   try {
-    const axiosAuth = useAxiosAuth();
-    const historyBooking = await (
-      await axiosAuth
-    ).get("https://holiday-swap.click/api/booking/historybooking");
+    const session = await getServerSession(authOptions);
+    const accessToken = session?.user?.access_token;
+    const config = { headers: { Authorization: `Bearer ${accessToken}` } };
+    const historyBooking = await axios.get(
+      "https://holiday-swap.click/api/booking/historybooking", config
+    );
 
     if (!historyBooking) {
       return null;

@@ -14,8 +14,8 @@ const ModalApartmentAmenities = () => {
       <div className="py-5 font-bold text-2xl">What this place offers</div>
 
       {data?.property.inRoomAmenityType.map((amenityType: any) => (
-        <div className="py-5 ">
-          <div key={amenityType.id} className="py-4 text-xl">
+        <div key={amenityType.id} className="py-5 ">
+          <div className="py-4 text-xl">
             {amenityType.inRoomAmenityTypeName}
           </div>
 
