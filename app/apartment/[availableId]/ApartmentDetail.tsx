@@ -34,7 +34,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({
       apartment.property.numberMurphyBeds
   );
 
-  console.log("Check number off guest", apartmentAllowGuest);
+  const [dateRangeDefault, setDateRangeDefault] = useState(initialDateRange);
 
   const getDatesOutsideDateRange = (dateRange: any) => {
     const startDate = dateRange.startDate;
@@ -55,7 +55,9 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({
     return datesOutsideDateRange;
   };
 
-  const [dateOut, setDateOut] = useState(getDatesOutsideDateRange(dateRange));
+  const [dateOut, setDateOut] = useState(
+    getDatesOutsideDateRange(dateRangeDefault)
+  );
 
   const handleChangeDateRange = (value: any) => {
     setDateRange(value.selection);
@@ -73,6 +75,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({
             apartment={apartment}
             dateOut={dateOut}
             dateRange={dateRange}
+            dateRangeDefault={dateRangeDefault}
             handleChangeDateRange={handleChangeDateRange}
           />
         </div>
@@ -82,6 +85,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({
             apartment={apartment}
             dateOut={dateOut}
             dateRange={dateRange}
+            dateRangeDefault={dateRangeDefault}
             handleChangeDateRange={handleChangeDateRange}
             apartmentAllowGuest={apartmentAllowGuest}
           />

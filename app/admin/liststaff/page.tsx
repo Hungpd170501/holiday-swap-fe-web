@@ -8,6 +8,7 @@ export const metadata = {
 
 export default async function ListStaffPage() {
   const listUser = await GetListUser();
+
   return (
     <Fragment>
       <ListStaff listUser={listUser} />;

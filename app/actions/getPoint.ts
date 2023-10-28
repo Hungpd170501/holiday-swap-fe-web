@@ -8,7 +8,7 @@ export default async function GetPoint() {
     const session = await getServerSession(authOptions);
     const accessToken = session?.user?.access_token;
     const config = { headers: { Authorization: `Bearer ${accessToken}` } };
-    const point = await axios.get(`${process.env.API_URL}/point`, config);
+    const point = await axios.get(`${process.env.API_URL}/point`);
 
     console.log("Check point", point.data);
 

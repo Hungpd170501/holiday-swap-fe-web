@@ -122,7 +122,9 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
               </div>
             </div>
             <div
-              onClick={() => editDateBookingModal.onOpen(dateRange)}
+              onClick={() =>
+                editDateBookingModal.onOpen(JSON.stringify(dateRange))
+              }
               className="text-black font-semibold underline cursor-pointer"
             >
               Edit

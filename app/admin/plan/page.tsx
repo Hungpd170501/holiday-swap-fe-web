@@ -8,7 +8,9 @@ export const metadata = {
 
 export default async function PlanPage() {
   const plan = await GetPlan();
-  return <Fragment>
-    <Plan plan={plan} />
-  </Fragment>;
+  return (
+    <Fragment>
+      <Plan plan={plan} />
+    </Fragment>
+  );
 }

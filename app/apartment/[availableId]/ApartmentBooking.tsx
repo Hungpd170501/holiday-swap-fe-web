@@ -9,6 +9,7 @@ import CalendarAparment from "../CalendarAparment";
 import { useRouter } from "next/navigation";
 import { PlusCircleOutlined, MinusCircleOutlined } from "@ant-design/icons";
 import useLoginModal from "@/app/hooks/useLoginModal";
+import { useDateRange } from "../DateRangeContext";
 
 interface ApartmentBookingProps {
   dateRange: any;
@@ -17,6 +18,7 @@ interface ApartmentBookingProps {
   currentUser?: any;
   handleChangeDateRange: (value: any) => void;
   apartmentAllowGuest: number;
+  dateRangeDefault: any;
 }
 
 const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
@@ -26,6 +28,7 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
   currentUser,
   handleChangeDateRange,
   apartmentAllowGuest,
+  dateRangeDefault,
 }) => {
   const [visibleGuest, setVisibleGuest] = useState(false);
   const [visibleCalendar, setVisibleCalendar] = useState(false);
@@ -36,6 +39,7 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
   const [totalPrice, setTotalPrice] = useState(0);
   const loginModal = useLoginModal();
   const router = useRouter();
+  const { dateRangeContext, setDateRangeContext } = useDateRange();
 
   const handleDescreaseAdultGuest = (value: number) => {
     if (value <= 1) {
@@ -153,8 +157,6 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
     setTotalPrice(total);
   }, [dateRange, apartment]);
 
-  console.log("Check date range", fixedDateRange);
-
   return (
     <div className="bg-white p-4 rounded-xl flex flex-col border border-gray-400 shadow-lg sticky top-28">
       <span className="flex flex-row text-gray-800 text-lg py-5">
@@ -217,10 +219,11 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
             onChange={(value: any) => {
               handleChangeDateRange(value);
               setDateRangeBooking(value.selection);
+              setDateRangeContext(value.selection);
             }}
             className="w-[700px] absolute top-36 -left-[352px] z-30 !text-[1em]"
             disabledDates={dateOut}
-            minDate={dateRange.startDate}
+            minDate={dateRangeDefault.startDate}
           />
         ) : (
           ""

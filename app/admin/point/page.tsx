@@ -8,7 +8,9 @@ export const metadata = {
 
 export default async function PointPage() {
   const point = await GetPoint();
-  return <Fragment>
-    <Point point={point} />
-  </Fragment>
+  return (
+    <Fragment>
+      <Point point={point} />
+    </Fragment>
+  );
 }
