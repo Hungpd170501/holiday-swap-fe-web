@@ -31,7 +31,6 @@ const CalendarAparment: React.FC<CalendarApartmentProps> = ({
       direction="horizontal"
       showDateDisplay={false}
       minDate={minDate}
-      maxDate={new Date(new Date().getTime() + 24 * 60 * 60 * 1095000)}
       disabledDates={disabledDates}
       className={`${className}`}
     />

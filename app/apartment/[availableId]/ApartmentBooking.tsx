@@ -189,7 +189,7 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
                   startDate: new Date(e.target.value),
                 })
               }
-              className="border-0 text-base text-gray-600 focus:outline-none w-full"
+              className="border-0 text-base text-gray-600 focus:outline-0 focus:outline-transparent focus:border-0 focus:border-transparent focus:ring-0 w-full"
               value={`${format(new Date(dateRange.startDate), "dd/MM/yyyy")}`}
             />
           </div>
@@ -208,7 +208,7 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
                   endDate: new Date(e.target.value),
                 })
               }
-              className="border-0 text-base text-gray-600 focus:outline-none w-full"
+              className="border-0 text-base text-gray-600 focus:outline-0 focus:outline-transparent focus:border-0 focus:border-transparent focus:ring-0 w-full"
               value={`${format(new Date(dateRange.endDate), "dd/MM/yyyy")}`}
             />
           </div>

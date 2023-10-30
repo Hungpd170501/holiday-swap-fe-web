@@ -12,16 +12,17 @@ const initialDateRange = {
   key: "selection",
 };
 
-const ListAparment = () => {
+interface ListApartmentProps {
+  listApartment: any;
+}
+
+const ListAparment: React.FC<ListApartmentProps> = ({ listApartment }) => {
   const [dateRange, setDateRange] = useState(initialDateRange);
   return (
     <Fragment>
       <SearchBarResot />
       <Container className="pt-10 gap-5">
-      
-     
-          <ListResort />
-
+        <ListResort listApartment={listApartment} />
       </Container>
     </Fragment>
   );

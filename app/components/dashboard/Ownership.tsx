@@ -1,44 +1,9 @@
 "use client";
 
 import useCreateOwnershipModal from "@/app/hooks/useCreateOwnershipModal";
-import {
-  MagnifyingGlassIcon,
-  ChevronUpDownIcon,
-} from "@heroicons/react/24/outline";
-import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
-import {
-  Card,
-  CardHeader,
-  Input,
-  Typography,
-  Button,
-  CardBody,
-  Chip,
-  CardFooter,
-  Tabs,
-  TabsHeader,
-  Tab,
-  Avatar,
-  IconButton,
-  Tooltip,
-} from "@material-tailwind/react";
 import { format } from "date-fns";
-import { useState } from "react";
-
-const TABS = [
-  {
-    label: "All",
-    value: "all",
-  },
-  {
-    label: "Monitored",
-    value: "monitored",
-  },
-  {
-    label: "Unmonitored",
-    value: "unmonitored",
-  },
-];
+import { Table } from "flowbite-react";
+import { Fragment, useState } from "react";
 
 const TABLE_HEAD = [
   "Property ID",
@@ -48,54 +13,6 @@ const TABLE_HEAD = [
   "Type",
   "Status",
   "",
-];
-
-const TABLE_ROWS = [
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
-    name: "John Michael",
-    email: "john@creative-tim.com",
-    job: "Manager",
-    org: "Organization",
-    online: true,
-    date: "23/04/18",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
-    name: "Alexa Liras",
-    email: "alexa@creative-tim.com",
-    job: "Programator",
-    org: "Developer",
-    online: false,
-    date: "23/04/18",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
-    name: "Laurent Perrier",
-    email: "laurent@creative-tim.com",
-    job: "Executive",
-    org: "Projects",
-    online: false,
-    date: "19/09/17",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-4.jpg",
-    name: "Michael Levi",
-    email: "michael@creative-tim.com",
-    job: "Programator",
-    org: "Developer",
-    online: true,
-    date: "24/12/08",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-5.jpg",
-    name: "Richard Gran",
-    email: "richard@creative-tim.com",
-    job: "Manager",
-    org: "Executive",
-    online: false,
-    date: "04/10/21",
-  },
 ];
 
 interface OwnershipProps {
@@ -113,7 +30,72 @@ const Ownership: React.FC<OwnershipProps> = ({
   const [listResort, setListResort] = useState(resort);
   const createOwnershipModal = useCreateOwnershipModal();
 
-  return <div>Ownership</div>;
+  return (
+    <Fragment>
+      <div className="text-xl font-bold text-common mb-5">
+        Management Ownership
+      </div>
+      <div className="py-6">
+        <button
+          onClick={() =>
+            createOwnershipModal.onOpen(listResort.content, currentUser)
+          }
+          className="bg-common py-3 px-5 rounded-lg shadow-md text-white text-lg hover:bg-hover"
+        >
+          Create plan
+        </button>
+      </div>
+      <Table>
+        <Table.Head>
+          <Table.HeadCell>Property ID</Table.HeadCell>
+          <Table.HeadCell>Room ID</Table.HeadCell>
+          <Table.HeadCell>Start date</Table.HeadCell>
+          <Table.HeadCell>End date</Table.HeadCell>
+          <Table.HeadCell>Type</Table.HeadCell>
+          <Table.HeadCell>Status</Table.HeadCell>
+          <Table.HeadCell>
+            <span className="sr-only">Edit</span>
+          </Table.HeadCell>
+        </Table.Head>
+        <Table.Body className="divide-y">
+          {ownershipUserList?.content.map((item: any, index: number) => (
+            <Table.Row
+              key={index}
+              className="bg-white dark:border-gray-700 dark:bg-gray-800"
+            >
+              <Table.Cell>{item.id.propertyId}</Table.Cell>
+              <Table.Cell>{item.id.roomId}</Table.Cell>
+              <Table.Cell>
+                {format(new Date(item.startTime), "dd-MM-yyyy")}
+              </Table.Cell>
+              <Table.Cell>
+                {format(new Date(item.endTime), "dd-MM-yyyy")}
+              </Table.Cell>
+              <Table.Cell>
+                {item.type === "DEEDED" ? "DEEDED" : "NOT-DEEDED"}
+              </Table.Cell>
+              <Table.Cell>
+                {item.status === "ACCEPTED" ? (
+                  <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
+                    ACCEPTED
+                  </div>
+                ) : (
+                  <div className="py-2 px-1 text-center text-sm bg-slate-200 rounded-md text-rose-600">
+                    NOT-ACCEPTED
+                  </div>
+                )}
+              </Table.Cell>
+              <Table.Cell>
+                <div className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
+                  <p>Edit</p>
+                </div>
+              </Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table>
+    </Fragment>
+  );
 };
 
 export default Ownership;

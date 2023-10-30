@@ -13,7 +13,7 @@ const SearchBanner = () => {
 
       <div className="flex flex-col gap-2 p-8">
         <p>Destinations</p>
-        <select className="py-3 outline-none rounded-b-lg">
+        <select className="py-3 outline-0 outline-transparent border-0 focus:border-0 focus:outline-0 focus:border-transparent focus:outline-transparent focus:ring-0 rounded-b-lg">
           <option value="">Any</option>
           <option value="">Vung Tau</option>
           <option value="">Nha Trang</option>
@@ -22,7 +22,7 @@ const SearchBanner = () => {
 
       <div className="flex flex-col gap-2 p-8">
         <p>Duration</p>
-        <select className="py-3 outline-none rounded-b-lg">
+        <select className="py-3 outline-0 outline-transparent border-0 focus:border-0 focus:outline-0 focus:border-transparent focus:outline-transparent focus:ring-0 rounded-b-lg">
           <option value="">Any</option>
           <option value="">1 day</option>
           <option value="">2 - 4 days</option>

@@ -11,7 +11,7 @@ export default async function ListStaffPage() {
 
   return (
     <Fragment>
-      <ListStaff listUser={listUser} />;
+      <ListStaff listUser={listUser} />
     </Fragment>
   );
 }
