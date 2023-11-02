@@ -17,7 +17,7 @@ const ListResort: React.FC<ListResortProps> = ({ listApartment }) => {
   useEffect(() => {
     const getList = async () => {
       const list = await axios.get(
-        `https://holiday-swap.click/api/v1/apartment-for-rent?checkIn=2023-01-01&checkOut=2050-01-01&min=0&max=1000&pageNo=${
+        `https://holiday-swap.click/api/v1/apartment-for-rent?min=0&max=1000&pageNo=${
           page - 1
         }&pageSize=9&sortBy=id`
       );

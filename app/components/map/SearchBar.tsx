@@ -9,8 +9,13 @@ import GuestCard from "./AnyReactComponent/GuestCard";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Search } from "./AnyReactComponent/Search";
+import { useDispatch, useSelector } from 'react-redux';
+import { setApartmentForRentParams } from '@/app/redux/slices/searchApartmentForRentSlice';
+import dayjs from 'dayjs';
 
 export default function SearchBar() {
+  const dispatch = useDispatch();
+  const params = useSelector((state: any) => state.apartmentForRent.searchParams);
   const [show, setShow] = useState(false);
   const [hotelClass, setHotelClass] = useState(false);
   const [houseClass, setHouseClass] = useState(false);
@@ -19,10 +24,17 @@ export default function SearchBar() {
   const [clickedCheckOut, setClickedCheckOut] = useState(false);
   const [guestSelect, setGuestSelect] = useState(false);
   const [location, setLocation] = useState("");
-  const [checkInDate, setCheckInDate] = useState("-- /-- /----");
-  const [checkOutDate, setCheckOutDate] = useState("-- /-- /----");
-  const [guestNumber, setGuestNumber] = useState(1)
-  const [roomsNumber, setRoomsNumber] = useState(1)
+  const [checkInDate, setCheckInDate]
+    = useState(dayjs(params?.checkIn, 'YYYY-MM-DD').isValid()?
+    dayjs(params?.checkIn, 'YYYY-MM-DD').toDate().toString().slice(0, 15)
+    :"-- /-- /----");
+  const [checkOutDate, setCheckOutDate]
+    = useState(dayjs(params?.checkOut, 'YYYY-MM-DD').isValid()?
+    dayjs(params?.checkOut, 'YYYY-MM-DD').toDate().toString().slice(0, 15)
+    :"-- /-- /----");
+  const [guestNumber, setGuestNumber] = useState(params?.guest??1);
+  const [roomsNumber, setRoomsNumber] = useState(1);
+
 
 
   const [daysNum, setDaysNum] = useState(null)
@@ -37,18 +49,41 @@ export default function SearchBar() {
   const handleDatePicker = () => {
     setDatePicker(!datePicker);
     setClickedCheckOut(false);
-    setGuestSelect(false)
+    setGuestSelect(false);
+    updateDateSearchParams();
   };
   const handleClickedCheckOut = () => {
     setClickedCheckOut(!clickedCheckOut);
     setDatePicker(false);
     setGuestSelect(false)
+    updateDateSearchParams();
   };
   const handleGuestSelector = () => {
     setDatePicker(false);
     setClickedCheckOut(false);
-    setGuestSelect(!guestSelect)
+    setGuestSelect(!guestSelect);
+    updateGuestSearchParams();
   }
+
+  const updateDateSearchParams = () => {
+    console.log(checkInDate);
+    dispatch(setApartmentForRentParams({
+      ...params,
+      checkIn: dayjs(checkInDate).format('YYYY-MM-DD'),
+      checkOut: dayjs(checkOutDate).format('YYYY-MM-DD'),
+    }));
+    console.log(params);
+  }
+
+  const updateGuestSearchParams = () => {
+    console.log(guestNumber);
+    dispatch(setApartmentForRentParams({
+      ...params,
+      guest: guestNumber
+    }));
+    console.log(params);
+  }
+
   return (
       <div className="search-bar-cont">
         <SearchBoxWrapper>

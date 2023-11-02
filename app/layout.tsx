@@ -18,6 +18,7 @@ import "rc-slider/assets/index.css";
 import ModalEditDateBooking from "./components/modal/ModalEditDateBooking";
 import ModalEditGuestBooking from "./components/modal/ModalEditGuestBooking";
 import { DateRangeProvider } from "./apartment/DateRangeContext";
+import ReduxProvider from '@/app/components/ReduxProvider';
 
 const font = Poppins({
   subsets: ["latin"],
@@ -34,34 +35,36 @@ export const metadata = {
 };
 
 export default async function RootLayout({
-                                           children,
-                                         }: {
+   children,
+ }: {
   children: React.ReactNode;
 }) {
   const currentUser = await GetCurrentUser();
   return (
     <html lang="en">
       <body className={font.className}>
-        <Provider>
-          <DateRangeProvider>
-            <Suspense fallback={<Loading />}>
-            <Header currentUser={currentUser} />
-            <ClientOnly>
-              <ModalDetailProperty />
-              <ModalLogin />
-              <ModalCreatePlan />
-              <ModalCreateOwnership />
-              <ModalApartmentAmenities />
-              <ModalEditDateBooking />
-              <ModalEditGuestBooking />
-              <ToasterProvider />
-            </ClientOnly>
+        <ReduxProvider>
+          <Provider>
+            <DateRangeProvider>
+              <Suspense fallback={<Loading />}>
+                <Header currentUser={currentUser} />
+                <ClientOnly>
+                  <ModalDetailProperty />
+                  <ModalLogin />
+                  <ModalCreatePlan />
+                  <ModalCreateOwnership />
+                  <ModalApartmentAmenities />
+                  <ModalEditDateBooking />
+                  <ModalEditGuestBooking />
+                  <ToasterProvider />
+                </ClientOnly>
 
-            {children}
-            <Footer />
-          </Suspense>
-          </DateRangeProvider>
-        </Provider>
+                {children}
+                <Footer />
+              </Suspense>
+            </DateRangeProvider>
+          </Provider>
+        </ReduxProvider>
       </body>
     </html>
   );

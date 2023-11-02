@@ -1,13 +1,11 @@
 import { StaticImageData } from 'next/image';
 
-//  ######  CustomLink  ######## //
 export interface CustomLink {
   label: string;
   href: string;
   targetBlank?: boolean;
 }
 
-//  ##########  PostDataType ######## //
 export interface TaxonomyType {
   id: string | number;
   name: string;
@@ -259,5 +257,18 @@ export interface StayDataType {
     lat: number;
     lng: number;
   };
+}
+
+export interface SearchApartmentForRentParams {
+  locationName: string;
+  resortId: number | null;
+  checkIn: Date | null;
+  checkOut: Date | null;
+  guest: number | null;
+  listOfInRoomAmenity: number[];
+  listOfPropertyView: number[];
+  listOfPropertyType: number[];
+  sortBy: string;
+  sortDirection: "asc" | "desc";
 }
 

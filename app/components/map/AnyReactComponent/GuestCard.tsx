@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useMemo } from 'react';
 import "./GuestCardAnimate.css";
 
 
@@ -8,6 +8,8 @@ import Card from "@mui/material/Card/Card";
 import CardContent from '@mui/material/CardContent';
 import NcInputNumber from "./NcInputNumber";
 import { GuestsObject } from "../type";
+import { useDispatch, useSelector } from 'react-redux';
+import { setApartmentForRentParams, setGuestParams } from '@/app/redux/slices/searchApartmentForRentSlice';
 
 interface GuestCardProps {
   setGuestNumber: (value: number) => void;
@@ -18,10 +20,13 @@ interface GuestCardProps {
 }
 
 const GuestCard: React.FC<GuestCardProps> = ({ setGuestNumber, setRoomsNumber, top, right, position}) => {
+  const dispatch = useDispatch();
+  const params = useSelector((state: any) => state.apartmentForRent.searchParams);
+  const guestNumber = useSelector((state: any) => state.apartmentForRent.guest);
   const [roomsInputValue, setRoomsInputValue] = useState(1);
-  const [guestAdultsInputValue, setGuestAdultsInputValue] = useState(1);
-  const [guestChildrenInputValue, setGuestChildrenInputValue] = useState(0);
-  const [guestInfantsInputValue, setGuestInfantsInputValue] = useState(0);
+  const [guestAdultsInputValue, setGuestAdultsInputValue] = useState(guestNumber?.adult??1);
+  const [guestChildrenInputValue, setGuestChildrenInputValue] = useState(guestNumber?.children??0);
+  const [guestInfantsInputValue, setGuestInfantsInputValue] = useState(guestNumber?.infant??0);
 
   const handleChangeData = (value: number, type: keyof GuestsObject) => {
     let newValue = {
@@ -46,9 +51,21 @@ const GuestCard: React.FC<GuestCardProps> = ({ setGuestNumber, setRoomsNumber, t
       setRoomsInputValue(value);
       newValue.rooms = value;
     }
-    setGuestNumber(guestChildrenInputValue + guestAdultsInputValue + guestInfantsInputValue);
+    setGuestNumber(countGuest);
+    dispatch(setApartmentForRentParams({ ...params, guest: countGuest }));
+    dispatch(setGuestParams(
+      {
+        adult: guestAdultsInputValue,
+        children: guestChildrenInputValue,
+        infant: guestInfantsInputValue
+      }
+    ))
     setRoomsNumber(roomsInputValue);
   };
+
+  const countGuest = useMemo(() => {
+    return guestChildrenInputValue + guestAdultsInputValue + guestInfantsInputValue;
+  }, [guestChildrenInputValue, guestAdultsInputValue, guestInfantsInputValue]);
 
   useEffect(() => {
     setRoomsNumber(roomsInputValue);

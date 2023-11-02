@@ -8,23 +8,15 @@ const DEMO_PAGINATION: CustomLink[] = [
   {
     label: "1",
     href: "#",
-  },
-  {
-    label: "2",
-    href: "#",
-  },
-  {
-    label: "3",
-    href: "#",
-  },
-  {
-    label: "4",
-    href: "#",
-  },
+  }
 ];
 
 export interface PaginationProps {
   className?: string;
+  totalPages?: number;
+  last?: boolean,
+  first?: boolean,
+  pageNumber?: number,
 }
 
 const Pagination: FC<PaginationProps> = ({ className = "" }) => {

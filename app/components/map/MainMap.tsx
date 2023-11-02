@@ -13,15 +13,16 @@ import PropertyCardH from "./AnyReactComponent/PropertyCardH";
 import Pagination from "./AnyReactComponent/Pagination";
 import TabFilters from "./AnyReactComponent/TabFilters";
 import LocationInput from "./AnyReactComponent/LocationInput";
+import { useDispatch, useSelector } from 'react-redux';
 
 
 function mapApartmentToStayCard(apartmentForRentResponse: ApartmentForRentResponse): StayDataType[] {
   return apartmentForRentResponse.content.map((apartmentForRent) => {
     return {
-      id: `${apartmentForRent.coOwnerId.propertyId}-${apartmentForRent.coOwnerId.userId}-${apartmentForRent.coOwnerId.roomId}-${apartmentForRent.availableTime.id}`,
+      id: `${apartmentForRent.availableTime.id}`,
       // author: apartmentForRent.user.username,
       // date: null,
-      href: `/list-resort`,
+      href: `/apartment`,
       galleryImgs: apartmentForRent.property.propertyImage.map((image) => image.link),
       title: apartmentForRent.property.propertyName,
       commentCount: 5,
@@ -46,19 +47,21 @@ interface MainMapProps {
   }
 
 const MainMap: React.FC<MainMapProps> = ({data}) => {
-    const [coordinates, setCoordinates] = useState<Coords>({ lat: 10.200809, lng: 103.966850 });
-    const [places, setPlaces] = useState<StayDataType[]>([]);
-    const [Bounds, setBounds] = useState({ ne: { lat: 0, lng: 0 }, sw: { lat: 0, lng: 0 } });
-    const [currentHoverID, setCurrentHoverID] = useState<string | number>(-1);
-    const [showFullMapFixed, setShowFullMapFixed] = useState(false);
-    const [placeId, setPlaceId] = useState<string | null>(null);
+  const dispatch = useDispatch();
+  const params = useSelector((state: any) => state.apartmentForRent.searchParams);
+  const [coordinates, setCoordinates] = useState<Coords>({ lat: 10.200809, lng: 103.966850 });
+  const [places, setPlaces] = useState<StayDataType[]>([]);
+  const [Bounds, setBounds] = useState({ ne: { lat: 0, lng: 0 }, sw: { lat: 0, lng: 0 } });
+  const [currentHoverID, setCurrentHoverID] = useState<string | number>(-1);
+  const [showFullMapFixed, setShowFullMapFixed] = useState(false);
+  const [placeId, setPlaceId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchApartmentForRents();
-  }, []);
+  }, [params]);
 
   const fetchApartmentForRents = () => {
-    ApartmentForRentApis.getAll()
+    ApartmentForRentApis.getAllBySearchParams(params)
       .then((res) => {
         setPlaces(mapApartmentToStayCard(res));
         console.log(res);
