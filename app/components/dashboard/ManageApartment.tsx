@@ -156,13 +156,13 @@ export default function ManageApartment() {
   const [images, setImages] = useState(imagesData);
   const imageInputRef = useRef(null);
 
-  const handleDeleteImage = (index) => {
+  const handleDeleteImage = (index: any) => {
     const updatedImages = [...images];
     updatedImages.splice(index, 1);
     setImages(updatedImages);
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = (e: any) => {
     const file = e.target.files[0];
     if (file) {
       const imageURL = URL.createObjectURL(file);
@@ -253,12 +253,12 @@ export default function ManageApartment() {
             onChange={handleImageChange}
             ref={imageInputRef}
           />
-          <button
-            onClick={() => imageInputRef.current.click()}
+          {/* <button
+            onClick={() => imageInputRef?.current?.click()}
             className="add-image-button py-3 px-3"
           >
             Add Image
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

@@ -43,7 +43,7 @@ const Ownership: React.FC<OwnershipProps> = ({
           }
           className="bg-common py-3 px-5 rounded-lg shadow-md text-white text-lg hover:bg-hover"
         >
-          Create plan
+          Create ownership apartment
         </button>
       </div>
       <Table>
