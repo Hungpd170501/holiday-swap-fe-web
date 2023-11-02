@@ -9,7 +9,7 @@ const ProvincePicker = () => {
     { id: "o_check-box-3", checked: true },
   ]);
 
-  const handleCheckboxChange = (id) => {
+  const handleCheckboxChange = (id: any) => {
     const updatedCheckboxes = checkboxes.map((checkbox) => {
       if (checkbox.id === id) {
         checkbox.checked = !checkbox.checked;

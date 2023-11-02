@@ -43,15 +43,18 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ data, id }) => {
         <div className="flex flex-row gap-8">
           <div className="flex flex-col">
             <div className="mt-5 mb-2">
-              {data?.propertyImageResponses.slice(0, 1).map((item: any) => (
-                <Image
-                  className="rounded-md"
-                  src={item.link}
-                  alt="image"
-                  width={210}
-                  height={100}
-                />
-              ))}
+              {data?.propertyImageResponses
+                .slice(0, 1)
+                .map((item: any, index: number) => (
+                  <Image
+                    key={index}
+                    className="rounded-md"
+                    src={item.link}
+                    alt="image"
+                    width={210}
+                    height={100}
+                  />
+                ))}
             </div>
             <div>
               <div className="py-2">
@@ -116,7 +119,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ data, id }) => {
                   Sleeps{" "}
                 </td>
                 <td className="  text-[20px] font-semibold text-center px-4 py-1">
-                  Today's Price{" "}
+                  Today&apos;s Price{" "}
                 </td>
               </thead>
               <tbody>

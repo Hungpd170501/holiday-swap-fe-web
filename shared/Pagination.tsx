@@ -1,8 +1,7 @@
-import { CustomLink } from "@/data/types";
 import React, { FC } from "react";
 import twFocusClass from "@/utils/twFocusClass";
 import Link from "next/link";
-import { Route } from "@/routers/types";
+import { CustomLink } from '@/app/components/map/type';
 
 const DEMO_PAGINATION: CustomLink[] = [
   {
@@ -45,7 +44,7 @@ const Pagination: FC<PaginationProps> = ({ className = "" }) => {
       <Link
         key={index}
         className={`inline-flex w-11 h-11 items-center justify-center rounded-full bg-white hover:bg-neutral-100 border border-neutral-200 text-neutral-6000 dark:text-neutral-400 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:border-neutral-700 ${twFocusClass()}`}
-        href={pag.href as Route}
+        href={pag.href}
       >
         {pag.label}
       </Link>

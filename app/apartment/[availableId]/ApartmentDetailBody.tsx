@@ -2,7 +2,7 @@
 
 import useAparmentAmenitiesModal from "@/app/hooks/useApartmentAmenitiesModal";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CalendarAparment from "../CalendarAparment";
 import {
   addDays,
@@ -13,12 +13,14 @@ import {
   isBefore,
   subDays,
 } from "date-fns";
+import { useDateRange } from "../DateRangeContext";
 
 interface ApartmentDetailBodyProps {
   apartment?: any;
   dateRange: any;
   dateOut: any;
   handleChangeDateRange: (value: any) => void;
+  dateRangeDefault: any;
 }
 
 const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
@@ -26,8 +28,10 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
   dateRange,
   dateOut,
   handleChangeDateRange,
+  dateRangeDefault,
 }) => {
   const apartmentAmenitiesModal = useAparmentAmenitiesModal();
+  const { dateRangeContext, setDateRangeContext } = useDateRange();
 
   const calculateNightDifference = (startDate: any, endDate: any) => {
     const start = new Date(startDate);
@@ -35,6 +39,12 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
     const nightDifference = differenceInDays(end, start);
     return nightDifference;
   };
+
+  useEffect(() => {
+    setDateRangeContext(dateRange);
+  }, [dateRange]);
+
+  console.log("Check date range default", dateRangeDefault)
 
   return (
     <div className="w-full py-4 flex flex-col">
@@ -122,7 +132,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
 
       {/* Where your will sleep */}
       <div className="flex flex-col py-8 border-b border-gray-500">
-        <div className="text-2xl font-bold py-5">Where you'll sleep</div>
+        <div className="text-2xl font-bold py-5">Where you&apos;ll sleep</div>
         <div className="flex flex-col p-6 rounded-lg border border-gray-500 w-48">
           <Image
             src="/images/icons/bed-room.png"
@@ -204,10 +214,13 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
         </div>
         <CalendarAparment
           value={dateRange}
-          onChange={(value: any) => handleChangeDateRange(value)}
+          onChange={(value: any) => {
+            handleChangeDateRange(value);
+            setDateRangeContext(value.selection);
+          }}
           className="w-[90%] !text-[1em]"
+          minDate={dateRangeDefault.startDate}
           disabledDates={dateOut}
-          minDate={dateRange.startDate}
         />
       </div>
     </div>

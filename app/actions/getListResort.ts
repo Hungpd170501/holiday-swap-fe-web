@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default async function getListResort(pageNo: string) {
+export default async function GetListResort(pageNo: string) {
   try {
     const listResort = await axios.get(
       `https://holiday-swap.click/api/v1/resorts?pageNo=${pageNo}&pageSize=9`

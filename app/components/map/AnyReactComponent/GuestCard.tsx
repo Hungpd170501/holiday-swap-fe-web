@@ -9,13 +9,15 @@ import CardContent from '@mui/material/CardContent';
 import NcInputNumber from "./NcInputNumber";
 import { GuestsObject } from "../type";
 
-export default function GuestCard({
-  setGuestNumber,
-  setRoomsNumber,
-  top,
-  right,
-  position,
-}) {
+interface GuestCardProps {
+  setGuestNumber: (value: number) => void;
+  setRoomsNumber: (value: number) => void;
+  top?: string;
+  right?: string;
+  position?: string;
+}
+
+const GuestCard: React.FC<GuestCardProps> = ({ setGuestNumber, setRoomsNumber, top, right, position}) => {
   const [roomsInputValue, setRoomsInputValue] = useState(1);
   const [guestAdultsInputValue, setGuestAdultsInputValue] = useState(1);
   const [guestChildrenInputValue, setGuestChildrenInputValue] = useState(0);
@@ -96,3 +98,5 @@ export default function GuestCard({
     </Card>
   );
 }
+
+export default GuestCard;

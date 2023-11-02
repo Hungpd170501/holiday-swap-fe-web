@@ -1,4 +1,4 @@
-import getListResort from "@/app/actions/getListResort";
+import GetListResort from "@/app/actions/getListResort";
 import ListResortAll from "@/app/components/staff/ListResortAll";
 import React from "react";
 
@@ -7,7 +7,7 @@ export const metadata = {
 };
 
 export default async function ListResort() {
-  const resorts = await getListResort("0");
+  const resorts = await GetListResort("0");
   return (
     <div>
       <ListResortAll resorts={resorts} />

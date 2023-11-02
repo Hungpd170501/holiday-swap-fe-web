@@ -41,6 +41,7 @@ const ApartmentDetailHeader: React.FC<ApartmentDetailHeaderProps> = ({
               .slice(1, 5)
               .map((item: any, index: number) => (
                 <div
+                  key={item.id}
                   className={`w-full h-[30vh] relative overflow-hidden ${
                     index === 1 || index === 3 ? "rounded-r-lg" : ""
                   }`}

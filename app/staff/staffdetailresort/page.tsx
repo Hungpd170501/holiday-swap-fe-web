@@ -1,6 +1,5 @@
 import DropDownEditResort from "@/app/components/staff/DropDownEditResort";
 import ListActionApproveApartment from "@/app/components/staff/ListActionApproveApartment";
-import ListApproveResort from "@/app/components/staff/ListApproveResort";
 import Image from "next/image";
 import React from "react";
 import { AiOutlineCheck, AiOutlineClose, AiTwotoneStar } from "react-icons/ai";
@@ -118,7 +117,7 @@ export default function StaffDetailResort() {
           <div className="pr-[30px]">
             <div className="pb-[10px]">
               Leave your guidebooks at home and dive into the local cultures
-              that make each destination so special. We’ll connect you with our
+              that make each destination so special. Well connect you with our
               exclusive experiences. Each trip is carefully crafted to let enjoy
               your vacation.
             </div>

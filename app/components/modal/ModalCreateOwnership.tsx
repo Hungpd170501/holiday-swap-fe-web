@@ -7,7 +7,7 @@ import Input from "../input/Input";
 import Modal from "./Modal";
 import { toast } from "react-hot-toast";
 import useCreatePlanModal from "@/app/hooks/useCreatePlanModal";
-import { Select, Option, Textarea } from "@material-tailwind/react";
+import { Select, Textarea, Label, FileInput } from "flowbite-react";
 import useAxiosAuthClient from "@/app/hooks/useAxiosAuthClient";
 import { useSession } from "next-auth/react";
 import axios from "axios";
@@ -176,30 +176,35 @@ export default function ModalCreateOwnership() {
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <div className="grid grid-cols-2 gap-4">
-        <Select
-          id="resortId"
-          label="Resort"
-          value={resortId}
-          onChange={handleChangeResortId}
-        >
-          {dataResort?.map((item: any) => (
-            <Option key={item.id} value={item.id}>
-              {item.resortName}
-            </Option>
-          ))}
-        </Select>
-        <Select
-          id="propertyId"
-          label="Property"
-          value={propertyValue}
-          onChange={handleChangePropertyValue}
-        >
-          {properties?.map((item: any) => (
-            <Option key={item.id} value={item.id}>
-              {item.propertyName}
-            </Option>
-          ))}
-        </Select>
+        <div>
+          <Label value="Select resort" />
+          <Select
+            id="resortId"
+            // value={resortId}
+            onChange={handleChangeResortId}
+          >
+            {dataResort?.map((item: any) => (
+              <option key={item.id} value={item.id}>
+                {item.resortName}
+              </option>
+            ))}
+          </Select>
+        </div>
+
+        <div>
+          <Label value="Select property" />
+          <Select
+            id="propertyId"
+            value={propertyValue}
+            onChange={handleChangePropertyValue}
+          >
+            {properties?.map((item: any) => (
+              <option key={item.id} value={item.id}>
+                {item.propertyName}
+              </option>
+            ))}
+          </Select>
+        </div>
       </div>
       <div onClick={handleVisibleCalendar} className="grid grid-cols-1 gap-4">
         <div
@@ -260,11 +265,10 @@ export default function ModalCreateOwnership() {
       </div>
       <div className="grid grid-cols-1">
         <label>Contract Image</label>
-        <input
+        <FileInput
           {...register("contractImages", {
             required: "Recipe picture is required",
           })}
-          type="file"
           id="contractImages"
           onChange={handleChangeImage}
           multiple

@@ -7,7 +7,7 @@ import Input from "../input/Input";
 import Modal from "./Modal";
 import { toast } from "react-hot-toast";
 import useCreatePlanModal from "@/app/hooks/useCreatePlanModal";
-import { Select, Option, Textarea } from "@material-tailwind/react";
+import { Label, Select, Textarea, FileInput } from "flowbite-react";
 import useAxiosAuthClient from "@/app/hooks/useAxiosAuthClient";
 import { useSession } from "next-auth/react";
 import axios from "axios";
@@ -152,48 +152,48 @@ export default function ModalCreatePlan() {
         />
       </div>
       <div className="grid grid-cols-2 gap-4">
-        <Select
-          id="priceType"
-          label="Price Type"
-          value={priceTypeValue}
-          onChange={handleChangePriceType}
-        >
-          {priceType.map((item) => (
-            <Option key={item.id} value={item.priceType}>
-              {item.priceType}
-            </Option>
-          ))}
-        </Select>
-        <Select
-          label="Plan Price Interval"
-          id="planPriceInterval"
-          value={planPriceIntervalValue}
-          onChange={handleChangePlanPriceInterval}
-        >
-          {planPriceInterval.map((item) => (
-            <Option key={item.id} value={item.planPriceInterval}>
-              {item.planPriceInterval}
-            </Option>
-          ))}
-        </Select>
+        <div>
+          <Label value="Select price type" />
+          <Select
+            id="priceType"
+            value={priceTypeValue}
+            onChange={handleChangePriceType}
+          >
+            {priceType.map((item) => (
+              <option key={item.id} value={item.priceType}>
+                {item.priceType}
+              </option>
+            ))}
+          </Select>
+        </div>
+        <div>
+          <Label value="Select plan price interval" />
+          <Select
+            id="planPriceInterval"
+            value={planPriceIntervalValue}
+            onChange={handleChangePlanPriceInterval}
+          >
+            {planPriceInterval.map((item) => (
+              <option key={item.id} value={item.planPriceInterval}>
+                {item.planPriceInterval}
+              </option>
+            ))}
+          </Select>
+        </div>
       </div>
       <div className="grid grid-cols-1">
-        <input
+        <FileInput
           {...register("image", {
             required: "Recipe picture is required",
           })}
-          type="file"
           id="image"
           onChange={handleChangeImage}
         />
       </div>
       <div className="grid grid-cols-1">
         <div className="w-full">
-          <Textarea
-            label="Description"
-            id="description"
-            {...register("description")}
-          />
+          <Label value="Description" />
+          <Textarea id="description" {...register("description")} />
         </div>
       </div>
     </div>

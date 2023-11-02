@@ -1,22 +1,17 @@
-import React, { Fragment, useState } from "react";
-import CardListResort from "../components/listResort/CardListResort";
+import React from "react";
 import ClientOnly from "../components/ClientOnly";
-import Container from "../components/Container";
-import getListResort from "../actions/getListResort";
-import DetailPropertyModal from "../components/modal/ModalBaseDetail";
-import ListResort from "./ListResort";
-import SearchBarResot from "./SearchBarResot";
-import CalendarAparment from "./CalendarAparment";
 import ListAparment from "./ListAparment";
+import GetListApartment from "../actions/getListApartment";
 
 export const metadata = {
   title: "Apartments",
 };
 
-export default function listResortPage() {
+export default async function listResortPage() {
+  const listApartment = await GetListApartment();
   return (
     <ClientOnly>
-      <ListAparment />
+      <ListAparment listApartment={listApartment} />
     </ClientOnly>
   );
 }

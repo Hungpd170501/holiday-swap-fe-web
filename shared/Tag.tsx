@@ -1,6 +1,6 @@
-import { TaxonomyType } from "@/data/types";
 import Link from "next/link";
 import React, { FC } from "react";
+import { TaxonomyType } from '@/app/components/map/type';
 
 export interface TagProps {
   className?: string;

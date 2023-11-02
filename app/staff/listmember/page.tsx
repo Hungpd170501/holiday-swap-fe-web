@@ -1,4 +1,4 @@
-import getListUser from "@/app/actions/getListUser";
+import GetListUser from "@/app/actions/getListUser";
 import ListMembershipAll from "@/app/components/staff/ListMembershipAll";
 import React from "react";
 
@@ -7,7 +7,7 @@ export const metadata = {
 };
 
 export default async function ListMember() {
-  const users = await getListUser();
+  const users = await GetListUser();
   return (
     <div>
       <ListMembershipAll users={users} />

@@ -4,7 +4,7 @@ interface IParams {
   resortId?: string;
 }
 
-export default async function getProperitesByResortId(params: IParams) {
+export default async function GetProperitesByResortId(params: IParams) {
   try {
     const { resortId } = params;
 

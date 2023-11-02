@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { DEMO_STAY_LISTINGS } from "@/data/listings";
 import StartRating from "./StartRating";
 import BtnLikeIcon from "./BtnLikeIcon";
 import SaleOffBadge from "./SaleOffBadge";
@@ -13,13 +12,10 @@ export interface StayCardProps {
   data?: StayDataType;
   size?: "default" | "small";
 }
-
-const DEMO_DATA = DEMO_STAY_LISTINGS[0];
-
 const StayCard: FC<StayCardProps> = ({
   size = "default",
   className = "",
-  data = DEMO_DATA,
+  data = {}
 }) => {
   const {
     galleryImgs,
@@ -43,7 +39,7 @@ const StayCard: FC<StayCardProps> = ({
         <GallerySlider
           uniqueID={`${id}`}
           ratioClass="aspect-w-4 aspect-h-3 "
-          galleryImgs={galleryImgs}
+          galleryImgs={galleryImgs??["https://media-cdn.tripadvisor.com/media/photo-s/28/fd/37/ed/pearl-farm-beach-resort.jpg"]}
           href={`${href}/${id}`}
           galleryClass={size === "default" ? undefined : ""}
         />

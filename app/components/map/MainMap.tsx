@@ -7,7 +7,6 @@ import React, { useState, useEffect } from "react";
 // import GoogleMapReact, { Coords } from 'google-map-react';
 import GoogleMapReact, { Coords } from 'google-map-react-concurrent';
 import SearchBar from "./SearchBar";
-import { DEMO_STAY_LISTINGS } from "@/data/listings";
 import Checkbox from "@/shared/Checkbox";
 import AnyReactComponent from "./AnyReactComponent/AnyReactComponent";
 import PropertyCardH from "./AnyReactComponent/PropertyCardH";
@@ -15,8 +14,6 @@ import Pagination from "./AnyReactComponent/Pagination";
 import TabFilters from "./AnyReactComponent/TabFilters";
 import LocationInput from "./AnyReactComponent/LocationInput";
 
-
-// const DEMO_EXPERIENCES = DEMO_STAY_LISTINGS.filter((_, i) => i < 24);
 
 function mapApartmentToStayCard(apartmentForRentResponse: ApartmentForRentResponse): StayDataType[] {
   return apartmentForRentResponse.content.map((apartmentForRent) => {

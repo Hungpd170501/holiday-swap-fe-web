@@ -46,7 +46,7 @@ const SearchBarResot = () => {
         <div className="bg-white rounded-3xl md:w-[1200px] w-auto flex-row z-20 grid md:grid-cols-4 sm:grid-cols-1 absolute mt-36">
           <div className="flex flex-col gap-2 p-6">
             <p>Resort</p>
-            <select className="py-3 outline-none rounded-b-lg">
+            <select className="py-3 outline-none border-0 border-transparent focus:ring-0 rounded-b-lg">
               <option value="">Resort Nha Trang</option>
               <option value="">Resrot Khanh Hoa</option>
               <option value="">Resort Cam Ranh</option>
@@ -85,8 +85,10 @@ const SearchBarResot = () => {
       {visibleCalendar ? (
         <CalendarAparment
           value={dateRange}
-          className="w-[700px] absolute top-[400px] left-96 z-30"
-          onChange={(value: any) => setDateRange(value.selection)}/>
+          className="w-[700px] absolute top-[400px] left-96 z-50"
+          onChange={(value: any) => setDateRange(value.selection)}
+          minDate={new Date()}
+        />
       ) : (
         ""
       )}

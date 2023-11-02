@@ -7,35 +7,51 @@ import SearchBooking from "./SearchBooking";
 import ListRoom from "./ListRoom";
 import BookingPriceCard from "./BookingPriceCard";
 import BookingInformation from "./BookingInformation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 
 interface BookingProps {
   currentUser?: any;
 }
 
 const Booking: React.FC<BookingProps> = ({ currentUser }) => {
-  const [roomId, setRoomId] = useState(null);
-  const [dateRange, setDateRange] = useState(null);
   const [selectedRoomData, setSelectedRoomData] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
-
-  const handleChooseRoomProp = (roomId: any, data: any, visible: any) => {
-    setRoomId(roomId);
-    setSelectedRoomData(data);
-    setIsVisible(visible);
-  };
-
-  const handleDateRange = (dateRange: any) => {
-    setDateRange(dateRange);
-  };
+  const searchParams = useSearchParams();
+  const apartmentId = searchParams?.get("apartmentId");
+  const userId = searchParams?.get("userId");
+  const apartmentImage = searchParams?.get("apartmentImage");
+  const apartmentName = searchParams?.get("aparmentName");
+  const totalGuest = searchParams?.get("totalGuest");
+  const dateRangeBooking = searchParams?.get("dateRangeBooking");
+  const dateRange = searchParams?.get("dateRange");
+  const apartmentAllowGuest = searchParams?.get("apartmentAllowGuest");
+  const totalPrice = searchParams?.get("totalPrice");
+  const roomId = searchParams?.get("roomId");
+  const priceNight = searchParams?.get("priceNight")
 
   return (
     <Container>
       <div className="grid grid-cols-2 gap-28 py-32 px-20">
         <div className="w-full">
-          <BookingInformation />
+          <BookingInformation
+            totalGuest={totalGuest}
+            apartmentAllowGuest={apartmentAllowGuest}
+            dateRangeBooking={dateRangeBooking}
+            dateRange={dateRange}
+            apartmentId={apartmentId}
+            userId={userId}
+            roomId={roomId}
+          />
         </div>
         <div className="w-full sticky">
-          <BookingPriceCard />
+          <BookingPriceCard
+            apartmentImage={apartmentImage}
+            apartmentName={apartmentName}
+            totalPrice={totalPrice}
+            priceNight={priceNight}
+            dateRangeBooking={dateRangeBooking}
+          />
         </div>
       </div>
     </Container>

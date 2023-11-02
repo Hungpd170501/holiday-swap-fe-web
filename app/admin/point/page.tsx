@@ -1,13 +1,16 @@
-import React from "react";
-import Point from "./Point";
-import getPoint from "@/app/actions/getPoint";
+import React, { Fragment } from "react";
+import Point from "../../components/admin/Point";
+import GetPoint from "@/app/actions/getPoint";
 
 export const metadata = {
   title: "Manage Point Admin",
 };
 
-
 export default async function PointPage() {
-  const point = await getPoint();
-  return <Point point={point} />;
+  const point = await GetPoint();
+  return (
+    <Fragment>
+      <Point point={point} />
+    </Fragment>
+  );
 }

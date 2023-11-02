@@ -1,6 +1,6 @@
 import React from "react";
 import SidebarChat from "./components/SidebarChat";
-import getConversations from "../actions/getConversations";
+import GetConversations from "../actions/getConversations";
 import ConversationList from "./components/ConversationList";
 
 export default async function ChatLayout({
@@ -8,7 +8,7 @@ export default async function ChatLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const conversations = await getConversations();
+  const conversations = await GetConversations();
   return (
     <SidebarChat>
       <ConversationList initialItems={conversations} />

@@ -4,7 +4,7 @@ interface IParams {
   availableId?: string;
 }
 
-export default async function getApartmentById(params: IParams) {
+export default async function GetApartmentById(params: IParams) {
   try {
     const { availableId } = params;
     const apartment = await axios.get(

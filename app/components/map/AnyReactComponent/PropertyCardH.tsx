@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import GallerySlider from "./GallerySlider";
-import { DEMO_STAY_LISTINGS } from "@/data/listings";
 import StartRating from "./StartRating";
 import BtnLikeIcon from "./BtnLikeIcon";
 import SaleOffBadge from "./SaleOffBadge";
@@ -13,11 +12,9 @@ export interface PropertyCardHProps {
   data?: StayDataType;
 }
 
-const DEMO_DATA = DEMO_STAY_LISTINGS[0];
-
 const PropertyCardH: FC<PropertyCardHProps> = ({
   className = "",
-  data = DEMO_DATA,
+  data = {},
 }) => {
   const {
     galleryImgs,
@@ -41,7 +38,7 @@ const PropertyCardH: FC<PropertyCardHProps> = ({
       <div className="flex-shrink-0 p-3 w-full sm:w-64 ">
         <GallerySlider
           ratioClass="aspect-w-1 aspect-h-1"
-          galleryImgs={galleryImgs}
+          galleryImgs={galleryImgs??["https://media-cdn.tripadvisor.com/media/photo-s/28/fd/37/ed/pearl-farm-beach-resort.jpg"]}
           className="w-full h-full rounded-2xl overflow-hidden"
           uniqueID={`${id}`}
           href={href}
