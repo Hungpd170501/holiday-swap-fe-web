@@ -19,7 +19,7 @@ export default async function BookingDetailPage({
         <span className="text-common">Booking Detail</span>
       </div>
       <div>
-        <BookingDetail />
+        <BookingDetail bookingDetail={bookingDetail} />
       </div>
     </div>
   );

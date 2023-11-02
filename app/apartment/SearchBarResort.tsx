@@ -17,10 +17,26 @@ const initialDateRange = {
   key: "selection",
 };
 
-const SearchBarResot = () => {
+interface SearchBarResortProps {
+  listResort: any;
+  handleSubmitSearchApartment: (
+    resortId: string,
+    dateRange: any,
+    numberOfGuest: number
+  ) => void;
+}
+
+const SearchBarResort: React.FC<SearchBarResortProps> = ({
+  listResort,
+  handleSubmitSearchApartment,
+}) => {
   const [visibleCalendar, setVisibleCalendar] = useState(false);
   const [visibleGuest, setVisibleGuest] = useState(false);
   const [dateRange, setDateRange] = useState(initialDateRange);
+  const [resortId, setResortId] = useState<string>("");
+  const [adultsGuest, setAdultsGuest] = useState<number>(1);
+  const [chidrenGuest, setChildrenGuest] = useState<number>(0);
+  const [totalGuest, setTotalGuest] = useState<number>(0);
 
   const handleVisibleCalendar = () => {
     if (visibleGuest) {
@@ -39,16 +55,55 @@ const SearchBarResot = () => {
       setVisibleGuest(!visibleGuest);
     }
   };
+
+  const handleDescreaseAdultGuest = (value: number) => {
+    if (value <= 1) {
+      return 1;
+    }
+
+    setAdultsGuest(value - 1);
+    setTotalGuest(totalGuest - 1);
+  };
+
+  const handleInscreaseAdultGuest = (value: number) => {
+    setAdultsGuest(value + 1);
+    setTotalGuest(totalGuest + 1);
+  };
+
+  const handldeDescreaseChildrenGuest = (value: number) => {
+    if (value <= 0) {
+      return 0;
+    }
+
+    setChildrenGuest(value - 1);
+    setTotalGuest(totalGuest - 1);
+  };
+
+  const handleInscreaseChildrenGuest = (value: number) => {
+    setChildrenGuest(value + 1);
+    setTotalGuest(totalGuest + 1);
+  };
+
+  const handleChangeResortId = (value: any) => {
+    setResortId(value);
+  };
+
   return (
     <Fragment>
       <div className="bg-resort-banner bg-cover bg-no-repeat bg-center flex items-center py-64 justify-center relative opacity-80">
         <div className="bg-white rounded-3xl md:w-[1200px] w-auto flex-row z-20 grid md:grid-cols-4 sm:grid-cols-1 absolute mt-36">
           <div className="flex flex-col gap-2 p-6">
             <p>Resort</p>
-            <select className="py-3 outline-none border-0 border-transparent focus:ring-0 rounded-b-lg">
-              <option value="">Resort Nha Trang</option>
-              <option value="">Resrot Khanh Hoa</option>
-              <option value="">Resort Cam Ranh</option>
+            <select
+              value={resortId}
+              onChange={(e) => handleChangeResortId(e.target.value)}
+              className="py-3 outline-none border-0 border-transparent focus:ring-0 rounded-b-lg"
+            >
+              {listResort?.content.map((item: any, index: number) => (
+                <option key={item.id} value={item.id}>
+                  {item.resortName}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -75,7 +130,12 @@ const SearchBarResot = () => {
             </div>
           </div>
 
-          <div className="bg-common md:rounded-r-3xl md:rounded-l-none rounded-b-3xl py-5 flex flex-col justify-center items-center text-white hover:cursor-pointer hover:bg-sky-500">
+          <div
+            onClick={() =>
+              handleSubmitSearchApartment(resortId, dateRange, totalGuest)
+            }
+            className="bg-common md:rounded-r-3xl md:rounded-l-none rounded-b-3xl py-5 flex flex-col justify-center items-center text-white hover:cursor-pointer hover:bg-sky-500"
+          >
             <BiSearch size={18} color="white" />
             <button>Search now</button>
           </div>
@@ -100,11 +160,17 @@ const SearchBarResot = () => {
               <div className="text-xs text-gray-700">18+ yrs</div>
             </div>
             <div className="flex flex-row gap-3">
-              <button type="button">
+              <button
+                onClick={() => handleDescreaseAdultGuest(adultsGuest)}
+                type="button"
+              >
                 <GrSubtractCircle size={20} />
               </button>
-              <div>1</div>
-              <button type="button">
+              <div>{adultsGuest}</div>
+              <button
+                onClick={() => handleInscreaseAdultGuest(adultsGuest)}
+                type="button"
+              >
                 <AiOutlinePlusCircle size={20} />
               </button>
             </div>
@@ -113,14 +179,20 @@ const SearchBarResot = () => {
           <div className="flex flex-row items-center justify-between py-3">
             <div className="flex flex-col">
               <div className="font-bold">Children</div>
-              <div className="text-xs text-gray-700">18+ yrs</div>
+              <div className="text-xs text-gray-700">2 - 17 yrs</div>
             </div>
             <div className="flex flex-row gap-3">
-              <button type="button">
+              <button
+                onClick={() => handldeDescreaseChildrenGuest(chidrenGuest)}
+                type="button"
+              >
                 <GrSubtractCircle size={20} />
               </button>
-              <div>1</div>
-              <button type="button">
+              <div>{chidrenGuest}</div>
+              <button
+                onClick={() => handleInscreaseChildrenGuest(chidrenGuest)}
+                type="button"
+              >
                 <AiOutlinePlusCircle size={20} />
               </button>
             </div>
@@ -133,4 +205,4 @@ const SearchBarResot = () => {
   );
 };
 
-export default SearchBarResot;
+export default SearchBarResort;

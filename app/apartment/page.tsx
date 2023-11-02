@@ -2,6 +2,7 @@ import React from "react";
 import ClientOnly from "../components/ClientOnly";
 import ListAparment from "./ListAparment";
 import GetListApartment from "../actions/getListApartment";
+import GetListResort from "../actions/getListResort";
 
 export const metadata = {
   title: "Apartments",
@@ -9,9 +10,10 @@ export const metadata = {
 
 export default async function listResortPage() {
   const listApartment = await GetListApartment();
+  const listResort = await GetListResort("0");
   return (
     <ClientOnly>
-      <ListAparment listApartment={listApartment} />
+      <ListAparment listApartment={listApartment} listResort={listResort} />
     </ClientOnly>
   );
 }

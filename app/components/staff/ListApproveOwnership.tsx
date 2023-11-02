@@ -2,33 +2,11 @@
 
 import useAxiosAuthClient from "@/app/hooks/useAxiosAuthClient";
 import useCreateOwnershipModal from "@/app/hooks/useCreateOwnershipModal";
-import {
-  MagnifyingGlassIcon,
-  ChevronUpDownIcon,
-} from "@heroicons/react/24/outline";
-import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
-import {
-  Card,
-  CardHeader,
-  Input,
-  Typography,
-  Button,
-  CardBody,
-  Chip,
-  CardFooter,
-  Tabs,
-  TabsHeader,
-  Tab,
-  Avatar,
-  IconButton,
-  Tooltip,
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
-} from "@material-tailwind/react";
+
 import axios from "axios";
-import { useState } from "react";
+import { format } from "date-fns";
+import { Dropdown, Table } from "flowbite-react";
+import { Fragment, useState } from "react";
 import toast from "react-hot-toast";
 import { BiBlock } from "react-icons/bi";
 import { BsCheck2Circle } from "react-icons/bs";
@@ -115,7 +93,160 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
       });
   };
 
-  return <div>List approve</div>;
+  return (
+    <Fragment>
+      <Table>
+        <Table.Head>
+          <Table.HeadCell>Property ID</Table.HeadCell>
+          <Table.HeadCell>Room ID</Table.HeadCell>
+          <Table.HeadCell>User ID</Table.HeadCell>
+          <Table.HeadCell>Start date</Table.HeadCell>
+          <Table.HeadCell>End date</Table.HeadCell>
+          <Table.HeadCell>Type</Table.HeadCell>
+          <Table.HeadCell>Status</Table.HeadCell>
+          <Table.HeadCell>
+            <span className="sr-only">Edit</span>
+          </Table.HeadCell>
+        </Table.Head>
+        <Table.Body className="divide-y">
+          {ownershipUserList?.content.map((item: any, index: number) => {
+            return (
+              <Table.Row
+                key={index}
+                className="bg-white dark:border-gray-700 dark:bg-gray-800"
+              >
+                <Table.Cell>{item.id.propertyId}</Table.Cell>
+                <Table.Cell>{item.id.roomId}</Table.Cell>
+                <Table.Cell>{item.id.userId}</Table.Cell>
+                <Table.Cell>
+                  {format(new Date(item.startTime), "dd-MM-yyyy")}
+                </Table.Cell>
+                <Table.Cell>
+                  {format(new Date(item.endTime), "dd-MM-yyyy")}
+                </Table.Cell>
+                <Table.Cell>
+                  {item.type === "DEEDED" ? "DEEDED" : "NOT-DEEDED"}
+                </Table.Cell>
+                <Table.Cell>
+                  {item.status === "ACCEPTED" ? (
+                    <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
+                      ACCEPTED
+                    </div>
+                  ) : (
+                    <div className="py-2 px-1 text-center text-sm bg-slate-200 rounded-md text-rose-600">
+                      NOT-ACCEPTED
+                    </div>
+                  )}
+                </Table.Cell>
+                <Table.Cell>
+                  <Dropdown
+                    label=""
+                    dismissOnClick={false}
+                    renderTrigger={() => (
+                      <span className="text-sky-500 hover:underline cursor-pointer">
+                        Edit
+                      </span>
+                    )}
+                  >
+                    {(() => {
+                      if (item.status === "ACCEPTED") {
+                        return (
+                          <>
+                            {statusList
+                              .slice(1, 3)
+                              .map((status: any, index: number) => (
+                                <Dropdown.Item
+                                  key={index}
+                                  value={status.status}
+                                  className="flex items-center gap-2"
+                                  onClick={() =>
+                                    handleOnChangeStatus(
+                                      item.id.propertyId,
+                                      item.id.roomId,
+                                      item.id.userId,
+                                      status.status
+                                    )
+                                  }
+                                >
+                                  <status.icon size={18} color={status.color} />
+
+                                  <span className={`text-[${status.color}]`}>
+                                    {status.status}
+                                  </span>
+                                </Dropdown.Item>
+                              ))}
+                          </>
+                        );
+                      } else if (item.status === "REJECTED") {
+                        const newArrray = statusList.filter(
+                          (item) =>
+                            item.status === "ACCEPTED" ||
+                            item.status === "PENDING"
+                        );
+                        return (
+                          <>
+                            {newArrray.map((status: any, index: number) => (
+                              <Dropdown.Item
+                                key={index}
+                                value={status.status}
+                                className="flex items-center gap-2"
+                                onClick={() =>
+                                  handleOnChangeStatus(
+                                    item.id.propertyId,
+                                    item.id.roomId,
+                                    item.id.userId,
+                                    status.status
+                                  )
+                                }
+                              >
+                                <status.icon size={18} color={status.color} />
+
+                                <span className={`text-[${status.color}]`}>
+                                  {status.status}
+                                </span>
+                              </Dropdown.Item>
+                            ))}
+                          </>
+                        );
+                      } else if (item.status === "PENDING") {
+                        return (
+                          <>
+                            {statusList
+                              .slice(0, 2)
+                              .map((status: any, index: number) => (
+                                <Dropdown.Item
+                                  key={index}
+                                  value={status.status}
+                                  className="flex items-center gap-2"
+                                  onClick={() =>
+                                    handleOnChangeStatus(
+                                      item.id.propertyId,
+                                      item.id.roomId,
+                                      item.id.userId,
+                                      status.status
+                                    )
+                                  }
+                                >
+                                  <status.icon size={18} color={status.color} />
+
+                                  <span className={`text-[${status.color}]`}>
+                                    {status.status}
+                                  </span>
+                                </Dropdown.Item>
+                              ))}
+                          </>
+                        );
+                      }
+                    })()}
+                  </Dropdown>
+                </Table.Cell>
+              </Table.Row>
+            );
+          })}
+        </Table.Body>
+      </Table>
+    </Fragment>
+  );
 };
 
 export default ListApproveOwnership;
