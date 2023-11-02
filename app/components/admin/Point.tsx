@@ -1,12 +1,13 @@
-"use client";
+'use client';
 
-import { ChangeEvent, Fragment, useEffect, useState } from "react";
-import { format } from "date-fns";
-import useAxiosAuthClient from "@/app/hooks/useAxiosAuthClient";
-import toast from "react-hot-toast";
-import axios from "axios";
-import { Table } from "flowbite-react";
-const TABLE_HEAD = ["ID", "Point Price", "Created Date", "Status", ""];
+import { ChangeEvent, Fragment, useEffect, useState } from 'react';
+import { format } from 'date-fns';
+import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
+import toast from 'react-hot-toast';
+import axios from 'axios';
+import { Table } from 'flowbite-react';
+import useEditPointModal from '@/app/hooks/useEditPointModal';
+const TABLE_HEAD = ['ID', 'Point Price', 'Created Date', 'Status', ''];
 
 interface PointProps {
   point: any;
@@ -36,30 +37,34 @@ const Point: React.FC<PointProps> = ({ point }) => {
     axiosAuthClient
       .post(`/point/create?price=${price}`)
       .then(async (response) => {
-        toast.success("Create point success");
-        setPrice("");
-        const newPoint = await axiosAuthClient.get("/point");
+        toast.success('Create point success');
+        setPrice('');
+        const newPoint = await axiosAuthClient.get('/point');
         setListPoint(newPoint.data);
       })
       .catch(() => {
-        toast.error("Something went wrong!");
+        toast.error('Something went wrong!');
       })
       .finally(() => {
         setIsLoading(false);
       });
   };
+  const editPointModal = useEditPointModal();
 
   return (
     <Fragment>
       <div className="text-xl font-bold text-common mb-9">Management Point</div>
       <div className="py-6">
-        <div className="w-[100px] mb-4">
-          <label>Point Price</label>
+        <label className="font-bold">Point Price</label>
+        <div className="flex flex-row items-center my-3">
+          <div>
+            1 point<span className="text-common font-bold mx-2">=</span>
+          </div>
           <input
             value={price}
             placeholder="Input point price"
             onChange={(e) => setPrice(e.target.value)}
-            className="peer p-4 pt-6 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed"
+            className="peer px-2 py-2 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed"
           />
         </div>
         <button
@@ -80,26 +85,26 @@ const Point: React.FC<PointProps> = ({ point }) => {
         <Table.Body className="divide-y">
           <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
             <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-              {listPoint?.id}
+              1 {/* {listPoint?.id} */}
             </Table.Cell>
             <Table.Cell>{listPoint?.pointPrice}</Table.Cell>
             <Table.Cell>
               {(() => {
                 if (listPoint?.pointCreatedDate) {
                   const date = listPoint?.pointCreatedDate as string;
-                  const newDate = date.split(" ")[0] as string;
-                  return <div>{format(new Date(newDate), "dd-MM-yyyy")}</div>;
+                  const newDate = date.split(' ')[0] as string;
+                  return <div>{format(new Date(newDate), 'dd-MM-yyyy')}</div>;
                 }
               })()}
             </Table.Cell>
             <Table.Cell>{listPoint?.pointStatus}</Table.Cell>
             <Table.Cell>
-              <a
+              <button
+                onClick={editPointModal.onOpen}
                 className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                href="/tables"
               >
-                <p>Edit</p>
-              </a>
+                Edit
+              </button>
             </Table.Cell>
           </Table.Row>
         </Table.Body>

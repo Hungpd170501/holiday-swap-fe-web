@@ -1,7 +1,6 @@
+'use client';
+
 import { ApartmentForRentResponse, StayDataType } from '@/app/components/map/type';
-
-('user client');
-
 import ApartmentForRentApis from '@/app/components/map/apis/ApartmentForRentApis';
 import React, { useState, useEffect } from 'react';
 // import GoogleMapReact, { Coords } from 'google-map-react';
@@ -76,7 +75,7 @@ const MainMap: React.FC<MainMapProps> = ({ data }) => {
 
   return (
     <div className="w-full flex flex-wrap-reverse md:flex-nowrap md:h-screen">
-      <div className="h-auto md:h-full w-full md:w-6/12 overflow-visible overflow-y-auto">
+      <div className="h-auto md:h-full w-full md:w-[50%] lg:w-[45%] xl:w-[35%] overflow-visible overflow-y-auto">
         <div className="w-full text-center"></div>
         <SearchBar />
         <div className="mb-3 mt-2 lg:mb-11">
