@@ -58,11 +58,7 @@ export default function EditProfile() {
         </div>
         <div className="flex flex-row items-center mb-10">
           <div className="w-[198px] text-gray-700">Gender</div>
-          <select
-            name=""
-            id=""
-            className=" text-gray-800 px-4 py-3 bg-[#F8F8F8] border-b border-gray-500 border-none focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent"
-          >
+          <select name="" id="" className=" text-gray-800 px-4 py-2">
             <option value="">-</option>
             <option value="">Male</option>
             <option value="">Female</option>

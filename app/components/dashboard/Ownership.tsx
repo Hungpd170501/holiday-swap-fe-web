@@ -3,6 +3,7 @@
 import useCreateOwnershipModal from "@/app/hooks/useCreateOwnershipModal";
 import { format } from "date-fns";
 import { Table } from "flowbite-react";
+import Link from "next/link";
 import { Fragment, useState } from "react";
 
 const TABLE_HEAD = [
@@ -86,9 +87,12 @@ const Ownership: React.FC<OwnershipProps> = ({
                 )}
               </Table.Cell>
               <Table.Cell>
-                <div className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
+                <Link
+                  href="./editApartment"
+                  className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                >
                   <p>Edit</p>
-                </div>
+                </Link>
               </Table.Cell>
             </Table.Row>
           ))}

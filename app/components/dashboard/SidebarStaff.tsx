@@ -47,6 +47,12 @@ const SidebarStaff = () => {
       current: pathName === "/staff/createresort" ? true : false,
     },
     {
+      name: "List Property",
+      href: "/staff/listproperty",
+      icon: FiEdit,
+      current: pathName === "/staff/listproperty" ? true : false,
+    },
+    {
       name: "Create Property",
       href: "/staff/createproperty",
       icon: IoCreateOutline,
