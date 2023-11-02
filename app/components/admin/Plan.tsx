@@ -7,22 +7,6 @@ import {
 } from "@heroicons/react/24/outline";
 import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 import { BsClipboard2PlusFill } from "react-icons/bs";
-import {
-  Card,
-  CardHeader,
-  Input,
-  Typography,
-  Button,
-  CardBody,
-  Chip,
-  CardFooter,
-  Tabs,
-  TabsHeader,
-  Tab,
-  Avatar,
-  IconButton,
-  Tooltip,
-} from "@material-tailwind/react";
 import useCreatePlanModal from "@/app/hooks/useCreatePlanModal";
 import { Table } from "flowbite-react";
 

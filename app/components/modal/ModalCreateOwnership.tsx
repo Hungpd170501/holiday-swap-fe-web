@@ -180,8 +180,10 @@ export default function ModalCreateOwnership() {
           <Label value="Select resort" />
           <Select
             id="resortId"
-            // value={resortId}
-            onChange={handleChangeResortId}
+            value={resortId}
+            onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+              handleChangeResortId(e.target.value)
+            }
           >
             {dataResort?.map((item: any) => (
               <option key={item.id} value={item.id}>
@@ -196,7 +198,9 @@ export default function ModalCreateOwnership() {
           <Select
             id="propertyId"
             value={propertyValue}
-            onChange={handleChangePropertyValue}
+            onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+              handleChangePropertyValue(e.target.value)
+            }
           >
             {properties?.map((item: any) => (
               <option key={item.id} value={item.id}>

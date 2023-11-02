@@ -9,7 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Link from "next/link";
-import DropdownDeleteResort from "./DropdownDeleteResort";
+import DropdownDeleteProperty from "./DropdownDeleteProperty";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -32,108 +32,85 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 function createData(
-  resortname: string,
-  address: string,
-  meter: string,
-  bedroom: string,
-  rules: string
+  propertyname: string,
+  propertytype: string,
+  propertyview: string,
+  amenitytype: string
 ) {
-  return { resortname, address, meter, bedroom, rules };
+  return { propertyname, propertytype, propertyview, amenitytype };
 }
 
 const rows = [
   createData(
-    "JW Marriott Phu Quoc Emerald Bay Resort & Spa",
-    "Phu Quoc",
-    "Sea Resort",
-    "1200$ - 2500$",
-    "..."
+    "Property 1",
+    "Triple room",
+    "Ocean view",
+    "Private Bathroom, \n Private Bathroom,\n  Moutaint Resort, Moutaint Resort"
   ),
-  createData(
-    "Amanoi Resort",
-    "Ninh Thuan",
-    "Moutaint Resort",
-    "890$ - 2000$",
-    "..."
-  ),
+  createData("Amanoi Resort", "Ninh Thuan", "Moutaint Resort", "890$ - 2000$"),
   createData(
     "The Anam Cam Ranh",
     "Khanh Hoa",
     "Moutaint Resort",
-    "990$ - 2300$",
-    "..."
+    "990$ - 2300$"
   ),
   createData(
     "Vinpearl Resort & Spa Phu Quoc",
     "Phu Quoc",
     "Moutaint Resort",
-    "1890$ - 3000$",
-    "..."
+    "1890$ - 3000$"
   ),
   createData(
     "Six Senses Ninh Van Bay",
     "Khanh Hoa",
     "Sea Resort",
-    "190$ - 500$",
-    "..."
+    "190$ - 500$"
   ),
-  createData(
-    "Fusion Maia Da Nang",
-    "Da Nang",
-    "Sea Resort",
-    "230$ - 700$",
-    "..."
-  ),
+  createData("Fusion Maia Da Nang", "Da Nang", "Sea Resort", "230$ - 700$"),
   createData(
     "Vinpearl Luxury Da Nang",
     "Da Nang",
     "Sea Resort",
-    "1000$ - 3000$",
-    "..."
+    "1000$ - 3000$"
   ),
   createData(
     "InterContinental Danang Sun Peninsula Resort",
     "Da Nang",
     "Sea Resort",
-    "900$ - 2000$",
-    "..."
+    "900$ - 2000$"
   ),
 ];
 
-interface ListResortAllProps {
-  resorts?: any;
-}
-
-const ListResortAll: React.FC<ListResortAllProps> = ({ resorts }) => {
+export default function ListProperty() {
   return (
     <>
       <div className="flex flex-row justify-between items-center mt-10">
-        <div className="text-common text-[20px] font-bold ">List Resort</div>
+        <div className="text-common text-[20px] font-bold ">List Property</div>
       </div>
       <TableContainer className="mt-4" component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
               <StyledTableCell className="!bg-white !text-black !text-[17px] !font-semibold">
-                Resort Name{" "}
+                Property name
               </StyledTableCell>
               <StyledTableCell
                 className="!bg-white !text-black !text-[17px] !font-semibold"
-                align="left"
+                align="right"
               >
-                Adress
+                Property type
               </StyledTableCell>
               <StyledTableCell
                 className="!bg-white !text-black !text-[17px] !font-semibold"
-                align="left"
+                align="right"
               >
-                Property Type
+                Property view
               </StyledTableCell>
               <StyledTableCell
                 className="!bg-white !text-black !text-[17px] !font-semibold"
-                align="left"
+                align="right"
               >
-                Amenity Type{" "}
+                Amenity types
               </StyledTableCell>
 
               <StyledTableCell
@@ -145,39 +122,32 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {resorts?.content.map((row: any, index: number) => (
-              <StyledTableRow key={index}>
+            {rows.map((row) => (
+              <StyledTableRow key={row.propertyname}>
                 <StyledTableCell
                   className="!py-5 !text-common"
                   component="th"
                   scope="row"
                 >
-                  <Link
-                    href="/staff/staffdetailresort"
-                    className="hover:underline"
-                  >
-                    {row.resortName}
+                  <Link href="/staff/staffdetailproperty">
+                    {row.propertyname}
                   </Link>
                 </StyledTableCell>
                 <StyledTableCell className="!py-5 !text-common" align="right">
-                  {row.address}
+                  {row.propertytype}
                 </StyledTableCell>
-                <StyledTableCell className="!py-5 " align="left">
-                  {row.propertyTypes.map((item: any, index: number) => (
-                    <div key={index}>{item.propertyTypeName}</div>
-                  ))}
+                <StyledTableCell className="!py-5 " align="right">
+                  {row.propertyview}
                 </StyledTableCell>
-                <StyledTableCell className="!py-5 " align="left">
-                  {row.resortAmenityTypes.map((item: any, index: number) => (
-                    <div key={index}>{item.resortAmenityTypeName}</div>
-                  ))}
+                <StyledTableCell className="!py-5 w-[30%]" align="right">
+                  {row.amenitytype}
                 </StyledTableCell>
 
                 <StyledTableCell
                   className="!py-5 !text-green-500 "
                   align="right"
                 >
-                  <DropdownDeleteResort />
+                  <DropdownDeleteProperty />
                 </StyledTableCell>
               </StyledTableRow>
             ))}
@@ -186,6 +156,4 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts }) => {
       </TableContainer>
     </>
   );
-};
-
-export default ListResortAll;
+}
