@@ -1,0 +1,16 @@
+@import "./_theme_colors";
+@import "./_theme_custom";
+@import "./_dates_picker";
+//
+@import "./header";
+
+@import url("https://cdn.syncfusion.com/ej2/material.css");
+@keyframes AnimateRight {
+  to {
+    transform: translateX(0);
+  }
+}
+
+.custom-translate {
+  transform: translateX(-30%);
+}

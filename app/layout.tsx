@@ -7,15 +7,18 @@ import GetCurrentUser from "./actions/getCurrentUser";
 import Provider from "./components/Provider";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import Loading from "./loading";
 import ModalDetailProperty from "./components/modal/ModalDetailProperty";
 import ModalCreatePlan from "./components/modal/ModalCreatePlan";
 import ModalCreateOwnership from "./components/modal/ModalCreateOwnership";
 import ModalApartmentAmenities from "./components/modal/ModalApartmentAmenities";
+import "@/styles/index.scss";
+import "rc-slider/assets/index.css";
 import ModalEditDateBooking from "./components/modal/ModalEditDateBooking";
 import ModalEditGuestBooking from "./components/modal/ModalEditGuestBooking";
 import { DateRangeProvider } from "./apartment/DateRangeContext";
+import ReduxProvider from '@/app/components/ReduxProvider';
 
 const font = Poppins({
   subsets: ["latin"],
@@ -32,34 +35,36 @@ export const metadata = {
 };
 
 export default async function RootLayout({
-  children,
-}: {
+   children,
+ }: {
   children: React.ReactNode;
 }) {
   const currentUser = await GetCurrentUser();
   return (
     <html lang="en">
       <body className={font.className}>
-        <Provider>
-          <DateRangeProvider>
-            <Suspense fallback={<Loading />}>
-            <Header currentUser={currentUser} />
-            <ClientOnly>
-              <ModalDetailProperty />
-              <ModalLogin />
-              <ModalCreatePlan />
-              <ModalCreateOwnership />
-              <ModalApartmentAmenities />
-              <ModalEditDateBooking />
-              <ModalEditGuestBooking />
-              <ToasterProvider />
-            </ClientOnly>
+        <ReduxProvider>
+          <Provider>
+            <DateRangeProvider>
+              <Suspense fallback={<Loading />}>
+                <Header currentUser={currentUser} />
+                <ClientOnly>
+                  <ModalDetailProperty />
+                  <ModalLogin />
+                  <ModalCreatePlan />
+                  <ModalCreateOwnership />
+                  <ModalApartmentAmenities />
+                  <ModalEditDateBooking />
+                  <ModalEditGuestBooking />
+                  <ToasterProvider />
+                </ClientOnly>
 
-            {children}
-            <Footer />
-          </Suspense>
-          </DateRangeProvider>
-        </Provider>
+                {children}
+                <Footer />
+              </Suspense>
+            </DateRangeProvider>
+          </Provider>
+        </ReduxProvider>
       </body>
     </html>
   );

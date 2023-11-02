@@ -1,6 +1,7 @@
 import UploadImageResortEdit from "@/app/components/staff/UploadImageResortEdit";
 import React from "react";
 
+
 export default function StaffEditResort() {
   return (
     <div>
@@ -32,6 +33,11 @@ export default function StaffEditResort() {
             value="Khem Beach, An Thoi, Phu Quoc, Kien Giang."
             className="text-gray-800 px-1 w-full bg-[#F8F8F8] border-b border-gray-500 focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent"
           />
+        </div>
+        <div className=" flex flex-row mb-14">
+          <div className="w-[277px] text-gray-700">Address*</div>
+          <div id="map" className="w-full h-96 px-4 py-3"></div>
+
         </div>
         <div className="flex flex-row items-center mb-10">
           <div className="w-[198px] text-gray-700">Type</div>
