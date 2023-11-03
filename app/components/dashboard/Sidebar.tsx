@@ -1,96 +1,102 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { GrPersonalComputer, GrSecure } from "react-icons/gr";
-import { FiEdit } from "react-icons/fi";
-import { PiNotepadBold } from "react-icons/pi";
-import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
-import { AiOutlineStar, AiOutlineHome, AiOutlineUnlock } from "react-icons/ai";
-import { HiMiniComputerDesktop } from "react-icons/hi2";
-import { MdComputer, MdOutlineSwapHorizontalCircle } from "react-icons/md";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { BiWallet } from "react-icons/bi";
+import React, { useState } from 'react';
+import { GrPersonalComputer, GrSecure } from 'react-icons/gr';
+import { FiEdit } from 'react-icons/fi';
+import { PiNotepadBold } from 'react-icons/pi';
+import { LiaFileInvoiceDollarSolid } from 'react-icons/lia';
+import { AiOutlineStar, AiOutlineHome, AiOutlineUnlock } from 'react-icons/ai';
+import { HiMiniComputerDesktop } from 'react-icons/hi2';
+import { MdComputer, MdOutlineSwapHorizontalCircle } from 'react-icons/md';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { BiWallet } from 'react-icons/bi';
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }
 
 const Sidebar = () => {
   const pathName = usePathname();
   const sidebarMyaccount = [
     {
-      name: "Dashboard",
-      href: "/dashboard",
+      name: 'Dashboard',
+      href: '/dashboard',
       icon: MdComputer,
-      current: pathName === "/dashboard" ? true : false,
+      current: pathName === '/dashboard' ? true : false,
     },
     {
-      name: "Edit Profile",
-      href: "/dashboard/editProfile",
+      name: 'Edit Profile',
+      href: '/dashboard/editProfile',
       icon: FiEdit,
-      current: pathName === "/dashboard/editProfile" ? true : false,
+      current: pathName === '/dashboard/editProfile' ? true : false,
     },
     {
-      name: "Change password",
-      href: "/dashboard/changePassword",
+      name: 'Change password',
+      href: '/dashboard/changePassword',
       icon: AiOutlineUnlock,
-      current: pathName === "/dashboard/changePassword" ? true : false,
+      current: pathName === '/dashboard/changePassword' ? true : false,
     },
     {
-      name: "Ownership",
-      href: "/dashboard/ownership",
+      name: 'Ownership',
+      href: '/dashboard/ownership',
       icon: AiOutlineHome,
-      current: pathName === "/dashboard/ownership" ? true : false,
+      current: pathName === '/dashboard/ownership' ? true : false,
     },
   ];
 
   const sidebarWallet = [
     {
-      name: "My wallet",
-      href: "/dashboard/wallet",
+      name: 'My wallet',
+      href: '/dashboard/wallet',
       icon: BiWallet,
-      current: pathName === "/dashboard/wallet" ? true : false,
+      current: pathName === '/dashboard/wallet' ? true : false,
+    },
+    {
+      name: 'Transfer',
+      href: '/dashboard/transfer',
+      icon: BiWallet,
+      current: pathName === '/dashboard/transfer' ? true : false,
     },
   ];
   const sidebarBooking = [
     {
-      name: "My Booking",
-      href: "/dashboard/myBooking",
+      name: 'My Booking',
+      href: '/dashboard/myBooking',
       icon: PiNotepadBold,
-      current: pathName === "/dashboard/myBooking" ? true : false,
+      current: pathName === '/dashboard/myBooking' ? true : false,
     },
     {
-      name: "Invoices",
-      href: "/dashboard/invoices",
+      name: 'Invoices',
+      href: '/dashboard/invoices',
       icon: LiaFileInvoiceDollarSolid,
-      current: pathName === "/dashboard/invoices" ? true : false,
+      current: pathName === '/dashboard/invoices' ? true : false,
     },
     {
-      name: "Reviews",
-      href: "/dashboard/review",
+      name: 'Reviews',
+      href: '/dashboard/review',
       icon: AiOutlineStar,
-      current: pathName === "/dashboard/review" ? true : false,
+      current: pathName === '/dashboard/review' ? true : false,
     },
   ];
   const sidebarExchange = [
     {
-      name: "My Exchange",
-      href: "/dashboard/myExchange",
+      name: 'My Exchange',
+      href: '/dashboard/myExchange',
       icon: MdOutlineSwapHorizontalCircle,
-      current: pathName === "/dashboard/myExchange" ? true : false,
+      current: pathName === '/dashboard/myExchange' ? true : false,
     },
     {
-      name: "Invoices Exchange",
-      href: "/dashboard/invoiceExchange",
+      name: 'Invoices Exchange',
+      href: '/dashboard/invoiceExchange',
       icon: LiaFileInvoiceDollarSolid,
-      current: pathName === "/dashboard/invoiceExchange" ? true : false,
+      current: pathName === '/dashboard/invoiceExchange' ? true : false,
     },
     {
-      name: "Reviews Exchange",
-      href: "/dashboard/reviewExchange",
+      name: 'Reviews Exchange',
+      href: '/dashboard/reviewExchange',
       icon: AiOutlineStar,
-      current: pathName === "/dashboard/reviewExchange" ? true : false,
+      current: pathName === '/dashboard/reviewExchange' ? true : false,
     },
   ];
   return (
@@ -111,9 +117,9 @@ const Sidebar = () => {
                         href={option.href}
                         className={classNames(
                           option.current
-                            ? "bg-common text-white"
-                            : "text-gray-400 hover:text-white hover:bg-common",
-                          "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                            ? 'bg-common text-white'
+                            : 'text-gray-400 hover:text-white hover:bg-common',
+                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                         )}
                       >
                         <option.icon className="text-gray-300 group-hover:text-white h-6 w-6 shrink-0" />
@@ -140,9 +146,9 @@ const Sidebar = () => {
                         href={option.href}
                         className={classNames(
                           option.current
-                            ? "bg-common text-white"
-                            : "text-gray-400 hover:text-white hover:bg-common",
-                          "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                            ? 'bg-common text-white'
+                            : 'text-gray-400 hover:text-white hover:bg-common',
+                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                         )}
                       >
                         <option.icon className="text-gray-300 group-hover:text-white h-6 w-6 shrink-0" />
@@ -167,9 +173,9 @@ const Sidebar = () => {
                         href={option.href}
                         className={classNames(
                           option.current
-                            ? "bg-common text-white"
-                            : "text-gray-400 hover:text-white hover:bg-common",
-                          "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                            ? 'bg-common text-white'
+                            : 'text-gray-400 hover:text-white hover:bg-common',
+                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                         )}
                       >
                         <option.icon className="text-gray-300 group-hover:text-white h-6 w-6 shrink-0" />
@@ -194,9 +200,9 @@ const Sidebar = () => {
                         href={option.href}
                         className={classNames(
                           option.current
-                            ? "bg-common text-white"
-                            : "text-gray-400 hover:text-white hover:bg-common",
-                          "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                            ? 'bg-common text-white'
+                            : 'text-gray-400 hover:text-white hover:bg-common',
+                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                         )}
                       >
                         <option.icon className="text-gray-300 group-hover:text-white h-6 w-6 shrink-0" />
@@ -209,9 +215,7 @@ const Sidebar = () => {
             </ul>
           </div>
           <div>
-            <button className="bg-[#5C98F2] px-4 py-3 rounded-md text-white">
-              Sign Out
-            </button>
+            <button className="bg-[#5C98F2] px-4 py-3 rounded-md text-white">Sign Out</button>
           </div>
         </div>
       </div>
