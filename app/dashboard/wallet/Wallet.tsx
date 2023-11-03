@@ -1,6 +1,7 @@
 'use client';
 
 import HistoryPayment from '@/app/components/wallet/HistoryPayment';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { BiWallet } from 'react-icons/bi';
 
@@ -11,6 +12,7 @@ interface WalletProps {
 }
 
 const Wallet: React.FC<WalletProps> = ({ userWallet, transfer, historyTransaction }) => {
+  const router = useRouter();
   return (
     <div>
       <div>
@@ -18,15 +20,25 @@ const Wallet: React.FC<WalletProps> = ({ userWallet, transfer, historyTransactio
       </div>
       <div className="flex flex-col w-full items-center">
         <div className="bg-white w-full rounded-3xl h-auto px-5 py-8 shadow-xl mt-10">
-          <div className="flex flex-row items-center">
-            <div className="pr-10">
-              <BiWallet size={100} color="#5C98F2" />
+          <div className="flex flex-row items-center gap-60 justify-between">
+            <div className="flex flex-row items-center">
+              <div className="pr-10">
+                <BiWallet size={100} color="#5C98F2" />
+              </div>
+              <div className="flex flex-col">
+                <div className="text-[30px]">Account balance</div>
+                <div className="flex flex-row items-center">
+                  <img className="w-[50px] h-[50px]" src="/images/coin.png" alt="" />
+                  <div className="text-[30px] ml-1 font-bold">{userWallet?.totalPoint}</div>
+                </div>
+              </div>
             </div>
-            <div className="flex flex-col">
-              <div className="text-[30px]">Account balance</div>
-              <div className="flex flex-row items-center">
-                <img className="w-[50px] h-[50px]" src="/images/coin.png" alt="" />
-                <div className="text-[30px] ml-1 font-bold">{userWallet?.totalPoint}</div>
+            <div>
+              <div
+                onClick={() => router.push('/recharge')}
+                className="bg-common text-white px-5 py-2 rounded-md"
+              >
+                Recharge
               </div>
             </div>
           </div>
