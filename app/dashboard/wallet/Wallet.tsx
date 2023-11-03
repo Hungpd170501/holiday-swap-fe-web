@@ -36,7 +36,7 @@ const Wallet: React.FC<WalletProps> = ({ userWallet, transfer, historyTransactio
             <div>
               <div
                 onClick={() => router.push('/recharge')}
-                className="bg-common text-white px-5 py-2 rounded-md"
+                className="bg-common text-white px-5 py-2 rounded-md cursor-pointer hover:bg-blue-600"
               >
                 Recharge
               </div>
@@ -98,8 +98,8 @@ const Wallet: React.FC<WalletProps> = ({ userWallet, transfer, historyTransactio
         <div className="bg-gray-200 w-[1000px] rounded-b-3xl h-auto px-5 py-4 shadow-xl"></div>
         <div className="bg-gray-300 w-[900px] rounded-b-3xl h-auto px-5 py-4 shadow-xl"></div>
       </div>
-      <div className="mt-16 text-[25px] mb-2 text-common font-bold">Wallet History</div>
-      <div className="bg-white w-full rounded-3xl h-auto shadow-2xl">
+      <div className="mt-16 text-[25px]  text-common font-bold">Wallet History</div>
+      <div className="w-full">
         <HistoryPayment historyTransaction={historyTransaction} />
       </div>
     </div>

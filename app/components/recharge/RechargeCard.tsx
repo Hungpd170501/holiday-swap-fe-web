@@ -16,16 +16,6 @@ export default function RechargeCard() {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const handleCardClick = (index: number) => {
-    if (clickedCard === index) {
-      // Nếu bạn bấm vào thẻ đã được chọn, hãy tắt nó đi
-      setClickedCard(0);
-    } else {
-      // Nếu bạn bấm vào thẻ khác, hãy chọn nó
-      setClickedCard(index);
-    }
-  };
-
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
       setReturnUrl('http://localhost:3000/recharge/success');
@@ -67,16 +57,17 @@ export default function RechargeCard() {
     },
   ];
 
+  const handleCardClick = (index: number) => {
+    if (clickedCard === index) {
+      setClickedCard(0);
+      setAmount('0'); // Reset the amount to '0'
+    } else {
+      setClickedCard(index);
+      setAmount(cardData[index].amount.toString());
+    }
+  };
+
   const handleTopup = async (amount: string, orderInfor: string, returnUrl: string) => {
-    // const res = await axiosAuthClient(
-    //   `/payment/Create_payment?amount=${amount}&orderInfor=${orderInfor}&returnURL=${returnUrl}`
-    // );
-    // console.log(amount);
-    // if (res.status === 200) {
-    //   router.push(res.data.url);
-    // } else {
-    //   toast.error("Some thing went wrong!");
-    // }
     const config = {
       headers: { Authorization: `Bearer ${session?.user.access_token}` },
     };
@@ -93,11 +84,12 @@ export default function RechargeCard() {
         toast.error(response.response.data.message);
       });
   };
+
   return (
     <div className="px-20">
       <div className="px-20">
         <div className="text-[35px] font-bold text-common border border-gray-500 px-3 py-3 justify-center rounded-3xl flex flex-row my-10 items-center">
-          <div> Nạp tiền qua Vn Pay</div>
+          <div> "Top up money through VNpay" </div>
           <input className="w-[30px] h-[30px] ml-3" type="checkbox" />
         </div>
       </div>
@@ -136,7 +128,7 @@ export default function RechargeCard() {
               type="submit"
               onClick={() => handleTopup(amount, orderInfor, returnUrl)}
             >
-              Thanh Toán
+              Payment
             </button>
           </div>
         </div>
