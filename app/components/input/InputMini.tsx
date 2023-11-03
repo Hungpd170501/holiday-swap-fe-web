@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React from "react";
-import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
-import { BiDollar } from "react-icons/bi";
+import React from 'react';
+import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
+import { BiDollar } from 'react-icons/bi';
 
 interface InputProps {
   id: string;
@@ -19,8 +19,8 @@ interface InputProps {
 const InputMini: React.FC<InputProps> = ({
   id,
   label,
-  type = "text",
-  placeholder = "",
+  type = 'text',
+  placeholder = '',
   //   disabled,
   //   formatPrice,
   //   required,
@@ -42,7 +42,7 @@ const InputMini: React.FC<InputProps> = ({
         // {...register(id, { required })}
         placeholder={placeholder}
         type={type}
-        className={`peer  p-2  font-light bg-white border rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed
+        className={`peer  p-4  font-light bg-white border rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed
         `}
       />
     </div>

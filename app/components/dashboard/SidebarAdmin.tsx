@@ -1,66 +1,69 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { GrPersonalComputer, GrSecure } from "react-icons/gr";
-import { FiEdit } from "react-icons/fi";
-import { PiNotepadBold } from "react-icons/pi";
-import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
-import { AiOutlineStar, AiFillPieChart } from "react-icons/ai";
-import {
-  MdOutlineSwapHorizontalCircle,
-  MdBusinessCenter,
-} from "react-icons/md";
-import { BiSolidCoin } from "react-icons/bi";
-import { GrBusinessService } from "react-icons/gr";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import React, { useState } from 'react';
+import { GrPersonalComputer, GrSecure } from 'react-icons/gr';
+import { FiEdit } from 'react-icons/fi';
+import { PiNotepadBold } from 'react-icons/pi';
+import { LiaFileInvoiceDollarSolid } from 'react-icons/lia';
+import { AiOutlineStar, AiFillPieChart } from 'react-icons/ai';
+import { MdOutlineSwapHorizontalCircle, MdBusinessCenter } from 'react-icons/md';
+import { BiSolidCoin } from 'react-icons/bi';
+import { GrBusinessService } from 'react-icons/gr';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }
 
 const SidebarAdmin = () => {
   const pathName = usePathname();
   const sidebarMyaccount = [
     {
-      name: "Report",
-      href: "/admin",
+      name: 'Report',
+      href: '/admin',
       icon: AiFillPieChart,
-      current: pathName === "/admin" ? true : false,
+      current: pathName === '/admin' ? true : false,
     },
   ];
   const sidebarBooking = [
     {
-      name: "List Staff",
-      href: "/admin/liststaff",
+      name: 'List Staff',
+      href: '/admin/liststaff',
       icon: PiNotepadBold,
-      current: pathName === "/admin/liststaff" ? true : false,
+      current: pathName === '/admin/liststaff' ? true : false,
     },
     {
-      name: "Point",
-      href: "/admin/point",
+      name: 'Create Staff',
+      href: '/admin/createstaff',
+      icon: PiNotepadBold,
+      current: pathName === '/admin/createstaff' ? true : false,
+    },
+    {
+      name: 'Point',
+      href: '/admin/point',
       icon: BiSolidCoin,
-      current: pathName === "/admin/point" ? true : false,
+      current: pathName === '/admin/point' ? true : false,
     },
     {
-      name: "Plan",
-      href: "/admin/plan",
+      name: 'Plan',
+      href: '/admin/plan',
       icon: MdBusinessCenter,
-      current: pathName === "/admin/plan" ? true : false,
+      current: pathName === '/admin/plan' ? true : false,
     },
   ];
   const sidebarExchange = [
     {
-      name: "List Approve",
-      href: "/staff/listapprove",
+      name: 'List Approve',
+      href: '/staff/listapprove',
       icon: MdOutlineSwapHorizontalCircle,
-      current: pathName === "/staff/listapprove" ? true : false,
+      current: pathName === '/staff/listapprove' ? true : false,
     },
     {
-      name: "Infomation",
-      href: "/staff/infomation",
+      name: 'Infomation',
+      href: '/staff/infomation',
       icon: LiaFileInvoiceDollarSolid,
-      current: pathName === "/staff/infomation" ? true : false,
+      current: pathName === '/staff/infomation' ? true : false,
     },
   ];
   return (
@@ -81,9 +84,9 @@ const SidebarAdmin = () => {
                         href={option.href}
                         className={classNames(
                           option.current
-                            ? "bg-common text-white"
-                            : "text-gray-400 hover:text-white hover:bg-common",
-                          "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                            ? 'bg-common text-white'
+                            : 'text-gray-400 hover:text-white hover:bg-common',
+                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                         )}
                       >
                         <option.icon className="text-gray-300 group-hover:text-white h-6 w-6 shrink-0" />
@@ -108,9 +111,9 @@ const SidebarAdmin = () => {
                         href={option.href}
                         className={classNames(
                           option.current
-                            ? "bg-common text-white"
-                            : "text-gray-400 hover:text-white hover:bg-common",
-                          "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                            ? 'bg-common text-white'
+                            : 'text-gray-400 hover:text-white hover:bg-common',
+                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                         )}
                       >
                         <option.icon className="text-gray-300 group-hover:text-white h-6 w-6 shrink-0" />
@@ -150,9 +153,7 @@ const SidebarAdmin = () => {
             </ul>
           </div> */}
           <div>
-            <button className="bg-[#5C98F2] px-4 py-3 rounded-md text-white">
-              Sign Out
-            </button>
+            <button className="bg-[#5C98F2] px-4 py-3 rounded-md text-white">Sign Out</button>
           </div>
         </div>
       </div>
