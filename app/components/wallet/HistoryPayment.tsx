@@ -1,41 +1,56 @@
 'use client';
-import * as React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import Link from 'next/link';
 import { format } from 'date-fns';
+import ReactPaginate from 'react-paginate';
 
 interface HistoryPaymentProps {
   historyTransaction: any;
 }
 
 const HistoryPayment: React.FC<HistoryPaymentProps> = ({ historyTransaction }) => {
-  const [value, setValue] = React.useState('1');
+  const [value, setValue] = useState('1');
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 5; // Số lượng mục trên mỗi trang
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
+  // Tính toán số trang dựa trên số lượng mục và số lượng mục trên mỗi trang
+  const pageCount = Math.ceil(historyTransaction.length / itemsPerPage);
+
+  // Hàm xử lý sự kiện khi trang thay đổi
+  const handlePageChange = (selectedPage: { selected: number }) => {
+    setCurrentPage(selectedPage.selected);
   };
+
+  // Sử dụng `.slice()` để lấy danh sách các mục cần hiển thị trên trang hiện tại
+  const displayedItems = historyTransaction.slice(
+    currentPage * itemsPerPage,
+    (currentPage + 1) * itemsPerPage
+  );
 
   return (
     <Box sx={{ width: '100%', typography: 'body1' }}>
       <TabContext value={value}>
         <TabPanel value="1">
           <div>
-            {historyTransaction?.map((item: any, index: number) => (
-              <div key={index} className="mb-5 grid grid-cols-5 bg-green-50 rounded-3xl w-full">
+            {displayedItems.map((item: any, index: number) => (
+              <div
+                key={index}
+                className="mb-5 grid grid-cols-5 bg-white shadow-sm  py-1 rounded-3xl w-full"
+              >
                 <div className="flex flex-row items-center">
                   <img className="w-14 h-14 rounded-full" src="/images/avt.jpg" alt="asd" />
                   <div className="flex flex-col ml-2">
-                    <div className="text-[20px] font-semibold">{item.to}</div>
+                    <div className="text-2xl font-semibold">{item.to}</div>
                     <div className="text-gray-500">Membership</div>
                   </div>
                 </div>
                 <div className="flex flex-row justify-center items-center">
                   <div className="mr-2">
-                    {format(new Date(item?.dateConvert.split(' ')[0]), 'MMM, d yyyy')}
+                    {format(new Date(item?.dateConvert.split(' ')[0]), 'MMM d yyyy')}
                   </div>
                   <span>{item?.dateConvert.split(' ')[1]} PM</span>
                 </div>
@@ -50,10 +65,8 @@ const HistoryPayment: React.FC<HistoryPaymentProps> = ({ historyTransaction }) =
                 </div>
                 <div className="flex flex-row justify-end items-center">
                   <div
-                    className={`rounded-3xl px-3 py-2 border  w-auto h-auto ${
-                      item.status === 'SUCCESS'
-                        ? 'border-green-500 text-green-700'
-                        : 'border-rose-500 text-rose-700'
+                    className={`rounded-3xl px-3 py-2   w-auto h-auto ${
+                      item.status === 'SUCCESS' ? ' text-green-700' : ' text-rose-700'
                     }`}
                   >
                     {item.status}
@@ -62,7 +75,23 @@ const HistoryPayment: React.FC<HistoryPaymentProps> = ({ historyTransaction }) =
               </div>
             ))}
           </div>
+          {/* Hiển thị phân trang */}
+          <div className="flex justify-center">
+            <ReactPaginate
+              previousLabel="Previous"
+              nextLabel="Next"
+              breakLabel="..."
+              pageCount={pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={handlePageChange}
+              containerClassName="flex space-x-2" // Sử dụng lớp 'flex' để hiển thị số trang ngang
+              activeClassName="bg-blue-500 text-white   rounded-full" // Tùy chỉnh lớp cho số trang được chọn
+              pageLinkClassName="px-2 " // Tùy chỉnh lớp cho số trang không được chọn
+            />
+          </div>
         </TabPanel>
+        {/* Thêm TabPanel cho các tab khác nếu cần */}
       </TabContext>
     </Box>
   );
