@@ -12,6 +12,7 @@ import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import useEditPointModal from '@/app/hooks/useEditPointModal';
+import TooltipCreatePoint from '../admin/tooltip/TooltipCreatePoint';
 
 export const priceType = [
   {
@@ -130,60 +131,21 @@ export default function ModalEditPoint() {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-2 gap-4">
-        <Input
-          id="planName"
-          label="Plan Name"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
-        <Input
-          id="price"
-          label="Price"
-          type="number"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <Label value="Select price type" />
-          <Select id="priceType" value={priceTypeValue} onChange={handleChangePriceType}>
-            {priceType.map((item) => (
-              <option key={item.id} value={item.priceType}>
-                {item.priceType}
-              </option>
-            ))}
-          </Select>
-        </div>
-        <div>
-          <Label value="Select plan price interval" />
-          <Select
-            id="planPriceInterval"
-            value={planPriceIntervalValue}
-            onChange={handleChangePlanPriceInterval}
-          >
-            {planPriceInterval.map((item) => (
-              <option key={item.id} value={item.planPriceInterval}>
-                {item.planPriceInterval}
-              </option>
-            ))}
-          </Select>
+      <div className="w-full">
+        <div className="flex flex-row items-center gap-4">
+          <div className="font-bold">1 point</div>
+          <div className="text-common">=</div>
+          <div className="flex flex-row items-center gap-2">
+            <input
+              value="3000"
+              placeholder="Input point price"
+              className="peer px-2 py-2 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed"
+            />
+            <TooltipCreatePoint />
+          </div>
         </div>
       </div>
-      <div className="grid grid-cols-1">
-        <FileInput
-          {...register('image', {
-            required: 'Recipe picture is required',
-          })}
-          id="image"
-          onChange={handleChangeImage}
-        />
-      </div>
+
       <div className="grid grid-cols-1">
         <div className="w-full">
           <Label value="Description" />
@@ -193,35 +155,12 @@ export default function ModalEditPoint() {
     </div>
   );
 
-  //   const footerContent = (
-  //     <div className="grid grid-cols-1">
-  //       <hr />
-  //       <div className="text-neutral-500 text-center mt-4 font-light">
-  //         <div className="flex flex-row justify-center items-center gap-2">
-  //           <div>
-  //             First time using{" "}
-  //             <span className="font-bold text-black">
-  //               Holiday<span className="text-common">Swap</span>
-  //             </span>
-  //             ?
-  //           </div>
-  //           <div
-  //             onClick={toggle}
-  //             className="text-neutral-800 cursor-pointer hover:underline"
-  //           >
-  //             Create an account
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-
   return (
     <Modal
       disabled={isLoading}
       isOpen={editPointModal.isOpen}
-      title="Edit Point"
-      actionLabel="Submit"
+      title="Update Point"
+      actionLabel="Update"
       onClose={editPointModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
