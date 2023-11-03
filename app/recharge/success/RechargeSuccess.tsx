@@ -2,7 +2,7 @@
 
 import Container from '@/app/components/Container';
 import React, { useEffect } from 'react';
-import { useParams, usePathname } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import axios from 'axios';
@@ -10,6 +10,7 @@ import Link from 'next/link';
 
 const RechargeSuccess = () => {
   const { data: session } = useSession();
+  const router = useRouter();
   const pathName = usePathname();
   const moneyTransferId = pathName?.slice(18, 23);
   const axiosAuthClient = useAxiosAuthClient();
@@ -42,12 +43,12 @@ const RechargeSuccess = () => {
         <div>
           <img className="w-60 h-60 " src="/images/check-mark.png" alt="" />
         </div>
-        <Link
-          href="./dashboard/wallet"
-          className="-ml-10 bg-green-400 text-white font-bold rounded-md px-5 py-2"
+        <div
+          onClick={() => router.push('/dashboard/wallet')}
+          className="-ml-10 bg-green-400 text-white font-bold rounded-md px-5 py-2 hover:cursor-pointer hover:bg-green-500"
         >
           Back to wallet
-        </Link>
+        </div>
       </div>
     </Container>
   );

@@ -7,6 +7,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { format } from 'date-fns';
 import ReactPaginate from 'react-paginate';
+import { Pagination } from 'flowbite-react';
 
 interface HistoryPaymentProps {
   historyTransaction: any;
@@ -18,7 +19,7 @@ const HistoryPayment: React.FC<HistoryPaymentProps> = ({ historyTransaction }) =
   const itemsPerPage = 5; // Số lượng mục trên mỗi trang
 
   // Tính toán số trang dựa trên số lượng mục và số lượng mục trên mỗi trang
-  const pageCount = Math.ceil(historyTransaction.length / itemsPerPage);
+  const pageCount = Math.ceil(historyTransaction?.length / itemsPerPage);
 
   // Hàm xử lý sự kiện khi trang thay đổi
   const handlePageChange = (selectedPage: { selected: number }) => {
