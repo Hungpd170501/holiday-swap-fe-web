@@ -1,54 +1,55 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import Input from "../input/Input";
-import Modal from "./Modal";
-import { toast } from "react-hot-toast";
-import useCreatePlanModal from "@/app/hooks/useCreatePlanModal";
-import { Select, Textarea, Label, FileInput } from "flowbite-react";
-import useAxiosAuthClient from "@/app/hooks/useAxiosAuthClient";
-import { useSession } from "next-auth/react";
-import axios from "axios";
-import useCreateOwnershipModal from "@/app/hooks/useCreateOwnershipModal";
-import { format } from "date-fns";
-import CalendarAparment from "@/app/apartment/CalendarAparment";
+import { useRouter } from 'next/navigation';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import Input from '../input/Input';
+import Modal from './Modal';
+import { toast } from 'react-hot-toast';
+import useCreatePlanModal from '@/app/hooks/useCreatePlanModal';
+import { Select, Textarea, Label, FileInput } from 'flowbite-react';
+import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
+import { useSession } from 'next-auth/react';
+import axios from 'axios';
+import useCreateOwnershipModal from '@/app/hooks/useCreateOwnershipModal';
+import { format } from 'date-fns';
+import CalendarAparment from '@/app/apartment/CalendarAparment';
+import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
 
 export const priceType = [
   {
     id: 1,
-    priceType: "ONE_TIME",
+    priceType: 'ONE_TIME',
   },
   {
     id: 2,
-    priceType: "RECURRING",
+    priceType: 'RECURRING',
   },
 ];
 
 export const planPriceInterval = [
   {
     id: 1,
-    planPriceInterval: "MONTHLY",
+    planPriceInterval: 'MONTHLY',
   },
   {
     id: 2,
-    planPriceInterval: "YEARLY",
+    planPriceInterval: 'YEARLY',
   },
   {
     id: 3,
-    planPriceInterval: "LIFETIME",
+    planPriceInterval: 'LIFETIME',
   },
   {
     id: 4,
-    planPriceInterval: "NONE",
+    planPriceInterval: 'NONE',
   },
 ];
 
 const initialDateRange = {
   startDate: new Date(),
   endDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-  key: "selection",
+  key: 'selection',
 };
 
 export default function ModalCreateOwnership() {
@@ -66,6 +67,20 @@ export default function ModalCreateOwnership() {
   const [startYear, setStartYear] = useState(new Date());
   const [endYear, setEndYear] = useState(new Date());
   const axiosAuthClient = useAxiosAuthClient();
+
+  const [weekNumbers, setWeekNumbers] = useState([{ id: 1 }]);
+
+  // Thêm một tuần mới
+  const addWeekNumber = () => {
+    const newWeekNumbers = [...weekNumbers];
+    newWeekNumbers.push({ id: newWeekNumbers.length + 1 });
+    setWeekNumbers(newWeekNumbers);
+  };
+
+  const removeWeekNumber = (index: number) => {
+    const newWeekNumbers = weekNumbers.filter((_, i) => i !== index);
+    setWeekNumbers(newWeekNumbers);
+  };
 
   const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
@@ -119,7 +134,7 @@ export default function ModalCreateOwnership() {
   }, [resortId]);
 
   useEffect(() => {
-    setCustomeValue("propertyId", propertyValue);
+    setCustomeValue('propertyId', propertyValue);
   }, [propertyValue, file]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -132,9 +147,9 @@ export default function ModalCreateOwnership() {
       roomId: data.roomId,
     };
     const coOwner = {
-      endTime: "2028-01-01",
-      startTime: "2023-01-01",
-      type: "RIGHT_TO_USE",
+      endTime: '2028-01-01',
+      startTime: '2023-01-01',
+      type: 'RIGHT_TO_USE',
       timeFrames: [
         {
           weekNumber: data.weekNumber as number,
@@ -142,15 +157,15 @@ export default function ModalCreateOwnership() {
       ],
     };
     const coOwnerIdBlob = new Blob([JSON.stringify(coOwnerId)], {
-      type: "application/json",
+      type: 'application/json',
     });
     const coOwnerBlob = new Blob([JSON.stringify(coOwner)], {
-      type: "application/json",
+      type: 'application/json',
     });
-    formData.append("coOwnerId", coOwnerIdBlob);
-    formData.append("coOwner", coOwnerBlob);
+    formData.append('coOwnerId', coOwnerIdBlob);
+    formData.append('coOwner', coOwnerBlob);
     file.forEach((element) => {
-      formData.append("contractImages", element);
+      formData.append('contractImages', element);
     });
 
     const config = {
@@ -158,9 +173,9 @@ export default function ModalCreateOwnership() {
     };
 
     axiosAuthClient
-      .post("https://holiday-swap.click/api/co-owners", formData)
+      .post('https://holiday-swap.click/api/co-owners', formData)
       .then(() => {
-        toast.success("Create ownership success!");
+        toast.success('Create ownership success!');
         createOwnershipModal.onClose();
 
         reset();
@@ -181,9 +196,7 @@ export default function ModalCreateOwnership() {
           <Select
             id="resortId"
             value={resortId}
-            onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-              handleChangeResortId(e.target.value)
-            }
+            onChange={(e: ChangeEvent<HTMLSelectElement>) => handleChangeResortId(e.target.value)}
           >
             {dataResort?.map((item: any) => (
               <option key={item.id} value={item.id}>
@@ -213,14 +226,26 @@ export default function ModalCreateOwnership() {
       <div onClick={handleVisibleCalendar} className="grid grid-cols-1 gap-4">
         <div
           className={`grid grid-cols-2 rounded-lg  ${
-            visibleCalendar ? "border-2 border-black" : "border border-gray-600"
+            visibleCalendar ? 'border-2 border-black' : 'border border-gray-600'
           } `}
         >
           <div className={`p-2 border-r border-gray-600`}>
             <div className="text-xs">Start year</div>
-            <input
+            {/* <input
               type="number"
               min={new Date().getFullYear()}
+              max={new Date().getFullYear() + 25}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                const selectedYear = parseInt(e.target.value);
+                const newStartDate = new Date(selectedYear, 0, 1); // Month is 0-based, so 0 represents January
+                setStartYear(newStartDate);
+              }}
+              className="border-0 text-base text-gray-600 focus:outline-none w-full"
+              value={startYear.getFullYear()}
+            /> */}
+            <input
+              type="number"
+              min={1900}
               max={new Date().getFullYear() + 25}
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 const selectedYear = parseInt(e.target.value);
@@ -249,15 +274,7 @@ export default function ModalCreateOwnership() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <Input
-          id="weekNumber"
-          label="Week number"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
+      <div>
         <Input
           id="roomId"
           label="Room Number"
@@ -267,11 +284,38 @@ export default function ModalCreateOwnership() {
           required
         />
       </div>
+      <div className="grid grid-cols-2 gap-1">
+        {weekNumbers.map((week, index) => (
+          <div key={week.id}>
+            <Input
+              id={`weekNumber${week.id}`}
+              label="Week number"
+              disabled={isLoading}
+              register={register}
+              errors={errors}
+              required
+            />
+            {index > 0 && (
+              <button
+                type="button"
+                onClick={() => removeWeekNumber(index)}
+                className="text-red-500 cursor-pointer"
+              >
+                <AiOutlineMinusCircle />
+              </button>
+            )}
+          </div>
+        ))}
+        <button type="button" onClick={addWeekNumber} className="text-blue-500 cursor-pointer">
+          <AiOutlinePlusCircle />
+        </button>
+      </div>
+
       <div className="grid grid-cols-1">
         <label>Contract Image</label>
         <FileInput
-          {...register("contractImages", {
-            required: "Recipe picture is required",
+          {...register('contractImages', {
+            required: 'Recipe picture is required',
           })}
           id="contractImages"
           onChange={handleChangeImage}
