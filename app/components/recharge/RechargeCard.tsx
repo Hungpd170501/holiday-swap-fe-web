@@ -1,17 +1,17 @@
-"use client";
-import React, { useState } from "react";
-import useAxiosAuthClient from "@/app/hooks/useAxiosAuthClient";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
-import { useSession } from "next-auth/react";
-import axios from "axios";
+'use client';
+import React, { useEffect, useState } from 'react';
+import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
+import { useSession } from 'next-auth/react';
+import axios from 'axios';
 
 export default function RechargeCard() {
   const [clickedCard, setClickedCard] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [amount, setAmount] = useState("0");
-  const [orderInfor, setOrderInfor] = useState("nap_tien_vnp");
-  const returnUrl = "http://localhost:3000/recharge/success";
+  const [amount, setAmount] = useState('0');
+  const [orderInfor, setOrderInfor] = useState('nap_tien_vnp');
+  const [returnUrl, setReturnUrl] = useState<any>();
   const axiosAuthClient = useAxiosAuthClient();
   const router = useRouter();
   const { data: session } = useSession();
@@ -26,44 +26,48 @@ export default function RechargeCard() {
     }
   };
 
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      setReturnUrl('http://localhost:3000/recharge/success');
+    } else if (process.env.NODE_ENV === 'production') {
+      setReturnUrl('https://holiday-swap.vercel.app/recharge/success');
+    }
+  }, [process.env.NODE_ENV]);
+
   const cardData = [
     {
-      text: "100 point",
-      price: "120.000 VND",
+      text: '100 point',
+      price: '120.000 VND',
       amount: 120000,
     },
     {
-      text: "200 point",
-      price: "230.000 VND",
+      text: '200 point',
+      price: '230.000 VND',
       amount: 230000,
     },
     {
-      text: "300 point",
-      price: "340.000 VND",
+      text: '300 point',
+      price: '340.000 VND',
       amount: 340000,
     },
     {
-      text: "400 point",
-      price: "450.000 VND",
+      text: '400 point',
+      price: '450.000 VND',
       amount: 450000,
     },
     {
-      text: "500 point",
-      price: "560.000 VND",
+      text: '500 point',
+      price: '560.000 VND',
       amount: 560000,
     },
     {
-      text: "600 point",
-      price: "670.000 VND",
+      text: '600 point',
+      price: '670.000 VND',
       amount: 670000,
     },
   ];
 
-  const handleTopup = async (
-    amount: string,
-    orderInfor: string,
-    returnUrl: string
-  ) => {
+  const handleTopup = async (amount: string, orderInfor: string, returnUrl: string) => {
     // const res = await axiosAuthClient(
     //   `/payment/Create_payment?amount=${amount}&orderInfor=${orderInfor}&returnURL=${returnUrl}`
     // );
@@ -85,7 +89,7 @@ export default function RechargeCard() {
         router.push(response.data.url);
       })
       .catch((response) => {
-        console.log("Response", response.response.data.message);
+        console.log('Response', response.response.data.message);
         toast.error(response.response.data.message);
       });
   };
@@ -103,17 +107,13 @@ export default function RechargeCard() {
             <div
               key={index}
               className={`w-[300px] h-auto bg-white shadow-md rounded-lg flex flex-col items-center py-10 mb-4 cursor-pointer hover:-translate-y-2 hover:duration-500 translate-y-0 duration-500 ${
-                clickedCard === index ? "border border-red-500" : ""
+                clickedCard === index ? 'border border-red-500' : ''
               }`}
               onClick={() => handleCardClick(index)}
             >
               <div className="px-10 flex flex-row items-center justify-center">
                 <div className="text-[30px] font-bold">{card.text}</div>
-                <img
-                  className="w-[50px] h-[50px] ml-5"
-                  src="./images/point.jpg"
-                  alt=""
-                />
+                <img className="w-[50px] h-[50px] ml-5" src="./images/point.jpg" alt="" />
               </div>
               <div className="text-[20px] py-5">{card.price}</div>
             </div>
