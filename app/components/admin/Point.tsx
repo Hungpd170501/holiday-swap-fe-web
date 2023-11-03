@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import { Table } from 'flowbite-react';
 import useEditPointModal from '@/app/hooks/useEditPointModal';
+import TooltipCreatePoint from './tooltip/TooltipCreatePoint';
 const TABLE_HEAD = ['ID', 'Point Price', 'Created Date', 'Status', ''];
 
 interface PointProps {
@@ -51,6 +52,11 @@ const Point: React.FC<PointProps> = ({ point }) => {
   };
   const editPointModal = useEditPointModal();
 
+  let VietnamDong = new Intl.NumberFormat('it-IT', {
+    style: 'currency',
+    currency: 'VND',
+  });
+
   return (
     <Fragment>
       <div className="text-xl font-bold text-common mb-9">Management Point</div>
@@ -60,19 +66,22 @@ const Point: React.FC<PointProps> = ({ point }) => {
           <div>
             1 point<span className="text-common font-bold mx-2">=</span>
           </div>
-          <input
-            value={price}
-            placeholder="Input point price"
-            onChange={(e) => setPrice(e.target.value)}
-            className="peer px-2 py-2 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed"
-          />
+          <div className="flex flex-row items-center gap-2">
+            <input
+              value={price}
+              placeholder="Input point price"
+              onChange={(e) => setPrice(e.target.value)}
+              className="peer px-2 py-2 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed"
+            />
+            <TooltipCreatePoint />
+          </div>
         </div>
         <button
           disabled={isLoading}
           onClick={handleCreatePrice}
           className="bg-common py-3 px-5 rounded-lg shadow-md text-white text-lg hover:bg-hover"
         >
-          Create
+          Save
         </button>
       </div>
       <Table>
@@ -87,7 +96,7 @@ const Point: React.FC<PointProps> = ({ point }) => {
             <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
               1 {/* {listPoint?.id} */}
             </Table.Cell>
-            <Table.Cell>{listPoint?.pointPrice}</Table.Cell>
+            <Table.Cell>{VietnamDong.format(listPoint?.pointPrice)}</Table.Cell>
             <Table.Cell>
               {(() => {
                 if (listPoint?.pointCreatedDate) {
@@ -103,7 +112,7 @@ const Point: React.FC<PointProps> = ({ point }) => {
                 onClick={editPointModal.onOpen}
                 className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
               >
-                Edit
+                Update
               </button>
             </Table.Cell>
           </Table.Row>

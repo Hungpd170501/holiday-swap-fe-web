@@ -1,55 +1,47 @@
-"use client";
+'use client';
 
-import React, { Fragment, useState } from "react";
-import { format } from "date-fns";
-import { BiBlock } from "react-icons/bi";
-import { BsCheck2Circle } from "react-icons/bs";
-import { MdOutlinePending } from "react-icons/md";
-import useAxiosAuthClient from "@/app/hooks/useAxiosAuthClient";
-import toast from "react-hot-toast";
-import { useSession } from "next-auth/react";
-import { Table, Dropdown } from "flowbite-react";
+import React, { Fragment, useState } from 'react';
+import { format } from 'date-fns';
+import { BiBlock } from 'react-icons/bi';
+import { BsCheck2Circle } from 'react-icons/bs';
+import { MdOutlinePending } from 'react-icons/md';
+import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
+import toast from 'react-hot-toast';
+import { useSession } from 'next-auth/react';
+import { Table, Dropdown } from 'flowbite-react';
 
 const TABS = [
   {
-    label: "All",
-    value: "all",
+    label: 'All',
+    value: 'all',
   },
   {
-    label: "Monitored",
-    value: "monitored",
+    label: 'Monitored',
+    value: 'monitored',
   },
   {
-    label: "Unmonitored",
-    value: "unmonitored",
+    label: 'Unmonitored',
+    value: 'unmonitored',
   },
 ];
 
-const TABLE_HEAD = [
-  "Email & Username",
-  "Gender",
-  "Date of birth",
-  "Phone",
-  "Role",
-  "Status",
-  "",
-];
+const TABLE_HEAD = ['Email & Username', 'Gender', 'Date of birth', 'Phone', 'Role', 'Status', ''];
 
 const statusList = [
   {
-    status: "ACTIVE",
+    status: 'ACTIVE',
     icon: BsCheck2Circle,
-    color: "#2fde26",
+    color: '#2fde26',
   },
   {
-    status: "BLOCKED",
+    status: 'BLOCKED',
     icon: BiBlock,
-    color: "#e62538",
+    color: '#e62538',
   },
   {
-    status: "PENDING",
+    status: 'PENDING',
     icon: MdOutlinePending,
-    color: "#e06d14",
+    color: '#e06d14',
   },
 ];
 
@@ -60,9 +52,7 @@ interface ListStaffProps {
 const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
   const [userList, setUserList] = useState(listUser?.content || []);
   const { data: session } = useSession();
-  const [popupVisibilities, setPopupVisibilities] = useState(
-    userList.map(() => false)
-  );
+  const [popupVisibilities, setPopupVisibilities] = useState(userList.map(() => false));
 
   const [selectedRow, setSelectedRow] = useState<any>(null);
 
@@ -82,16 +72,14 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
   const handleOnChangeStatus = (id: any, value: any) => {
     const body = value;
     const config = {
-      headers: { "Content-type": "application/json" },
+      headers: { 'Content-type': 'application/json' },
     };
     axiosAuthClient
       .put(`/users/${id}/status`, body, config)
       .then(() => {
-        toast.success("Update status success");
+        toast.success('Update status success');
         setUserList((prevUserList: any) =>
-          prevUserList.map((user: any) =>
-            user.userId === id ? { ...user, status: value } : user
-          )
+          prevUserList.map((user: any) => (user.userId === id ? { ...user, status: value } : user))
         );
       })
       .catch((response) => {
@@ -120,34 +108,28 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
                   className="bg-white dark:border-gray-700 dark:bg-gray-800"
                 >
                   <Table.Cell className="whitespace-nowrap  dark:text-white">
-                    <div className="font-medium text-gray-900">
-                      {item.email}
-                    </div>
-                    <div className="font-base text-sm text-gray-500">
-                      {item.username}
-                    </div>
+                    <div className="font-medium text-gray-900">{item.email}</div>
+                    <div className="font-base text-sm text-gray-500">{item.username}</div>
                   </Table.Cell>
                   <Table.Cell>{item.gender}</Table.Cell>
-                  <Table.Cell>
-                    {format(new Date(item.dob), "dd-MM-yyyy")}
-                  </Table.Cell>
+                  <Table.Cell>{format(new Date(item.dob), 'dd-MM-yyyy')}</Table.Cell>
                   <Table.Cell>{item.phone}</Table.Cell>
                   <Table.Cell>{item.role.name}</Table.Cell>
                   <Table.Cell>
                     {(() => {
-                      if (item.status === "ACTIVE") {
+                      if (item.status === 'ACTIVE') {
                         return (
                           <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
                             ACTIVE
                           </div>
                         );
-                      } else if (item.status === "BLOCKED") {
+                      } else if (item.status === 'BLOCKED') {
                         return (
                           <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-rose-500">
                             BLOCKED
                           </div>
                         );
-                      } else if (item.status === "PENDING") {
+                      } else if (item.status === 'PENDING') {
                         return (
                           <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-orange-500">
                             PENDING
@@ -161,46 +143,30 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
                       label=""
                       dismissOnClick={false}
                       renderTrigger={() => (
-                        <span className="text-sky-500 hover:underline cursor-pointer">
-                          Edit
-                        </span>
+                        <span className="text-sky-500 hover:underline cursor-pointer">Edit</span>
                       )}
                     >
                       {(() => {
-                        if (item.status === "ACTIVE") {
+                        if (item.status === 'ACTIVE') {
                           return (
                             <>
-                              {statusList
-                                .slice(1, 3)
-                                .map((status: any, index: number) => (
-                                  <Dropdown.Item
-                                    key={index}
-                                    value={status.status}
-                                    className="flex items-center gap-2"
-                                    onClick={() =>
-                                      handleOnChangeStatus(
-                                        item.userId,
-                                        status.status
-                                      )
-                                    }
-                                  >
-                                    <status.icon
-                                      size={18}
-                                      color={status.color}
-                                    />
+                              {statusList.slice(1, 3).map((status: any, index: number) => (
+                                <Dropdown.Item
+                                  key={index}
+                                  value={status.status}
+                                  className="flex items-center gap-2"
+                                  onClick={() => handleOnChangeStatus(item.userId, status.status)}
+                                >
+                                  <status.icon size={18} color={status.color} />
 
-                                    <span className={`text-[${status.color}]`}>
-                                      {status.status}
-                                    </span>
-                                  </Dropdown.Item>
-                                ))}
+                                  <span className={`text-[${status.color}]`}>{status.status}</span>
+                                </Dropdown.Item>
+                              ))}
                             </>
                           );
-                        } else if (item.status === "BLOCKED") {
+                        } else if (item.status === 'BLOCKED') {
                           const newArrray = statusList.filter(
-                            (item) =>
-                              item.status === "ACTIVE" ||
-                              item.status === "PENDING"
+                            (item) => item.status === 'ACTIVE' || item.status === 'PENDING'
                           );
                           return (
                             <>
@@ -209,49 +175,30 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
                                   key={index}
                                   value={status.status}
                                   className="flex items-center gap-2"
-                                  onClick={() =>
-                                    handleOnChangeStatus(
-                                      item.userId,
-                                      status.status
-                                    )
-                                  }
+                                  onClick={() => handleOnChangeStatus(item.userId, status.status)}
                                 >
                                   <status.icon size={18} color={status.color} />
 
-                                  <span className={`text-[${status.color}]`}>
-                                    {status.status}
-                                  </span>
+                                  <span className={`text-[${status.color}]`}>{status.status}</span>
                                 </Dropdown.Item>
                               ))}
                             </>
                           );
-                        } else if (item.status === "PENDING") {
+                        } else if (item.status === 'PENDING') {
                           return (
                             <>
-                              {statusList
-                                .slice(0, 2)
-                                .map((status: any, index: number) => (
-                                  <Dropdown.Item
-                                    key={index}
-                                    value={status.status}
-                                    className="flex items-center gap-2"
-                                    onClick={() =>
-                                      handleOnChangeStatus(
-                                        item.userId,
-                                        status.status
-                                      )
-                                    }
-                                  >
-                                    <status.icon
-                                      size={18}
-                                      color={status.color}
-                                    />
+                              {statusList.slice(0, 2).map((status: any, index: number) => (
+                                <Dropdown.Item
+                                  key={index}
+                                  value={status.status}
+                                  className="flex items-center gap-2"
+                                  onClick={() => handleOnChangeStatus(item.userId, status.status)}
+                                >
+                                  <status.icon size={18} color={status.color} />
 
-                                    <span className={`text-[${status.color}]`}>
-                                      {status.status}
-                                    </span>
-                                  </Dropdown.Item>
-                                ))}
+                                  <span className={`text-[${status.color}]`}>{status.status}</span>
+                                </Dropdown.Item>
+                              ))}
                             </>
                           );
                         }

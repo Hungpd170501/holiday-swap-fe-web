@@ -12,7 +12,6 @@ import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import useCreateOwnershipModal from '@/app/hooks/useCreateOwnershipModal';
-import { Tooltip } from 'flowbite-react';
 
 export const type = [
   {
@@ -44,6 +43,20 @@ export default function ModalCreateOwnership() {
   const [endYear, setEndYear] = useState(new Date());
   const [weekNumberValue, setWeekNumberValue] = useState<any>([]);
   const axiosAuthClient = useAxiosAuthClient();
+
+  const [weekNumbers, setWeekNumbers] = useState([{ id: 1 }]);
+
+  // Thêm một tuần mới
+  const addWeekNumber = () => {
+    const newWeekNumbers = [...weekNumbers];
+    newWeekNumbers.push({ id: newWeekNumbers.length + 1 });
+    setWeekNumbers(newWeekNumbers);
+  };
+
+  const removeWeekNumber = (index: number) => {
+    const newWeekNumbers = weekNumbers.filter((_, i) => i !== index);
+    setWeekNumbers(newWeekNumbers);
+  };
 
   const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
@@ -268,16 +281,28 @@ export default function ModalCreateOwnership() {
           required
         />
       </div>
-      <div className="grid grid-cols-1">
-        <label>Contract Image</label>
-        <FileInput
-          {...register('contractImages', {
-            required: 'Recipe picture is required',
-          })}
-          id="contractImages"
-          onChange={handleChangeImage}
-          multiple
+      <div className="grid grid-cols-2 gap-1">
+        <Input
+          id={`weekNumber`}
+          label="Number of weeks in a year"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+          tooltipContent="You fill in the number of weeks in the year that you own that apartment, for example, if you own that apartment in week 6 of 2023, enter 6. If you own many weeks, you can enter multiple weeks and separate them. with commas, for example: 6, 7, 8"
         />
+
+        <div className="grid grid-cols-1">
+          <label>Contract Image</label>
+          <FileInput
+            {...register('contractImages', {
+              required: 'Recipe picture is required',
+            })}
+            id="contractImages"
+            onChange={handleChangeImage}
+            multiple
+          />
+        </div>
       </div>
     </div>
   );
