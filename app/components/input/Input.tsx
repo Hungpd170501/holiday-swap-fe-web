@@ -1,12 +1,15 @@
-"use client";
+'use client';
 
-import React from "react";
-import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
-import { BiDollar } from "react-icons/bi";
+import { Tooltip } from 'flowbite-react';
+import React from 'react';
+import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
+import { BiHelpCircle } from 'react-icons/bi';
 
 interface InputProps {
   id: string;
   label: string;
+  tooltipContent?: string;
+  onChange?: (value: any) => void;
   type?: string;
   placeholder?: string;
   disabled?: boolean;
@@ -19,12 +22,14 @@ interface InputProps {
 const Input: React.FC<InputProps> = ({
   id,
   label,
-  type = "text",
-  placeholder = "",
+  type = 'text',
+  placeholder = '',
   disabled,
+  tooltipContent,
   formatPrice,
   required,
   register,
+  onChange,
   errors,
 }) => {
   return (
@@ -35,16 +40,24 @@ const Input: React.FC<InputProps> = ({
           className="text-neutral-700 absolute top-5 left-2"
         />
       )} */}
-      <label className="py-3">{label}</label>
+      <div className="py-3 flex flex-row gap-1 items-center">
+        <label>{label}</label>
+        {tooltipContent && (
+          <Tooltip content={tooltipContent}>
+            <BiHelpCircle size={20} />
+          </Tooltip>
+        )}
+      </div>
       <input
         id={id}
         disabled={disabled}
         {...register(id, { required })}
         placeholder={placeholder}
         type={type}
+        onChange={onChange}
         className={`peer p-4 pt-6 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed focus:ring-0
-        ${errors[id] ? "border-red-400" : "border-gray-400"} ${
-          errors[id] ? "focus:border-red-400" : "focus:border-black"
+        ${errors[id] ? 'border-red-400' : 'border-gray-400'} ${
+          errors[id] ? 'focus:border-red-400' : 'focus:border-black'
         }`}
       />
     </div>

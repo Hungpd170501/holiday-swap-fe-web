@@ -1,58 +1,59 @@
-"use client";
+'use client';
 
-import useAxiosAuthClient from "@/app/hooks/useAxiosAuthClient";
-import useCreateOwnershipModal from "@/app/hooks/useCreateOwnershipModal";
+import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
+import useCreateOwnershipModal from '@/app/hooks/useCreateOwnershipModal';
 
-import axios from "axios";
-import { format } from "date-fns";
-import { Dropdown, Table } from "flowbite-react";
-import { Fragment, useState } from "react";
-import toast from "react-hot-toast";
-import { BiBlock } from "react-icons/bi";
-import { BsCheck2Circle } from "react-icons/bs";
-import { MdOutlinePending } from "react-icons/md";
+import axios from 'axios';
+import { format } from 'date-fns';
+import { Dropdown, Table } from 'flowbite-react';
+import { useRouter } from 'next/navigation';
+import { Fragment, useState } from 'react';
+import toast from 'react-hot-toast';
+import { BiBlock } from 'react-icons/bi';
+import { BsCheck2Circle } from 'react-icons/bs';
+import { MdOutlinePending } from 'react-icons/md';
 
 const TABS = [
   {
-    label: "All",
-    value: "all",
+    label: 'All',
+    value: 'all',
   },
   {
-    label: "Monitored",
-    value: "monitored",
+    label: 'Monitored',
+    value: 'monitored',
   },
   {
-    label: "Unmonitored",
-    value: "unmonitored",
+    label: 'Unmonitored',
+    value: 'unmonitored',
   },
 ];
 
 const TABLE_HEAD = [
-  "Property ID",
-  "Room ID",
-  "User ID",
-  "Start date",
-  "End date",
-  "Type",
-  "Status",
-  "",
+  'Property ID',
+  'Room ID',
+  'User ID',
+  'Start date',
+  'End date',
+  'Type',
+  'Status',
+  '',
 ];
 
 const statusList = [
   {
-    status: "ACCEPTED",
+    status: 'ACCEPTED',
     icon: BsCheck2Circle,
-    color: "#2fde26",
+    color: '#2fde26',
   },
   {
-    status: "REJECTED",
+    status: 'REJECTED',
     icon: BiBlock,
-    color: "#e62538",
+    color: '#e62538',
   },
   {
-    status: "PENDING",
+    status: 'PENDING',
     icon: MdOutlinePending,
-    color: "#e06d14",
+    color: '#e06d14',
   },
 ];
 
@@ -62,18 +63,14 @@ interface OwnershipProps {
 
 const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
   const [ownershipUserList, setOwnershipUserList] = useState(ownershipStaff);
+  const router = useRouter();
 
   const axiosAuthClient = useAxiosAuthClient();
 
-  const handleOnChangeStatus = (
-    propertyId: any,
-    userId: any,
-    roomId: any,
-    value: any
-  ) => {
+  const handleOnChangeStatus = (propertyId: any, userId: any, roomId: any, value: any) => {
     const body = value;
     const config = {
-      headers: { "Content-type": "application/json" },
+      headers: { 'Content-type': 'application/json' },
     };
     axiosAuthClient
       .put(
@@ -82,7 +79,7 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
         config
       )
       .then(async () => {
-        toast.success("Update status success");
+        toast.success('Update status success');
         const ownership = await axios.get(
           `https://holiday-swap.click/api/co-owners?pageNo=0&pageSize=50&sortBy=property_id`
         );
@@ -111,24 +108,15 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
         <Table.Body className="divide-y">
           {ownershipUserList?.content.map((item: any, index: number) => {
             return (
-              <Table.Row
-                key={index}
-                className="bg-white dark:border-gray-700 dark:bg-gray-800"
-              >
+              <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                 <Table.Cell>{item.id.propertyId}</Table.Cell>
                 <Table.Cell>{item.id.roomId}</Table.Cell>
                 <Table.Cell>{item.id.userId}</Table.Cell>
+                <Table.Cell>{format(new Date(item.startTime), 'dd-MM-yyyy')}</Table.Cell>
+                <Table.Cell>{format(new Date(item.endTime), 'dd-MM-yyyy')}</Table.Cell>
+                <Table.Cell>{item.type === 'DEEDED' ? 'DEEDED' : 'NOT-DEEDED'}</Table.Cell>
                 <Table.Cell>
-                  {format(new Date(item.startTime), "dd-MM-yyyy")}
-                </Table.Cell>
-                <Table.Cell>
-                  {format(new Date(item.endTime), "dd-MM-yyyy")}
-                </Table.Cell>
-                <Table.Cell>
-                  {item.type === "DEEDED" ? "DEEDED" : "NOT-DEEDED"}
-                </Table.Cell>
-                <Table.Cell>
-                  {item.status === "ACCEPTED" ? (
+                  {item.status === 'ACCEPTED' ? (
                     <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
                       ACCEPTED
                     </div>
@@ -139,106 +127,16 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
                   )}
                 </Table.Cell>
                 <Table.Cell>
-                  <Dropdown
-                    label=""
-                    dismissOnClick={false}
-                    renderTrigger={() => (
-                      <span className="text-sky-500 hover:underline cursor-pointer">
-                        Edit
-                      </span>
-                    )}
+                  <span
+                    onClick={() =>
+                      router.push(
+                        `/staff/listapproveOwnership/${item.id.propertyId}/${item.id.userId}/${item.id.roomId}`
+                      )
+                    }
+                    className="text-sky-500 hover:underline cursor-pointer"
                   >
-                    {(() => {
-                      if (item.status === "ACCEPTED") {
-                        return (
-                          <>
-                            {statusList
-                              .slice(1, 3)
-                              .map((status: any, index: number) => (
-                                <Dropdown.Item
-                                  key={index}
-                                  value={status.status}
-                                  className="flex items-center gap-2"
-                                  onClick={() =>
-                                    handleOnChangeStatus(
-                                      item.id.propertyId,
-                                      item.id.roomId,
-                                      item.id.userId,
-                                      status.status
-                                    )
-                                  }
-                                >
-                                  <status.icon size={18} color={status.color} />
-
-                                  <span className={`text-[${status.color}]`}>
-                                    {status.status}
-                                  </span>
-                                </Dropdown.Item>
-                              ))}
-                          </>
-                        );
-                      } else if (item.status === "REJECTED") {
-                        const newArrray = statusList.filter(
-                          (item) =>
-                            item.status === "ACCEPTED" ||
-                            item.status === "PENDING"
-                        );
-                        return (
-                          <>
-                            {newArrray.map((status: any, index: number) => (
-                              <Dropdown.Item
-                                key={index}
-                                value={status.status}
-                                className="flex items-center gap-2"
-                                onClick={() =>
-                                  handleOnChangeStatus(
-                                    item.id.propertyId,
-                                    item.id.roomId,
-                                    item.id.userId,
-                                    status.status
-                                  )
-                                }
-                              >
-                                <status.icon size={18} color={status.color} />
-
-                                <span className={`text-[${status.color}]`}>
-                                  {status.status}
-                                </span>
-                              </Dropdown.Item>
-                            ))}
-                          </>
-                        );
-                      } else if (item.status === "PENDING") {
-                        return (
-                          <>
-                            {statusList
-                              .slice(0, 2)
-                              .map((status: any, index: number) => (
-                                <Dropdown.Item
-                                  key={index}
-                                  value={status.status}
-                                  className="flex items-center gap-2"
-                                  onClick={() =>
-                                    handleOnChangeStatus(
-                                      item.id.propertyId,
-                                      item.id.roomId,
-                                      item.id.userId,
-                                      status.status
-                                    )
-                                  }
-                                >
-                                  <status.icon size={18} color={status.color} />
-
-                                  <span className={`text-[${status.color}]`}>
-                                    {status.status}
-                                  </span>
-                                </Dropdown.Item>
-                              ))}
-                          </>
-                        );
-                      }
-                    })()}
-                  </Dropdown>
+                    Edit
+                  </span>
                 </Table.Cell>
               </Table.Row>
             );

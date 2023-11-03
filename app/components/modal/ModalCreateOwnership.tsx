@@ -1,55 +1,31 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import Input from "../input/Input";
-import Modal from "./Modal";
-import { toast } from "react-hot-toast";
-import useCreatePlanModal from "@/app/hooks/useCreatePlanModal";
-import { Select, Textarea, Label, FileInput } from "flowbite-react";
-import useAxiosAuthClient from "@/app/hooks/useAxiosAuthClient";
-import { useSession } from "next-auth/react";
-import axios from "axios";
-import useCreateOwnershipModal from "@/app/hooks/useCreateOwnershipModal";
-import { format } from "date-fns";
-import CalendarAparment from "@/app/apartment/CalendarAparment";
+import { useRouter } from 'next/navigation';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import Input from '../input/Input';
+import Modal from './Modal';
+import { toast } from 'react-hot-toast';
+import useCreatePlanModal from '@/app/hooks/useCreatePlanModal';
+import { Select, Textarea, Label, FileInput } from 'flowbite-react';
+import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
+import { useSession } from 'next-auth/react';
+import axios from 'axios';
+import useCreateOwnershipModal from '@/app/hooks/useCreateOwnershipModal';
+import { Tooltip } from 'flowbite-react';
 
-export const priceType = [
+export const type = [
   {
     id: 1,
-    priceType: "ONE_TIME",
+    type: 'DEEDED',
+    label: 'Owner forever',
   },
   {
     id: 2,
-    priceType: "RECURRING",
+    type: 'RIGHT_TO_USE',
+    label: 'Owner for a period of time',
   },
 ];
-
-export const planPriceInterval = [
-  {
-    id: 1,
-    planPriceInterval: "MONTHLY",
-  },
-  {
-    id: 2,
-    planPriceInterval: "YEARLY",
-  },
-  {
-    id: 3,
-    planPriceInterval: "LIFETIME",
-  },
-  {
-    id: 4,
-    planPriceInterval: "NONE",
-  },
-];
-
-const initialDateRange = {
-  startDate: new Date(),
-  endDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-  key: "selection",
-};
 
 export default function ModalCreateOwnership() {
   const { data: session } = useSession();
@@ -62,9 +38,11 @@ export default function ModalCreateOwnership() {
   const [resortId, setResortId] = useState();
   const [properties, setProperties] = useState<any[]>([]);
   const [propertyValue, setPropertyValue] = useState();
+  const [typeValue, setTypeValue] = useState<any>(type[0].type);
   const [visibleCalendar, setVisibleCalendar] = useState(false);
   const [startYear, setStartYear] = useState(new Date());
   const [endYear, setEndYear] = useState(new Date());
+  const [weekNumberValue, setWeekNumberValue] = useState<any>([]);
   const axiosAuthClient = useAxiosAuthClient();
 
   const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
@@ -102,8 +80,21 @@ export default function ModalCreateOwnership() {
     setPropertyValue(value);
   };
 
+  const handleChangeTypeValue = (value: any) => {
+    setTypeValue(value);
+  };
+
   const handleVisibleCalendar = () => {
     setVisibleCalendar(!visibleCalendar);
+  };
+
+  const handleChangeWeekNumberValue = (value: string) => {
+    if (value.includes(',')) {
+      const newArray = value.split(',');
+      setWeekNumberValue(newArray);
+    } else {
+      setWeekNumberValue(value);
+    }
   };
 
   useEffect(() => {
@@ -119,7 +110,7 @@ export default function ModalCreateOwnership() {
   }, [resortId]);
 
   useEffect(() => {
-    setCustomeValue("propertyId", propertyValue);
+    setCustomeValue('propertyId', propertyValue);
   }, [propertyValue, file]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -132,35 +123,27 @@ export default function ModalCreateOwnership() {
       roomId: data.roomId,
     };
     const coOwner = {
-      endTime: "2028-01-01",
-      startTime: "2023-01-01",
-      type: "RIGHT_TO_USE",
-      timeFrames: [
-        {
-          weekNumber: data.weekNumber as number,
-        },
-      ],
+      endTime: typeValue === 'DEEDED' ? null : endYear,
+      startTime: typeValue === 'DEEDED' ? null : startYear,
+      type: typeValue,
+      timeFrames: weekNumberValue.map((element: any) => ({ weekNumber: element as number })),
     };
     const coOwnerIdBlob = new Blob([JSON.stringify(coOwnerId)], {
-      type: "application/json",
+      type: 'application/json',
     });
     const coOwnerBlob = new Blob([JSON.stringify(coOwner)], {
-      type: "application/json",
+      type: 'application/json',
     });
-    formData.append("coOwnerId", coOwnerIdBlob);
-    formData.append("coOwner", coOwnerBlob);
+    formData.append('coOwnerId', coOwnerIdBlob);
+    formData.append('coOwner', coOwnerBlob);
     file.forEach((element) => {
-      formData.append("contractImages", element);
+      formData.append('contractImages', element);
     });
-
-    const config = {
-      headers: { Authorization: `Bearer ${session?.user.access_token}` },
-    };
 
     axiosAuthClient
-      .post("https://holiday-swap.click/api/co-owners", formData)
+      .post('https://holiday-swap.click/api/co-owners', formData)
       .then(() => {
-        toast.success("Create ownership success!");
+        toast.success('Create ownership success!');
         createOwnershipModal.onClose();
 
         reset();
@@ -173,6 +156,8 @@ export default function ModalCreateOwnership() {
       });
   };
 
+  console.log('Check type', typeValue);
+
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <div className="grid grid-cols-2 gap-4">
@@ -181,9 +166,7 @@ export default function ModalCreateOwnership() {
           <Select
             id="resortId"
             value={resortId}
-            onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-              handleChangeResortId(e.target.value)
-            }
+            onChange={(e: ChangeEvent<HTMLSelectElement>) => handleChangeResortId(e.target.value)}
           >
             {dataResort?.map((item: any) => (
               <option key={item.id} value={item.id}>
@@ -210,57 +193,75 @@ export default function ModalCreateOwnership() {
           </Select>
         </div>
       </div>
-      <div onClick={handleVisibleCalendar} className="grid grid-cols-1 gap-4">
-        <div
-          className={`grid grid-cols-2 rounded-lg  ${
-            visibleCalendar ? "border-2 border-black" : "border border-gray-600"
-          } `}
+
+      <div className="grid grid-cols-1">
+        <Label value="Select type ownership" />
+        <Select
+          id="type"
+          value={typeValue}
+          onChange={(e: ChangeEvent<HTMLSelectElement>) => handleChangeTypeValue(e.target.value)}
         >
-          <div className={`p-2 border-r border-gray-600`}>
-            <div className="text-xs">Start year</div>
-            <input
-              type="number"
-              min={new Date().getFullYear()}
-              max={new Date().getFullYear() + 25}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                const selectedYear = parseInt(e.target.value);
-                const newStartDate = new Date(selectedYear, 0, 1); // Month is 0-based, so 0 represents January
-                setStartYear(newStartDate);
-              }}
-              className="border-0 text-base text-gray-600 focus:outline-none w-full"
-              value={startYear.getFullYear()}
-            />
-          </div>
-          <div className={`p-2 border-gray-600  `}>
-            <div className="text-xs">End year</div>
-            <input
-              type="number"
-              min={new Date().getFullYear()}
-              max={new Date().getFullYear() + 25}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                const selectedYear = parseInt(e.target.value);
-                const newEndDate = new Date(selectedYear, 0, 1); // Month is 0-based, so 0 represents January
-                setEndYear(newEndDate);
-              }}
-              className="border-0 text-base text-gray-600 focus:outline-none w-full"
-              value={endYear.getFullYear()}
-            />
+          {type?.map((item: any) => (
+            <option key={item.id} value={item.type}>
+              {item.label}
+            </option>
+          ))}
+        </Select>
+      </div>
+
+      {typeValue === 'RIGHT_TO_USE' && (
+        <div onClick={handleVisibleCalendar} className="grid grid-cols-1 gap-4">
+          <div className={`grid grid-cols-2 rounded-lg border border-gray-600`}>
+            <div className={`p-2 border-r border-gray-600`}>
+              <div className="text-xs">Start year</div>
+              <input
+                type="number"
+                min={new Date().getFullYear() - 30}
+                max={new Date().getFullYear() + 25}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  const selectedYear = parseInt(e.target.value);
+                  const newStartDate = new Date(selectedYear, 0, 1); // Month is 0-based, so 0 represents January
+                  setStartYear(newStartDate);
+                }}
+                className="border-0 text-base text-gray-600 focus:outline-none w-full focus:ring-0"
+                value={startYear.getFullYear()}
+              />
+            </div>
+            <div className={`p-2 border-gray-600  `}>
+              <div className="text-xs">End year</div>
+              <input
+                type="number"
+                min={new Date().getFullYear() - 30}
+                max={new Date().getFullYear() + 25}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  const selectedYear = parseInt(e.target.value);
+                  const newEndDate = new Date(selectedYear, 0, 1); // Month is 0-based, so 0 represents January
+                  setEndYear(newEndDate);
+                }}
+                className="border-0 text-base text-gray-600 focus:outline-none w-full focus:ring-0"
+                value={endYear.getFullYear()}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       <div className="grid grid-cols-2 gap-4">
         <Input
           id="weekNumber"
-          label="Week number"
+          label="Number of week in a year"
           disabled={isLoading}
           register={register}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            handleChangeWeekNumberValue(e.target.value)
+          }
           errors={errors}
           required
+          tooltipContent="This is the week you own in the year, for example if you own the 6th week in 2023, you enter 6. You can enter multiple weeks by separating the weeks with a comma. For example: 6, 10, 11"
         />
         <Input
           id="roomId"
-          label="Room Number"
+          label="Apartment ID"
           disabled={isLoading}
           register={register}
           errors={errors}
@@ -270,8 +271,8 @@ export default function ModalCreateOwnership() {
       <div className="grid grid-cols-1">
         <label>Contract Image</label>
         <FileInput
-          {...register("contractImages", {
-            required: "Recipe picture is required",
+          {...register('contractImages', {
+            required: 'Recipe picture is required',
           })}
           id="contractImages"
           onChange={handleChangeImage}
