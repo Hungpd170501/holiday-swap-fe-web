@@ -116,7 +116,7 @@ const Money = [
           </div>
           <div className="flex flex-row items-center mt-5 gap-1">
             <input type="checkbox" />
-            <div>I have read and agree to HolidaySwap's money transfer terms</div>
+            <div>I have read and agree to HolidaySwap&apos;s money transfer terms</div>
           </div>
         </div>
       </>

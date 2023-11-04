@@ -432,8 +432,8 @@ const RegisterBody = () => {
       email: '',
       phone: '',
       gender: '',
-      role: { roleId: 1 },
-      dob: new Date(),
+      role: { roleId: 2 },
+      dob: date,
     },
   });
 
@@ -468,9 +468,8 @@ const RegisterBody = () => {
         router.push('/');
         loginModal.onOpen();
       })
-      .catch((error) => {
-        toast.error('Something went wrong');
-        console.log('Error register', error);
+      .catch((response) => {
+        toast.error(response.response.data.message);
       })
       .finally(() => {
         setIsLoading(false);
@@ -533,7 +532,10 @@ const RegisterBody = () => {
               <DatePicker
                 className="p-4 border-2 border-gray-400"
                 id="dob"
-                onChange={(value: any) => handleChangeDate(value)}
+                onChange={(value: any) => {
+                  handleChangeDate(value);
+                  setCustomValue('dob', value);
+                }}
                 defaultValue={dayjs('2001/01/01', dateFormat)}
                 format={dateFormat}
               />
