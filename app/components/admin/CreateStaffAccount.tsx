@@ -1,16 +1,96 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import InputMini from '../input/InputMini';
 import UploadAvtStaff from './UploadAvtStaff';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { BiBlock } from 'react-icons/bi';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import Input from '../input/Input';
+import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
+import toast from 'react-hot-toast';
+import { FileInput } from 'flowbite-react';
+import { format } from 'date-fns';
 
 export default function CreateStaffAccount() {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [file, setFile] = useState<any>();
   const router = useRouter();
   const dateFormat = 'YYYY/MM/DD';
+  const axiosAuthClient = useAxiosAuthClient();
+
+  const handleChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const newFile = e.target.files;
+    if (newFile) {
+      setFile(newFile);
+    }
+  };
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm<FieldValues>({
+    defaultValues: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+      avatar: null,
+      username: '',
+      fullName: '',
+      gender: '',
+      dob: new Date(),
+      phone: '',
+      status: 'ACTIVE',
+      roleId: 3,
+    },
+  });
+
+  const setCustomValue = (id: string, value: any) => {
+    setValue(id, value, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
+  };
+
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    setIsLoading(true);
+    if (data.password === data.confirmPassword) {
+      const formData = new FormData();
+
+      formData.append('email', data.email);
+      formData.append('password', data.password);
+      formData.append('username', data.username);
+      formData.append('fullName', data.fullName);
+      formData.append('gender', data.gender);
+      formData.append('dob', format(data.dob, 'yyyy-MM-dd'));
+      formData.append('phone', data.phone);
+      formData.append('status', data.status);
+      formData.append('roleId', data.roleId);
+
+      const newAvatar = new Blob([JSON.stringify(file)], { type: 'image/jpeg' });
+      formData.append('avatar', newAvatar);
+
+      axiosAuthClient
+        .post('https://holiday-swap.click/api/v1/users', formData)
+        .then(() => {
+          toast.success('Create staff success');
+          reset();
+        })
+        .catch((response) => {
+          toast.error(response.response.data.error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  };
+
   return (
     <div>
       <div>
@@ -24,7 +104,12 @@ export default function CreateStaffAccount() {
         <div className="pb-2 mt-6">Avatar*</div>
         <div className="flex flex-row items-center gap-20 w-full ">
           <div className="">
-            <UploadAvtStaff />
+            {/* <UploadAvtStaff /> */}
+            <FileInput
+              id="avatar"
+              {...register('avatar', { required: true })}
+              onChange={handleChangeFile}
+            />
           </div>
           <div className="flex flex-row items-center rounded-md p-4 border border-gray-600 gap-3">
             <div className="font-bold">Role: </div>
@@ -35,21 +120,26 @@ export default function CreateStaffAccount() {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-5">
-          <InputMini type="text" id="staffname" label="Staff Name*" placeholder="Name of staff" />
-          <InputMini
-            type="text"
-            id="staffemail"
-            label="Staff Email*"
-            placeholder="Email of staff"
-          />
+          <Input id="email" label="Email" register={register} errors={errors} required />
+          <Input id="username" label="Username" register={register} errors={errors} required />
         </div>
         <div className="grid grid-cols-2 gap-5">
-          <InputMini type="password" id="password" label="Password*" placeholder="Password" />
-          <InputMini
+          <Input
+            id="password"
+            label="Password"
             type="password"
+            register={register}
+            errors={errors}
+            required
+          />
+
+          <Input
             id="confirmPassword"
-            label="Confirm password*"
-            placeholder="Confirm Password"
+            label="Confirm password"
+            type="password"
+            register={register}
+            errors={errors}
+            required
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -57,7 +147,7 @@ export default function CreateStaffAccount() {
             <div className="py-3">Birth Date*</div>
             <div>
               <DatePicker
-                className="p-4 border border-gray-600"
+                className="p-4 border w-full border-gray-600"
                 id="dob"
                 defaultValue={dayjs('2001/01/01', dateFormat)}
                 format={dateFormat}
@@ -66,7 +156,12 @@ export default function CreateStaffAccount() {
           </div>
           <div className="w-full flex flex-col">
             <label className="py-3">Gender</label>
-            <select className="peer  p-4  font-light bg-white border rounded-md outline-none transition disabled:opacity-70">
+            <select
+              onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+                setCustomValue('gender', e.target.value)
+              }
+              className="peer  p-4  font-light bg-white border rounded-md outline-none transition disabled:opacity-70"
+            >
               <option value="">Any</option>
               <option value="MALE">Male</option>
               <option value="FEMALE">Female</option>
@@ -75,11 +170,18 @@ export default function CreateStaffAccount() {
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <InputMini id="phone" label="Phone number*" placeholder="Phone number of staff" />
+          <Input id="fullName" label="Full name" register={register} errors={errors} required />
+          <Input id="phone" label="Phone Number" register={register} errors={errors} required />
         </div>
       </div>
       <div className="flex flex-row justify-end w-full py-3">
-        <button className="px-6  py-3 bg-common text-white rounded-md">Create</button>
+        <button
+          disabled={isLoading}
+          onClick={handleSubmit(onSubmit)}
+          className="px-6  py-3 bg-common text-white rounded-md"
+        >
+          Create
+        </button>
       </div>
     </div>
   );

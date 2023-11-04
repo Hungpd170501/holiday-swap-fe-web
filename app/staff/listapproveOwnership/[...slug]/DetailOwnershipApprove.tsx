@@ -12,6 +12,8 @@ import { Image } from 'antd';
 
 interface DetailOwnershipApproveProps {
   approveDetail: any;
+  propertyDetail: any;
+  userDetail: any;
 }
 
 const statusList = [
@@ -32,7 +34,11 @@ const statusList = [
   },
 ];
 
-const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({ approveDetail }) => {
+const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({
+  approveDetail,
+  propertyDetail,
+  userDetail,
+}) => {
   const [detail, setDetail] = useState(approveDetail);
   const axiosAuthClient = useAxiosAuthClient();
   const handleOnChangeStatus = (propertyId: any, userId: any, roomId: any, value: any) => {
@@ -70,6 +76,7 @@ const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({ approve
           </span>
         </div>
       </div>
+ 
       <Image.PreviewGroup>
         <div className="grid grid-cols-2 mt-10 gap-5">
           <div className="w-full">
@@ -83,6 +90,32 @@ const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({ approve
                   alt="contract image"
                 />
               ))}
+
+      <div className="w-full sticky">
+        <div className="flex flex-col gap-5 sticky top-36 w-full p-6 rounded-lg bg-gray-300">
+          <div className="grid grid-cols-2 gap-5">
+            <div className="text-black">
+              Property: <span className="text-slate-600">{propertyDetail?.propertyName}</span>
+            </div>
+            <div className="text-black">
+              User: <span className="text-slate-600">{userDetail?.username}</span>
+            </div>
+            <div className="text-black">
+              Apartment ID: <span className="text-slate-600">{detail.id.roomId}</span>
+            </div>
+          </div>
+
+          <div className="">
+            <div className="text-black">
+              Type:{' '}
+              <span
+                className={`${
+                  detail.type === 'RIGHT_TO_USE' ? ' text-orange-600' : 'text-green-600'
+                }`}
+              >
+                {detail.type === 'RIGHT_TO_USE' ? 'Owner for a period of time' : 'Owner forever'}
+              </span>
+
             </div>
           </div>
           <div className="w-full sticky">
@@ -142,6 +175,7 @@ const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({ approve
                 </div>
               </div>
 
+
               <div className="">
                 <div className="text-black">
                   Status:{' '}
@@ -154,6 +188,18 @@ const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({ approve
                   </span>
                 </div>
               </div>
+=======
+          <div className="">
+            <div className="text-black">
+              Number of weeks in a year:{' '}
+              <span className="text-slate-600">
+                {detail.timeFrames.map((item: any, index: number) => (
+                  <span key={item.id}>{item.weekNumber}, </span>
+                ))}
+              </span>
+            </div>
+          </div>
+
 
               {detail.status !== 'ACCEPTED' && (
                 <div className="flex flex-end justify-end items-center gap-5">

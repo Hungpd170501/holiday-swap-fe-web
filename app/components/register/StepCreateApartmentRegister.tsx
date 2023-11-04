@@ -8,7 +8,7 @@ import UploadContract from './UploadContractApartment';
 const Apartment = [
   {
     title: 'First',
-    content: (
+    content: (handleRouter: () => void) => (
       <div className="grid grid-cols-2 bg-white pt-10 px-10 mt-10">
         <div>
           <div className="text-[30px] font-bold text-common">Step 1</div>
@@ -17,6 +17,21 @@ const Apartment = [
             In this step we will ask you what type of apartment you are renting and how long you
             have owned that apartment, then indicate the number of guests who can stay in the
             apartment.
+          </div>
+          <div className="flex flex-col">
+            <div className="text-gray-500">
+              If you do not want to apply for an apartment right now, you can{' '}
+              <span className="underline text-black">skip</span> this step
+            </div>
+            <div className="py-4">
+              <button
+                onClick={handleRouter}
+                type="button"
+                className="bg-common hover:bg-hover p-3 text-white rounded-md"
+              >
+                Skip
+              </button>
+            </div>
           </div>
         </div>
         <div className="flex flex-row justify-end w-full">
@@ -27,7 +42,7 @@ const Apartment = [
   },
   {
     title: 'Second',
-    content: (
+    content: () => (
       <div>
         <div className="grid grid-cols-2 bg-white pt-10 px-10 mt-10">
           <div>
@@ -55,7 +70,7 @@ const Apartment = [
   },
   {
     title: 'Third',
-    content: (
+    content: () => (
       <div>
         <div className="grid grid-cols-2 bg-white pt-10 py-10 px-10 mt-10">
           <div>
@@ -103,7 +118,7 @@ const Apartment = [
   },
   {
     title: 'Fourth',
-    content: (
+    content: () => (
       <div>
         {/* <div className="grid grid-cols-2 bg-white pt-10 px-10 mt-10">
           <div>
@@ -131,7 +146,7 @@ const Apartment = [
   },
   {
     title: 'Fifth',
-    content: (
+    content: () => (
       <div>
         <div className="grid grid-cols-2 bg-white pt-10 px-10 mt-10">
           <div>
@@ -176,6 +191,10 @@ const StepCreateApartmentRegister: React.FC = () => {
     }, 3000);
   };
 
+  const handleRouter = () => {
+    router.push('/');
+  };
+
   // Hàm xử lý khi thay đổi lựa chọn "Select type ownership"
   const handleOwnershipTypeChange = (value: any) => {
     setOwnershipType(value);
@@ -184,7 +203,7 @@ const StepCreateApartmentRegister: React.FC = () => {
   return (
     <div className="px-10 py-10 bg-white">
       <Steps className="pt-20" current={current} items={items} />
-      <div>{Apartment[current].content}</div>
+      <div>{Apartment[current].content(handleRouter)}</div>
       <div className="mt-10">
         <div className="bg-white px-10 py-10">
           {current === 3 && (
@@ -241,14 +260,17 @@ const StepCreateApartmentRegister: React.FC = () => {
       </div>
       <div className="-mt-10">
         {current < Apartment.length - 1 && (
-          <button className="bg-common px-5 py-2 rounded-md text-white" onClick={() => next()}>
+          <button
+            className="bg-common hover:bg-hover px-5 py-2 rounded-md text-white"
+            onClick={() => next()}
+          >
             Next
           </button>
         )}
         {current === Apartment.length - 1 && (
           <Link
             href="./dashboard/ownership"
-            className="bg-common px-5 py-2 rounded-md text-white"
+            className="bg-common hover:bg-hover px-5 py-2 rounded-md text-white"
             onClick={() => message.success('Processing complete!', handleDone)}
           >
             Done
@@ -256,7 +278,7 @@ const StepCreateApartmentRegister: React.FC = () => {
         )}
         {current > 0 && (
           <button
-            className="bg-common px-5 py-2 rounded-md text-white"
+            className="bg-common hover:bg-hover px-5 py-2 rounded-md text-white"
             style={{ margin: '0 8px' }}
             onClick={() => prev()}
           >

@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
 import HeadingRegister from '../HeadingRegister';
-import useCreateOwnershipModal from '@/app/hooks/useCreateOwnershipModal';
 import Link from 'next/link';
 import useLoginModal from '@/app/hooks/useLoginModal';
 
