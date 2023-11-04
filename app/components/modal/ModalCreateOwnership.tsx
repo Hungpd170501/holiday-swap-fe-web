@@ -281,28 +281,16 @@ export default function ModalCreateOwnership() {
           required
         />
       </div>
-      <div className="grid grid-cols-2 gap-1">
-        <Input
-          id={`weekNumber`}
-          label="Number of weeks in a year"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-          tooltipContent="You fill in the number of weeks in the year that you own that apartment, for example, if you own that apartment in week 6 of 2023, enter 6. If you own many weeks, you can enter multiple weeks and separate them. with commas, for example: 6, 7, 8"
+      <div className="grid grid-cols-1 gap-1">
+        <label>Contract Image</label>
+        <FileInput
+          {...register('contractImages', {
+            required: 'Recipe picture is required',
+          })}
+          id="contractImages"
+          onChange={handleChangeImage}
+          multiple
         />
-
-        <div className="grid grid-cols-1">
-          <label>Contract Image</label>
-          <FileInput
-            {...register('contractImages', {
-              required: 'Recipe picture is required',
-            })}
-            id="contractImages"
-            onChange={handleChangeImage}
-            multiple
-          />
-        </div>
       </div>
     </div>
   );
