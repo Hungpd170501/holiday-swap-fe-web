@@ -95,7 +95,7 @@ const Apartment = [
             </div>
           </div>
           <div className="flex flex-row justify-end w-full">
-            <img className="w-[80%] h-[90%] shadow-md " src="/images/apartmentstep2.jpg" alt="" />
+            <img className="w-[80%] h-[90%] shadow-md " src="/images/apartmentstep3.jpg" alt="" />
           </div>
         </div>
       </div>
@@ -146,7 +146,7 @@ const Apartment = [
             </div>
           </div>
           <div className="flex flex-row justify-end w-full">
-            <img className="w-[80%] h-[90%] shadow-md " src="/images/apartmentstep2.jpg" alt="" />
+            <img className="w-[80%] h-[90%] shadow-md " src="/images/apartmentstep5.jpg" alt="" />
           </div>
         </div>
       </div>
@@ -232,7 +232,7 @@ const StepCreateApartmentRegister: React.FC = () => {
               </div>
               <img
                 className="w-[100%] h-[100%] shadow-md "
-                src="/images/apartmentstep2.jpg"
+                src="/images/apartmentstep4.jpg"
                 alt=""
               />
             </div>
