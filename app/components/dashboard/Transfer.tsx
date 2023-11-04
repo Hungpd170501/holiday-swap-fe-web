@@ -174,7 +174,7 @@ const TransferMoney: React.FC<TranferMoneyProps> = ({ currentUser, memberships }
 
   const handleDone = () => {
     const data = {
-      from: currentUser.userId,
+      from: currentUser?.userId,
       to: userTo,
       amount: moneyTranfer,
     };
@@ -201,7 +201,7 @@ const TransferMoney: React.FC<TranferMoneyProps> = ({ currentUser, memberships }
   };
 
   const filteredMemberships = memberships?.content.filter(
-    (member: any) => member.userId !== currentUser.userId
+    (member: any) => member?.userId !== currentUser?.userId
   );
 
   const handleChangeUserTo = (value: any) => {

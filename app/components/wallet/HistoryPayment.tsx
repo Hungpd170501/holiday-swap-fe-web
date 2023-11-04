@@ -27,7 +27,7 @@ const HistoryPayment: React.FC<HistoryPaymentProps> = ({ historyTransaction }) =
   };
 
   // Sử dụng `.slice()` để lấy danh sách các mục cần hiển thị trên trang hiện tại
-  const displayedItems = historyTransaction.slice(
+  const displayedItems = historyTransaction?.slice(
     currentPage * itemsPerPage,
     (currentPage + 1) * itemsPerPage
   );
@@ -37,7 +37,7 @@ const HistoryPayment: React.FC<HistoryPaymentProps> = ({ historyTransaction }) =
       <TabContext value={value}>
         <TabPanel value="1">
           <div>
-            {displayedItems.map((item: any, index: number) => (
+            {displayedItems?.map((item: any, index: number) => (
               <div
                 key={index}
                 className="mb-5 grid grid-cols-5 bg-white shadow-sm  py-1 rounded-3xl w-full"
