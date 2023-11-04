@@ -1,21 +1,22 @@
-import DropDownEditResort from "@/app/components/staff/DropDownEditResort";
-import Image from "next/image";
-import React from "react";
-import { AiOutlineFundView } from "react-icons/ai";
-import { BsFillUmbrellaFill, BsTelephone } from "react-icons/bs";
-import { FaWifi } from "react-icons/fa6";
-import { FiSlack } from "react-icons/fi";
-import { GiSofa, GiWaterDrop } from "react-icons/gi";
-import { MdDry, MdOutlineBalcony, MdSportsBar } from "react-icons/md";
-import { PiTelevisionBold, PiToiletPaperFill } from "react-icons/pi";
-import { RxRadiobutton } from "react-icons/rx";
-import { TbDeviceAudioTape, TbWashEco } from "react-icons/tb";
+import DropDownEditResort from '@/app/components/staff/DropDownEditResort';
+import DropDownPropertyDetail from '@/app/components/staff/DropDownPropertyDetail';
+import Image from 'next/image';
+import React from 'react';
+import { AiOutlineFundView } from 'react-icons/ai';
+import { BsFillUmbrellaFill, BsTelephone } from 'react-icons/bs';
+import { FaWifi } from 'react-icons/fa6';
+import { FiSlack } from 'react-icons/fi';
+import { GiSofa, GiWaterDrop } from 'react-icons/gi';
+import { MdDry, MdOutlineBalcony, MdSportsBar } from 'react-icons/md';
+import { PiTelevisionBold, PiToiletPaperFill } from 'react-icons/pi';
+import { RxRadiobutton } from 'react-icons/rx';
+import { TbDeviceAudioTape, TbWashEco } from 'react-icons/tb';
 
 export default function StaffDetailResort() {
   return (
     <div>
       <div>
-        Staff {">"} <span className="text-common">Detail Property</span>
+        Staff {'>'} <span className="text-common">Detail Property</span>
       </div>
       <div className="">
         <div className="flex-col">
@@ -25,16 +26,14 @@ export default function StaffDetailResort() {
               <div className="text-gray-500">Resort Phu Quoc</div>
             </div>
             <div>
-              <DropDownEditResort />
+              <DropDownPropertyDetail />
             </div>
           </div>
           <div className="flex flex-col">
             <div className="flex flex-row items-center w-[850px] justify-between pb-[10px]">
               <div className="flex flex-row items-center pt-8 ">
                 <PiToiletPaperFill size={20} color="" className="mr-[10px]" />
-                <span className="pl-1 text-gray-500 text-[17px]">
-                  Privates toilet
-                </span>
+                <span className="pl-1 text-gray-500 text-[17px]">Privates toilet</span>
               </div>
               <div className="flex flex-row items-center pt-8 ">
                 <PiTelevisionBold size={22} color="" className="mr-[10px]" />
@@ -54,9 +53,7 @@ export default function StaffDetailResort() {
               </div>
               <div className="flex flex-row items-center pt-8 ">
                 <TbDeviceAudioTape size={22} color="" className="mr-[10px]" />
-                <span className="pl-1 text-gray-500 text-[17px]">
-                  Audio equiqment
-                </span>
+                <span className="pl-1 text-gray-500 text-[17px]">Audio equiqment</span>
               </div>
             </div>
             <div className="flex flex-row items-center w-[850px] justify-between pb-[30px]">
@@ -70,15 +67,11 @@ export default function StaffDetailResort() {
               </div>
               <div className="flex flex-row items-center  ">
                 <BsTelephone size={22} color="" className="mr-[10px]" />
-                <span className="pl-1 text-gray-500 text-[17px]">
-                  Telephone
-                </span>
+                <span className="pl-1 text-gray-500 text-[17px]">Telephone</span>
               </div>
               <div className="flex flex-row items-center  ">
                 <MdDry size={20} color="" className="mr-[10px]" />
-                <span className="pl-1 text-gray-500 text-[17px]">
-                  Hair dryer
-                </span>
+                <span className="pl-1 text-gray-500 text-[17px]">Hair dryer</span>
               </div>
               <div className="flex flex-row items-center  ">
                 <GiWaterDrop size={20} color="" className="mr-[10px]" />
@@ -86,9 +79,7 @@ export default function StaffDetailResort() {
               </div>
               <div className="flex flex-row items-center  ">
                 <TbWashEco size={22} color="" className="mr-[10px]" />
-                <span className="pl-1 text-gray-500 text-[17px]">
-                  Body wash
-                </span>
+                <span className="pl-1 text-gray-500 text-[17px]">Body wash</span>
               </div>
             </div>
           </div>
@@ -144,18 +135,16 @@ export default function StaffDetailResort() {
           <div className="text-[25px] py-[30px]">Description</div>
           <div className="pr-[30px]">
             <div className="pb-[10px]">
-              Leave your guidebooks at home and dive into the local cultures
-              that make each destination so special. Well connect you with our
-              exclusive experiences. Each trip is carefully crafted to let enjoy
-              your vacation.
+              Leave your guidebooks at home and dive into the local cultures that make each
+              destination so special. Well connect you with our exclusive experiences. Each trip is
+              carefully crafted to let enjoy your vacation.
             </div>
             <div>
-              A wonderful serenity has taken possession of my entire soul, like
-              these sweet mornings of spring which I enjoy with my whole heart.
-              I am alone, and feel the charm of existence in this spot, which
-              was created for the bliss of souls like mine. I am so happy, my
-              dear friend, so absorbed in the exquisite sense of mere tranquil
-              existence, that I neglect my talents.
+              A wonderful serenity has taken possession of my entire soul, like these sweet mornings
+              of spring which I enjoy with my whole heart. I am alone, and feel the charm of
+              existence in this spot, which was created for the bliss of souls like mine. I am so
+              happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence,
+              that I neglect my talents.
             </div>
           </div>
 
