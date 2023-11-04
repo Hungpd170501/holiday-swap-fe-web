@@ -28,19 +28,12 @@ import useLoginModal from '@/app/hooks/useLoginModal';
 import { useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
 import { DatePicker } from 'antd';
+import StepCreateApartmentRegister from './StepCreateApartmentRegister';
 
-// enum STEPS {
-//   INFO = 0,
-//   HOMETYPE = 1,
-//   HOMESIZE = 2,
-//   PEOPLE = 3,
-//   AMENITIES = 4,
-//   DESCRIBE = 5,
-//   TIMEAVAILABLE = 6,
-//   IMAGES = 7,
-//   CREATED = 8,
-//   ACTIVEMEMBERSHIP = 9,
-// }
+enum STEPS {
+  INFO = 0,
+  REGISTERAPARTMENT = 1,
+}
 
 export const homeTypes = [
   {
@@ -407,7 +400,7 @@ export const allergies = [
 ];
 
 const RegisterBody = () => {
-  // const [step, setStep] = useState(STEPS.INFO);
+  const [step, setStep] = useState(STEPS.INFO);
   const [isLoading, setIsLoading] = useState(false);
   const [date, setDate] = useState(new Date());
   const axiosAuthClient = useAxiosAuthClient();
@@ -437,13 +430,13 @@ const RegisterBody = () => {
     },
   });
 
-  // const onBack = () => {
-  //   setStep((value) => value - 1);
-  // };
+  const onBack = () => {
+    setStep((value) => value - 1);
+  };
 
-  // const onNext = () => {
-  //   setStep((value) => value + 1);
-  // };
+  const onNext = () => {
+    setStep((value) => value + 1);
+  };
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -460,20 +453,22 @@ const RegisterBody = () => {
   const gender = watch('gender');
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    setIsLoading(true);
-    axios
-      .post('https://holiday-swap.click/api/v1/auth/register', data)
-      .then(() => {
-        toast.success('Register Success');
-        router.push('/register/createapartmentinregister');
-        // loginModal.onOpen();
-      })
-      .catch((response) => {
-        toast.error(response.response.data.message);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    if (step !== STEPS.REGISTERAPARTMENT) {
+      setIsLoading(true);
+      axios
+        .post('https://holiday-swap.click/api/v1/auth/register', data)
+        .then(() => {
+          toast.success('Register Success');
+          onNext();
+          // loginModal.onOpen();
+        })
+        .catch((response) => {
+          toast.error(response.response.data.message);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
   };
 
   let bodyContent = (
@@ -589,6 +584,14 @@ const RegisterBody = () => {
       </div>
     </>
   );
+
+  if (step === STEPS.REGISTERAPARTMENT) {
+    bodyContent = (
+      <>
+        <StepCreateApartmentRegister />
+      </>
+    );
+  }
 
   // if (step === STEPS.HOMETYPE) {
   //   bodyContent = (
