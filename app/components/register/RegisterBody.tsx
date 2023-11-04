@@ -465,8 +465,8 @@ const RegisterBody = () => {
       .post('https://holiday-swap.click/api/v1/auth/register', data)
       .then(() => {
         toast.success('Register Success');
-        router.push('/');
-        loginModal.onOpen();
+        router.push('/register/createapartmentinregister');
+        // loginModal.onOpen();
       })
       .catch((response) => {
         toast.error(response.response.data.message);
