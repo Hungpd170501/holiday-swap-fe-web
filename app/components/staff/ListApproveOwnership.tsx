@@ -91,59 +91,67 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
   };
 
   return (
-    <Fragment>
-      <Table>
-        <Table.Head>
-          <Table.HeadCell>Property ID</Table.HeadCell>
-          <Table.HeadCell>Room ID</Table.HeadCell>
-          <Table.HeadCell>User ID</Table.HeadCell>
-          <Table.HeadCell>Start date</Table.HeadCell>
-          <Table.HeadCell>End date</Table.HeadCell>
-          <Table.HeadCell>Type</Table.HeadCell>
-          <Table.HeadCell>Status</Table.HeadCell>
-          <Table.HeadCell>
-            <span className="sr-only">Edit</span>
-          </Table.HeadCell>
-        </Table.Head>
-        <Table.Body className="divide-y">
-          {ownershipUserList?.content.map((item: any, index: number) => {
-            return (
-              <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                <Table.Cell>{item.id.propertyId}</Table.Cell>
-                <Table.Cell>{item.id.roomId}</Table.Cell>
-                <Table.Cell>{item.id.userId}</Table.Cell>
-                <Table.Cell>{format(new Date(item.startTime), 'dd-MM-yyyy')}</Table.Cell>
-                <Table.Cell>{format(new Date(item.endTime), 'dd-MM-yyyy')}</Table.Cell>
-                <Table.Cell>{item.type === 'DEEDED' ? 'DEEDED' : 'NOT-DEEDED'}</Table.Cell>
-                <Table.Cell>
-                  {item.status === 'ACCEPTED' ? (
-                    <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
-                      ACCEPTED
-                    </div>
-                  ) : (
-                    <div className="py-2 px-1 text-center text-sm bg-slate-200 rounded-md text-rose-600">
-                      NOT-ACCEPTED
-                    </div>
-                  )}
-                </Table.Cell>
-                <Table.Cell>
-                  <span
-                    onClick={() =>
-                      router.push(
-                        `/staff/listapproveOwnership/${item.id.propertyId}/${item.id.userId}/${item.id.roomId}`
-                      )
-                    }
-                    className="text-sky-500 hover:underline cursor-pointer"
-                  >
-                    Edit
-                  </span>
-                </Table.Cell>
-              </Table.Row>
-            );
-          })}
-        </Table.Body>
-      </Table>
-    </Fragment>
+    <div>
+      <div className="mt-8 mb-10">
+        <div>
+          Staff {'> '}
+          <span className="text-common">List Approve Ownership</span>
+        </div>
+      </div>
+      <Fragment>
+        <Table>
+          <Table.Head>
+            <Table.HeadCell>Property ID</Table.HeadCell>
+            <Table.HeadCell>Room ID</Table.HeadCell>
+            <Table.HeadCell>User ID</Table.HeadCell>
+            <Table.HeadCell>Start date</Table.HeadCell>
+            <Table.HeadCell>End date</Table.HeadCell>
+            <Table.HeadCell>Type</Table.HeadCell>
+            <Table.HeadCell>Status</Table.HeadCell>
+            <Table.HeadCell>
+              <span className="sr-only">Edit</span>
+            </Table.HeadCell>
+          </Table.Head>
+          <Table.Body className="divide-y">
+            {ownershipUserList?.content.map((item: any, index: number) => {
+              return (
+                <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                  <Table.Cell>{item.id.propertyId}</Table.Cell>
+                  <Table.Cell>{item.id.roomId}</Table.Cell>
+                  <Table.Cell>{item.id.userId}</Table.Cell>
+                  <Table.Cell>{format(new Date(item.startTime), 'dd-MM-yyyy')}</Table.Cell>
+                  <Table.Cell>{format(new Date(item.endTime), 'dd-MM-yyyy')}</Table.Cell>
+                  <Table.Cell>{item.type === 'DEEDED' ? 'DEEDED' : 'NOT-DEEDED'}</Table.Cell>
+                  <Table.Cell>
+                    {item.status === 'ACCEPTED' ? (
+                      <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
+                        ACCEPTED
+                      </div>
+                    ) : (
+                      <div className="py-2 px-1 text-center text-sm bg-slate-200 rounded-md text-rose-600">
+                        NOT-ACCEPTED
+                      </div>
+                    )}
+                  </Table.Cell>
+                  <Table.Cell>
+                    <span
+                      onClick={() =>
+                        router.push(
+                          `/staff/listapproveOwnership/${item.id.propertyId}/${item.id.userId}/${item.id.roomId}`
+                        )
+                      }
+                      className="text-sky-500 hover:underline cursor-pointer"
+                    >
+                      View detail
+                    </span>
+                  </Table.Cell>
+                </Table.Row>
+              );
+            })}
+          </Table.Body>
+        </Table>
+      </Fragment>
+    </div>
   );
 };
 
