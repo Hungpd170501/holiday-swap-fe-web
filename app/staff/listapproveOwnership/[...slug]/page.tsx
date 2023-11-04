@@ -1,12 +1,25 @@
 import React from 'react';
 import DetailOwnershipApprove from './DetailOwnershipApprove';
 import GetApproveOwnershipById from '@/app/actions/getApproveOwnershipById';
+import GetPropertyDetail from '@/app/actions/getPropertyDetail';
+import GetUserById from '@/app/actions/getUserById';
 
 interface IParams {
   slug: any[];
 }
 
 export default async function DetailOwnershipApprovePage({ params }: { params: IParams }) {
+  const { slug } = params; // Destructure the slug array from params.
+  const [propertyId, userId, roomId] = slug;
+
   const approveDetail = await GetApproveOwnershipById(params);
-  return <DetailOwnershipApprove approveDetail={approveDetail} />;
+  const propertyDetail = await GetPropertyDetail(propertyId);
+  const userDetail = await GetUserById(userId);
+  return (
+    <DetailOwnershipApprove
+      approveDetail={approveDetail}
+      propertyDetail={propertyDetail}
+      userDetail={userDetail}
+    />
+  );
 }
