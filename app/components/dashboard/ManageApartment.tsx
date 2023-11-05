@@ -6,8 +6,14 @@ import { FiEdit } from 'react-icons/fi';
 import EditPublicTime from '../managementApartment/EditPublicTime';
 import { BiBlock } from 'react-icons/bi';
 import { Upload } from 'antd';
+import useCreatePublicTimeModal from '@/app/hooks/useCreatePublicTimeModal';
 
-export default function ManageApartment() {
+interface ManageApartmentProps {
+  detailCoOwner: any;
+  propertyDetail: any;
+}
+
+const ManageApartment: React.FC<ManageApartmentProps> = ({ detailCoOwner, propertyDetail }) => {
   const imagesData = [
     {
       src: '/images/resort1.jpg',
@@ -30,9 +36,10 @@ export default function ManageApartment() {
       alt: 'destination 5',
     },
   ];
-
+  const [detail, setDetail] = useState(detailCoOwner);
   const [images, setImages] = useState(imagesData);
   const imageInputRef = useRef(null);
+  const createModalPublicTime = useCreatePublicTimeModal();
 
   const handleDeleteImage = (index: any) => {
     const updatedImages = [...images];
@@ -79,7 +86,7 @@ export default function ManageApartment() {
             <div className="border-2 border-gray-500 px-2 rounded-md">
               <div className="py-2">
                 <div className="flex flex-row items-center justify-between gap-3 mb-3 mt-3">
-                  <div className="underline text-[20px] ">Apartment view bien Thuc</div>
+                  <div className="underline text-[20px] ">{propertyDetail?.propertyName}</div>
                   <div>
                     <FiEdit size={20} />
                   </div>
@@ -87,7 +94,7 @@ export default function ManageApartment() {
                 <div className="flex flex-row items-center gap-2">
                   <div className="underline">Status:</div>
                   <div className="flex flex-row items-center w-full justify-between">
-                    <div className="underline text-common">Active</div>
+                    <div className="underline text-common">{detail.status}</div>
                     <div>
                       <FiEdit size={20} />
                     </div>
@@ -102,13 +109,17 @@ export default function ManageApartment() {
 
                 <div className="flex flex-row items-center w-full justify-between py-4">
                   <div>
-                    Apartment ID: <span className="text-common">887</span>
+                    Apartment ID: <span className="text-common">{detail.id.roomId}</span>
                   </div>
                   <BiBlock />
                 </div>
-                <EditPublicTime />
                 <div className="flex flex-row items-center w-full justify-center mt-4">
-                  <button className="px-5 py-2 bg-common text-white rounded-md">Save</button>
+                  <button
+                    onClick={() => createModalPublicTime.onOpen(detail)}
+                    className="px-5 py-2 bg-common text-white rounded-md"
+                  >
+                    Create public time
+                  </button>
                 </div>
               </div>
             </div>
@@ -165,4 +176,6 @@ export default function ManageApartment() {
       </Image.PreviewGroup>
     </div>
   );
-}
+};
+
+export default ManageApartment;

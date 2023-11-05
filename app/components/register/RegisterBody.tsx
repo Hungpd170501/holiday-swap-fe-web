@@ -425,7 +425,7 @@ const RegisterBody = () => {
       email: '',
       phone: '',
       gender: '',
-      role: { roleId: 2 },
+      role: { roleId: 4 },
       dob: date,
     },
   });

@@ -12,6 +12,8 @@ import { Image } from 'antd';
 
 interface DetailOwnershipApproveProps {
   approveDetail: any;
+  propertyDetail: any;
+  userDetail: any;
 }
 
 const statusList = [
@@ -32,7 +34,11 @@ const statusList = [
   },
 ];
 
-const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({ approveDetail }) => {
+const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({
+  approveDetail,
+  propertyDetail,
+  userDetail,
+}) => {
   const [detail, setDetail] = useState(approveDetail);
   const axiosAuthClient = useAxiosAuthClient();
   const handleOnChangeStatus = (propertyId: any, userId: any, roomId: any, value: any) => {
@@ -87,12 +93,12 @@ const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({ approve
           </div>
           <div className="w-full sticky">
             <div className="flex flex-col gap-5 sticky top-36 w-full p-6 rounded-lg bg-gray-300">
-              <div className="grid grid-cols-3 ">
+              <div className="grid grid-cols-2 ">
                 <div className="text-black">
-                  Property ID: <span className="text-slate-600">{detail.id.propertyId}</span>
+                  Property<span className="text-slate-600">{propertyDetail?.propertyName}</span>
                 </div>
                 <div className="text-black">
-                  User ID: <span className="text-slate-600">{detail.id.userId}</span>
+                  User<span className="text-slate-600">{userDetail?.username}</span>
                 </div>
                 <div className="text-black">
                   Apartment ID: <span className="text-slate-600">{detail.id.roomId}</span>
