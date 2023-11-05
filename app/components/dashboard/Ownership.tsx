@@ -5,8 +5,10 @@ import { format } from 'date-fns';
 import { Table } from 'flowbite-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { Pagination } from 'flowbite-react';
+import axios from 'axios';
 
 const TABLE_HEAD = ['Property ID', 'Room ID', 'Start date', 'End date', 'Type', 'Status', ''];
 
@@ -22,6 +24,10 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
   const router = useRouter();
   const createOwnershipModal = useCreateOwnershipModal();
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(ownershipUser.totalPages);
+  const onPageChange = (page: number) => setCurrentPage(page);
+
   const handleRouter = (propertyId: any, userId: any, roomId: any, status: any) => {
     if (status === 'ACCEPTED') {
       router.push(`/dashboard/ownership/${propertyId}/${userId}/${roomId}`);
@@ -29,6 +35,19 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
       toast.error('Apartment can only be edited once the status has been updated to ACCEPTED');
     }
   };
+
+  useEffect(() => {
+    const getList = async () => {
+      const ownerships = await axios.get(
+        `https://holiday-swap.click/api/co-owners?userId=${currentUser.userId}&pageNo=${
+          currentPage - 1
+        }&pageSize=10&sortBy=property_id`
+      );
+      setOwnershipUserList(ownerships.data);
+      setTotalPages(ownerships.data.totalPages);
+    };
+    getList();
+  }, [currentPage]);
 
   return (
     <Fragment>
@@ -45,8 +64,8 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
         <Table.Head>
           <Table.HeadCell>Property ID</Table.HeadCell>
           <Table.HeadCell>Room ID</Table.HeadCell>
-          <Table.HeadCell>Start date</Table.HeadCell>
-          <Table.HeadCell>End date</Table.HeadCell>
+          <Table.HeadCell>Start year</Table.HeadCell>
+          <Table.HeadCell>End year</Table.HeadCell>
           <Table.HeadCell>Type</Table.HeadCell>
           <Table.HeadCell>Status</Table.HeadCell>
           <Table.HeadCell>
@@ -58,17 +77,23 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
             <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
               <Table.Cell>{item.id.propertyId}</Table.Cell>
               <Table.Cell>{item.id.roomId}</Table.Cell>
-              <Table.Cell>{format(new Date(item.startTime), 'dd-MM-yyyy')}</Table.Cell>
-              <Table.Cell>{format(new Date(item.endTime), 'dd-MM-yyyy')}</Table.Cell>
-              <Table.Cell>{item.type === 'DEEDED' ? 'DEEDED' : 'NOT-DEEDED'}</Table.Cell>
+              <Table.Cell>
+                {item.startTime !== null ? format(new Date(item.startTime), 'yyyy') : 'Forever'}
+              </Table.Cell>
+              <Table.Cell>
+                {item.endTime !== null ? format(new Date(item.endTime), 'yyyy') : 'Forever'}
+              </Table.Cell>
+              <Table.Cell>
+                {item.type === 'DEEDED' ? 'Owner forever' : 'Owner for a period of time'}
+              </Table.Cell>
               <Table.Cell>
                 {item.status === 'ACCEPTED' ? (
                   <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
                     ACCEPTED
                   </div>
                 ) : (
-                  <div className="py-2 px-1 text-center text-sm bg-slate-200 rounded-md text-rose-600">
-                    NOT-ACCEPTED
+                  <div className="py-2 px-1 text-center text-sm bg-slate-200 rounded-md text-orange-500">
+                    PENDING
                   </div>
                 )}
               </Table.Cell>
@@ -86,6 +111,15 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
           ))}
         </Table.Body>
       </Table>
+
+      <div className="flex py-5 overflow-x-auto sm:justify-center">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+          showIcons
+        />
+      </div>
     </Fragment>
   );
 };

@@ -149,7 +149,7 @@ export default function ModalCreatePublicTime() {
   }, [timeFramesId]);
 
   const bodyContent = (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 overflow-x-hidden overflow-y-auto no-scrollbar h-[90%]">
       <div className="grid grid-cols-1">
         <Label value="Select week" />
         <Select
@@ -173,7 +173,7 @@ export default function ModalCreatePublicTime() {
           <CalendarAparment
             value={dateRange}
             onChange={(value: any) => {
-              setDateRange(value.selection)
+              setDateRange(value.selection);
               setPublicDateRange(value.selection);
             }}
             minDate={dateRange.startDate}
