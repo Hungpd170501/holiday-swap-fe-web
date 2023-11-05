@@ -103,9 +103,9 @@ export default function RechargeCard() {
               }`}
               onClick={() => handleCardClick(index)}
             >
-              <div className="px-10 flex flex-row items-center justify-center">
+              <div className="px-10 flex flex-row items-center gap-1 justify-center">
                 <div className="text-[30px] font-bold">{card.text}</div>
-                <img className="w-[50px] h-[50px] ml-5" src="./images/point.jpg" alt="" />
+                <img className="w-[50px] h-[50px]" src="/images/coin.png" alt="" />
               </div>
               <div className="text-[20px] py-5">{card.price}</div>
             </div>
