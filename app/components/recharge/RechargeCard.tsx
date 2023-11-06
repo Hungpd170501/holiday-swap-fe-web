@@ -7,9 +7,9 @@ import { useSession } from 'next-auth/react';
 import axios from 'axios';
 
 export default function RechargeCard() {
-  const [clickedCard, setClickedCard] = useState(0);
+  const [clickedCard, setClickedCard] = useState(-1);
   const [isLoading, setIsLoading] = useState(false);
-  const [amount, setAmount] = useState('0');
+  const [amount, setAmount] = useState('');
   const [orderInfor, setOrderInfor] = useState('nap_tien_vnp');
   const [returnUrl, setReturnUrl] = useState<any>();
   const axiosAuthClient = useAxiosAuthClient();
@@ -59,8 +59,8 @@ export default function RechargeCard() {
 
   const handleCardClick = (index: number) => {
     if (clickedCard === index) {
-      setClickedCard(0);
-      setAmount('0'); // Reset the amount to '0'
+      setClickedCard(-1);
+      setAmount(''); // Reset the amount to '0'
     } else {
       setClickedCard(index);
       setAmount(cardData[index].amount.toString());

@@ -11,6 +11,7 @@ import { MdComputer, MdOutlineSwapHorizontalCircle } from 'react-icons/md';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { BiWallet } from 'react-icons/bi';
+import { FaMoneyBillTransfer } from 'react-icons/fa6';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -55,7 +56,7 @@ const Sidebar = () => {
     {
       name: 'Transfer',
       href: '/dashboard/transfer',
-      icon: BiWallet,
+      icon: FaMoneyBillTransfer,
       current: pathName === '/dashboard/transfer' ? true : false,
     },
   ];
