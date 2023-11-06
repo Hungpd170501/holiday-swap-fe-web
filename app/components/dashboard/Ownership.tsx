@@ -25,7 +25,7 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
   const createOwnershipModal = useCreateOwnershipModal();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(ownershipUser.totalPages);
+  const [totalPages, setTotalPages] = useState<number>(0);
   const onPageChange = (page: number) => setCurrentPage(page);
 
   const handleRouter = (propertyId: any, userId: any, roomId: any, status: any) => {
@@ -37,24 +37,30 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
   };
 
   useEffect(() => {
+    if (ownershipUserList) {
+      setTotalPages(ownershipUserList.totalPages);
+    }
+  }, [ownershipUserList]);
+
+  useEffect(() => {
     const getList = async () => {
       const ownerships = await axios.get(
-        `https://holiday-swap.click/api/co-owners?userId=${currentUser.userId}&pageNo=${
+        `https://holiday-swap.click/api/co-owners?userId=${currentUser?.userId}&pageNo=${
           currentPage - 1
         }&pageSize=10&sortBy=property_id`
       );
-      setOwnershipUserList(ownerships.data);
-      setTotalPages(ownerships.data.totalPages);
+      setOwnershipUserList(ownerships?.data);
+      setTotalPages(ownerships?.data.totalPages);
     };
     getList();
-  }, [currentPage]);
+  }, [currentPage, totalPages]);
 
   return (
     <Fragment>
       <div className="text-xl font-bold text-common mb-5">Management Ownership</div>
       <div className="py-6">
         <button
-          onClick={() => createOwnershipModal.onOpen(listResort.content, currentUser)}
+          onClick={() => createOwnershipModal.onOpen(listResort?.content, currentUser)}
           className="bg-common py-3 px-5 rounded-lg shadow-md text-white text-lg hover:bg-hover"
         >
           Create ownership apartment

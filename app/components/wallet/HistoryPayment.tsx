@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -16,11 +16,15 @@ interface HistoryPaymentProps {
 const HistoryPayment: React.FC<HistoryPaymentProps> = ({ historyTransaction }) => {
   const [value, setValue] = useState('1');
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageCount, setPageCount] = useState(0);
   const itemsPerPage = 5; // Số lượng mục trên mỗi trang
 
   // Tính toán số trang dựa trên số lượng mục và số lượng mục trên mỗi trang
-  const pageCount = Math.ceil(historyTransaction?.length / itemsPerPage);
-
+  useEffect(() => {
+    if (historyTransaction) {
+      setPageCount(Math.ceil(historyTransaction?.length / itemsPerPage));
+    }
+  }, [historyTransaction]);
   // Hàm xử lý sự kiện khi trang thay đổi
   const handlePageChange = (selectedPage: { selected: number }) => {
     setCurrentPage(selectedPage.selected);

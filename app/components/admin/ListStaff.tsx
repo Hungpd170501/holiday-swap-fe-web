@@ -61,7 +61,7 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
   const itemsPerPage = 10; // Số lượng mục trên mỗi trang
 
   // Tính toán số trang dựa trên số lượng mục và số lượng mục trên mỗi trang
-  const pageCount = Math.ceil(listUser?.content.length / itemsPerPage);
+  const pageCount = Math.ceil(listUser?.content?.length / itemsPerPage);
 
   // Hàm xử lý sự kiện khi trang thay đổi
   const handlePageChange = (selectedPage: { selected: number }) => {
@@ -69,7 +69,7 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
   };
 
   // Sử dụng `.slice()` để lấy danh sách các mục cần hiển thị trên trang hiện tại
-  const displayedItems = listUser?.content.slice(
+  const displayedItems = listUser?.content?.slice(
     currentPage * itemsPerPage,
     (currentPage + 1) * itemsPerPage
   );
