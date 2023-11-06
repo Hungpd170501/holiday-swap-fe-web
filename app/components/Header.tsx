@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import Container from "./Container";
-import Logo from "./navbar/Logo";
-import LinkHeader from "./navbar/LinkHeader";
-import ButtonLoginHeader from "./navbar/ButtonLoginHeader";
-import { BiMenu } from "react-icons/bi";
-import { IoMdClose } from "react-icons/io";
-import Navbar from "./navbar/Navbar";
-import clsx from "clsx";
-import useLoginModal from "../hooks/useLoginModal";
-import { useSession } from "next-auth/react";
-import UserMenu from "./navbar/UserMenu";
-import { usePathname } from "next/navigation";
+import React, { useState, useEffect } from 'react';
+import Container from './Container';
+import Logo from './navbar/Logo';
+import LinkHeader from './navbar/LinkHeader';
+import ButtonLoginHeader from './navbar/ButtonLoginHeader';
+import { BiMenu } from 'react-icons/bi';
+import { IoMdClose } from 'react-icons/io';
+import Navbar from './navbar/Navbar';
+import clsx from 'clsx';
+import useLoginModal from '../hooks/useLoginModal';
+import { useSession } from 'next-auth/react';
+import UserMenu from './navbar/UserMenu';
+import { usePathname } from 'next/navigation';
 
 interface HeaderProps {
   currentUser?: any | null;
@@ -40,25 +40,20 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
   return (
-    <div
-      className={clsx(
-        `w-full z-50`,
-        pathName === ("/chat" || "/chatUser") ? "" : "fixed"
-      )}
-    >
+    <div className={clsx(`w-full z-50`, pathName === ('/chat' || '/chatUser') ? '' : 'fixed')}>
       <Container
         className={
           scroll
-            ? "bg-white opacity-90 -translate-y-1 duration-300 shadow-md py-5 md:block hidden"
-            : "py-4"
+            ? 'bg-white opacity-90 -translate-y-1 duration-300 shadow-md py-5 md:block hidden'
+            : 'py-4'
         }
       >
         <div className={clsx(`hidden md:block`)}>
@@ -76,8 +71,8 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
       <Container
         className={
           scroll
-            ? "bg-white opacity-90 -translate-y-1 duration-300 shadow-md py-4 block md:hidden"
-            : ""
+            ? 'bg-white opacity-90 -translate-y-1 duration-300 shadow-md py-4 block md:hidden'
+            : ''
         }
       >
         <div className="sm:block md:hidden w-full py-4">
@@ -93,14 +88,14 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
         <div className="md:hidden sm:block min-h-full transition-all overflow-x-hidden overflow-y-auto relative">
           <div
             className={`translate duration-300 h-full ${
-              openMenu ? `translate-y-0` : "translate-y-full"
+              openMenu ? `translate-y-0` : 'translate-y-full'
             }`}
           >
             <Navbar onClick={handleMenu} />
           </div>
         </div>
       ) : (
-        ""
+        ''
       )}
     </div>
   );
