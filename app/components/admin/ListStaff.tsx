@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { BiBlock } from 'react-icons/bi';
 import { BsCheck2Circle } from 'react-icons/bs';
@@ -9,6 +9,9 @@ import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import { Table, Dropdown } from 'flowbite-react';
+import Image from 'next/image';
+import { Pagination } from 'flowbite-react';
+import axios from 'axios';
 
 const TABS = [
   {
@@ -50,9 +53,28 @@ interface ListStaffProps {
 }
 
 const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
-  const [userList, setUserList] = useState(listUser?.content || []);
+  const [userList, setUserList] = useState(listUser);
   const { data: session } = useSession();
-  const [popupVisibilities, setPopupVisibilities] = useState(userList.map(() => false));
+  const [popupVisibilities, setPopupVisibilities] = useState(userList?.content.map(() => false));
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // Số lượng mục trên mỗi trang
+
+  // Tính toán số trang dựa trên số lượng mục và số lượng mục trên mỗi trang
+  const pageCount = Math.ceil(listUser?.content.length / itemsPerPage);
+
+  // Hàm xử lý sự kiện khi trang thay đổi
+  const handlePageChange = (selectedPage: { selected: number }) => {
+    setCurrentPage(selectedPage.selected);
+  };
+
+  // Sử dụng `.slice()` để lấy danh sách các mục cần hiển thị trên trang hiện tại
+  const displayedItems = listUser?.content.slice(
+    currentPage * itemsPerPage,
+    (currentPage + 1) * itemsPerPage
+  );
+
+  const onPageChange = (page: number) => setCurrentPage(page);
 
   const [selectedRow, setSelectedRow] = useState<any>(null);
 
@@ -93,6 +115,7 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
       <Table>
         <Table.Head>
           <Table.HeadCell>Email & Username</Table.HeadCell>
+          <Table.HeadCell>Full Name</Table.HeadCell>
           <Table.HeadCell>Gender</Table.HeadCell>
           <Table.HeadCell>Date of birth</Table.HeadCell>
           <Table.HeadCell>Phone</Table.HeadCell>
@@ -100,17 +123,27 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
           <Table.HeadCell>Status</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          {userList?.map((item: any, index: number) => {
+          {displayedItems?.map((item: any, index: number) => {
             if (item.role.roleId === 1 || item.role.roleId === 3) {
               return (
                 <Table.Row
                   key={item.userId}
                   className="bg-white dark:border-gray-700 dark:bg-gray-800"
                 >
-                  <Table.Cell className="whitespace-nowrap  dark:text-white">
-                    <div className="font-medium text-gray-900">{item.email}</div>
-                    <div className="font-base text-sm text-gray-500">{item.username}</div>
+                  <Table.Cell className="whitespace-nowrap flex flex-row gap-2 items-center dark:text-white">
+                    <Image
+                      src={item.avatar || '/images/placeholder.jpg'}
+                      alt="Avatar"
+                      width={50}
+                      height={50}
+                      className="object-cover rounded-full"
+                    />
+                    <div>
+                      <div className="font-medium text-gray-900">{item.email}</div>
+                      <div className="font-base text-sm text-gray-500">{item.username}</div>
+                    </div>
                   </Table.Cell>
+                  <Table.Cell>{item.fullName}</Table.Cell>
                   <Table.Cell>{item.gender}</Table.Cell>
                   <Table.Cell>{format(new Date(item.dob), 'dd-MM-yyyy')}</Table.Cell>
                   <Table.Cell>{item.phone}</Table.Cell>
@@ -211,6 +244,15 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
           })}
         </Table.Body>
       </Table>
+
+      <div className="flex py-5 overflow-x-auto sm:justify-center">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={pageCount}
+          onPageChange={onPageChange}
+          showIcons
+        />
+      </div>
     </Fragment>
   );
 };

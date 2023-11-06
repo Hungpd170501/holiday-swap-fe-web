@@ -6,6 +6,7 @@ import { FiEdit } from 'react-icons/fi';
 import { PiNotepadBold } from 'react-icons/pi';
 import { LiaFileInvoiceDollarSolid } from 'react-icons/lia';
 import { AiOutlineStar, AiFillPieChart } from 'react-icons/ai';
+import { FiUserPlus } from 'react-icons/fi';
 import { MdOutlineSwapHorizontalCircle, MdBusinessCenter } from 'react-icons/md';
 import { BiSolidCoin } from 'react-icons/bi';
 import { GrBusinessService } from 'react-icons/gr';
@@ -36,7 +37,7 @@ const SidebarAdmin = () => {
     {
       name: 'Create Staff',
       href: '/admin/createstaff',
-      icon: PiNotepadBold,
+      icon: FiUserPlus,
       current: pathName === '/admin/createstaff' ? true : false,
     },
     {

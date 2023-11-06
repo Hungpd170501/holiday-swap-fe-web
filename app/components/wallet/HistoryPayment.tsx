@@ -15,7 +15,7 @@ interface HistoryPaymentProps {
 
 const HistoryPayment: React.FC<HistoryPaymentProps> = ({ historyTransaction }) => {
   const [value, setValue] = useState('1');
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5; // Số lượng mục trên mỗi trang
 
   // Tính toán số trang dựa trên số lượng mục và số lượng mục trên mỗi trang
@@ -31,6 +31,8 @@ const HistoryPayment: React.FC<HistoryPaymentProps> = ({ historyTransaction }) =
     currentPage * itemsPerPage,
     (currentPage + 1) * itemsPerPage
   );
+
+  const onPageChange = (page: number) => setCurrentPage(page);
 
   return (
     <Box sx={{ width: '100%', typography: 'body1' }}>
@@ -78,17 +80,11 @@ const HistoryPayment: React.FC<HistoryPaymentProps> = ({ historyTransaction }) =
           </div>
           {/* Hiển thị phân trang */}
           <div className="flex justify-center">
-            <ReactPaginate
-              previousLabel="Previous"
-              nextLabel="Next"
-              breakLabel="..."
-              pageCount={pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={handlePageChange}
-              containerClassName="flex space-x-2" // Sử dụng lớp 'flex' để hiển thị số trang ngang
-              activeClassName="bg-blue-500 text-white   rounded-full" // Tùy chỉnh lớp cho số trang được chọn
-              pageLinkClassName="px-2 " // Tùy chỉnh lớp cho số trang không được chọn
+            <Pagination
+              currentPage={currentPage}
+              totalPages={pageCount}
+              onPageChange={onPageChange}
+              showIcons
             />
           </div>
         </TabPanel>

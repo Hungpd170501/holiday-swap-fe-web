@@ -1,6 +1,6 @@
-import Link from "next/link";
-import React from "react";
-import CurrentBooking from "./CurrentBooking";
+import Link from 'next/link';
+import React from 'react';
+import CurrentBooking from './CurrentBooking';
 
 interface MyProfileProps {
   currentUser?: any | null;
@@ -17,7 +17,7 @@ const MyProfile: React.FC<MyProfileProps> = ({ currentUser }) => {
           <div className="flex flex-row">
             <img
               className="rounded-full w-24 h-24 mr-10"
-              src="./images/resort1.jpg"
+              src={currentUser?.avatar || '/images/placeholder.jpg'}
               alt=""
             />
             <div className="flex flex-row mb-14 ">

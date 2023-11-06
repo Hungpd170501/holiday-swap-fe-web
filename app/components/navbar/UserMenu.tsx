@@ -30,7 +30,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
         className="cursor-pointer flex items-center gap-3"
       >
         <Image
-          src="/images/placeholder.jpg"
+          src={currentUser?.avatar || "/images/placeholder.jpg"}
           alt="Avartar"
           width={50}
           height={50}

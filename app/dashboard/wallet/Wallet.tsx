@@ -29,7 +29,9 @@ const Wallet: React.FC<WalletProps> = ({ userWallet, transfer, historyTransactio
                 <div className="text-[30px]">Account balance</div>
                 <div className="flex flex-row items-center">
                   <img className="w-[50px] h-[50px]" src="/images/coin.png" alt="" />
-                  <div className="text-[30px] ml-1 font-bold">{userWallet?.totalPoint}</div>
+                  <div className="text-[30px] ml-1 font-bold">
+                    {userWallet?.totalPoint.toFixed(1)}
+                  </div>
                 </div>
               </div>
             </div>
