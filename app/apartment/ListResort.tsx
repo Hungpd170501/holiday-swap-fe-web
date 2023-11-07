@@ -47,8 +47,8 @@ const ListResort: React.FC<ListResortProps> = ({
 
   return (
     <Fragment>
-      <div className="bg-white px-[50px] flex flex-col items-center justify-center">
-        <div className="grid md:grid-cols-3 grid-cols-1 gap-20 py-[30px] w-full">
+      <div className="bg-white px-[20px] flex flex-col items-center justify-center xl:px-[50px]">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 grid-cols-1 gap-20 py-[30px] w-full">
           {listResort && listResort.content.length > 0 ? (
             listResort?.content?.map((item: any, index: number) => (
               <CardListResort key={index} data={item} />
