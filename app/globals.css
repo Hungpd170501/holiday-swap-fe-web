@@ -39,3 +39,7 @@ body {
   min-width: 450px !important;
   width: 100% !important;
 }
+
+.ant-drawer-content-wrapper {
+  height: 100% !important;
+}
