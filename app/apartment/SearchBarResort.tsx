@@ -102,7 +102,7 @@ const SearchBarResort: React.FC<SearchBarResortProps> = ({
 
           <div onClick={handleVisibleCalendar} className="flex flex-col gap-2 p-6">
             <p>Check-in / Check-out</p>
-            <div className="flex w-full flex-row items-center justify-between py-3">
+            <div className="flex w-full flex-row items-center justify-between py-1">
               <div className="flex flex-row  items-center">
                 <AiFillCalendar size={20} />
                 <div>Sat, 16 Sep - Mon, 19 Oct</div>

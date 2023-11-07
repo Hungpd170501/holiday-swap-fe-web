@@ -79,42 +79,45 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
           </Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          {ownershipUserList?.content.map((item: any, index: number) => (
-            <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <Table.Cell>{item.id.propertyId}</Table.Cell>
-              <Table.Cell>{item.id.roomId}</Table.Cell>
-              <Table.Cell>
-                {item.startTime !== null ? format(new Date(item.startTime), 'yyyy') : 'Forever'}
-              </Table.Cell>
-              <Table.Cell>
-                {item.endTime !== null ? format(new Date(item.endTime), 'yyyy') : 'Forever'}
-              </Table.Cell>
-              <Table.Cell>
-                {item.type === 'DEEDED' ? 'Owner forever' : 'Owner for a period of time'}
-              </Table.Cell>
-              <Table.Cell>
-                {item.status === 'ACCEPTED' ? (
-                  <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
-                    ACCEPTED
+          {ownershipUserList?.content
+            .slice()
+            .reverse()
+            .map((item: any, index: number) => (
+              <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                <Table.Cell>{item.id.propertyId}</Table.Cell>
+                <Table.Cell>{item.id.roomId}</Table.Cell>
+                <Table.Cell>
+                  {item.startTime !== null ? format(new Date(item.startTime), 'yyyy') : 'Forever'}
+                </Table.Cell>
+                <Table.Cell>
+                  {item.endTime !== null ? format(new Date(item.endTime), 'yyyy') : 'Forever'}
+                </Table.Cell>
+                <Table.Cell>
+                  {item.type === 'DEEDED' ? 'Owner forever' : 'Owner for a period of time'}
+                </Table.Cell>
+                <Table.Cell>
+                  {item.status === 'ACCEPTED' ? (
+                    <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
+                      ACCEPTED
+                    </div>
+                  ) : (
+                    <div className="py-2 px-1 text-center text-sm bg-slate-200 rounded-md text-orange-500">
+                      PENDING
+                    </div>
+                  )}
+                </Table.Cell>
+                <Table.Cell>
+                  <div
+                    onClick={() =>
+                      handleRouter(item.id.propertyId, item.id.userId, item.id.roomId, item.status)
+                    }
+                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 hover:cursor-pointer"
+                  >
+                    <p>Edit</p>
                   </div>
-                ) : (
-                  <div className="py-2 px-1 text-center text-sm bg-slate-200 rounded-md text-orange-500">
-                    PENDING
-                  </div>
-                )}
-              </Table.Cell>
-              <Table.Cell>
-                <div
-                  onClick={() =>
-                    handleRouter(item.id.propertyId, item.id.userId, item.id.roomId, item.status)
-                  }
-                  className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 hover:cursor-pointer"
-                >
-                  <p>Edit</p>
-                </div>
-              </Table.Cell>
-            </Table.Row>
-          ))}
+                </Table.Cell>
+              </Table.Row>
+            ))}
         </Table.Body>
       </Table>
 

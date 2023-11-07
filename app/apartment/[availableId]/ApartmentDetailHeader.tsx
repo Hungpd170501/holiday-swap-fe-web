@@ -36,8 +36,8 @@ const ApartmentDetailHeader: React.FC<ApartmentDetailHeaderProps> = ({ apartment
               <div
                 key={item.id}
                 className={`w-full h-[30vh] relative overflow-hidden ${
-                  index === 1 || index === 3 ? 'rounded-r-lg' : ''
-                }`}
+                  index === 1 ? 'rounded-tr-xl' : ''
+                } ${index === 3 ? 'rounded-br-xl' : ''}`}
               >
                 <Image
                   key={item.id}
