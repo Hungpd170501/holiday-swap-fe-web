@@ -1,21 +1,16 @@
-"use client";
-
-import Image from "next/image";
-import React, { Fragment } from "react";
-import { AiFillStar } from "react-icons/ai";
+'use client';
+import Image from 'next/image';
+import React, { Fragment } from 'react';
+import { AiFillStar } from 'react-icons/ai';
 
 interface ApartmentDetailHeaderProps {
   apartment?: any;
 }
 
-const ApartmentDetailHeader: React.FC<ApartmentDetailHeaderProps> = ({
-  apartment,
-}) => {
+const ApartmentDetailHeader: React.FC<ApartmentDetailHeaderProps> = ({ apartment }) => {
   return (
     <div className="w-full">
-      <div className="text-2xl font-bold py-3">
-        {apartment.property.propertyName}
-      </div>
+      <div className="text-2xl font-bold py-3">{apartment.property.propertyName}</div>
       <div className="w-full py-3">
         <div className="font-normal text-base text-black flex flex-row gap-4">
           <div className="flex flex-row items-center">
@@ -37,24 +32,22 @@ const ApartmentDetailHeader: React.FC<ApartmentDetailHeaderProps> = ({
           </div>
 
           <div className="grid grid-cols-2 gap-2 rounded-r-xl">
-            {apartment?.property.propertyImage
-              .slice(1, 5)
-              .map((item: any, index: number) => (
-                <div
+            {apartment?.property.propertyImage.slice(1, 5).map((item: any, index: number) => (
+              <div
+                key={item.id}
+                className={`w-full h-[30vh] relative overflow-hidden ${
+                  index === 1 || index === 3 ? 'rounded-r-lg' : ''
+                }`}
+              >
+                <Image
                   key={item.id}
-                  className={`w-full h-[30vh] relative overflow-hidden ${
-                    index === 1 || index === 3 ? "rounded-r-lg" : ""
-                  }`}
-                >
-                  <Image
-                    key={item.id}
-                    alt="image"
-                    fill
-                    src={item.link}
-                    className="object-cover w-full"
-                  />
-                </div>
-              ))}
+                  alt="image"
+                  fill
+                  src={item.link}
+                  className="object-cover w-full"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>
