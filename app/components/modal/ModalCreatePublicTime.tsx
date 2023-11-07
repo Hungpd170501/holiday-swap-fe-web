@@ -194,29 +194,6 @@ export default function ModalCreatePublicTime() {
     </div>
   );
 
-  //   const footerContent = (
-  //     <div className="grid grid-cols-1">
-  //       <hr />
-  //       <div className="text-neutral-500 text-center mt-4 font-light">
-  //         <div className="flex flex-row justify-center items-center gap-2">
-  //           <div>
-  //             First time using{" "}
-  //             <span className="font-bold text-black">
-  //               Holiday<span className="text-common">Swap</span>
-  //             </span>
-  //             ?
-  //           </div>
-  //           <div
-  //             onClick={toggle}
-  //             className="text-neutral-800 cursor-pointer hover:underline"
-  //           >
-  //             Create an account
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-
   return (
     <Modal
       disabled={isLoading}

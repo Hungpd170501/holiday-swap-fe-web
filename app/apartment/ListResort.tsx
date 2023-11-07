@@ -21,23 +21,60 @@ const ListResort: React.FC<ListResortProps> = ({
 }) => {
   const [page, setPage] = useState<number>(1);
   const [listResort, setListResort] = useState<any>(listApartment);
+  const [dateRangeNew, setDateRangeNew] = useState<any>();
   const [totalPages, setTotalPages] = useState<any>(listApartment.totalPages);
 
   useEffect(() => {
-    const getList = async () => {
-      const list = await axios.get(
-        `https://holiday-swap.click/api/v1/apartment-for-rent?checkIn=${format(
-          new Date(dateRange.startDate),
-          'yyyy-MM-dd'
-        )}&checkOut=${format(new Date(dateRange.endDate), 'yyyy-MM-dd')}&min=0&max=1000000&pageNo=${
-          page - 1
-        }&guest=${numberOfGuest}&resortId=${resortId}&pageSize=9&sortBy=id`
-      );
-      setListResort(list.data);
-      setTotalPages(list.data?.totalPages);
-    };
-    getList();
-  }, [page, numberOfGuest, resortId]);
+    if (!dateRangeNew) {
+      const getList = async () => {
+        const list = await axios.get(
+          `https://holiday-swap.click/api/v1/apartment-for-rent?min=0&max=1000000&pageNo=${
+            page - 1
+          }&guest=${numberOfGuest}&resortId=${resortId}&pageSize=9&sortBy=id`
+        );
+        setListResort(list.data);
+        setTotalPages(list.data?.totalPages);
+      };
+      getList();
+    }
+
+    //   const getList = async () => {
+    //     const list = await axios.get(
+    //       `https://holiday-swap.click/api/v1/apartment-for-rent?checkIn=${format(
+    //         new Date(dateRange.startDate),
+    //         'yyyy-MM-dd'
+    //       )}&checkOut=${format(
+    //         new Date(dateRange.endDate),
+    //         'yyyy-MM-dd'
+    //       )}&min=0&max=1000000&pageNo=${
+    //         page - 1
+    //       }&guest=${numberOfGuest}&resortId=${resortId}&pageSize=9&sortBy=id`
+    //     );
+    //     setListResort(list.data);
+    //     setTotalPages(list.data?.totalPages);
+    //   };
+    //   getList();
+    // }
+  }, [page, numberOfGuest, resortId, dateRangeNew]);
+
+  useEffect(() => {
+
+    if (dateRangeNew) {
+      const getList = async () => {
+        const list = await axios.get(
+          `https://holiday-swap.click/api/v1/apartment-for-rent?checkIn=${format(
+            dateRangeNew?.startDate,
+            'yyyy-MM-dd'
+          )}&checkOut=${format(dateRangeNew?.endDate, 'yyyy-MM-dd')}&min=0&max=1000000&pageNo=${
+            page - 1
+          }&guest=${numberOfGuest}&resortId=${resortId}&pageSize=9&sortBy=id`
+        );
+        setListResort(list.data);
+        setTotalPages(list.data?.totalPages);
+      };
+      getList();
+    }
+  }, [dateRangeNew, dateRange]);
 
   const handleChangePage = async (pageNo: any) => {
     if (pageNo !== page) {

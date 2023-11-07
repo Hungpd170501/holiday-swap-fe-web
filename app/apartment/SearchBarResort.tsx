@@ -1,30 +1,22 @@
-"use client";
+'use client';
 
-import React, { Fragment, useState } from "react";
-import SearchBanner from "../components/banner/SearchBanner";
-import { BiSearch } from "react-icons/bi";
-import {
-  AiFillCalendar,
-  AiFillCaretDown,
-  AiOutlinePlusCircle,
-} from "react-icons/ai";
-import { GrSubtractCircle } from "react-icons/gr";
-import CalendarAparment from "./CalendarAparment";
+import React, { Fragment, useState } from 'react';
+import SearchBanner from '../components/banner/SearchBanner';
+import { BiSearch } from 'react-icons/bi';
+import { AiFillCalendar, AiFillCaretDown, AiOutlinePlusCircle } from 'react-icons/ai';
+import { GrSubtractCircle } from 'react-icons/gr';
+import CalendarAparment from './CalendarAparment';
 import dayjs from 'dayjs';
 
 const initialDateRange = {
   startDate: new Date(),
   endDate: new Date(),
-  key: "selection",
+  key: 'selection',
 };
 
 interface SearchBarResortProps {
   listResort: any;
-  handleSubmitSearchApartment: (
-    resortId: string,
-    dateRange: any,
-    numberOfGuest: number
-  ) => void;
+  handleSubmitSearchApartment: (resortId: string, dateRange: any, numberOfGuest: number) => void;
 }
 
 const SearchBarResort: React.FC<SearchBarResortProps> = ({
@@ -34,7 +26,7 @@ const SearchBarResort: React.FC<SearchBarResortProps> = ({
   const [visibleCalendar, setVisibleCalendar] = useState(false);
   const [visibleGuest, setVisibleGuest] = useState(false);
   const [dateRange, setDateRange] = useState(initialDateRange);
-  const [resortId, setResortId] = useState<string>("");
+  const [resortId, setResortId] = useState<string>('');
   const [adultsGuest, setAdultsGuest] = useState<number>(1);
   const [chidrenGuest, setChildrenGuest] = useState<number>(0);
   const [totalGuest, setTotalGuest] = useState<number>(0);
@@ -108,10 +100,7 @@ const SearchBarResort: React.FC<SearchBarResortProps> = ({
             </select>
           </div>
 
-          <div
-            onClick={handleVisibleCalendar}
-            className="flex flex-col gap-2 p-6"
-          >
+          <div onClick={handleVisibleCalendar} className="flex flex-col gap-2 p-6">
             <p>Check-in / Check-out</p>
             <div className="flex flex-row items-center justify-between py-3">
               <div className="flex flex-row gap-2 items-center">
@@ -126,15 +115,19 @@ const SearchBarResort: React.FC<SearchBarResortProps> = ({
           <div onClick={handleVisibleGuest} className="flex flex-col gap-2 p-6">
             <p>Guests</p>
             <div className="py-3 flex flex-row items-center justify-between">
-              <div className="">2 alduts, 0 children</div>
+              <div className="">
+                {adultsGuest} alduts, {chidrenGuest} children
+              </div>
               <AiFillCaretDown size={20} />
             </div>
           </div>
 
           <div
-            onClick={() =>
-              handleSubmitSearchApartment(resortId, dateRange, totalGuest)
-            }
+            onClick={() => {
+              handleSubmitSearchApartment(resortId, dateRange, totalGuest);
+              setVisibleCalendar(false);
+              setVisibleGuest(false);
+            }}
             className="bg-common md:rounded-r-3xl md:rounded-l-none rounded-b-3xl py-5 flex flex-col justify-center items-center text-white hover:cursor-pointer hover:bg-sky-500"
           >
             <BiSearch size={18} color="white" />
@@ -150,7 +143,7 @@ const SearchBarResort: React.FC<SearchBarResortProps> = ({
           minDate={new Date()}
         />
       ) : (
-        ""
+        ''
       )}
 
       {visibleGuest ? (
@@ -161,17 +154,11 @@ const SearchBarResort: React.FC<SearchBarResortProps> = ({
               <div className="text-xs text-gray-700">18+ yrs</div>
             </div>
             <div className="flex flex-row gap-3">
-              <button
-                onClick={() => handleDescreaseAdultGuest(adultsGuest)}
-                type="button"
-              >
+              <button onClick={() => handleDescreaseAdultGuest(adultsGuest)} type="button">
                 <GrSubtractCircle size={20} />
               </button>
               <div>{adultsGuest}</div>
-              <button
-                onClick={() => handleInscreaseAdultGuest(adultsGuest)}
-                type="button"
-              >
+              <button onClick={() => handleInscreaseAdultGuest(adultsGuest)} type="button">
                 <AiOutlinePlusCircle size={20} />
               </button>
             </div>
@@ -183,24 +170,18 @@ const SearchBarResort: React.FC<SearchBarResortProps> = ({
               <div className="text-xs text-gray-700">2 - 17 yrs</div>
             </div>
             <div className="flex flex-row gap-3">
-              <button
-                onClick={() => handldeDescreaseChildrenGuest(chidrenGuest)}
-                type="button"
-              >
+              <button onClick={() => handldeDescreaseChildrenGuest(chidrenGuest)} type="button">
                 <GrSubtractCircle size={20} />
               </button>
               <div>{chidrenGuest}</div>
-              <button
-                onClick={() => handleInscreaseChildrenGuest(chidrenGuest)}
-                type="button"
-              >
+              <button onClick={() => handleInscreaseChildrenGuest(chidrenGuest)} type="button">
                 <AiOutlinePlusCircle size={20} />
               </button>
             </div>
           </div>
         </div>
       ) : (
-        ""
+        ''
       )}
     </Fragment>
   );

@@ -42,6 +42,7 @@ export default function ModalCreateOwnership() {
   const [startYear, setStartYear] = useState(new Date());
   const [endYear, setEndYear] = useState(new Date());
   const [weekNumberValue, setWeekNumberValue] = useState<any>([]);
+  const [weekNumberSingle, setWeekNumberSingle] = useState<any>();
   const axiosAuthClient = useAxiosAuthClient();
 
   const [weekNumbers, setWeekNumbers] = useState([{ id: 1 }]);
@@ -106,7 +107,7 @@ export default function ModalCreateOwnership() {
       const newArray = value.split(',');
       setWeekNumberValue(newArray);
     } else {
-      setWeekNumberValue(value);
+      setWeekNumberSingle(value);
     }
   };
 
@@ -139,7 +140,10 @@ export default function ModalCreateOwnership() {
       endTime: typeValue === 'DEEDED' ? null : endYear,
       startTime: typeValue === 'DEEDED' ? null : startYear,
       type: typeValue,
-      timeFrames: weekNumberValue.map((element: any) => ({ weekNumber: element as number })),
+      timeFrames:
+        weekNumberValue.length === 1
+          ? { weekNumber: weekNumberSingle }
+          : weekNumberValue?.map((element: any) => ({ weekNumber: element as number })),
     };
     const coOwnerIdBlob = new Blob([JSON.stringify(coOwnerId)], {
       type: 'application/json',
@@ -169,7 +173,7 @@ export default function ModalCreateOwnership() {
       });
   };
 
-  console.log('Check type', typeValue);
+  console.log('Check length', weekNumberValue.length);
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
