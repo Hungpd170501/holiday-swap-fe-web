@@ -1,20 +1,13 @@
-"use client";
+'use client';
 
-import useAparmentAmenitiesModal from "@/app/hooks/useApartmentAmenitiesModal";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import CalendarAparment from "../CalendarAparment";
-import {
-  addDays,
-  addMonths,
-  differenceInDays,
-  format,
-  isAfter,
-  isBefore,
-  subDays,
-} from "date-fns";
+import useAparmentAmenitiesModal from '@/app/hooks/useApartmentAmenitiesModal';
+import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
+import CalendarAparment from '../CalendarAparment';
+import { addDays, addMonths, differenceInDays, format, isAfter, isBefore, subDays } from 'date-fns';
 import GoogleMapReact from 'google-map-react-concurrent';
-import { useDateRange } from "../DateRangeContext";
+import { useDateRange } from '../DateRangeContext';
+import CalendarAparmentBody from '../CalendarAparmentBody';
 
 interface ApartmentDetailBodyProps {
   apartment?: any;
@@ -45,40 +38,25 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
     setDateRangeContext(dateRange);
   }, [dateRange]);
 
-  console.log("Check date range default", dateRangeDefault)
+  console.log('Check date range default', dateRangeDefault);
 
   return (
-    <div className="w-full py-4 flex flex-col">
+    <div className="w-full pb-4 flex flex-col">
       {/* Room host by */}
-      <div className="flex flex-row gap-5 border-b border-gray-400 py-8">
-        <div className="p-6 gap-2 border border-gray-500 rounded-lg flex flex-row items-center justify-center">
-          <Image
-            src="/images/icons/bed-room.png"
-            alt="icon"
-            width={25}
-            height={25}
-          />
-          <div>Single bed</div>
+      <div className="flex flex-row  gap-5 border-b border-gray-400 pb-8  ">
+        <div className="px-1 py-3 gap-2 border border-gray-500 rounded-lg flex flex-col items-center justify-center  md:px-3 md:py-5 md:gap-2 md:border md:border-gray-500 md:rounded-lg md:flex md:flex-row md:items-center md:justify-center  lg:p-6 lg:gap-2 lg:border lg:border-gray-500 lg:rounded-lg lg:flex lg:flex-row lg:items-center lg:justify-center  xl:p-6 xl:gap-2 xl:border xl:border-gray-500 xl:rounded-lg xl:flex xl:flex-row xl:items-center xl:justify-center">
+          <Image src="/images/icons/bed-room.png" alt="icon" width={25} height={25} />
+          <div className="text-center">Single bed</div>
         </div>
 
-        <div className="p-6 gap-2 border border-gray-500 rounded-lg flex flex-row items-center justify-center">
-          <Image
-            src="/images/icons/bath-room.png"
-            alt="icon"
-            width={25}
-            height={25}
-          />
-          <div>Private bath room</div>
+        <div className="px-1 py-3 gap-2 border border-gray-500 rounded-lg flex flex-col items-center justify-center  md:px-3 md:py-5 md:gap-2 md:border md:border-gray-500 md:rounded-lg md:flex md:flex-row md:items-center md:justify-center  lg:p-6 lg:gap-2 lg:border lg:border-gray-500 lg:rounded-lg lg:flex lg:flex-row lg:items-center lg:justify-center  xl:p-6 xl:gap-2 xl:border xl:border-gray-500 xl:rounded-lg xl:flex xl:flex-row xl:items-center xl:justify-center">
+          <Image src="/images/icons/bath-room.png" alt="icon" width={25} height={25} />
+          <div className="text-center">Private bath room</div>
         </div>
 
-        <div className="p-6 gap-2 border border-gray-500 rounded-lg flex flex-row items-center justify-center">
-          <Image
-            src="/images/icons/bed-room.png"
-            alt="icon"
-            width={25}
-            height={25}
-          />
-          <div>Single bed</div>
+        <div className="px-1 py-3 gap-2 border border-gray-500 rounded-lg flex flex-col items-center justify-center  md:px-3 md:py-5 md:gap-2 md:border md:border-gray-500 md:rounded-lg md:flex md:flex-row md:items-center md:justify-center  lg:p-6 lg:gap-2 lg:border lg:border-gray-500 lg:rounded-lg lg:flex lg:flex-row lg:items-center lg:justify-center  xl:p-6 xl:gap-2 xl:border xl:border-gray-500 xl:rounded-lg xl:flex xl:flex-row xl:items-center xl:justify-center">
+          <Image src="/images/icons/bed-room.png" alt="icon" width={25} height={25} />
+          <div className="text-center">Single bed</div>
         </div>
       </div>
 
@@ -86,13 +64,8 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
 
       <div className="flex flex-col py-8 border-b border-gray-500">
         <div className="flex flex-row gap-8 py-5">
-          <Image
-            src="/images/icons/bed-room.png"
-            alt="icon"
-            width={40}
-            height={25}
-          />
-          <div className="flex flex-col">
+          <Image src="/images/icons/bed-room.png" alt="icon" width={40} height={25} />
+          <div className="flex flex-col h-[50px] md:flex md:flex-col lg:flex lg:flex-col xl:flex xl:flex-col">
             <div className="font-bold text-lg">Room in a rental unit</div>
             <div className="text-gray-600 text-base font-normal">
               Your own room in a home, plus access to shared spaces.
@@ -101,13 +74,8 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
         </div>
 
         <div className="flex flex-row gap-8 py-5">
-          <Image
-            src="/images/icons/bed-room.png"
-            alt="icon"
-            width={40}
-            height={25}
-          />
-          <div className="flex flex-col">
+          <Image src="/images/icons/bed-room.png" alt="icon" width={40} height={25} />
+          <div className="flex flex-col h-[50px] md:flex md:flex-col lg:flex lg:flex-col xl:flex xl:flex-col">
             <div className="font-bold text-lg">Self check-in</div>
             <div className="text-gray-600 text-base font-normal">
               Check yourself in with the lockbox.
@@ -116,13 +84,8 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
         </div>
 
         <div className="flex flex-row gap-8 py-5">
-          <Image
-            src="/images/icons/bed-room.png"
-            alt="icon"
-            width={40}
-            height={25}
-          />
-          <div className="flex flex-col">
+          <Image src="/images/icons/bed-room.png" alt="icon" width={40} height={25} />
+          <div className="flex flex-col h-[50px] md:flex md:flex-col lg:flex lg:flex-col xl:flex xl:flex-col">
             <div className="font-bold text-lg">Edouard is a Superhost</div>
             <div className="text-gray-600 text-base font-normal">
               Superhosts are experienced, highly rated Hosts.
@@ -134,17 +97,12 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
       {/* Where your will sleep */}
       <div className="flex flex-col py-8 border-b border-gray-500">
         <div className="text-2xl font-bold py-5">Where you&apos;ll sleep</div>
-        <div className="flex flex-col p-6 rounded-lg border border-gray-500 w-48">
-          <Image
-            src="/images/icons/bed-room.png"
-            alt="icon"
-            width={40}
-            height={25}
-          />
+        <div className="flex flex-col py-3 px-4 items-center justify-center rounded-lg border border-gray-500 w-[20vh] md:flex md:flex-col lg:flex lg:flex-col xl:flex xl:flex-col ">
+          <Image src="/images/icons/bed-room.png" alt="icon" width={40} height={25} />
 
-          <div className="py-4">
-            <div className="font-bold">Bedroom</div>
-            <div>1 king bed</div>
+          <div className="">
+            <div className="font-bold text-center">Bedroom</div>
+            <div className="text-center">1 king bed</div>
           </div>
         </div>
       </div>
@@ -153,25 +111,15 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
       <div className="flex flex-col py-8 border-b border-gray-500">
         <div className="text-2xl font-bold py-5">What this place offers</div>
         <div className="grid grid-cols-2 gap-5">
-          {apartment.property.inRoomAmenityType[0].inRoomAmenities
-            .slice(0, 10)
-            .map((item: any) => (
-              <div key={item.id} className="flex flex-row gap-4 items-center">
-                <Image
-                  src={item.inRoomAmenityLinkIcon}
-                  alt="icon"
-                  width={30}
-                  height={30}
-                />
-                <div>{item.inRoomAmenityName}</div>
-              </div>
-            ))}
+          {apartment.property.inRoomAmenityType[0].inRoomAmenities.slice(0, 10).map((item: any) => (
+            <div key={item.id} className="flex flex-row gap-4 items-center">
+              <Image src={item.inRoomAmenityLinkIcon} alt="icon" width={30} height={30} />
+              <div>{item.inRoomAmenityName}</div>
+            </div>
+          ))}
         </div>
 
-        <div
-          onClick={() => apartmentAmenitiesModal.onOpen(apartment)}
-          className="py-4"
-        >
+        <div onClick={() => apartmentAmenitiesModal.onOpen(apartment)} className="py-4">
           <div className="py-3 px-4 border border-gray-500 rounded-lg w-48 text-center hover:bg-blue-gray-100 hover:cursor-pointer">
             Show all aminities
           </div>
@@ -182,47 +130,48 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
       <div className="flex flex-col py-8 border-b border-gray-500">
         <div className="py-8">
           <div className="text-2xl font-bold">
-            {" "}
-            {calculateNightDifference(
-              dateRange.startDate,
-              dateRange.endDate
-            ) === 0
-              ? "Select checkout date"
+            {' '}
+            {calculateNightDifference(dateRange.startDate, dateRange.endDate) === 0
+              ? 'Select checkout date'
               : `${
-                  calculateNightDifference(
-                    dateRange.startDate,
-                    dateRange.endDate
-                  ) === 1
-                    ? `${calculateNightDifference(
-                        dateRange.startDate,
-                        dateRange.endDate
-                      )} night`
-                    : `${calculateNightDifference(
-                        dateRange.startDate,
-                        dateRange.endDate
-                      )} nights`
+                  calculateNightDifference(dateRange.startDate, dateRange.endDate) === 1
+                    ? `${calculateNightDifference(dateRange.startDate, dateRange.endDate)} night`
+                    : `${calculateNightDifference(dateRange.startDate, dateRange.endDate)} nights`
                 }`}
           </div>
           <div className="text-gray-500">
-            {new Date(dateRange.startDate).getTime() ===
-            new Date(dateRange.endDate).getTime()
-              ? "Add your travel dates for exact pricing"
-              : `${format(
-                  new Date(dateRange.startDate),
-                  "dd MMM yyyy"
-                )} - ${format(new Date(dateRange.endDate), "dd MMM yyyy")}`}
+            {new Date(dateRange.startDate).getTime() === new Date(dateRange.endDate).getTime()
+              ? 'Add your travel dates for exact pricing'
+              : `${format(new Date(dateRange.startDate), 'dd MMM yyyy')} - ${format(
+                  new Date(dateRange.endDate),
+                  'dd MMM yyyy'
+                )}`}
           </div>
         </div>
-        <CalendarAparment
-          value={dateRange}
-          onChange={(value: any) => {
-            handleChangeDateRange(value);
-            setDateRangeContext(value.selection);
-          }}
-          className="w-[90%] !text-[1em]"
-          minDate={dateRangeDefault.startDate}
-          disabledDates={dateOut}
-        />
+        <div className="hidden md:block lg:block xl:block">
+          <CalendarAparment
+            value={dateRange}
+            onChange={(value: any) => {
+              handleChangeDateRange(value);
+              setDateRangeContext(value.selection);
+            }}
+            className="w-[100%] !text-[1em]"
+            minDate={dateRangeDefault.startDate}
+            disabledDates={dateOut}
+          />
+        </div>
+        <div className="md:hidden lg:hidden xl:hidden">
+          <CalendarAparmentBody
+            value={dateRange}
+            onChange={(value: any) => {
+              handleChangeDateRange(value);
+              setDateRangeContext(value.selection);
+            }}
+            className="w-[100%] !text-[1em]"
+            minDate={dateRangeDefault.startDate}
+            disabledDates={dateOut}
+          />
+        </div>
       </div>
       <div className="flex flex-col py-8 border-b border-gray-500">
         <div className="text-2xl font-bold py-5">Location</div>
@@ -234,21 +183,22 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
         <div className="rounded-xl overflow-hidden z-0">
           <GoogleMapReact
             bootstrapURLKeys={{
-              key: "AIzaSyDTZQ9gsIrh6G2_HtnX7pTgFS74G_VVedU",
-              version: "weekly",
+              key: 'AIzaSyDTZQ9gsIrh6G2_HtnX7pTgFS74G_VVedU',
+              version: 'weekly',
             }}
             defaultCenter={{
               lat: apartment.resort.latitude,
               lng: apartment.resort.longitude,
             }}
             defaultZoom={12}
-            yesIWantToUseGoogleMapApiInternals>
-              <Marker
-                key={apartment.resort.id}
-                lat={apartment.resort.latitude}
-                lng={apartment.resort.longitude}
-                text={apartment.availableTime.pricePerNight}
-              />
+            yesIWantToUseGoogleMapApiInternals
+          >
+            <Marker
+              key={apartment.resort.id}
+              lat={apartment.resort.latitude}
+              lng={apartment.resort.longitude}
+              text={apartment.availableTime.pricePerNight}
+            />
           </GoogleMapReact>
         </div>
       </div>
@@ -267,6 +217,5 @@ const Marker: React.FC<MarkerProps> = ({ text }) => (
     <span>P{text}</span>
   </span>
 );
-
 
 export default ApartmentDetailBody;

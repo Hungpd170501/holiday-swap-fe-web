@@ -14,7 +14,7 @@ interface CalendarApartmentProps {
   minDate: Date;
 }
 
-const CalendarAparment: React.FC<CalendarApartmentProps> = ({
+const CalendarAparmentBody: React.FC<CalendarApartmentProps> = ({
   value,
   onChange,
   disabledDates,
@@ -29,7 +29,7 @@ const CalendarAparment: React.FC<CalendarApartmentProps> = ({
       ranges={[value]}
       date={new Date()}
       onChange={onChange}
-      months={2}
+      months={1}
       direction="horizontal"
       minDate={minDate}
       disabledDates={disabledDates}
@@ -38,4 +38,4 @@ const CalendarAparment: React.FC<CalendarApartmentProps> = ({
   );
 };
 
-export default CalendarAparment;
+export default CalendarAparmentBody;
