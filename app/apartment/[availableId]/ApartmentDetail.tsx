@@ -1,25 +1,22 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import ApartmentDetailHeader from "./ApartmentDetailHeader";
-import ApartmentDetailBody from "./ApartmentDetailBody";
-import CalendarAparment from "../CalendarAparment";
-import ApartmentBooking from "./ApartmentBooking";
-import { addDays, addMonths, subDays } from "date-fns";
+import React, { useState } from 'react';
+import ApartmentDetailHeader from './ApartmentDetailHeader';
+import ApartmentDetailBody from './ApartmentDetailBody';
+import CalendarAparment from '../CalendarAparment';
+import ApartmentBooking from './ApartmentBooking';
+import { addDays, addMonths, subDays } from 'date-fns';
 
 interface ApartmentDetailProps {
   apartment?: any;
   currentUser?: any;
 }
 
-const ApartmentDetail: React.FC<ApartmentDetailProps> = ({
-  apartment,
-  currentUser,
-}) => {
+const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUser }) => {
   const initialDateRange = {
     startDate: new Date(apartment.availableTime.startTime),
     endDate: new Date(apartment.availableTime.endTime),
-    key: "selection",
+    key: 'selection',
   };
 
   const [dateRange, setDateRange] = useState(initialDateRange);
@@ -55,21 +52,19 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({
     return datesOutsideDateRange;
   };
 
-  const [dateOut, setDateOut] = useState(
-    getDatesOutsideDateRange(dateRangeDefault)
-  );
+  const [dateOut, setDateOut] = useState(getDatesOutsideDateRange(dateRangeDefault));
 
   const handleChangeDateRange = (value: any) => {
     setDateRange(value.selection);
   };
 
   return (
-    <div className="mx-16 py-20">
+    <div className="lg:mx-1 xl:mx-16 py-20">
       <div className="flex flex-col">
         <ApartmentDetailHeader apartment={apartment} />
       </div>
 
-      <div className="grid grid-cols-12 gap-16 py-14">
+      <div className="flex flex-col md:grid md:grid-cols-12 md:gap-16 md:pb-14 xl:py-10">
         <div className="col-span-8">
           <ApartmentDetailBody
             apartment={apartment}

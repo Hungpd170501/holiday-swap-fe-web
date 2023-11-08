@@ -30,35 +30,16 @@ const ListResort: React.FC<ListResortProps> = ({
         const list = await axios.get(
           `https://holiday-swap.click/api/v1/apartment-for-rent?min=0&max=1000000&pageNo=${
             page - 1
-          }&guest=${numberOfGuest}&resortId=${resortId}&pageSize=9&sortBy=id`
+          }&guest=${numberOfGuest}&resortId=${resortId}&pageSize=12&sortBy=id`
         );
         setListResort(list.data);
         setTotalPages(list.data?.totalPages);
       };
       getList();
     }
-
-    //   const getList = async () => {
-    //     const list = await axios.get(
-    //       `https://holiday-swap.click/api/v1/apartment-for-rent?checkIn=${format(
-    //         new Date(dateRange.startDate),
-    //         'yyyy-MM-dd'
-    //       )}&checkOut=${format(
-    //         new Date(dateRange.endDate),
-    //         'yyyy-MM-dd'
-    //       )}&min=0&max=1000000&pageNo=${
-    //         page - 1
-    //       }&guest=${numberOfGuest}&resortId=${resortId}&pageSize=9&sortBy=id`
-    //     );
-    //     setListResort(list.data);
-    //     setTotalPages(list.data?.totalPages);
-    //   };
-    //   getList();
-    // }
   }, [page, numberOfGuest, resortId, dateRangeNew]);
 
   useEffect(() => {
-
     if (dateRangeNew) {
       const getList = async () => {
         const list = await axios.get(
@@ -67,7 +48,7 @@ const ListResort: React.FC<ListResortProps> = ({
             'yyyy-MM-dd'
           )}&checkOut=${format(dateRangeNew?.endDate, 'yyyy-MM-dd')}&min=0&max=1000000&pageNo=${
             page - 1
-          }&guest=${numberOfGuest}&resortId=${resortId}&pageSize=9&sortBy=id`
+          }&guest=${numberOfGuest}&resortId=${resortId}&pageSize=12&sortBy=id`
         );
         setListResort(list.data);
         setTotalPages(list.data?.totalPages);
@@ -85,7 +66,7 @@ const ListResort: React.FC<ListResortProps> = ({
   return (
     <Fragment>
       <div className="bg-white px-[20px] flex flex-col items-center justify-center xl:px-[50px]">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 grid-cols-1 gap-20 py-[30px] w-full">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grid-cols-1 gap-5 py-[30px] w-full">
           {listResort && listResort.content.length > 0 ? (
             listResort?.content?.map((item: any, index: number) => (
               <CardListResort key={index} data={item} />

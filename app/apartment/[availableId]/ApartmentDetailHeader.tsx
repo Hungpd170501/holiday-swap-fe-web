@@ -25,7 +25,9 @@ const ApartmentDetailHeader: React.FC<ApartmentDetailHeaderProps> = ({ apartment
 
   return (
     <div className="w-full">
-      <div className="text-2xl font-bold py-3">{apartment.property.propertyName}</div>
+      <div className="text-xl font-bold py-3 md:text-2xl md:font-bold md:py-3 lg:text-2xl lg:font-bold lg:py-3 xl:text-2xl xl:font-bold xl:py-3">
+        {apartment.property.propertyName}
+      </div>
       <div className="w-full py-3">
         <div className="font-normal text-base text-black flex flex-row gap-4">
           <div className="flex flex-row items-center">
@@ -35,69 +37,59 @@ const ApartmentDetailHeader: React.FC<ApartmentDetailHeaderProps> = ({ apartment
           <div>Resort Nha Trang</div>
         </div>
 
-        <div className="grid grid-cols-2 h-[60vh] gap-2 py-4">
-          <div className="w-full rounded-l-xl relative overflow-hidden">
+        <div className="w-full  gap-2 py-4 md:grid md:grid-cols-2 md:h-[55vh] lg:h-[60vh] md:gap-2 md:py-4">
+          <div className=" w-full h-80  relative md:w-full md:rounded-l-xl md:h-96 md:relative md:overflow-hidden lg:w-full lg:h-auto lg:rounded-l-xl lg:relative lg:overflow-hidden xl:h-auto xl:w-full xl:rounded-l-xl xl:relative xl:overflow-hidden ">
             <Image
               onClick={showDrawer}
               key={apartment?.property.propertyImage[0].id}
               alt="image"
               fill
               src={apartment?.property.propertyImage[0].link}
-              className="object-cover h-full cursor-pointer"
+              className="w-[100%] md:object-cover md:h-full md:cursor-pointer lg:object-cover lg:h-full lg:cursor-pointer xl:object-cover xl:h-full xl:cursor-pointer"
             />
+            <Link
+              href="#"
+              className="absolute bottom-2 right-2 flex flex-row  items-center gap-2 px-4 py-1 bg-white border border-black rounded-md cursor-pointer hover:bg-gray-200 md:hidden lg:hidden xl:hidden"
+            >
+              <PiSquaresFourLight size={25} onClick={showDrawer} />
+              <button onClick={showDrawer}>View all image</button>
+            </Link>
           </div>
 
-            {/* {apartment?.property.propertyImage.slice(1, 5).map((item: any, index: number) => (
-              <div
-                key={item.id}
-                className={`w-full h-[30vh] relative overflow-hidden ${
-                  index === 1 ? 'rounded-tr-xl' : ''
-                } ${index === 3 ? 'rounded-br-xl' : ''}`}
-              >
-                <Image
+          <div className="relative hidden md:block md:relative lg:block lg:relative xl:block xl:relative">
+            <div className="hidden md:grid md:grid-cols-2 md:gap-2 md:rounded-r-xl lg:grid lg:grid-cols-2 lg:gap-2 lg:rounded-r-xl xl:grid xl:grid-cols-2 xl:gap-2 xl:rounded-r-xl">
+              {apartment?.property.propertyImage.slice(1, 5).map((item: any, index: number) => (
+                <div
                   key={item.id}
-                  alt="image"
-                  fill
-                  src={item.link}
-                  className="object-cover w-full"
-                />
-              </div>
-            ))} */}
-            <div className="relative">
-              <div className="grid grid-cols-2 gap-2 rounded-r-xl">
-                {apartment?.property.propertyImage.slice(1, 5).map((item: any, index: number) => (
-                  <div
+                  className={`w-full md:h-[189px] lg:h-[220px] relative overflow-hidden  md:block ${
+                    index === 1 ? 'rounded-tr-xl' : ''
+                  } ${index === 3 ? 'rounded-br-xl' : ''}`}
+                >
+                  <Image
+                    onClick={showDrawer}
                     key={item.id}
-                    className={`w-full h-[30vh] relative overflow-hidden ${
-                  index === 1 ? 'rounded-tr-xl' : ''
-                } ${index === 3 ? 'rounded-br-xl' : ''}`}
-                  >
-                    <Image
-                      onClick={showDrawer}
-                      key={item.id}
-                      alt="image"
-                      fill
-                      src={item.link}
-                      className="object-cover w-full cursor-pointer"
-                    />
-                  </div>
-                ))}
-              </div>
-              <Link
-                href="#"
-                className="absolute bottom-2 right-2 flex flex-row  items-center gap-2 px-4 py-1 bg-white border border-black rounded-md cursor-pointer hover:bg-gray-200"
-              >
-                <PiSquaresFourLight size={25} onClick={showDrawer} />
-                <button onClick={showDrawer}>View all image</button>
-              </Link>
+                    alt="image"
+                    fill
+                    src={item.link}
+                    className="object-cover w-full cursor-pointer"
+                  />
+                </div>
+              ))}
             </div>
+            <Link
+              href="#"
+              className="hidden xl:absolute xl:bottom-2 xl:right-2 xl:flex xl:flex-row  xl:items-center xl:gap-2 xl:px-4 xl:py-1 xl:bg-white xl:border xl:border-black xl:rounded-md xl:cursor-pointer xl:hover:bg-gray-200"
+            >
+              <PiSquaresFourLight size={25} onClick={showDrawer} />
+              <button onClick={showDrawer}>View all image</button>
+            </Link>
           </div>
         </div>
-        <Drawer placement={placement} width={500} onClose={onClose} open={open}>
-          <ViewFullImage listImage={apartment?.property.propertyImage} />
-        </Drawer>
       </div>
-
+      <Drawer placement={placement} width={500} onClose={onClose} open={open}>
+        <ViewFullImage listImage={apartment?.property.propertyImage} />
+      </Drawer>
+    </div>
   );
 };
 

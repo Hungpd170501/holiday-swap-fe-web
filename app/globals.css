@@ -42,4 +42,5 @@ body {
 
 .ant-drawer-content-wrapper {
   height: 100% !important;
+  width: 100% !important;
 }

@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Carousel } from 'flowbite-react';
+import { format } from 'date-fns';
+import { AiFillStar } from 'react-icons/ai';
 
 interface CardListResortProps {
   data: any;
@@ -12,11 +14,11 @@ interface CardListResortProps {
 const CardListResort: React.FC<CardListResortProps> = ({ data }) => {
   const route = useRouter();
   return (
-    <div className="flex flex-col cursor-pointer">
+    <div className="flex flex-col cursor-pointer ">
       <div>
         <Carousel
           slide={false}
-          className="relative w-full h-[400px] rounded-xl z-40 object-cover  "
+          className="relative w-full h-[300px] rounded-xl z-40 object-cover  "
         >
           {data?.property.propertyImage.slice(0, 5).map((item: any) => (
             <div key={item.id} className="w-full h-full ">
@@ -25,23 +27,36 @@ const CardListResort: React.FC<CardListResortProps> = ({ data }) => {
                 src={item.link}
                 alt="destination"
                 fill
-                className="  "
+                className=" rounded-t-xl  "
               />
             </div>
           ))}
         </Carousel>
       </div>
-      <div
-        onClick={() => route.push(`/apartment/${data.availableTime.id}`)}
-        className="w-full py-5"
-      >
-        <div className="text-base font-bold">{data?.property.propertyName}</div>
-        <div className="text-gray-600 text-base">Stay with {data?.user.username}</div>
-        <div className="text-gray-600 text-base">6 - 11 Nov</div>
-        <div className="py-2 text-base">
-          <div>
-            <span className="font-bold">{data?.availableTime.pricePerNight} point</span>
-            /night
+      <div className="flex flex-row justify-between py-3 ">
+        <div onClick={() => route.push(`/apartment/${data.availableTime.id}`)} className="w-full ">
+          <div className="text-base font-bold">{data?.property.propertyName}</div>
+          <div className="text-gray-600 text-base ">{data?.resort.resortName}</div>
+          <div className="text-gray-600 text-base">Owner by: {data?.user.username}</div>
+          <div className="text-gray-600 text-base">
+            {new Date(data?.availableTime.startTime).getMonth() ===
+            new Date(data?.availableTime.endTime).getMonth()
+              ? `${format(new Date(data?.availableTime.startTime), 'd ')} -
+          ${format(new Date(data?.availableTime.endTime), 'd MMM')}`
+              : `${format(new Date(data?.availableTime.startTime), 'd MMM')} -
+          ${format(new Date(data?.availableTime.endTime), 'd MMM')}`}
+          </div>
+          <div className="py-2 text-base">
+            <div>
+              <span className="font-bold">{data?.availableTime.pricePerNight} point</span>
+              /night
+            </div>
+          </div>
+        </div>
+        <div className="">
+          <div className="flex flex-row items-center gap-1">
+            <AiFillStar color="orange" />
+            <div>4.1</div>
           </div>
         </div>
       </div>
