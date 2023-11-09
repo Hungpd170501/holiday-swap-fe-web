@@ -101,7 +101,7 @@ const Sidebar = () => {
     },
   ];
   return (
-    <div className="pt-5 pl-5 pr-5">
+    <div className="hidden md:hidden md:pt-5 md:pl-5 md:pr-5 lg:block ">
       <div className="hidden lg:flex lg:min-h-full lg:rounded-md lg:w-72 lg:flex-col h-full">
         <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-[#F8F8F8] px-6 pb-4 border-r-2">
           <div className="flex h-16 shrink-0 items-center">
