@@ -52,19 +52,22 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
       <Container
         className={
           scroll
-            ? 'bg-white opacity-90 -translate-y-1 duration-300 shadow-md py-5 md:block hidden'
+            ? 'bg-white opacity-90 -translate-y-1 duration-300 shadow-md pt-5 md:block hidden'
             : 'py-4'
         }
       >
         <div className={clsx(`hidden md:block`)}>
-          <div className="flex flex-row justify-between items-center gap-3">
-            <Logo />
-            <LinkHeader />
-            {currentUser ? (
-              <UserMenu currentUser={currentUser} />
-            ) : (
-              <ButtonLoginHeader onClick={loginModal.onOpen} />
-            )}
+          <div className="flex flex-col">
+            <div className="flex flex-row justify-between items-center gap-3">
+              <Logo />
+              <LinkHeader />
+              {currentUser ? (
+                <UserMenu currentUser={currentUser} />
+              ) : (
+                <ButtonLoginHeader onClick={loginModal.onOpen} />
+              )}
+            </div>
+            <div className="w-full h-[1px] bg-gray-300 mt-4"></div>
           </div>
         </div>
       </Container>
