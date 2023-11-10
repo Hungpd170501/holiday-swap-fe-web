@@ -88,9 +88,8 @@ export default function RechargeCard() {
   return (
     <div className="px-20">
       <div className="px-20">
-        <div className="text-[35px] font-bold text-common border border-gray-500 px-3 py-3 justify-center rounded-3xl flex flex-row my-10 items-center">
+        <div className="text-[35px] font-bold text-common border border-gray-500 px-3 py-3 justify-center rounded-2xl flex flex-row my-10 items-center">
           <div> &quot;Top up money through VNpay&quot; </div>
-          <input className="w-[30px] h-[30px] ml-3" type="checkbox" />
         </div>
       </div>
       <div className="flex flex-col items-center justify-center min-h-screen">
