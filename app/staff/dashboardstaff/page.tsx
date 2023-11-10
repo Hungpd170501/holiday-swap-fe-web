@@ -1,9 +1,10 @@
-import React from "react";
-import ListResortDashboard from "@/app/components/staff/ListResortDashboard";
-import ListMembershipDashboard from "@/app/components/staff/ListMembershipDashboard";
+import React from 'react';
+import ListResortDashboard from '@/app/components/staff/ListResortDashboard';
+import ListMembershipDashboard from '@/app/components/staff/ListMembershipDashboard';
+import requireAuth from '@/app/libs/requireAuth';
 
 export default function DashBoardStaff() {
-  return (
+  return requireAuth(
     <div>
       <div className="bg-gray-200 w-auto h-auto rounded-lg px-20 pt-14">
         <div>
@@ -11,11 +12,7 @@ export default function DashBoardStaff() {
             <div className="text-[20px] font-bold text-common">My Profile</div>
           </div>
           <div className="flex flex-row">
-            <img
-              className="rounded-full w-24 h-24 mr-10"
-              src="./images/resort1.jpg"
-              alt=""
-            />
+            <img className="rounded-full w-24 h-24 mr-10" src="./images/resort1.jpg" alt="" />
             <div className="flex flex-row mb-14 ">
               <div className="flex flex-col mr-10 text-gray-400 ">
                 <div className="mb-5">Name</div>
@@ -47,6 +44,7 @@ export default function DashBoardStaff() {
       <div>
         <ListMembershipDashboard />
       </div>
-    </div>
+    </div>,
+    [3]
   );
 }

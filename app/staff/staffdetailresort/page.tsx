@@ -1,5 +1,6 @@
 import DropDownEditResort from '@/app/components/staff/DropDownEditResort';
 import ListActionApproveApartment from '@/app/components/staff/ListActionApproveApartment';
+import requireAuth from '@/app/libs/requireAuth';
 import Image from 'next/image';
 import React from 'react';
 import { AiOutlineCheck, AiOutlineClose, AiTwotoneStar } from 'react-icons/ai';
@@ -11,7 +12,7 @@ import { IoIosPeople } from 'react-icons/io';
 import { RxRadiobutton } from 'react-icons/rx';
 
 export default function StaffDetailResort() {
-  return (
+  return requireAuth(
     <div>
       <div>
         Staff {'>'} <span className="text-common">Detail Resort</span>
@@ -160,6 +161,7 @@ export default function StaffDetailResort() {
         </div>
       </div>
       {/* <ListActionApproveApartment /> */}
-    </div>
+    </div>,
+    [3]
   );
 }
