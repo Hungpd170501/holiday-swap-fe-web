@@ -1,12 +1,12 @@
-import UploadImageResortEdit from "@/app/components/staff/UploadImageResortEdit";
-import React from "react";
-
+import UploadImageResortEdit from '@/app/components/staff/UploadImageResortEdit';
+import requireAuth from '@/app/libs/requireAuth';
+import React from 'react';
 
 export default function StaffEditResort() {
-  return (
+  return requireAuth(
     <div>
       <div>
-        Dashboard {">"} <span className="text-common">Create Resort</span>
+        Dashboard {'>'} <span className="text-common">Create Resort</span>
       </div>
       <div className=" w-[600px] py-10">
         <div className="flex flex-row items-center w-full "></div>
@@ -37,7 +37,6 @@ export default function StaffEditResort() {
         <div className=" flex flex-row mb-14">
           <div className="w-[277px] text-gray-700">Address*</div>
           <div id="map" className="w-full h-96 px-4 py-3"></div>
-
         </div>
         <div className="flex flex-row items-center mb-10">
           <div className="w-[198px] text-gray-700">Type</div>
@@ -123,6 +122,7 @@ A wonderful serenity has taken possession of my entire soul, like these sweet mo
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    [3]
   );
 }
