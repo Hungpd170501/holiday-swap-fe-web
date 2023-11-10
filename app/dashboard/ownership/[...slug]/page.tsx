@@ -14,7 +14,7 @@ export default async function EditApartment({ params }: { params: IParams }) {
   const propertyDetail = await GetPropertyDetail(propertyId);
   return (
     <div>
-      <div>
+      <div className="mt-10">
         Dashboard {'>'} <span>Ownership</span> {'>'}{' '}
         <span className="text-common">Edit apartment</span>
       </div>

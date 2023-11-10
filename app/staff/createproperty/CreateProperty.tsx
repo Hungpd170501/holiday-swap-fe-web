@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import InputCreateResort from "../createresort/InputCreateResort";
-import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
-import { Select, Option } from "@material-tailwind/react";
-import useAxiosAuthClient from "@/app/hooks/useAxiosAuthClient";
-import toast from "react-hot-toast";
-import { peoples, sizes } from "@/app/components/register/RegisterBody";
-import SizeHomeInput from "@/app/components/register/SizeHomeInput";
-import Image from "next/image";
-import ButtonRegister from "@/app/components/register/BtnRegister";
-import Input from "@/app/components/input/Input";
-import InputInRoomAmenities from "./InputInRoomAmenities";
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+import InputCreateResort from '../createresort/InputCreateResort';
+import { useForm, FieldValues, SubmitHandler } from 'react-hook-form';
+import { Select, Option } from '@material-tailwind/react';
+import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
+import toast from 'react-hot-toast';
+import { peoples, sizes } from '@/app/components/register/RegisterBody';
+import SizeHomeInput from '@/app/components/register/SizeHomeInput';
+import Image from 'next/image';
+import ButtonRegister from '@/app/components/register/BtnRegister';
+import Input from '@/app/components/input/Input';
+import InputInRoomAmenities from './InputInRoomAmenities';
 
 enum STEPS {
   BEDS = 0,
@@ -78,7 +78,7 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
   };
 
   const handleAmenitiesChange = (value: any[]) => {
-    setCustomeValue("inRoomAmenities", value);
+    setCustomeValue('inRoomAmenities', value);
   };
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -108,17 +108,17 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
     };
 
     const propertyBlod = new Blob([JSON.stringify(property)], {
-      type: "application/json ",
+      type: 'application/json ',
     });
-    formData.append("property", propertyBlod);
+    formData.append('property', propertyBlod);
     file.forEach((element) => {
-      formData.append("propertyImages", element);
+      formData.append('propertyImages', element);
     });
 
     axiosAuthClient
-      .post("/properties", formData)
+      .post('/properties', formData)
       .then(() => {
-        toast.success("Create Property Success!");
+        toast.success('Create Property Success!');
         reset();
       })
       .catch((response) => {
@@ -132,7 +132,7 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
   let bodyContent = (
     <div className="py-5 grid grid-cols-1 md:grid-cols-2 gap-5">
       <div className="flex flex-col">
-        <div className="py-14">
+        <div className="pb-14">
           {peoples.map((item, index) => (
             <SizeHomeInput
               key={index}
@@ -167,8 +167,8 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
         <div className="flex flex-col py-4">
           <div>
             <input
-              {...register("propertyImages", {
-                required: "Recipe picture is required",
+              {...register('propertyImages', {
+                required: 'Recipe picture is required',
               })}
               type="file"
               id="propertyImages"
@@ -271,14 +271,11 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
   }
   return (
     <div>
-      <div>
-        <span className="hover:underline" onClick={() => router.push("/staff")}>
+      <div className="mt-10">
+        <span className="hover:underline" onClick={() => router.push('/staff')}>
           Dashboard
-        </span>{" "}
-        {">"} <span className="text-common">Create Property</span>
-      </div>
-      <div className=" w-[600px] py-10">
-        <div className="flex flex-row items-center w-full "></div>
+        </span>{' '}
+        {'>'} <span className="text-common">Create Property</span>
       </div>
 
       {bodyContent}

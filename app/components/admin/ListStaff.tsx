@@ -58,17 +58,14 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
   const [popupVisibilities, setPopupVisibilities] = useState(userList?.content.map(() => false));
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; // Số lượng mục trên mỗi trang
+  const itemsPerPage = 10;
 
-  // Tính toán số trang dựa trên số lượng mục và số lượng mục trên mỗi trang
   const pageCount = Math.ceil(listUser?.content?.length / itemsPerPage);
 
-  // Hàm xử lý sự kiện khi trang thay đổi
   const handlePageChange = (selectedPage: { selected: number }) => {
     setCurrentPage(selectedPage.selected);
   };
 
-  // Sử dụng `.slice()` để lấy danh sách các mục cần hiển thị trên trang hiện tại
   const displayedItems = listUser?.content?.slice(
     currentPage * itemsPerPage,
     (currentPage + 1) * itemsPerPage
@@ -96,13 +93,22 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
     const config = {
       headers: { 'Content-type': 'application/json' },
     };
+
     axiosAuthClient
       .put(`/users/${id}/status`, body, config)
       .then(() => {
         toast.success('Update status success');
-        setUserList((prevUserList: any) =>
-          prevUserList.map((user: any) => (user.userId === id ? { ...user, status: value } : user))
-        );
+
+        setUserList((prevUserList: any) => {
+          if (Array.isArray(prevUserList)) {
+            return prevUserList.map((user: any) =>
+              user.userId === id ? { ...user, status: value } : user
+            );
+          } else {
+            console.error('prevUserList is not an array:', prevUserList);
+            return prevUserList;
+          }
+        });
       })
       .catch((response) => {
         toast.error(response.response.data.message);

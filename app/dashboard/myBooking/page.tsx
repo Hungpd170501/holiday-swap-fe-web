@@ -1,15 +1,15 @@
-import GetBookingHistory from "@/app/actions/getBookingHistory";
-import MyBookingList from "@/app/components/dashboard/MyBookingList";
-import Link from "next/link";
-import React from "react";
+import GetBookingHistory from '@/app/actions/getBookingHistory';
+import MyBookingList from '@/app/components/dashboard/MyBookingList';
+import Link from 'next/link';
+import React from 'react';
 
 export default async function MyBooking() {
   const historyBooking = await GetBookingHistory();
-  console.log("Check booking", historyBooking);
+  console.log('Check booking', historyBooking);
   return (
     <div>
-      <div>
-        Dashboard {">"} <span className="text-common">My Booking</span>
+      <div className="mt-10">
+        Dashboard {'>'} <span className="text-common">My Booking</span>
       </div>
       <div>
         <MyBookingList historyBooking={historyBooking} />
