@@ -56,6 +56,7 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
   const [userList, setUserList] = useState(listUser);
   const { data: session } = useSession();
   const [popupVisibilities, setPopupVisibilities] = useState(userList?.content.map(() => false));
+  const [displayedItems, setDisplayedItems] = useState<any>();
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Số lượng mục trên mỗi trang
@@ -68,26 +69,15 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
     setCurrentPage(selectedPage.selected);
   };
 
+  useEffect(() => {
+    setDisplayedItems(
+      userList?.content?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
+    );
+  }, [userList]);
+
   // Sử dụng `.slice()` để lấy danh sách các mục cần hiển thị trên trang hiện tại
-  const displayedItems = listUser?.content?.slice(
-    currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage
-  );
 
   const onPageChange = (page: number) => setCurrentPage(page);
-
-  const [selectedRow, setSelectedRow] = useState<any>(null);
-
-  const handleEditClick = (rowIndex: number) => {
-    // Toggle the visibility of the popup for the clicked row
-    setPopupVisibilities((prevVisibilities: any) => {
-      const newVisibilities = [...prevVisibilities];
-      newVisibilities[rowIndex] = !newVisibilities[rowIndex];
-      return newVisibilities;
-    });
-
-    setSelectedRow(rowIndex);
-  };
 
   const axiosAuthClient = useAxiosAuthClient();
 
@@ -98,14 +88,15 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
     };
     axiosAuthClient
       .put(`/users/${id}/status`, body, config)
-      .then(() => {
+      .then(async () => {
         toast.success('Update status success');
-        setUserList((prevUserList: any) =>
-          prevUserList.map((user: any) => (user.userId === id ? { ...user, status: value } : user))
+        const newList = await axios.get(
+          `https://holiday-swap.click/api/v1/users/search?limit=50&offset=0`
         );
+        setUserList(newList?.data);
       })
       .catch((response) => {
-        toast.error(response.response.data.message);
+        toast.error(response);
       });
   };
 
@@ -150,25 +141,26 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
                   <Table.Cell>{item.role.name}</Table.Cell>
                   <Table.Cell>
                     {(() => {
+                      let statusText = '';
                       if (item.status === 'ACTIVE') {
-                        return (
-                          <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
-                            ACTIVE
-                          </div>
-                        );
+                        statusText = 'ACTIVE';
                       } else if (item.status === 'BLOCKED') {
-                        return (
-                          <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-rose-500">
-                            BLOCKED
-                          </div>
-                        );
+                        statusText = 'BLOCKED';
                       } else if (item.status === 'PENDING') {
-                        return (
-                          <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-orange-500">
-                            PENDING
-                          </div>
-                        );
+                        statusText = 'PENDING';
                       }
+
+                      return (
+                        <div
+                          className={`py-2 px-1 text-sm text-center  bg-slate-200 rounded-md ${
+                            statusText === 'ACTIVE' ? 'text-green-500' : ''
+                          } ${statusText === 'BLOCKED' ? 'text-rose-500' : ''} ${
+                            statusText === 'PENDING' ? 'text-orange-500' : ''
+                          }`}
+                        >
+                          {statusText}
+                        </div>
+                      );
                     })()}
                   </Table.Cell>
                   <Table.Cell>

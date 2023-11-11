@@ -25,6 +25,10 @@ const ListResort: React.FC<ListResortProps> = ({
   const [totalPages, setTotalPages] = useState<any>(listApartment.totalPages);
 
   useEffect(() => {
+    setDateRangeNew(dateRange);
+  }, [dateRange]);
+
+  useEffect(() => {
     if (!dateRangeNew) {
       const getList = async () => {
         const list = await axios.get(
@@ -36,11 +40,7 @@ const ListResort: React.FC<ListResortProps> = ({
         setTotalPages(list.data?.totalPages);
       };
       getList();
-    }
-  }, [page, numberOfGuest, resortId, dateRangeNew]);
-
-  useEffect(() => {
-    if (dateRangeNew) {
+    } else {
       const getList = async () => {
         const list = await axios.get(
           `https://holiday-swap.click/api/v1/apartment-for-rent?checkIn=${format(
@@ -55,7 +55,7 @@ const ListResort: React.FC<ListResortProps> = ({
       };
       getList();
     }
-  }, [dateRangeNew, dateRange]);
+  }, [page, numberOfGuest, resortId, dateRangeNew]);
 
   const handleChangePage = async (pageNo: any) => {
     if (pageNo !== page) {

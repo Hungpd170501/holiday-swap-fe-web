@@ -52,6 +52,7 @@ export default function ModalCreatePublicTime() {
     endDate.setDate(startDate.getDate() + 6); // A week is 7 days
 
     setDateRange({ ...dateRange, startDate: new Date(startDate), endDate: new Date(endDate) });
+    setPublicDateRange({...publicDateRange, startDate: new Date(startDate), endDate: new Date(endDate)})
   };
 
   const getDatesOutsideDateRange = (dateRange: any) => {
@@ -171,9 +172,8 @@ export default function ModalCreatePublicTime() {
         <div className="w-full">
           <Label value="Select dates within that date range to create public" />
           <CalendarAparment
-            value={dateRange}
+            value={publicDateRange}
             onChange={(value: any) => {
-              setDateRange(value.selection);
               setPublicDateRange(value.selection);
             }}
             minDate={dateRange.startDate}
