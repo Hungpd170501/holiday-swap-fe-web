@@ -6,9 +6,6 @@ export default function UpgreadeMembership() {
   return requireAuth(
     <div>
       <div>
-        Staff {'>'} <span className="text-common">Upgrade Membership</span>
-      </div>
-      <div>
         <UpgreadeMembershipList />
       </div>
     </div>,

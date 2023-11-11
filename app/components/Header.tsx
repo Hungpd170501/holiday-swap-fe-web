@@ -52,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
       <Container
         className={
           scroll
-            ? 'bg-white opacity-90 -translate-y-1 duration-300 shadow-md pt-5 md:block hidden'
+            ? 'bg-white opacity-90 -translate-y-1 duration-300 shadow-md py-5 md:block hidden'
             : 'py-4'
         }
       >
@@ -67,10 +67,11 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
                 <ButtonLoginHeader onClick={loginModal.onOpen} />
               )}
             </div>
-            <div className="w-full h-[1px] bg-gray-300 mt-4"></div>
           </div>
         </div>
       </Container>
+      <div className="w-full h-[1px] bg-gray-200 -mt-1"></div>
+
       <Container
         className={
           scroll
