@@ -1,10 +1,10 @@
 import React from 'react';
-import ResetPasswordComponent from '../components/resetpassword/ResetPasswordComponent';
+import ResetPassword from '../components/resetpassword/ResetPasswordComponent';
 
-export default function ResetPassword() {
+export default function ResetPasswordPage() {
   return (
     <div>
-      <ResetPasswordComponent />
+      <ResetPassword />
     </div>
   );
 }
