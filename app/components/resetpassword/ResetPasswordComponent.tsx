@@ -1,7 +1,7 @@
 import React from 'react';
 import InputPassword from './InputPassword';
 
-export default function () {
+export default function ResetPassword() {
   return (
     <div className="py-96 flex flex-row items-center justify-center">
       <div className="border border-gray-600 rounded-md py-10 px-10 flex flex-col items-center">
