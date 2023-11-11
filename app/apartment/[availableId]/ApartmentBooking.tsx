@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import useLoginModal from '@/app/hooks/useLoginModal';
 import { useDateRange } from '../DateRangeContext';
+import toast from 'react-hot-toast';
 
 interface ApartmentBookingProps {
   dateRange: any;
@@ -114,6 +115,10 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
   const handleBooking = () => {
     if (!currentUser) {
       loginModal.onOpen();
+    } else if (currentUser.role.roleId !== 2) {
+      toast('Only membership are allowed to booking!', {
+        icon: '🚫',
+      });
     } else {
       router.push(
         `/booking?availableTimeId=${apartment.availableTime.id}&apartmentImage=${
@@ -136,11 +141,8 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
     // Calculate the price for the nights
     const nightsPrice = nightDifference * apartment.availableTime.pricePerNight;
 
-    // Calculate the HolidaySwap service fee
-    const serviceFee = (nightsPrice * 10) / 100;
-
     // Calculate the total price (nights price + cleaning fee + service fee)
-    const total = nightsPrice + 10 + serviceFee;
+    const total = nightsPrice;
 
     // Update the total price in the state
     setTotalPrice(total);
@@ -321,25 +323,6 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
               <div>
                 {calculateNightDifference(dateRange.startDate, dateRange.endDate) *
                   apartment.availableTime.pricePerNight}{' '}
-                point
-              </div>
-            </div>
-
-            <div className="flex flex-row justify-between items-center text-base text-gray-800">
-              <div className="">Cleaner fee</div>
-
-              <div>10 point</div>
-            </div>
-
-            <div className="flex flex-row justify-between items-center text-base text-gray-800">
-              <div className="">HolidaySwap service fee</div>
-
-              <div>
-                {Number(
-                  calculateNightDifference(dateRange.startDate, dateRange.endDate) *
-                    apartment.availableTime.pricePerNight *
-                    (10 / 100)
-                ).toFixed(1)}{' '}
                 point
               </div>
             </div>

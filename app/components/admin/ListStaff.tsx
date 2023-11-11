@@ -59,12 +59,10 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
   const [displayedItems, setDisplayedItems] = useState<any>();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; // Số lượng mục trên mỗi trang
+  const itemsPerPage = 10;
 
-  // Tính toán số trang dựa trên số lượng mục và số lượng mục trên mỗi trang
   const pageCount = Math.ceil(listUser?.content?.length / itemsPerPage);
 
-  // Hàm xử lý sự kiện khi trang thay đổi
   const handlePageChange = (selectedPage: { selected: number }) => {
     setCurrentPage(selectedPage.selected);
   };
@@ -86,6 +84,7 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
     const config = {
       headers: { 'Content-type': 'application/json' },
     };
+
     axiosAuthClient
       .put(`/users/${id}/status`, body, config)
       .then(async () => {

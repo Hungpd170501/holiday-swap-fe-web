@@ -22,7 +22,7 @@ const ListAparment: React.FC<ListApartmentProps> = ({ listApartment, listResort 
   const [resortId, setResortId] = useState<string>('');
   const [dateRange, setDateRange] = useState({
     startDate: new Date(),
-    endDate: new Date().getTime() + 24 * 60 * 60 * 100000000,
+    endDate: new Date(new Date().getTime() + 24 * 60 * 60 * 100000000),
     key: 'selection',
   });
   const [numberOfGuest, setNumberOfGuest] = useState<number>(1);

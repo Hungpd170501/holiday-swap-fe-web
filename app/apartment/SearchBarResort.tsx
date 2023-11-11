@@ -7,6 +7,7 @@ import { AiFillCalendar, AiFillCaretDown, AiOutlinePlusCircle } from 'react-icon
 import { GrSubtractCircle } from 'react-icons/gr';
 import CalendarAparment from './CalendarAparment';
 import dayjs from 'dayjs';
+import { format } from 'date-fns';
 
 const initialDateRange = {
   startDate: new Date(),
@@ -105,7 +106,10 @@ const SearchBarResort: React.FC<SearchBarResortProps> = ({
             <div className="flex w-full flex-row items-center justify-between py-1">
               <div className="flex flex-row  items-center">
                 <AiFillCalendar size={20} />
-                <div>Sat, 16 Sep - Mon, 19 Oct</div>
+                <div>
+                  {format(new Date(dateRange.startDate), 'EEE, dd MMM')} -{' '}
+                  {format(new Date(dateRange.endDate), 'EEE, dd MMM')}
+                </div>
               </div>
 
               <AiFillCaretDown size={20} />

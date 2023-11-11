@@ -42,8 +42,19 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
 
   return (
     <div className="w-full pb-4 flex flex-col">
+      {/* Information of host */}
+      <div className="flex flex-row  gap-2 border-b border-gray-400 pb-8  items-center">
+        <Image
+          src={apartment.user.avatar || '/images/placeholder.jpg'}
+          alt="Avatar"
+          width={50}
+          height={50}
+          className="rounded-full object-cover"
+        />
+        <div className="text-bold text-lg text-black">Owner by {apartment.user.fullName}</div>
+      </div>
       {/* Room host by */}
-      <div className="flex flex-row  gap-5 border-b border-gray-400 pb-8  ">
+      <div className="flex flex-row  gap-5 border-b border-gray-400 pb-8 pt-8 ">
         <div className="px-1 py-3 gap-2 border border-gray-500 rounded-lg flex flex-col items-center justify-center  md:px-3 md:py-5 md:gap-2 md:border md:border-gray-500 md:rounded-lg md:flex md:flex-row md:items-center md:justify-center  lg:p-6 lg:gap-2 lg:border lg:border-gray-500 lg:rounded-lg lg:flex lg:flex-row lg:items-center lg:justify-center  xl:p-6 xl:gap-2 xl:border xl:border-gray-500 xl:rounded-lg xl:flex xl:flex-row xl:items-center xl:justify-center">
           <Image src="/images/icons/bed-room.png" alt="icon" width={25} height={25} />
           <div className="text-center">Single bed</div>
@@ -97,12 +108,12 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
       {/* Where your will sleep */}
       <div className="flex flex-col py-8 border-b border-gray-500">
         <div className="text-2xl font-bold py-5">Where you&apos;ll sleep</div>
-        <div className="flex flex-col py-3 px-4 items-center justify-center rounded-lg border border-gray-500 w-[20vh] md:flex md:flex-col lg:flex lg:flex-col xl:flex xl:flex-col ">
+        <div className="flex flex-col py-3 px-4 items-center justify-start rounded-lg border border-gray-500 w-[20vh] md:flex md:flex-col lg:flex lg:flex-col xl:flex xl:flex-col ">
           <Image src="/images/icons/bed-room.png" alt="icon" width={40} height={25} />
 
           <div className="">
             <div className="font-bold text-center">Bedroom</div>
-            <div className="text-center">1 king bed</div>
+            <div className="text-center">{apartment.property.numberKingBeds} king bed</div>
           </div>
         </div>
       </div>

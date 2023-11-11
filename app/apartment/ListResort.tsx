@@ -13,6 +13,12 @@ interface ListResortProps {
   numberOfGuest: any;
 }
 
+const initialDateRange = {
+  startDate: new Date(),
+  endDate: new Date(new Date().getTime() + 24 * 60 * 60 * 100000000),
+  key: 'selection',
+};
+
 const ListResort: React.FC<ListResortProps> = ({
   listApartment,
   resortId,
@@ -21,7 +27,8 @@ const ListResort: React.FC<ListResortProps> = ({
 }) => {
   const [page, setPage] = useState<number>(1);
   const [listResort, setListResort] = useState<any>(listApartment);
-  const [dateRangeNew, setDateRangeNew] = useState<any>();
+  const [initialDate, setInitialDate] = useState(initialDateRange);
+  const [dateRangeNew, setDateRangeNew] = useState<any>(dateRange);
   const [totalPages, setTotalPages] = useState<any>(listApartment.totalPages);
 
   useEffect(() => {
@@ -29,39 +36,26 @@ const ListResort: React.FC<ListResortProps> = ({
   }, [dateRange]);
 
   useEffect(() => {
-    if (!dateRangeNew) {
-      const getList = async () => {
-        const list = await axios.get(
-          `https://holiday-swap.click/api/v1/apartment-for-rent?min=0&max=1000000&pageNo=${
-            page - 1
-          }&guest=${numberOfGuest}&resortId=${resortId}&pageSize=12&sortBy=id`
-        );
-        setListResort(list.data);
-        setTotalPages(list.data?.totalPages);
-      };
-      getList();
-    } else {
-      const getList = async () => {
-        const list = await axios.get(
-          `https://holiday-swap.click/api/v1/apartment-for-rent?checkIn=${format(
-            dateRangeNew?.startDate,
-            'yyyy-MM-dd'
-          )}&checkOut=${format(dateRangeNew?.endDate, 'yyyy-MM-dd')}&min=0&max=1000000&pageNo=${
-            page - 1
-          }&guest=${numberOfGuest}&resortId=${resortId}&pageSize=12&sortBy=id`
-        );
-        setListResort(list.data);
-        setTotalPages(list.data?.totalPages);
-      };
-      getList();
-    }
-  }, [page, numberOfGuest, resortId, dateRangeNew]);
+    const getList = async () => {
+      let apiUrl = `https://holiday-swap.click/api/v1/apartment-for-rent?min=0&max=1000000&pageNo=${
+        page - 1
+      }&guest=${numberOfGuest}&resortId=${resortId}&pageSize=12&sortBy=id`;
 
-  const handleChangePage = async (pageNo: any) => {
-    if (pageNo !== page) {
-      setPage(pageNo + 1);
-    }
-  };
+      if (dateRangeNew && dateRangeNew.endDate.toDateString() !== initialDate.endDate.toDateString()) {
+        apiUrl += `&checkIn=${format(dateRangeNew.startDate, 'yyyy-MM-dd')}&checkOut=${format(
+          dateRangeNew.endDate,
+          'yyyy-MM-dd'
+        )}`;
+      }
+
+      const list = await axios.get(apiUrl);
+      setListResort(list.data);
+      setTotalPages(list.data?.totalPages);
+    };
+
+    getList();
+  }, [page, numberOfGuest, resortId, dateRangeNew, dateRange, initialDate]);
+
 
   return (
     <Fragment>

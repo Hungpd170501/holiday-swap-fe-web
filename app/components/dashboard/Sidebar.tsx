@@ -68,6 +68,12 @@ const Sidebar = () => {
       current: pathName === '/dashboard/myBooking' ? true : false,
     },
     {
+      name: 'Owner Booking',
+      href: '/dashboard/ownerBooking',
+      icon: PiNotepadBold,
+      current: pathName === '/dashboard/ownerBooking' ? true : false,
+    },
+    {
       name: 'Invoices',
       href: '/dashboard/invoices',
       icon: LiaFileInvoiceDollarSolid,

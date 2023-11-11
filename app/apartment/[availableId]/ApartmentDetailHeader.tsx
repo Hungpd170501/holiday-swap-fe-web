@@ -34,7 +34,7 @@ const ApartmentDetailHeader: React.FC<ApartmentDetailHeaderProps> = ({ apartment
             <AiFillStar size={18} /> 4.84 · 54 reviews
           </div>
           <div>·</div>
-          <div>Resort Nha Trang</div>
+          <div>{apartment.resort.resortName}</div>
         </div>
 
         <div className="w-full  gap-2 py-4 md:grid md:grid-cols-2 md:h-[55vh] lg:h-[60vh] md:gap-2 md:py-4">
