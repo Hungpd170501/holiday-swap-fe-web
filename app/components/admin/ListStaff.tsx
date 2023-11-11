@@ -101,7 +101,12 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
 
   return (
     <Fragment>
-      <div className="text-xl font-bold text-common mb-5">Management Staff</div>
+      <div>
+        <div className="mt-10">
+          Dashboard {'>'} <span className="text-common">List Staff</span>
+        </div>
+      </div>
+      <div className="text-xl font-bold text-common py-5">Management Staff</div>
       <Table>
         <Table.Head>
           <Table.HeadCell>Email & Username</Table.HeadCell>

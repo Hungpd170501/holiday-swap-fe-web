@@ -11,7 +11,7 @@ export default async function BookingDetailPage({ params }: { params: IParams })
   console.log('check booking', bookingDetail);
   return requireAuth(
     <div>
-      <div>
+      <div className="mt-10">
         Dashboard {'>'} <span>My Booking</span> {'>'}{' '}
         <span className="text-common">Booking Detail</span>
       </div>

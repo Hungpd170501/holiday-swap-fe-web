@@ -129,7 +129,7 @@ const ListMembershipAll: React.FC<ListMembershipAllProps> = ({ users }) => {
       <div className="mt-10">
         Staff {'>'} <span className="text-common">List Membership</span>
       </div>
-      <div className="flex flex-row justify-between items-center mt-10 mb-5 ">
+      <div className="flex flex-row justify-between items-center py-5 ">
         <div className="text-common text-[20px] font-bold ">List Membership</div>
       </div>
       <TableContainer className="mb-10" component={Paper}>
