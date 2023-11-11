@@ -9,6 +9,9 @@ import GoogleMapReact from 'google-map-react-concurrent';
 import { useDateRange } from '../DateRangeContext';
 import CalendarAparmentBody from '../CalendarAparmentBody';
 import { Avatar, Rate, Typography } from 'antd';
+import dayjs from 'dayjs';
+import { Button } from '@material-tailwind/react';
+import ModalRatingApartment from './Modal/ModalRatingApartment';
 const { Text } = Typography;
 interface ApartmentDetailBodyProps {
   apartment?: any;
@@ -229,6 +232,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
         </div>
 
         <div className="grid grid-cols-2 gap-4 content-evenly">
+          {/* === */}
           <div>
             <div className="p-3 rounded border-2 border-gray-300">
               <div className="flex items-center justify-items-stretch border-b pb-1">
@@ -240,7 +244,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
                 </div>
               </div>
               <div className="py-1">
-                <Rate allowHalf defaultValue={2.5} disabled />
+                <Rate allowHalf defaultValue={2.5} disabled /> <Text>{dayjs().toISOString()}</Text>
               </div>
               <div>
                 <Text>
@@ -261,64 +265,20 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
                 </div>
               </div>
               <div className="py-1">
-                <Rate allowHalf defaultValue={2.5} disabled />
+                <Rate allowHalf defaultValue={2.5} disabled /> <Text>{dayjs().toISOString()}</Text>
               </div>
               <div>
                 <Text>
                   Warm welcome, I recommend, easy to walk to restaurants and barsWarm welcome, I
-                  recommend, easy to walk to restaurants and barsWarm welcome, I recommend, easy to
-                  walk to restaurants and bars Warm welcome, I recommend, easy to walk to
-                  restaurants and barsWarm welcome, I recommend, easy to walk to restaurants and
-                  barsWarm welcome, I recommend, easy to walk to restaurants and bars
+                  recommend, easy to wa
                 </Text>
               </div>
             </div>
           </div>
-          <div>
-            <div className="p-3 rounded border-2 border-gray-300">
-              <div className="flex items-center justify-items-stretch border-b pb-1">
-                <Avatar size="large">U</Avatar>
-                <div className="pl-2">
-                  <Text className="text-base">Kien</Text>
-                  <br />
-                  <Text>Sainte-Hélène, France</Text>
-                </div>
-              </div>
-              <div className="py-1">
-                <Rate allowHalf defaultValue={2.5} disabled />
-              </div>
-              <div>
-                <Text>
-                  Warm welcome, I recommend, easy to walk to restaurants and barsWarm welcome, I
-                  recommend, easy to walk to restaurants and barsWarm welcome, I recommend, easy to
-                  walk to restaurants and bars
-                </Text>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className="p-3 rounded border-2 border-gray-300">
-              <div className="flex items-center justify-items-stretch border-b pb-1">
-                <Avatar size="large">U</Avatar>
-                <div className="pl-2">
-                  <Text className="text-base">Kien</Text>
-                  <br />
-                  <Text>Sainte-Hélène, France</Text>
-                </div>
-              </div>
-              <div className="py-1">
-                <Rate allowHalf defaultValue={2.5} disabled />
-              </div>
-              <div>
-                <Text>
-                  Warm welcome, I recommend, easy to walk to restaurants and barsWarm welcome, I
-                  recommend, easy to walk to restaurants and barsWarm welcome, I recommend, easy to
-                  walk to restaurants and bars Warm welcome, I recommend, easy to walk to
-                  restaurants and barsWarm welcome, I recommend, easy to walk to restaurants and
-                  barsWarm welcome, I recommend, easy to walk to restaurants and bars Warm welcome,
-                </Text>
-              </div>
-            </div>
+        </div>
+        <div className="pt-8">
+          <div className="flex items-center justify-start">
+            <ModalRatingApartment />
           </div>
         </div>
       </div>
