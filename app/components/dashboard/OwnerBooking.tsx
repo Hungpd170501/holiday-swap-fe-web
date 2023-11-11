@@ -23,7 +23,7 @@ const OwnerBooking: React.FC<OwnerBookingProps> = ({ historyOwnerBooking }) => {
       {historyOwnerBooking?.length > 0 ? (
         historyOwnerBooking.map((item: any) => (
           <div
-            onClick={() => router.push(`/dashboard/myBooking/${item.bookingId}`)}
+            onClick={() => router.push(`/dashboard/ownerBooking/${item.bookingId}`)}
             key={item.bookingId}
             className="grid grid-cols-12 h-[150px] bg-white rounded-lg shadow-lg justify-between hover:cursor-pointer my-5"
           >
@@ -70,7 +70,6 @@ const OwnerBooking: React.FC<OwnerBookingProps> = ({ historyOwnerBooking }) => {
           <div className="py-5 text-gray-700">
             It&apos;s time to dust off your bags and start planning for your next adventure
           </div>
-         
         </div>
       )}
     </div>

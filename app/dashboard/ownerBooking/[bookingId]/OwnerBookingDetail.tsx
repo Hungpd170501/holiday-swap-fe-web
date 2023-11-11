@@ -1,17 +1,21 @@
 'use client';
 
 import { differenceInDays, format } from 'date-fns';
+import { Card } from 'flowbite-react';
 import Image from 'next/image';
 import React from 'react';
-import { Card } from 'flowbite-react';
 
-interface BookingDetailProps {
-  bookingDetail: any;
-  ownerUser: any;
+interface OwnerBookingDetailProps {
+  ownerBookingDetail: any;
+  memberBooking: any;
   ownerResort: any;
 }
 
-const BookingDetail: React.FC<BookingDetailProps> = ({ bookingDetail, ownerUser, ownerResort }) => {
+const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
+  ownerBookingDetail,
+  memberBooking,
+  ownerResort,
+}) => {
   const calculateNightDifference = (startDate: any, endDate: any) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -24,8 +28,10 @@ const BookingDetail: React.FC<BookingDetailProps> = ({ bookingDetail, ownerUser,
       <div className="w-full h-full">
         {/* Title */}
         <div className="py-3">
-          <div className="text-3xl font-bold">Your booking is confirmed!</div>
-          <div className="text-lg text-slate-500">You are going to {bookingDetail?.resortName}</div>
+          <div className="text-3xl font-bold">Your owner booking is successfully!</div>
+          <div className="text-lg text-slate-500">
+            You are going to {ownerBookingDetail?.resortName}
+          </div>
         </div>
 
         {/* Information ownership */}
@@ -40,7 +46,7 @@ const BookingDetail: React.FC<BookingDetailProps> = ({ bookingDetail, ownerUser,
             />
           </div>
           <div className="flex flex-col">
-            <div>{ownerUser?.content[0].fullName}</div>
+            <div>{memberBooking?.content[0].fullName}</div>
             <div className="text-slate-500">
               {ownerResort?.content[0].addressLine
                 .split(',')
@@ -59,7 +65,7 @@ const BookingDetail: React.FC<BookingDetailProps> = ({ bookingDetail, ownerUser,
 
         {/* Information apartment */}
         <div className="py-3">
-          <div className="text-xl">{bookingDetail?.propertyName}</div>
+          <div className="text-xl">{ownerBookingDetail?.propertyName}</div>
           <div className="text-slate-400">Description</div>
         </div>
       </div>
@@ -68,13 +74,13 @@ const BookingDetail: React.FC<BookingDetailProps> = ({ bookingDetail, ownerUser,
         {/* Check-in Check-out */}
         <div className="py-3 border-b border-slate-300 flex flex-row items-center justify-between">
           <div className="flex flex-col text-lg text-slate-500">
-            <div>{format(new Date(bookingDetail?.dateCheckIn), 'E')}, </div>
-            <div>{format(new Date(bookingDetail?.dateCheckIn), 'MMM dd, yyyy')}</div>
+            <div>{format(new Date(ownerBookingDetail?.dateCheckIn), 'E')}, </div>
+            <div>{format(new Date(ownerBookingDetail?.dateCheckIn), 'MMM dd, yyyy')}</div>
             <div>Check-in After 3PM</div>
           </div>
           <div className="flex flex-col text-lg text-slate-500">
-            <div>{format(new Date(bookingDetail?.dateCheckOut), 'E')}, </div>
-            <div>{format(new Date(bookingDetail?.dateCheckOut), 'MMM dd, yyyy')}</div>
+            <div>{format(new Date(ownerBookingDetail?.dateCheckOut), 'E')}, </div>
+            <div>{format(new Date(ownerBookingDetail?.dateCheckOut), 'MMM dd, yyyy')}</div>
             <div>Check-in After 3PM</div>
           </div>
         </div>
@@ -82,7 +88,7 @@ const BookingDetail: React.FC<BookingDetailProps> = ({ bookingDetail, ownerUser,
         {/* Guest */}
         <div className="py-3 flex flex-col text-slate-500 border-b border-slate-300">
           <div className="text-lg font-bold text-slate-600">Guests</div>
-          <div>{bookingDetail?.userOfBooking.length}</div>
+          <div>{ownerBookingDetail?.userOfBooking.length}</div>
         </div>
 
         {/* Payment */}
@@ -91,16 +97,24 @@ const BookingDetail: React.FC<BookingDetailProps> = ({ bookingDetail, ownerUser,
           <div className="flex flex-col gap-2 py-3">
             <div className="flex flex-row justify-between items-center text-slate-500">
               <div>
-                {bookingDetail?.price /
+                {ownerBookingDetail?.price /
                   calculateNightDifference(
-                    bookingDetail?.dateCheckIn,
-                    bookingDetail?.dateCheckOut
+                    ownerBookingDetail?.dateCheckIn,
+                    ownerBookingDetail?.dateCheckOut
                   )}{' '}
                 point x{' '}
-                {calculateNightDifference(bookingDetail?.dateCheckIn, bookingDetail?.dateCheckOut)}{' '}
+                {calculateNightDifference(
+                  ownerBookingDetail?.dateCheckIn,
+                  ownerBookingDetail?.dateCheckOut
+                )}{' '}
                 nights
               </div>
-              <div>{bookingDetail?.price}</div>
+              <div>{ownerBookingDetail?.price}</div>
+            </div>
+
+            <div className="flex flex-row justify-between items-center text-slate-500">
+              <div>HolidaySwap service fee</div>
+              <div>{(ownerBookingDetail?.price * (10 / 100)).toFixed(1)}</div>
             </div>
           </div>
         </div>
@@ -108,14 +122,14 @@ const BookingDetail: React.FC<BookingDetailProps> = ({ bookingDetail, ownerUser,
         {/* Total payment */}
         <div className="py-3 flex flex-row items-center justify-between border-b border-slate-300">
           <div>Total</div>
-          <div>{bookingDetail?.price}</div>
+          <div>{ownerBookingDetail?.total}</div>
         </div>
 
         {/* Information guest */}
         <div className="py-3">
           <div className="text-lg font-bold text-slate-600">Information Guest</div>
           <div className="grid md:grid-cols-2 grid-cols-1 py-4">
-            {bookingDetail?.userOfBooking.map((item: any, index: number) => (
+            {ownerBookingDetail?.userOfBooking.map((item: any, index: number) => (
               <Card key={item.id} href="#" className="max-w-sm">
                 <p className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
                   {item.fullName}
@@ -131,4 +145,4 @@ const BookingDetail: React.FC<BookingDetailProps> = ({ bookingDetail, ownerUser,
   );
 };
 
-export default BookingDetail;
+export default OwnerBookingDetail;

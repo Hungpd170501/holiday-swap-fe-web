@@ -1,6 +1,8 @@
 import GetBookingHistoryById from '@/app/actions/getBookingHistoryById';
 import BookingDetail from './BookingDetail';
 import requireAuth from '@/app/libs/requireAuth';
+import GetListUser from '@/app/actions/getListUser';
+import GetListResort from '@/app/actions/getListResort';
 
 interface IParams {
   bookingId: any;
@@ -8,7 +10,9 @@ interface IParams {
 
 export default async function BookingDetailPage({ params }: { params: IParams }) {
   const bookingDetail = await GetBookingHistoryById(params);
-  console.log('check booking', bookingDetail);
+  const ownerUser = await GetListUser({ email: bookingDetail?.ownerEmail });
+  const ownerResort = await GetListResort('0', { resortName: bookingDetail?.resortName });
+
   return requireAuth(
     <div>
       <div>
@@ -16,7 +20,11 @@ export default async function BookingDetailPage({ params }: { params: IParams })
         <span className="text-common">Booking Detail</span>
       </div>
       <div>
-        <BookingDetail bookingDetail={bookingDetail} />
+        <BookingDetail
+          bookingDetail={bookingDetail}
+          ownerUser={ownerUser}
+          ownerResort={ownerResort}
+        />
       </div>
     </div>,
     [2, 4]
