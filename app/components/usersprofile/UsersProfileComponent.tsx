@@ -79,7 +79,7 @@ export default function UsersProfileComponent() {
             <div className="font-bold">Hi!</div>
             <div className="text-gray-700 w-[70%]">
               I am Thanh Kien, I am very passionate about traveling everywhere, to meet new people,
-              and approach new cultures. Since I have a family and young children, we don't have
+              and approach new cultures. Since I have a family and young children, we do not have
               time to travel much anymore, so I host on HolidaySwap to meet people. I hope everyone
               will support me Sincerely thank
             </div>
