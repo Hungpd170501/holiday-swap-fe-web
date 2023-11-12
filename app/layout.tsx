@@ -21,6 +21,7 @@ import { DateRangeProvider } from './apartment/DateRangeContext';
 import ReduxProvider from '@/app/components/ReduxProvider';
 import ModalEditPoint from './components/modal/ModalEditPoint';
 import ModalCreatePublicTime from './components/modal/ModalCreatePublicTime';
+import ModalApartmentReview from './components/modal/ModalApartmentReview';
 
 const font = Poppins({
   subsets: ['latin'],
@@ -56,6 +57,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   <ModalEditGuestBooking />
                   <ModalEditPoint />
                   <ModalCreatePublicTime />
+                  <ModalApartmentReview />
                   <ToasterProvider />
                 </ClientOnly>
 

@@ -6,6 +6,9 @@ import ApartmentDetailBody from './ApartmentDetailBody';
 import CalendarAparment from '../CalendarAparment';
 import ApartmentBooking from './ApartmentBooking';
 import { addDays, addMonths, subDays } from 'date-fns';
+import ApartmentReivew from './ApartmentReivew';
+import ApartmentReivewBox from './ApartmentReivewBox';
+import useAparmentReviewModal from '@/app/hooks/useApartmentReviewModal';
 
 interface ApartmentDetailProps {
   apartment?: any;
@@ -18,6 +21,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     endDate: new Date(apartment.availableTime.endTime),
     key: 'selection',
   };
+  const apartmentReviewModal = useAparmentReviewModal();
 
   const [dateRange, setDateRange] = useState(initialDateRange);
   const [apartmentAllowGuest, setApartmentAllowGuest] = useState(
@@ -87,7 +91,28 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
         </div>
       </div>
 
-      <div className="py-20"></div>
+      <div className="py-20 border-b border-gray-500">
+        <ApartmentReivew />
+      </div>
+
+      <div className="py-20 grid grid-cols-1 md:grid-cols-2 gap-10">
+        <ApartmentReivewBox />
+        <ApartmentReivewBox />
+        <ApartmentReivewBox />
+        <ApartmentReivewBox />
+        <ApartmentReivewBox />
+        <ApartmentReivewBox />
+
+        <div className="">
+          <button
+            onClick={apartmentReviewModal.onOpen}
+            type="button"
+            className="text-center border border-slate-700 rounded-lg text-xl py-3 px-6 hover:bg-gray-100 transition-all duration-300 transform active:scale-95"
+          >
+            Show all 39 reviews
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

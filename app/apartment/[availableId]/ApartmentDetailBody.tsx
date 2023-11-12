@@ -135,9 +135,9 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
         </div>
 
         <div onClick={() => apartmentAmenitiesModal.onOpen(apartment)} className="py-4">
-          <div className="py-3 px-4 border border-gray-500 rounded-lg w-48 text-center hover:bg-blue-gray-100 hover:cursor-pointer">
+          <button className="py-3 px-4 border border-gray-500 rounded-lg w-48 text-center hover:bg-blue-gray-100 hover:cursor-pointer transition-all duration-300 transform active:scale-95">
             Show all aminities
-          </div>
+          </button>
         </div>
       </div>
 
