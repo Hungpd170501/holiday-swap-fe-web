@@ -40,21 +40,21 @@ export default function ChangePassword() {
             <div className="w-[277px] text-gray-700">Old Password*</div>
             <input
               type="email"
-              className=" text-gray-800 px-1 w-full bg-[#F8F8F8] border-b border-gray-500 focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent"
+              className=" text-gray-800 px-1 w-full bg-[#F8F8F8] border-b border-gray-500 focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent rounded-md"
             />
           </div>
           <div className=" flex flex-col mb-10  md:flex md:flex-row md:mb-14">
             <div className="w-[277px] text-gray-700">New Password*</div>
             <input
               type="email"
-              className=" text-gray-800 px-1 w-full bg-[#F8F8F8] border-b border-gray-500 focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent"
+              className=" text-gray-800 px-1 w-full bg-[#F8F8F8] border-b border-gray-500 focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent rounded-md"
             />
           </div>{' '}
           <div className=" flex flex-col mb-10  md:flex md:flex-row md:mb-14">
             <div className="w-[277px] text-gray-700">Confirm Password*</div>
             <input
               type="email"
-              className=" text-gray-800 px-1 w-full bg-[#F8F8F8] border-b border-gray-500 focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent"
+              className=" text-gray-800 px-1 w-full bg-[#F8F8F8] border-b border-gray-500 focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent rounded-md"
             />
           </div>
           <button className=" text-[15px] bg-common px-4 py-2 rounded-md text-white md:bg-[#5C98F2] md:px-4 md:py-3 md:text-white md:rounded-md md:ml-56">

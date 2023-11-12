@@ -4,10 +4,11 @@ import useAparmentAmenitiesModal from '@/app/hooks/useApartmentAmenitiesModal';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import CalendarAparment from '../CalendarAparment';
-import { addDays, addMonths, differenceInDays, format, isAfter, isBefore, subDays } from 'date-fns';
+import { differenceInDays, format } from 'date-fns';
 import GoogleMapReact from 'google-map-react-concurrent';
 import { useDateRange } from '../DateRangeContext';
 import CalendarAparmentBody from '../CalendarAparmentBody';
+
 import { Avatar, Rate, Typography } from 'antd';
 
 const { Text } = Typography;

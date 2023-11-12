@@ -15,7 +15,7 @@ const Wallet: React.FC<WalletProps> = ({ userWallet, transfer, historyTransactio
   const router = useRouter();
   return (
     <div>
-      <div>
+      <div className="mt-10">
         Dashboard {'>'} <span className="text-common">My Wallet</span>
       </div>
       <div className="flex flex-col w-full items-center">

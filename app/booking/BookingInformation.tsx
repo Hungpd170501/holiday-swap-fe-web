@@ -186,7 +186,14 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
             </div>
           ))}
         </div>
-
+        <div className="py-5">
+          <div className="text-[20px] font-bold">General standards</div>
+          <div className="py-3 text-gray-700">
+            We ask all guests to remember a few simple rules to be a great guest.
+          </div>
+          <div className="text-gray-700">- Comply with house rules</div>
+          <div className="text-gray-700">- Maintain the house as if it were your home</div>
+        </div>
         {/* Request to book */}
         <div className="py-8">
           <button
