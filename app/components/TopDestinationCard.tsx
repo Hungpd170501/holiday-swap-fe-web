@@ -16,7 +16,7 @@ const TopDestinationCard = () => {
     <div className="flex flex-col gap-5 mt-10">
       <div className="flex flex-col gap-5 md:flex-row md:gap-5 xl:gap-8">
         <Link
-          href="search-resort"
+          href="vungtaunews"
           className="flex flex-row items-end justify-center min-w-auto"
           onMouseEnter={() => setIsHoverdVT(true)}
           onMouseLeave={() => setIsHoverdVT(false)}

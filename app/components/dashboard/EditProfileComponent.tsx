@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 
 export default function EditProfileComponent() {
   const [selectedOption, setSelectedOption] = useState('');
@@ -12,6 +12,22 @@ export default function EditProfileComponent() {
       window.location.href = selectedValue;
     }
   };
+
+  const [selectedImage, setSelectedImage] = useState<string>('/images/resort1.jpg');
+
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        // Cập nhật selectedImage với đường dẫn mới của hình ảnh
+        setSelectedImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div>
       <div>
@@ -35,10 +51,10 @@ export default function EditProfileComponent() {
         <div className="xl:mt-10">
           Dashboard {'>'} <span className="text-common">Edit profile</span>
         </div>
-        <div className=" w-full md:w-[600px] md:py-10">
-          <div className="flex flex-col md:flex md:flex-row md:items-center md:w-full ">
+        <div className="w-full md:w-[600px] md:py-10">
+          <div className="flex flex-col md:flex md:flex-row md:items-center md:w-full">
             <div className="pt-5 md:py-0 lg:py-0 xl:py-0">
-              <img className="w-[100px] h-[100px] rounded-full" src="/images/resort1.jpg" alt="" />
+              <img className="w-[100px] h-[100px] rounded-full" src={selectedImage} alt="" />
             </div>
 
             <div className="py-10 md:py-0 lg:py-0 xl:py-0">
@@ -48,7 +64,13 @@ export default function EditProfileComponent() {
               >
                 Change Profile Picture
               </label>
-              <input type="file" id="profile-picture-input" className="hidden" accept="image/*" />
+              <input
+                type="file"
+                id="profile-picture-input"
+                className="hidden"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
             </div>
           </div>
         </div>
@@ -59,7 +81,7 @@ export default function EditProfileComponent() {
               type="text"
               placeholder="Thuc"
               value="Bùi"
-              className="text-gray-800 px-1 w-full bg-[#F8F8F8] border-b border-gray-500 focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent"
+              className="text-gray-800 rounded-md px-1 w-full bg-[#F8F8F8] border-b border-gray-500 focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent"
             />
           </div>
           <div className=" flex flex-row mb-14">
@@ -68,22 +90,23 @@ export default function EditProfileComponent() {
               type="text"
               placeholder="Thuc"
               value="Trí Thức"
-              className="text-gray-800 px-1 w-full bg-[#F8F8F8] border-b border-gray-500 focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent"
+              className="text-gray-800 rounded-md px-1 w-full bg-[#F8F8F8] border-b border-gray-500 focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent"
             />
           </div>
           <div className="flex flex-row items-center mb-10">
             <div className=" w-full text-gray-700 md:w-[198px] md:text-gray-700">Gender</div>
-            <select name="" id="" className=" text-gray-800 px-4 py-2">
+            <select name="" id="" className=" text-gray-800 px-4 py-2 rounded-md">
               <option value="">-</option>
               <option value="">Male</option>
               <option value="">Female</option>
+              <option value="">Any</option>
             </select>
           </div>
           <div className=" flex flex-col mb-10 md:flex md:flex-row md:items-center md:mb-14">
             <div className=" w-full text-gray-700 md:w-[198px] md:text-gray-700">Birth of Date</div>
             <div className=" flex flex-col md:flex md:flex-row ">
               <select
-                className="mb-5 md:mb-0 lg:mb-0 xl:mb-0 text-gray-800 mr-[20px] px-4 py-3 bg-[#F8F8F8] border-b border-gray-500  focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent"
+                className=" rounded-md mb-5 md:mb-0 lg:mb-0 xl:mb-0 text-gray-800 mr-[20px] px-4 py-3 bg-[#F8F8F8] border-b border-gray-500  focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent"
                 name=""
                 id=""
               >
@@ -120,7 +143,7 @@ export default function EditProfileComponent() {
                 <option value="">2</option>
                 <option value="">1</option>
               </select>
-              <select className="mb-5 md:mb-0 lg:mb-0 xl:mb-0 text-gray-800 mr-[20px] px-4 py-3 bg-[#F8F8F8] border-b border-gray-500  focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent">
+              <select className=" rounded-md mb-5 md:mb-0 lg:mb-0 xl:mb-0 text-gray-800 mr-[20px] px-4 py-3 bg-[#F8F8F8] border-b border-gray-500  focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent">
                 <option value="">December</option>
                 <option value="">November</option>
                 <option value="">October</option>
@@ -135,7 +158,7 @@ export default function EditProfileComponent() {
                 <option value="">January</option>
               </select>
 
-              <select className="mb-5 md:mb-0 lg:mb-0 xl:mb-0 text-gray-800 mr-[20px] px-4 py-3 bg-[#F8F8F8] border-b border-gray-500  focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent">
+              <select className=" rounded-md mb-5 md:mb-0 lg:mb-0 xl:mb-0 text-gray-800 mr-[20px] px-4 py-3 bg-[#F8F8F8] border-b border-gray-500  focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent">
                 <option value="">2001</option>
                 <option value="">2023</option>
                 <option value="">2022</option>
@@ -163,7 +186,7 @@ export default function EditProfileComponent() {
               type="email"
               placeholder="Thuc"
               value="buitrithuc1008@gmail.com"
-              className="text-gray-800 px-1 w-full bg-[#F8F8F8] border-b border-gray-500 focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent"
+              className="text-gray-800 rounded-md px-1 w-full bg-[#F8F8F8] border-b border-gray-500 focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent"
             />
           </div>
           <div className=" flex flex-row mb-14">
