@@ -122,10 +122,10 @@ export default function VungTauNews() {
             <Image className="py-3" src="./images/vung-tau7.jpg" />
           </div>
           <div>
-            Vung Tau Museum, also known by its full name, "Ba Ria - Vung Tau Museum", is located at
-            04 Tran Phu Street, Ward 1, Vung Tau City. This is a modern architectural work and a
-            special cultural facility, which preserves the historical - cultural - social values
-            ​​of Ba Ria - Vung Tau province from past to present.
+            Vung Tau Museum, also known by its full name, &quotBa Ria - Vung Tau Museum&quot, is
+            located at 04 Tran Phu Street, Ward 1, Vung Tau City. This is a modern architectural
+            work and a special cultural facility, which preserves the historical - cultural - social
+            values ​​of Ba Ria - Vung Tau province from past to present.
           </div>
           <div className="font-bold mt-3">Statue of God with outstretched arms</div>
           <div>
