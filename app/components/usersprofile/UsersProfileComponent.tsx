@@ -78,7 +78,7 @@ export default function UsersProfileComponent() {
           <div className="mt-5">
             <div className="font-bold">Hi!</div>
             <div className="text-gray-700 w-[70%]">
-              I'm Thanh Kien, I'm very passionate about traveling everywhere, to meet new people,
+              I am Thanh Kien, I am very passionate about traveling everywhere, to meet new people,
               and approach new cultures. Since I have a family and young children, we don't have
               time to travel much anymore, so I host on HolidaySwap to meet people. I hope everyone
               will support me Sincerely thank
