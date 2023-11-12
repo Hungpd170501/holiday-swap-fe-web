@@ -30,19 +30,19 @@ const Sidebar = () => {
       name: 'Edit Profile',
       href: '/dashboard/editProfile',
       icon: FiEdit,
-      current: pathName === '/dashboard/editProfile' ? true : false,
+      current: pathName?.includes('/dashboard/editProfile') ? true : false,
     },
     {
       name: 'Change password',
       href: '/dashboard/changePassword',
       icon: AiOutlineUnlock,
-      current: pathName === '/dashboard/changePassword' ? true : false,
+      current: pathName?.includes('/dashboard/changePassword') ? true : false,
     },
     {
       name: 'Ownership',
       href: '/dashboard/ownership',
       icon: AiOutlineHome,
-      current: pathName === '/dashboard/ownership' ? true : false,
+      current: pathName?.includes('/dashboard/ownership') ? true : false,
     },
   ];
 
@@ -51,13 +51,13 @@ const Sidebar = () => {
       name: 'My wallet',
       href: '/dashboard/wallet',
       icon: BiWallet,
-      current: pathName === '/dashboard/wallet' ? true : false,
+      current: pathName?.includes('/dashboard/wallet') ? true : false,
     },
     {
       name: 'Transfer',
       href: '/dashboard/transfer',
       icon: FaMoneyBillTransfer,
-      current: pathName === '/dashboard/transfer' ? true : false,
+      current: pathName?.includes('/dashboard/transfer') ? true : false,
     },
   ];
   const sidebarBooking = [
@@ -65,25 +65,25 @@ const Sidebar = () => {
       name: 'My Booking',
       href: '/dashboard/myBooking',
       icon: PiNotepadBold,
-      current: pathName === '/dashboard/myBooking' ? true : false,
+      current: pathName?.includes('/dashboard/myBooking') ? true : false,
     },
     {
       name: 'Owner Booking',
       href: '/dashboard/ownerBooking',
       icon: PiNotepadBold,
-      current: pathName === '/dashboard/ownerBooking' ? true : false,
+      current: pathName?.includes('/dashboard/ownerBooking') ? true : false,
     },
     {
       name: 'Invoices',
       href: '/dashboard/invoices',
       icon: LiaFileInvoiceDollarSolid,
-      current: pathName === '/dashboard/invoices' ? true : false,
+      current: pathName?.includes('/dashboard/invoices') ? true : false,
     },
     {
       name: 'Reviews',
       href: '/dashboard/review',
       icon: AiOutlineStar,
-      current: pathName === '/dashboard/review' ? true : false,
+      current: pathName?.includes('/dashboard/review') ? true : false,
     },
   ];
   const sidebarExchange = [
@@ -91,19 +91,19 @@ const Sidebar = () => {
       name: 'My Exchange',
       href: '/dashboard/myExchange',
       icon: MdOutlineSwapHorizontalCircle,
-      current: pathName === '/dashboard/myExchange' ? true : false,
+      current: pathName?.includes('/dashboard/myExchange') ? true : false,
     },
     {
       name: 'Invoices Exchange',
       href: '/dashboard/invoiceExchange',
       icon: LiaFileInvoiceDollarSolid,
-      current: pathName === '/dashboard/invoiceExchange' ? true : false,
+      current: pathName?.includes('/dashboard/invoiceExchange') ? true : false,
     },
     {
       name: 'Reviews Exchange',
       href: '/dashboard/reviewExchange',
       icon: AiOutlineStar,
-      current: pathName === '/dashboard/reviewExchange' ? true : false,
+      current: pathName?.includes('/dashboard/reviewExchange') ? true : false,
     },
   ];
   return (

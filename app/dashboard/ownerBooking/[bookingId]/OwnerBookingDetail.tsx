@@ -93,7 +93,7 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
 
         {/* Payment */}
         <div className="py-3 flex flex-col border-b border-slate-300">
-          <div className="text-lg font-bold text-slate-600">Payment</div>
+          <div className="text-lg font-bold text-slate-600">Income</div>
           <div className="flex flex-col gap-2 py-3">
             <div className="flex flex-row justify-between items-center text-slate-500">
               <div>
@@ -121,7 +121,7 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
 
         {/* Total payment */}
         <div className="py-3 flex flex-row items-center justify-between border-b border-slate-300">
-          <div>Total</div>
+          <div>Total received</div>
           <div>{ownerBookingDetail?.total}</div>
         </div>
 

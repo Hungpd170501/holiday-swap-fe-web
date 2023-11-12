@@ -32,25 +32,25 @@ const SidebarAdmin = () => {
       name: 'List Staff',
       href: '/admin/liststaff',
       icon: PiNotepadBold,
-      current: pathName === '/admin/liststaff' ? true : false,
+      current: pathName?.includes('/admin/liststaff') ? true : false,
     },
     {
       name: 'Create Staff',
       href: '/admin/createstaff',
       icon: FiUserPlus,
-      current: pathName === '/admin/createstaff' ? true : false,
+      current: pathName?.includes('/admin/createstaff') ? true : false,
     },
     {
       name: 'Point',
       href: '/admin/point',
       icon: BiSolidCoin,
-      current: pathName === '/admin/point' ? true : false,
+      current: pathName?.includes('/admin/point') ? true : false,
     },
     {
       name: 'Plan',
       href: '/admin/plan',
       icon: MdBusinessCenter,
-      current: pathName === '/admin/plan' ? true : false,
+      current: pathName?.includes('/admin/plan') ? true : false,
     },
   ];
   const sidebarExchange = [
@@ -58,13 +58,13 @@ const SidebarAdmin = () => {
       name: 'List Approve',
       href: '/staff/listapprove',
       icon: MdOutlineSwapHorizontalCircle,
-      current: pathName === '/staff/listapprove' ? true : false,
+      current: pathName?.includes('/staff/listapprove') ? true : false,
     },
     {
       name: 'Infomation',
       href: '/staff/infomation',
       icon: LiaFileInvoiceDollarSolid,
-      current: pathName === '/staff/infomation' ? true : false,
+      current: pathName?.includes('/staff/infomation') ? true : false,
     },
   ];
   return (
