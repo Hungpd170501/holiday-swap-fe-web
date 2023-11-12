@@ -10,6 +10,9 @@ import { useDateRange } from '../DateRangeContext';
 import CalendarAparmentBody from '../CalendarAparmentBody';
 
 import { Avatar, Rate, Typography } from 'antd';
+import { AiFillStar } from 'react-icons/ai';
+import { BsShieldFillCheck } from 'react-icons/bs';
+import Link from 'next/link';
 
 const { Text } = Typography;
 
@@ -215,6 +218,74 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
               text={apartment.availableTime.pricePerNight}
             />
           </GoogleMapReact>
+        </div>
+      </div>
+      <div className="w-full h-[1px] bg-gray-500 my-16"></div>
+      <div className="flex flex-row w-full gap-5 ">
+        <div className="w-[60%]">
+          <Link href="/usersprofile" className="flex flex-row items-center gap-2">
+            <div>
+              <Image
+                className="rounded-full cursor-pointer"
+                width={55}
+                height={55}
+                src="/images/avt.jpg"
+                alt="avatar"
+              />
+            </div>
+            <div>
+              <div className="text-[20px] font-bold hover:underline cursor-pointer">
+                Owner Thanh Kien
+              </div>
+              <div>Joins November 10, 2023</div>
+            </div>
+          </Link>
+          <div className="mt-3">
+            <div className="flex flex-row items-center gap-2">
+              <AiFillStar size={20} color="orange" />
+              <div className="text-gray-700">91 Reviews</div>
+            </div>
+            <div className="flex flex-row items-center gap-2">
+              <BsShieldFillCheck size={20} color="green" />
+              <div className="text-gray-700">Email verified</div>
+            </div>
+          </div>
+          <div className="mt-5">
+            <div className="font-bold">Hi!</div>
+            <div className="text-gray-700">
+              I'm Thanh Kien, I'm very passionate about traveling everywhere, to meet new people,
+              and approach new cultures. Since I have a family and young children, we don't have
+              time to travel much anymore, so I host on HolidaySwap to meet people. I hope everyone
+              will support me Sincerely thank
+            </div>
+          </div>
+
+          <div className="mt-5">
+            <div className="font-bold">Support:</div>
+            <div className="text-gray-700">We support 24/7</div>
+          </div>
+        </div>
+        <div className="flex flex-col gap-2 mt-20 w-[40%]">
+          <div className="flex flex-row gap-2">
+            <div className="font-bold">Language:</div>
+            <div>English</div>
+          </div>
+          <div className="flex flex-row gap-2">
+            <div className="font-bold">Response rate:</div>
+            <div className="text-gray-700">100%</div>
+          </div>
+          <div className="flex flex-row gap-2">
+            <div className="font-bold">Response time:</div>
+            <div className="text-gray-700">within an hour</div>
+          </div>
+          <div className="mt-5">
+            <Link
+              href="./chat"
+              className="hover:bg-blue-600 rounded-md px-5 py-2 bg-common text-white"
+            >
+              Contact with owner
+            </Link>
+          </div>
         </div>
       </div>
     </div>
