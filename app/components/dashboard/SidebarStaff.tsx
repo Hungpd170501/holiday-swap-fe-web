@@ -39,25 +39,25 @@ const SidebarStaff = () => {
       name: 'List Resort',
       href: '/staff/listresort',
       icon: BsHouses,
-      current: pathName === '/staff/listresort' ? true : false,
+      current: pathName?.includes('/staff/listresort') ? true : false,
     },
     {
       name: 'Create Resort',
       href: '/staff/createresort',
       icon: BsHouseAdd,
-      current: pathName === '/staff/createresort' ? true : false,
+      current: pathName?.includes('/staff/createresort') ? true : false,
     },
     {
       name: 'List Property',
       href: '/staff/listproperty',
       icon: PiFolders,
-      current: pathName === '/staff/listproperty' ? true : false,
+      current: pathName?.includes('/staff/listproperty') ? true : false,
     },
     {
       name: 'Create Property',
       href: '/staff/createproperty',
       icon: MdOutlineCreateNewFolder,
-      current: pathName === '/staff/createproperty' ? true : false,
+      current: pathName?.includes('/staff/createproperty') ? true : false,
     },
   ];
   const sidebarMember = [
@@ -65,13 +65,13 @@ const SidebarStaff = () => {
       name: 'List Membership',
       href: '/staff/listmember',
       icon: PiNotepadBold,
-      current: pathName === '/staff/listmember' ? true : false,
+      current: pathName?.includes('/staff/listmember') ? true : false,
     },
     {
       name: 'Upgrade Member',
       href: '/staff/upgrademembership',
       icon: LuArrowUpSquare,
-      current: pathName === '/staff/upgrademembership' ? true : false,
+      current: pathName?.includes('/staff/upgrademembership') ? true : false,
     },
   ];
   const sidebarExchange = [
@@ -79,13 +79,13 @@ const SidebarStaff = () => {
       name: 'List Approve Ownership',
       href: '/staff/listapproveOwnership',
       icon: MdOutlineSwapHorizontalCircle,
-      current: pathName === '/staff/listapproveOwnership' ? true : false,
+      current: pathName?.includes('/staff/listapproveOwnership') ? true : false,
     },
     {
       name: 'Infomation',
       href: '/staff/infomation',
       icon: LiaFileInvoiceDollarSolid,
-      current: pathName === '/staff/infomation' ? true : false,
+      current: pathName?.includes('/staff/infomation') ? true : false,
     },
   ];
   return (
