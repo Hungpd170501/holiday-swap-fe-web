@@ -64,7 +64,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
         <ApartmentDetailHeader apartment={apartment} />
       </div>
 
-      <div className="flex flex-col md:grid md:grid-cols-12 md:gap-16 md:pb-14 xl:py-10">
+      <div className="flex flex-col md:grid md:grid-cols-12 md:gap-16 md:pb-14 xl:py-10 border-b border-gray-500">
         <div className="col-span-8">
           <ApartmentDetailBody
             apartment={apartment}
@@ -86,6 +86,8 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
           />
         </div>
       </div>
+
+      <div className="py-20"></div>
     </div>
   );
 };

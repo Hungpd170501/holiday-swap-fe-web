@@ -187,7 +187,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
           />
         </div>
       </div>
-      <div className="flex flex-col py-8 border-b border-gray-500">
+      <div className="flex flex-col py-8">
         <div className="text-2xl font-bold py-5">Location</div>
         <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
           {apartment.resort.locationFormattedName}
