@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import MenuItem from "./MenuItem";
-import SignOutMiddle from "@/app/libs/signOut";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import React, { Fragment, useCallback, useState } from "react";
+import MenuItem from './MenuItem';
+import SignOutMiddle from '@/app/libs/signOut';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import React, { Fragment, useCallback, useState } from 'react';
 
 interface UserMenuProps {
   currentUser?: Object | any | null;
@@ -25,12 +25,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 
   return (
     <>
-      <div
-        onClick={toggleOpen}
-        className="cursor-pointer flex items-center gap-3"
-      >
+      <div onClick={toggleOpen} className="cursor-pointer flex items-center gap-3">
         <Image
-          src={currentUser?.avatar || "/images/placeholder.jpg"}
+          src={currentUser?.avatar || '/images/placeholder.jpg'}
           alt="Avartar"
           width={50}
           height={50}
@@ -40,47 +37,30 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
       </div>
 
       {isOpen ? (
-        <div className="absolute rounded-xl shadow-md w-[40vw] md:w-52 bg-white overflow-hidden right-20 top-24 text-sm">
+        <div className="absolute rounded-xl shadow-md w-[40vw] md:w-52 bg-white overflow-hidden right-20 top-20 text-sm">
           <div className="flex flex-col cursor-pointer">
             <Fragment>
               {(() => {
                 if (currentUser?.role.roleId === 1) {
                   return (
-                    <MenuItem
-                      onClick={() => handleRouter("/admin")}
-                      label="Dashboard Admin"
-                    />
+                    <MenuItem onClick={() => handleRouter('/admin')} label="Dashboard Admin" />
                   );
-                } else if (
-                  currentUser?.role.roleId === 2 ||
-                  currentUser?.role.roleId === 4
-                ) {
-                  return (
-                    <MenuItem
-                      onClick={() => handleRouter("/dashboard")}
-                      label="Dashboard"
-                    />
-                  );
+                } else if (currentUser?.role.roleId === 2 || currentUser?.role.roleId === 4) {
+                  return <MenuItem onClick={() => handleRouter('/dashboard')} label="Dashboard" />;
                 } else if (currentUser?.role.roleId === 3) {
                   return (
-                    <MenuItem
-                      onClick={() => handleRouter("/staff")}
-                      label="Dashboard Staff"
-                    />
+                    <MenuItem onClick={() => handleRouter('/staff')} label="Dashboard Staff" />
                   );
                 }
               })()}
-              <MenuItem
-                onClick={() => handleRouter("/recharge")}
-                label="Recharge"
-              />
+              <MenuItem onClick={() => handleRouter('/recharge')} label="Recharge" />
               <hr />
               <MenuItem onClick={() => SignOutMiddle()} label="Logout" />
             </Fragment>
           </div>
         </div>
       ) : (
-        ""
+        ''
       )}
     </>
   );

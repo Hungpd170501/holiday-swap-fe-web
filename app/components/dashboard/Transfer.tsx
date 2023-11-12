@@ -63,7 +63,7 @@ const Money = [
               Number of points to transfer <span className="text-red-500">*</span>
             </h1>
             <Input
-              className="w-[500px] rounded-md"
+              className="w-[499 px] rounded-md"
               type="text"
               value={moneyTransfer}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -215,7 +215,10 @@ const TransferMoney: React.FC<TransferMoneyProps> = ({ currentUser, memberships 
 
   return (
     <>
-      <Steps current={current} items={items} />
+      <div className="mt-10">
+        Dashboard {'>'} <span className="text-common">Transfer</span>
+      </div>
+      <Steps className="mt-5" current={current} items={items} />
       <div>
         {Money[current].content({
           currentUser,

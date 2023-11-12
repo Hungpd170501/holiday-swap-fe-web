@@ -30,7 +30,7 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
   const priceNight = searchParams?.get('priceNight');
 
   return (
-    <Container>
+    <Container className="bg-white">
       <div className="grid grid-cols-2 gap-28 py-32 px-20">
         <div className="w-full">
           <BookingInformation

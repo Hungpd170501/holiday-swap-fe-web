@@ -70,7 +70,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
           </div>
         </div>
       </Container>
-      <div className="w-full h-[1px] bg-gray-200 -mt-1"></div>
+      <div className=" hidden md:block md:w-full md:h-[1px] md:bg-gray-200 md:-mt-1"></div>
 
       <Container
         className={
