@@ -4,6 +4,7 @@ import { message, Steps, theme } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import useAparmentReviewModal from '@/app/hooks/useApartmentReviewModal';
 
 const Money = [
   {
@@ -153,6 +154,7 @@ const StepsRating: React.FC = () => {
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
   const router = useRouter();
+  const apartmentReviewModal = useAparmentReviewModal();
 
   const next = () => {
     setCurrent(current + 1);
@@ -170,7 +172,7 @@ const StepsRating: React.FC = () => {
         <div className="mt-6 px-4">
           {current > 0 && (
             <button
-              className="bg-common px-2  rounded-md text-white"
+              className="bg-common px-2  rounded-full text-white"
               style={{ margin: '0 8px' }}
               onClick={() => prev()}
             >
@@ -178,7 +180,7 @@ const StepsRating: React.FC = () => {
             </button>
           )}
           {current < Money.length - 1 && (
-            <button className="bg-common px-2  rounded-md text-white" onClick={() => next()}>
+            <button className="bg-common px-2  rounded-full text-white" onClick={() => next()}>
               {'>'}
             </button>
           )}
@@ -186,9 +188,13 @@ const StepsRating: React.FC = () => {
       </div>
 
       <div>{Money[current].content}</div>
-      <div>
-        <button className="bg-common text-white rounded-md px-5 py-3 hover:bg-blue-600">
-          View All <span>91</span> reatings
+      <div className="">
+        <button
+          onClick={apartmentReviewModal.onOpen}
+          type="button"
+          className="text-center border border-slate-700 rounded-lg text-xl py-3 px-6 hover:bg-gray-100 transition-all duration-300 transform active:scale-95"
+        >
+          Show all 39 reviews
         </button>
       </div>
     </>
