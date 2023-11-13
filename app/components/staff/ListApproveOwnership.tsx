@@ -12,6 +12,7 @@ import toast from 'react-hot-toast';
 import { BiBlock } from 'react-icons/bi';
 import { BsCheck2Circle } from 'react-icons/bs';
 import { MdOutlinePending } from 'react-icons/md';
+import SelectRouterStaff from './SelectRouterStaff';
 
 const TABS = [
   {
@@ -114,6 +115,7 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
           Staff {'> '}
           <span className="text-common">List Approve Ownership</span>
         </div>
+        <SelectRouterStaff />
       </div>
       <Fragment>
         <Table>

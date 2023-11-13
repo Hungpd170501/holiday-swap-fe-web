@@ -12,6 +12,7 @@ import { Table, Dropdown } from 'flowbite-react';
 import Image from 'next/image';
 import { Pagination } from 'flowbite-react';
 import axios from 'axios';
+import SelectRouterAdmin from './SelectRouterAdmin';
 
 const TABS = [
   {
@@ -106,6 +107,7 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
           Dashboard {'>'} <span className="text-common">List Staff</span>
         </div>
       </div>
+      <SelectRouterAdmin />
       <div className="text-xl font-bold text-common py-5">Management Staff</div>
       <Table>
         <Table.Head>

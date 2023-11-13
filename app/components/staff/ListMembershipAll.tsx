@@ -13,6 +13,7 @@ import { format } from 'date-fns';
 import DropDownBanMember from './DropDownBanMember';
 import Image from 'next/image';
 import { Pagination } from 'flowbite-react';
+import SelectRouterStaff from './SelectRouterStaff';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -129,6 +130,7 @@ const ListMembershipAll: React.FC<ListMembershipAllProps> = ({ users }) => {
       <div className="mt-10">
         Staff {'>'} <span className="text-common">List Membership</span>
       </div>
+      <SelectRouterStaff />
       <div className="flex flex-row justify-between items-center py-5 ">
         <div className="text-common text-[20px] font-bold ">List Membership</div>
       </div>
