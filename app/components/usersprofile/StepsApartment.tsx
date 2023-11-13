@@ -222,7 +222,7 @@ const StepsApartment: React.FC = () => {
         <div className="mt-6 px-4">
           {current > 0 && (
             <button
-              className="bg-common px-2  rounded-md text-white"
+              className="bg-common px-2  rounded-full text-white"
               style={{ margin: '0 8px' }}
               onClick={() => prev()}
             >
@@ -230,7 +230,7 @@ const StepsApartment: React.FC = () => {
             </button>
           )}
           {current < Money.length - 1 && (
-            <button className="bg-common px-2  rounded-md text-white" onClick={() => next()}>
+            <button className="bg-common px-2  rounded-full text-white" onClick={() => next()}>
               {'>'}
             </button>
           )}
