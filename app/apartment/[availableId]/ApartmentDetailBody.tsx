@@ -13,6 +13,7 @@ import { Avatar, Rate, Typography } from 'antd';
 import { AiFillStar } from 'react-icons/ai';
 import { BsShieldFillCheck } from 'react-icons/bs';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const { Text } = Typography;
 
@@ -44,6 +45,8 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
   useEffect(() => {
     setDateRangeContext(dateRange);
   }, [dateRange]);
+
+  const router = useRouter();
 
   console.log('Check date range default', dateRangeDefault);
 
@@ -279,12 +282,12 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
             <div className="text-gray-700">within an hour</div>
           </div>
           <div className="mt-5">
-            <Link
-              href="./chat"
-              className="hover:bg-blue-600 rounded-md px-5 py-2 bg-common text-white"
+            <div
+              onClick={() => router.push('/chat')}
+              className="hover:bg-hover rounded-md px-4 py-2 bg-common text-white"
             >
               Contact with owner
-            </Link>
+            </div>
           </div>
         </div>
       </div>

@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import React from 'react';
 import Container from '../Container';
@@ -6,8 +8,10 @@ import { AiOutlineCheck } from 'react-icons/ai';
 import StepsRating from './StepsRating';
 import StepsApartment from './StepsApartment';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function UsersProfileComponent() {
+  const router = useRouter();
   return (
     <Container className="py-36 bg-white">
       <div className="flex flex-row w-full gap-20">
@@ -68,12 +72,12 @@ export default function UsersProfileComponent() {
         <div className="w-[70%] col-span-8">
           <div className="flex flex-row items-center justify-between">
             <div className="text-[25px] font-bold">Infomation about Thanh Kien</div>
-            <Link
-              href="./chat"
-              className="border border-gray-400 px-5 py-3 rounded-md hover:bg-common hover:text-white"
+            <div
+              onClick={() => router.push('/chat')}
+              className="border border-gray-400 px-5 py-3 rounded-md cursor-pointer bg-common hover:bg-hover text-white"
             >
               Contact the apartment owner
-            </Link>
+            </div>
           </div>
           <div className="mt-5">
             <div className="font-bold">Hi!</div>
