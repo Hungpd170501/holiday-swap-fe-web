@@ -42,18 +42,22 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             <Fragment>
               {(() => {
                 if (currentUser?.role.roleId === 1) {
-                  return (
-                    <MenuItem onClick={() => handleRouter('/admin')} label="Dashboard Admin" />
-                  );
+                  return <MenuItem onClick={() => handleRouter('/admin')} label="Dashboard " />;
                 } else if (currentUser?.role.roleId === 2 || currentUser?.role.roleId === 4) {
-                  return <MenuItem onClick={() => handleRouter('/dashboard')} label="Dashboard" />;
-                } else if (currentUser?.role.roleId === 3) {
                   return (
-                    <MenuItem onClick={() => handleRouter('/staff')} label="Dashboard Staff" />
+                    <Fragment>
+                      <MenuItem onClick={() => handleRouter('/dashboard')} label="Dashboard" />
+                      <MenuItem onClick={() => handleRouter('/recharge')} label="Recharge" />
+                      <MenuItem
+                        onClick={() => handleRouter('/dashboard/myBooking')}
+                        label="My Booking"
+                      />
+                    </Fragment>
                   );
+                } else if (currentUser?.role.roleId === 3) {
+                  return <MenuItem onClick={() => handleRouter('/staff')} label="Dashboard " />;
                 }
               })()}
-              <MenuItem onClick={() => handleRouter('/recharge')} label="Recharge" />
               <hr />
               <MenuItem onClick={() => SignOutMiddle()} label="Logout" />
             </Fragment>

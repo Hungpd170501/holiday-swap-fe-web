@@ -246,7 +246,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
           <div className="mt-3">
             <div className="flex flex-row items-center gap-2">
               <AiFillStar size={20} color="orange" />
-              <div className="text-gray-700">91 Reviews</div>
+              <div className="text-gray-700">39 Reviews</div>
             </div>
             <div className="flex flex-row items-center gap-2">
               <BsShieldFillCheck size={20} color="green" />
@@ -284,7 +284,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
           <div className="mt-5">
             <div
               onClick={() => router.push('/chat')}
-              className="hover:bg-hover rounded-md px-4 py-2 bg-common text-white"
+              className="hover:bg-hover rounded-md cursor-pointer px-4 py-2 bg-common text-white"
             >
               Contact with owner
             </div>
