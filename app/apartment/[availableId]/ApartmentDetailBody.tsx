@@ -220,7 +220,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
           </GoogleMapReact>
         </div>
       </div>
-      <div className="w-full h-[1px] bg-gray-500 my-16"></div>
+      <div className="w-full h-[1px] bg-gray-400 my-16"></div>
       <div className="flex flex-row w-full gap-5 ">
         <div className="w-[60%]">
           <Link href="/usersprofile" className="flex flex-row items-center gap-2">
@@ -300,7 +300,7 @@ interface MarkerProps {
 
 const Marker: React.FC<MarkerProps> = ({ text }) => (
   <span className="flex px-1 py-1 rounded-lg bg-white dark:bg-neutral-900 text-sm font-semibold items-center justify-center min-w-max shadow-lg hover:bg-neutral-900 hover:text-white dark:hover:bg-white dark:hover:text-neutral-900 transition-colors">
-    <span>P{text}</span>
+    <span>Point:{text}</span>
   </span>
 );
 

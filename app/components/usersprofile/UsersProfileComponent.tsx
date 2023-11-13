@@ -12,7 +12,7 @@ export default function UsersProfileComponent() {
     <Container className="py-36 bg-white">
       <div className="flex flex-row w-full gap-20">
         <div className="w-[30%] sticky col-span-4 top-[134px] h-full">
-          <div className="bg-white shadow-2xl rounded-xl border gap-10 border-gray-200 py-4 px-3 items-center flex flex-row justify-center">
+          <div className="bg-white shadow-2xl rounded-xl border gap-10 border-gray-400 py-4 px-3 items-center flex flex-row justify-center">
             <div className="flex flex-col items-center">
               <Image
                 width={100}
@@ -45,7 +45,7 @@ export default function UsersProfileComponent() {
               </div>
             </div>
           </div>
-          <div className="border border-gray-300 rounded-xl mt-10 py-4 px-4 ">
+          <div className="border border-gray-400 rounded-xl mt-10 py-4 px-4 ">
             <div className="font-bold text-[20px]">
               The information has been confirmed by Thanh Kien
             </div>
