@@ -8,6 +8,7 @@ import axios from 'axios';
 import { Table } from 'flowbite-react';
 import useEditPointModal from '@/app/hooks/useEditPointModal';
 import TooltipCreatePoint from './tooltip/TooltipCreatePoint';
+import SelectRouterAdmin from './SelectRouterAdmin';
 const TABLE_HEAD = ['ID', 'Point Price', 'Created Date', 'Status', ''];
 
 interface PointProps {
@@ -62,6 +63,7 @@ const Point: React.FC<PointProps> = ({ point }) => {
       <div className="mt-10">
         Dashboard {'>'} <span className="text-common">Point</span>
       </div>
+      <SelectRouterAdmin />
       <div className="text-xl font-bold text-common py-5">Management Point</div>
       <div>
         <label className="font-bold">Point Price</label>

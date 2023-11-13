@@ -6,6 +6,7 @@ import { PencilIcon, UserPlusIcon } from '@heroicons/react/24/solid';
 import { BsClipboard2PlusFill } from 'react-icons/bs';
 import useCreatePlanModal from '@/app/hooks/useCreatePlanModal';
 import { Table } from 'flowbite-react';
+import SelectRouterAdmin from './SelectRouterAdmin';
 
 const TABLE_HEAD = [
   'ID',
@@ -31,6 +32,7 @@ const Plan: React.FC<PlanProps> = ({ plan }) => {
       <div className="mt-10">
         Dashboard {'>'} <span className="text-common">Plan</span>
       </div>
+      <SelectRouterAdmin />
       <div className="text-xl font-bold text-common  py-5">Management Plan</div>
       <div className="">
         <button

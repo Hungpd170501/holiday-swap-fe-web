@@ -13,6 +13,7 @@ import Image from 'next/image';
 import ButtonRegister from '@/app/components/register/BtnRegister';
 import Input from '@/app/components/input/Input';
 import InputInRoomAmenities from './InputInRoomAmenities';
+import SelectRouterStaff from '@/app/components/staff/SelectRouterStaff';
 
 enum STEPS {
   BEDS = 0,
@@ -277,6 +278,7 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
         </span>{' '}
         {'>'} <span className="text-common">Create Property</span>
       </div>
+      <SelectRouterStaff />
 
       {bodyContent}
     </div>
