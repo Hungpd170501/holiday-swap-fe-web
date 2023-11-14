@@ -133,11 +133,11 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts }) => {
                     <div key={index}>{item.propertyTypeName}</div>
                   ))}
                 </StyledTableCell>
-                <StyledTableCell className="!py-5 " align="left">
+                {/* <StyledTableCell className="!py-5 " align="left">
                   {row.resortAmenityTypes.map((item: any, index: number) => (
                     <div key={index}>{item.resortAmenityTypeName}</div>
                   ))}
-                </StyledTableCell>
+                </StyledTableCell> */}
 
                 <StyledTableCell className="!py-5 !text-green-500 " align="right">
                   <DropdownDeleteResort />
