@@ -303,7 +303,6 @@ const CreateResort: React.FC<CreateResortProps> = ({ amenitiesArray, propertyTyp
             onChange={handleChange}
           />
         </div>
-        S
       </div>
       <div className="w-[700px]">
         <div className=" flex flex-row mb-14">

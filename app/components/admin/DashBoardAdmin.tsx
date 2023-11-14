@@ -18,7 +18,6 @@ const DashBoardAdmin = () => {
         <div className="grid grid-cols-1">
           <ChartIncome />
         </div>
-        S
       </div>
     </div>
   );

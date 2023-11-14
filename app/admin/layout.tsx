@@ -8,10 +8,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   return requireAuth(
     <Provider>
       <div className="flex flex-row gap-10 pt-20">
-        <div>
+        <div className="sticky col-span-4 top-[100px] h-full">
           <SidebarAdmin />
         </div>
-        <main className="w-full h-full pr-14">{children}</main>
+        <main className="w-full h-full pr-14 col-span-8">{children}</main>
       </div>
     </Provider>,
     [1]

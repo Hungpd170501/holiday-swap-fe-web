@@ -7,8 +7,10 @@ export default function PostBlog() {
   return (
     <Container className="py-32 bg-white">
       <div className="flex flex-row gap-5 ">
-        <CardBlog />
-        <div className="sticky">
+        <div className="col-span-8">
+          <CardBlog />
+        </div>
+        <div className="sticky col-span-4 top-[134px] h-full">
           <SidebarBlogNews />
         </div>
       </div>

@@ -12,7 +12,7 @@ const Money = [
   {
     title: 'First',
     content: (
-      <div className="grid grid-cols-5 gap-5 h-[350px]">
+      <div className="grid grid-cols-3 md:grid-cols-5 gap-5 h-[350px]">
         <Link
           href="#"
           className=" border border-gray-300 rounded-md relative cursor-pointer hover:-translate-y-2 hover:duration-500 translate-y-0 duration-500"
