@@ -7,6 +7,7 @@ import useCreateReviewModal from '@/app/hooks/useCreateReviewModal';
 import ReactStars from 'react-stars';
 import { Label, Textarea, Select } from 'flowbite-react';
 import ModalCreateReviewBase from './ModalCreateReviewBase';
+import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 
 const ratingType = [
   {
@@ -24,6 +25,7 @@ export default function ModalCreateReview() {
   const [isLoading, setIsLoading] = useState(false);
   const [starValue, setStarValue] = useState(5);
   const [ratingTypeValue, setRatingTypeValue] = useState(ratingType[0].value);
+  const axiosAuthClient = useAxiosAuthClient();
 
   const {
     register,
@@ -44,6 +46,16 @@ export default function ModalCreateReview() {
   const ratingChanged = (newRating: number) => {
     setStarValue(newRating);
   };
+
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    setIsLoading(true);
+
+    const ratingData = {
+      comment: data.comment,
+      rating: starValue,
+      ratingType: ratingTypeValue,
+    };
+  }
 
   const bodyContent = (
     <div className="w-full">
@@ -69,7 +81,7 @@ export default function ModalCreateReview() {
         <div className="mb-2 block font-bold">
           <Label htmlFor="comment" value="Your comment" />
         </div>
-        <Textarea id="comment" placeholder="Leave a comment..." required rows={4} />
+        <Textarea id="comment" placeholder="Leave a comment..." required rows={4} {...register("comment", { required: true })} />
       </div>
     </div>
   );

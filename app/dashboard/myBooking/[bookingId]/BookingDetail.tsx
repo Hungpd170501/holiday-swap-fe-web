@@ -10,9 +10,10 @@ interface BookingDetailProps {
   bookingDetail: any;
   ownerUser: any;
   ownerResort: any;
+  currentUser: any;
 }
 
-const BookingDetail: React.FC<BookingDetailProps> = ({ bookingDetail, ownerUser, ownerResort }) => {
+const BookingDetail: React.FC<BookingDetailProps> = ({ bookingDetail, ownerUser, ownerResort, currentUser }) => {
   const calculateNightDifference = (startDate: any, endDate: any) => {
     const start = new Date(startDate);
     const end = new Date(endDate);

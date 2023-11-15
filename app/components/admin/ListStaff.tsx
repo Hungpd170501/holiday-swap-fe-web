@@ -56,29 +56,32 @@ interface ListStaffProps {
 const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
   const [userList, setUserList] = useState(listUser);
   const { data: session } = useSession();
-  const [popupVisibilities, setPopupVisibilities] = useState(userList?.content.map(() => false));
-  const [displayedItems, setDisplayedItems] = useState<any>();
+  const axiosAuthClient = useAxiosAuthClient();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-
-  const pageCount = Math.ceil(listUser?.content?.length / itemsPerPage);
-
-  const handlePageChange = (selectedPage: { selected: number }) => {
-    setCurrentPage(selectedPage.selected);
-  };
-
-  useEffect(() => {
-    setDisplayedItems(
-      userList?.content?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
-    );
-  }, [userList]);
-
-  // Sử dụng `.slice()` để lấy danh sách các mục cần hiển thị trên trang hiện tại
+  const [pageCount, setPageCount] = useState(listUser.totalPages);
 
   const onPageChange = (page: number) => setCurrentPage(page);
 
-  const axiosAuthClient = useAxiosAuthClient();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `https://holiday-swap.click/api/v1/users/search?roleIds=1&roleIds=3&limit=10&offset=${
+            currentPage - 1
+          }&sortProps=id&sortDirection=desc`
+        );
+        setUserList(response.data);
+        setPageCount(response.data.totalPages); // Assuming 10 items per page
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [currentPage]);
+
+  console.log('check page count', pageCount);
 
   const handleOnChangeStatus = (id: any, value: any) => {
     const body = value;
@@ -91,14 +94,19 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
       .then(async () => {
         toast.success('Update status success');
         const newList = await axios.get(
-          `https://holiday-swap.click/api/v1/users/search?limit=50&offset=0`
+          `https://holiday-swap.click/api/v1/users/search?roleIds=1&roleIds=3&limit=20&offset=${
+            currentPage - 1
+          }&sortProps=id&sortDirection=desc`
         );
         setUserList(newList?.data);
+        setPageCount(newList.data.totalPages);
       })
       .catch((response) => {
         toast.error(response);
       });
   };
+
+  console.log('Check current page', currentPage);
 
   return (
     <Fragment>
@@ -120,125 +128,123 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
           <Table.HeadCell>Status</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          {displayedItems?.map((item: any, index: number) => {
-            if (item.role.roleId === 1 || item.role.roleId === 3) {
-              return (
-                <Table.Row
-                  key={item.userId}
-                  className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                >
-                  <Table.Cell className="whitespace-nowrap flex flex-row gap-2 items-center dark:text-white">
-                    <Image
-                      src={item.avatar || '/images/placeholder.jpg'}
-                      alt="Avatar"
-                      width={50}
-                      height={50}
-                      className="object-cover rounded-full"
-                    />
-                    <div>
-                      <div className="font-medium text-gray-900">{item.email}</div>
-                      <div className="font-base text-sm text-gray-500">{item.username}</div>
-                    </div>
-                  </Table.Cell>
-                  <Table.Cell>{item.fullName}</Table.Cell>
-                  <Table.Cell>{item.gender}</Table.Cell>
-                  <Table.Cell>{format(new Date(item.dob), 'dd-MM-yyyy')}</Table.Cell>
-                  <Table.Cell>{item.phone}</Table.Cell>
-                  <Table.Cell>{item.role.name}</Table.Cell>
-                  <Table.Cell>
+          {userList.content.map((item: any, index: number) => {
+            return (
+              <Table.Row
+                key={item.userId}
+                className="bg-white dark:border-gray-700 dark:bg-gray-800"
+              >
+                <Table.Cell className="whitespace-nowrap flex flex-row gap-2 items-center dark:text-white">
+                  <Image
+                    src={item.avatar || '/images/placeholder.jpg'}
+                    alt="Avatar"
+                    width={50}
+                    height={50}
+                    className="object-cover rounded-full"
+                  />
+                  <div>
+                    <div className="font-medium text-gray-900">{item.email}</div>
+                    <div className="font-base text-sm text-gray-500">{item.username}</div>
+                  </div>
+                </Table.Cell>
+                <Table.Cell>{item.fullName}</Table.Cell>
+                <Table.Cell>{item.gender}</Table.Cell>
+                <Table.Cell>{format(new Date(item.dob), 'dd-MM-yyyy')}</Table.Cell>
+                <Table.Cell>{item.phone}</Table.Cell>
+                <Table.Cell>{item.role.name}</Table.Cell>
+                <Table.Cell>
+                  {(() => {
+                    let statusText = '';
+                    if (item.status === 'ACTIVE') {
+                      statusText = 'ACTIVE';
+                    } else if (item.status === 'BLOCKED') {
+                      statusText = 'BLOCKED';
+                    } else if (item.status === 'PENDING') {
+                      statusText = 'PENDING';
+                    }
+
+                    return (
+                      <div
+                        className={`py-2 px-1 text-sm text-center  bg-slate-200 rounded-md ${
+                          statusText === 'ACTIVE' ? 'text-green-500' : ''
+                        } ${statusText === 'BLOCKED' ? 'text-rose-500' : ''} ${
+                          statusText === 'PENDING' ? 'text-orange-500' : ''
+                        }`}
+                      >
+                        {statusText}
+                      </div>
+                    );
+                  })()}
+                </Table.Cell>
+                <Table.Cell>
+                  <Dropdown
+                    label=""
+                    dismissOnClick={false}
+                    renderTrigger={() => (
+                      <span className="text-sky-500 hover:underline cursor-pointer">Edit</span>
+                    )}
+                  >
                     {(() => {
-                      let statusText = '';
                       if (item.status === 'ACTIVE') {
-                        statusText = 'ACTIVE';
+                        return (
+                          <>
+                            {statusList.slice(1, 3).map((status: any, index: number) => (
+                              <Dropdown.Item
+                                key={index}
+                                value={status.status}
+                                className="flex items-center gap-2"
+                                onClick={() => handleOnChangeStatus(item.userId, status.status)}
+                              >
+                                <status.icon size={18} color={status.color} />
+
+                                <span className={`text-[${status.color}]`}>{status.status}</span>
+                              </Dropdown.Item>
+                            ))}
+                          </>
+                        );
                       } else if (item.status === 'BLOCKED') {
-                        statusText = 'BLOCKED';
+                        const newArrray = statusList.filter(
+                          (item) => item.status === 'ACTIVE' || item.status === 'PENDING'
+                        );
+                        return (
+                          <>
+                            {newArrray.map((status: any, index: number) => (
+                              <Dropdown.Item
+                                key={index}
+                                value={status.status}
+                                className="flex items-center gap-2"
+                                onClick={() => handleOnChangeStatus(item.userId, status.status)}
+                              >
+                                <status.icon size={18} color={status.color} />
+
+                                <span className={`text-[${status.color}]`}>{status.status}</span>
+                              </Dropdown.Item>
+                            ))}
+                          </>
+                        );
                       } else if (item.status === 'PENDING') {
-                        statusText = 'PENDING';
+                        return (
+                          <>
+                            {statusList.slice(0, 2).map((status: any, index: number) => (
+                              <Dropdown.Item
+                                key={index}
+                                value={status.status}
+                                className="flex items-center gap-2"
+                                onClick={() => handleOnChangeStatus(item.userId, status.status)}
+                              >
+                                <status.icon size={18} color={status.color} />
+
+                                <span className={`text-[${status.color}]`}>{status.status}</span>
+                              </Dropdown.Item>
+                            ))}
+                          </>
+                        );
                       }
-
-                      return (
-                        <div
-                          className={`py-2 px-1 text-sm text-center  bg-slate-200 rounded-md ${
-                            statusText === 'ACTIVE' ? 'text-green-500' : ''
-                          } ${statusText === 'BLOCKED' ? 'text-rose-500' : ''} ${
-                            statusText === 'PENDING' ? 'text-orange-500' : ''
-                          }`}
-                        >
-                          {statusText}
-                        </div>
-                      );
                     })()}
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Dropdown
-                      label=""
-                      dismissOnClick={false}
-                      renderTrigger={() => (
-                        <span className="text-sky-500 hover:underline cursor-pointer">Edit</span>
-                      )}
-                    >
-                      {(() => {
-                        if (item.status === 'ACTIVE') {
-                          return (
-                            <>
-                              {statusList.slice(1, 3).map((status: any, index: number) => (
-                                <Dropdown.Item
-                                  key={index}
-                                  value={status.status}
-                                  className="flex items-center gap-2"
-                                  onClick={() => handleOnChangeStatus(item.userId, status.status)}
-                                >
-                                  <status.icon size={18} color={status.color} />
-
-                                  <span className={`text-[${status.color}]`}>{status.status}</span>
-                                </Dropdown.Item>
-                              ))}
-                            </>
-                          );
-                        } else if (item.status === 'BLOCKED') {
-                          const newArrray = statusList.filter(
-                            (item) => item.status === 'ACTIVE' || item.status === 'PENDING'
-                          );
-                          return (
-                            <>
-                              {newArrray.map((status: any, index: number) => (
-                                <Dropdown.Item
-                                  key={index}
-                                  value={status.status}
-                                  className="flex items-center gap-2"
-                                  onClick={() => handleOnChangeStatus(item.userId, status.status)}
-                                >
-                                  <status.icon size={18} color={status.color} />
-
-                                  <span className={`text-[${status.color}]`}>{status.status}</span>
-                                </Dropdown.Item>
-                              ))}
-                            </>
-                          );
-                        } else if (item.status === 'PENDING') {
-                          return (
-                            <>
-                              {statusList.slice(0, 2).map((status: any, index: number) => (
-                                <Dropdown.Item
-                                  key={index}
-                                  value={status.status}
-                                  className="flex items-center gap-2"
-                                  onClick={() => handleOnChangeStatus(item.userId, status.status)}
-                                >
-                                  <status.icon size={18} color={status.color} />
-
-                                  <span className={`text-[${status.color}]`}>{status.status}</span>
-                                </Dropdown.Item>
-                              ))}
-                            </>
-                          );
-                        }
-                      })()}
-                    </Dropdown>
-                  </Table.Cell>
-                </Table.Row>
-              );
-            }
+                  </Dropdown>
+                </Table.Cell>
+              </Table.Row>
+            );
           })}
         </Table.Body>
       </Table>

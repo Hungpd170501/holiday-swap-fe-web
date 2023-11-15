@@ -4,7 +4,7 @@ export default async function GetListUser(config: any = {}) {
   try {
     const { email } = config;
 
-    let apiUrl = `${process.env.API_URL}/users/search?limit=50&offset=0`;
+    let apiUrl = `${process.env.API_URL}/users/search?limit=10&offset=0&sortProps=id&sortDirection=desc`;
 
     if (email) {
       apiUrl += `&email=${email}`;
