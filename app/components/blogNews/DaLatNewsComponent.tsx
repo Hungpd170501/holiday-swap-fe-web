@@ -59,7 +59,7 @@ export default function DaLatNewsComponent() {
           </div>
           <div>
             Located in an area influenced by a tropical monsoon climate that varies with altitude,
-            Da Lat's climate is cool all year round and the temperature usually only fluctuates
+            Da Lat&aposs climate is cool all year round and the temperature usually only fluctuates
             between 18-25ºC, so you can travel to Da Lat . at any time period. You can rely on the
             blooming season as well as your favorite fruits to be able to enjoy them right away.
           </div>

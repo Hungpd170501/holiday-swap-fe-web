@@ -190,7 +190,6 @@ const StepsRating: React.FC = () => {
       <div>{Money[current].content}</div>
       <div className="">
         <button
-          onClick={apartmentReviewModal.onOpen}
           type="button"
           className="text-center border border-slate-700 rounded-lg text-xl py-3 px-6 hover:bg-gray-100 transition-all duration-300 transform active:scale-95"
         >
