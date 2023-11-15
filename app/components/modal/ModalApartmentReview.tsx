@@ -58,7 +58,7 @@ const ModalApartmentReview = () => {
       <div className="col-span-4">
         <div className="font-bold text-4xl">39 reviews</div>
         <div className="pt-5 flex flex-col overflow-x-hidden overflow-y-auto h-[75vh]">
-          {rating.content.map((item: any, index: number) => (
+          {rating?.content?.map((item: any, index: number) => (
             <ApartmentReivewBoxModal key={index} rating={item} />
           ))}
         </div>
