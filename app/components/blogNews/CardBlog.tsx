@@ -8,12 +8,12 @@ import Link from 'next/link';
 export default function CardBlog() {
   return (
     <div className="bg-white w-full h-auto ">
-      <div className="shadow-sm border border-gray-200 rounded-b-xl mb-10">
+      <div className="shadow-sm border border-gray-200 rounded-xl mb-10">
         <div className="overflow-hidden object-cover ">
           <img
-            src="/images/resort6.jpg"
+            src="/images/resort3.jpg"
             alt="img News"
-            className="w-[1080px] h-[380px] object-cover relative hover:scale-110 hover:transition-transform duration-500 hover:duration-500"
+            className="w-[1080px] rounded-t-lg h-[380px] object-cover relative hover:scale-110 hover:transition-transform duration-500 hover:duration-500"
           />
         </div>
         <div className="px-10 my-8 flex flex-col ">
@@ -43,17 +43,22 @@ export default function CardBlog() {
             friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my
             talents. I should be...
           </div>
-          <div className="bg-[#5C98F2] w-[130px] h-[51px] flex flex-row items-center justify-center rounded-md mt-5 text-white font-medium">
-            <Link href="./detailblog">Read More</Link>
+          <div>
+            <Link
+              className="bg-[#5C98F2] hover:bg-blue-600  w-[130px] h-[51px] flex flex-row items-center justify-center rounded-md mt-5 text-white font-medium"
+              href="./detailblog"
+            >
+              Read More
+            </Link>
           </div>
         </div>
       </div>
-      <div className="shadow-sm border border-gray-200 rounded-b-xl mb-10">
+      <div className="shadow-sm border border-gray-200 rounded-xl mb-10">
         <div className="overflow-hidden object-cover ">
           <img
-            src="/images/resort6.jpg"
+            src="/images/resort1.jpg"
             alt="img News"
-            className="w-[1080px] h-[380px] object-cover relative hover:scale-110 hover:transition-transform duration-500 hover:duration-500"
+            className="w-[1080px] rounded-t-lg h-[380px] object-cover relative hover:scale-110 hover:transition-transform duration-500 hover:duration-500"
           />
         </div>
         <div className="px-10 my-8 flex flex-col ">
@@ -83,17 +88,22 @@ export default function CardBlog() {
             friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my
             talents. I should be...
           </div>
-          <div className="bg-[#5C98F2] w-[130px] h-[51px] flex flex-row items-center justify-center rounded-md mt-5 text-white font-medium">
-            <Link href="./detailblog">Read More</Link>
+          <div>
+            <Link
+              className="bg-[#5C98F2] hover:bg-blue-600  w-[130px] h-[51px] flex flex-row items-center justify-center rounded-md mt-5 text-white font-medium"
+              href="./detailblog"
+            >
+              Read More
+            </Link>
           </div>
         </div>
       </div>
-      <div className="shadow-sm border border-gray-200 rounded-b-xl mb-10">
+      <div className="shadow-sm border border-gray-200 rounded-xl mb-10">
         <div className="overflow-hidden object-cover ">
           <img
-            src="/images/resort6.jpg"
+            src="/images/resort2.jpg"
             alt="img News"
-            className="w-[1080px] h-[380px] object-cover relative hover:scale-110 hover:transition-transform duration-500 hover:duration-500"
+            className="w-[1080px] rounded-t-lg h-[380px] object-cover relative hover:scale-110 hover:transition-transform duration-500 hover:duration-500"
           />
         </div>
         <div className="px-10 my-8 flex flex-col ">
@@ -123,8 +133,13 @@ export default function CardBlog() {
             friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my
             talents. I should be...
           </div>
-          <div className="bg-[#5C98F2] w-[130px] h-[51px] flex flex-row items-center justify-center rounded-md mt-5 text-white font-medium">
-            <Link href="./detailblog">Read More</Link>
+          <div>
+            <Link
+              className="bg-[#5C98F2] hover:bg-blue-600  w-[130px] h-[51px] flex flex-row items-center justify-center rounded-md mt-5 text-white font-medium"
+              href="./detailblog"
+            >
+              Read More
+            </Link>
           </div>
         </div>
       </div>
