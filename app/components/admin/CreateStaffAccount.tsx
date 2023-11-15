@@ -12,6 +12,7 @@ import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import toast from 'react-hot-toast';
 import { FileInput } from 'flowbite-react';
 import { format } from 'date-fns';
+import SelectRouterAdmin from './SelectRouterAdmin';
 
 export default function CreateStaffAccount() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -106,6 +107,7 @@ export default function CreateStaffAccount() {
         </span>{' '}
         {'>'} <span className="text-common">Create Staff</span>
       </div>
+      <SelectRouterAdmin />
       <div className="my-3">
         <div className="text-[20px] font-bold">Fill information of staff</div>
         <div className="pb-2 mt-6">Avatar*</div>
@@ -194,6 +196,7 @@ export default function CreateStaffAccount() {
           <Input id="fullName" label="Full name" register={register} errors={errors} required />
           <Input id="phone" label="Phone Number" register={register} errors={errors} required />
         </div>
+        S
       </div>
       <div className="flex flex-row justify-end w-full py-3">
         <button

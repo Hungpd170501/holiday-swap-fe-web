@@ -10,6 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Link from 'next/link';
 import DropdownDeleteResort from './DropdownDeleteResort';
+import SelectRouterStaff from './SelectRouterStaff';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -80,6 +81,7 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts }) => {
       <div className="mt-10">
         Dashboard {'>'} <span className="text-common">List resort</span>
       </div>
+      <SelectRouterStaff />
       <div className="text-common text-[20px] font-bold py-5 ">List Resort</div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">

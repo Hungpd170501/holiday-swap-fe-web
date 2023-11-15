@@ -52,7 +52,7 @@ export default function VungTauNews() {
           </div>
           <div className="text-[20px] font-bold py-3">Time to travel to Vung Tau</div>
           <div>
-            <Image src="./images/vung-tau2.jpg" />
+            <Image src="/images/vung-tau2.jpg" />
           </div>
           <div>
             In Vung Tau, it is tourist season all year round because the temperature is never too
@@ -75,7 +75,7 @@ export default function VungTauNews() {
           <div className="text-[20px] font-bold py-3">The main areas of Vung Tau tourism</div>
           <div className="font-bold pt-3 pb-2">Back Beach</div>
           <div>
-            <Image src="./images/vung-tau3.jpg" />
+            <Image src="/images/vung-tau3.jpg" />
           </div>
           <div className="py-3">
             Vung Tau Back Beach is famous for its beautiful coastline and few big waves, with many
@@ -86,7 +86,7 @@ export default function VungTauNews() {
           </div>
           <div className="font-bold pt-3 pb-2">Beach front</div>
           <div>
-            <Image src="./images/vung-tau4.jpg" />
+            <Image src="/images/vung-tau4.jpg" />
           </div>
           <div className="py-3">
             The center of Vung Tau city is located at Front Beach, where there are many high-rise
@@ -97,7 +97,7 @@ export default function VungTauNews() {
           </div>
           <div className="font-bold mt-3">Long Hai</div>
           <div>
-            <Image className="py-3" src="./images/vung-tau5.jpg" />
+            <Image className="py-3" src="/images/vung-tau5.jpg" />
           </div>
           <div className="">
             About 110km northeast of Ho Chi Minh City (equivalent to about 2 - 2.5 hours by
@@ -109,7 +109,7 @@ export default function VungTauNews() {
           </div>
           <div className="font-bold mt-3">Con Dao</div>
           <div>
-            <Image className="py-3" src="./images/vung-tau6.jpg" />
+            <Image className="py-3" src="/images/vung-tau6.jpg" />
           </div>
           <div>
             Con Dao is famous for its clear beaches, green coconut trees and white sand beaches that
@@ -119,7 +119,7 @@ export default function VungTauNews() {
           </div>
           <div className="font-bold mt-3">Vung Tau Museum</div>
           <div>
-            <Image className="py-3" src="./images/vung-tau7.jpg" />
+            <Image className="py-3" src="/images/vung-tau7.jpg" />
           </div>
           <div>
             Vung Tau Museum, also known by its full name, &quotBa Ria - Vung Tau Museum&quot, is
@@ -129,7 +129,7 @@ export default function VungTauNews() {
           </div>
           <div className="font-bold mt-3">Statue of God with outstretched arms</div>
           <div>
-            <Image className="py-3" src="./images/vung-tau8.jpg" />
+            <Image className="py-3" src="/images/vung-tau8.jpg" />
           </div>
           <div>
             Statue of Christ or Statue of God with arms outstretched standing on top of Nho Mountain

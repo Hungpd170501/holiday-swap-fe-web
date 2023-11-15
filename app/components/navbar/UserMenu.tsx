@@ -37,23 +37,27 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
       </div>
 
       {isOpen ? (
-        <div className="absolute rounded-xl shadow-md w-[40vw] md:w-52 bg-white overflow-hidden right-20 top-20 text-sm">
+        <div className="absolute rounded-xl shadow-md w-[40vw] md:w-52 border border-gray-300 bg-white overflow-hidden right-20 top-[78px] text-sm">
           <div className="flex flex-col cursor-pointer">
             <Fragment>
               {(() => {
                 if (currentUser?.role.roleId === 1) {
-                  return (
-                    <MenuItem onClick={() => handleRouter('/admin')} label="Dashboard Admin" />
-                  );
+                  return <MenuItem onClick={() => handleRouter('/admin')} label="Dashboard " />;
                 } else if (currentUser?.role.roleId === 2 || currentUser?.role.roleId === 4) {
-                  return <MenuItem onClick={() => handleRouter('/dashboard')} label="Dashboard" />;
-                } else if (currentUser?.role.roleId === 3) {
                   return (
-                    <MenuItem onClick={() => handleRouter('/staff')} label="Dashboard Staff" />
+                    <Fragment>
+                      <MenuItem onClick={() => handleRouter('/dashboard')} label="Dashboard" />
+                      <MenuItem onClick={() => handleRouter('/recharge')} label="Recharge" />
+                      <MenuItem
+                        onClick={() => handleRouter('/dashboard/myBooking')}
+                        label="My Booking"
+                      />
+                    </Fragment>
                   );
+                } else if (currentUser?.role.roleId === 3) {
+                  return <MenuItem onClick={() => handleRouter('/staff')} label="Dashboard " />;
                 }
               })()}
-              <MenuItem onClick={() => handleRouter('/recharge')} label="Recharge" />
               <hr />
               <MenuItem onClick={() => SignOutMiddle()} label="Logout" />
             </Fragment>

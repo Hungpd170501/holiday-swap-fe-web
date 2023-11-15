@@ -16,9 +16,11 @@ import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import Label from '@/shared/Label';
+
+import SelectRouterStaff from '@/app/components/staff/SelectRouterStaff';
 import Input from '@/shared/Input';
 import FormItem from '@/shared/FormItem';
+import Label from '@/shared/Label';
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoiaHVuZ3BkMTcwNTAxIiwiYSI6ImNsbmMycGJldjBoNWUyeXBnZXM3aXhhYXEifQ.H-6U4cHRC5mRfJKH4GI0qQ';
@@ -285,6 +287,7 @@ const CreateResort: React.FC<CreateResortProps> = ({ amenitiesArray, propertyTyp
         </span>{' '}
         {'>'} <span className="text-common">Create Resort</span>
       </div>
+      <SelectRouterStaff />
 
       <div className="mb-14 mt-5">
         <div className="mb-3">Upload Image*</div>
@@ -333,7 +336,7 @@ const CreateResort: React.FC<CreateResortProps> = ({ amenitiesArray, propertyTyp
           <Input
             placeholder="..."
             value={location?.context?.find((ctx) => ctx.id.startsWith('country.'))?.text}
-            onChange={(e) => setLocation((prevState) => handleCountryChange(e, prevState))}
+            onChange={(e: any) => setLocation((prevState) => handleCountryChange(e, prevState))}
           />
         </FormItem>
         <FormItem label="Address Line">
@@ -346,7 +349,7 @@ const CreateResort: React.FC<CreateResortProps> = ({ amenitiesArray, propertyTyp
               )
               .replace(`${location?.text ?? ''},`, '')
               .trim()}
-            onChange={(e) =>
+            onChange={(e: any) =>
               setLocation((prevState) => {
                 return {
                   ...prevState,
@@ -361,7 +364,9 @@ const CreateResort: React.FC<CreateResortProps> = ({ amenitiesArray, propertyTyp
             {locationContextLength && (
               <Input
                 value={location?.context[locationContextLength - 3]?.text ?? ''}
-                onChange={(e) => setLocation((prevState) => handleDistrictChange(e, prevState))}
+                onChange={(e: any) =>
+                  setLocation((prevState) => handleDistrictChange(e, prevState))
+                }
               />
             )}
           </FormItem>
@@ -369,14 +374,16 @@ const CreateResort: React.FC<CreateResortProps> = ({ amenitiesArray, propertyTyp
             {locationContextLength && (
               <Input
                 value={location?.context[locationContextLength - 2]?.text ?? ''}
-                onChange={(e) => setLocation((prevState) => handleProvinceChange(e, prevState))}
+                onChange={(e: any) =>
+                  setLocation((prevState) => handleProvinceChange(e, prevState))
+                }
               />
             )}
           </FormItem>
           <FormItem label="Postal code">
             <Input
               value={location?.context?.find((ctx) => ctx.id.startsWith('postcode.'))?.text}
-              onChange={(e) => setLocation((prevState) => handlePostcodeChange(e, prevState))}
+              onChange={(e: any) => setLocation((prevState) => handlePostcodeChange(e, prevState))}
             />
           </FormItem>
         </div>
@@ -384,7 +391,7 @@ const CreateResort: React.FC<CreateResortProps> = ({ amenitiesArray, propertyTyp
           <FormItem label="Longtitude">
             <Input
               value={location?.geometry?.coordinates?.[0]}
-              onChange={(e) =>
+              onChange={(e: any) =>
                 setLocation((prevState) => {
                   let lngLat = prevState?.geometry?.coordinates;
                   lngLat
@@ -404,7 +411,7 @@ const CreateResort: React.FC<CreateResortProps> = ({ amenitiesArray, propertyTyp
           <FormItem label="Latitude">
             <Input
               value={location?.geometry?.coordinates?.[1]}
-              onChange={(e) =>
+              onChange={(e: any) =>
                 setLocation((prevState) => {
                   let lngLat = prevState?.geometry?.coordinates;
                   lngLat

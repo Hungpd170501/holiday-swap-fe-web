@@ -60,7 +60,7 @@ export default function RechargeCard() {
   const handleCardClick = (index: number) => {
     if (clickedCard === index) {
       setClickedCard(-1);
-      setAmount(''); // Reset the amount to '0'
+      setAmount('');
     } else {
       setClickedCard(index);
       setAmount(cardData[index].amount.toString());

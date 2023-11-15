@@ -11,6 +11,7 @@ import ApartmentReivewBoxModal from './ApartmentReviewBoxModal';
 
 const ModalApartmentReview = () => {
   const apartmentReviewModal = useAparmentReviewModal();
+  const rating = apartmentReviewModal.rating;
 
   const bodyContent = (
     <div className="grid grid-cols-6 gap-5">
@@ -57,13 +58,9 @@ const ModalApartmentReview = () => {
       <div className="col-span-4">
         <div className="font-bold text-4xl">39 reviews</div>
         <div className="pt-5 flex flex-col overflow-x-hidden overflow-y-auto h-[75vh]">
-          <ApartmentReivewBoxModal />
-          <ApartmentReivewBoxModal />
-          <ApartmentReivewBoxModal />
-          <ApartmentReivewBoxModal />
-          <ApartmentReivewBoxModal />
-          <ApartmentReivewBoxModal />
-          <ApartmentReivewBoxModal />
+          {rating.content.map((item: any, index: number) => (
+            <ApartmentReivewBoxModal key={index} rating={item} />
+          ))}
         </div>
       </div>
     </div>

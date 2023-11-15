@@ -16,7 +16,7 @@ const TopDestinationCard = () => {
     <div className="flex flex-col gap-5 mt-10">
       <div className="flex flex-col gap-5 md:flex-row md:gap-5 xl:gap-8">
         <Link
-          href="vungtaunews"
+          href="/news/vungtaunews"
           className="flex flex-row items-end justify-center min-w-auto"
           onMouseEnter={() => setIsHoverdVT(true)}
           onMouseLeave={() => setIsHoverdVT(false)}
@@ -133,7 +133,8 @@ const TopDestinationCard = () => {
       </div>
 
       <div className="flex flex-col gap-5 md:flex-row md:gap-5 xl:gap-8">
-        <div
+        <Link
+          href="/news/daklaknews"
           className="flex flex-row items-end justify-center min-w-auto"
           onMouseEnter={() => setIsHoverdDakLak(true)}
           onMouseLeave={() => setIsHoverdDakLak(false)}
@@ -170,7 +171,7 @@ const TopDestinationCard = () => {
               <span className="pb-8 w-[200px] text-center">Dak Lak</span>
             )}
           </div>
-        </div>
+        </Link>
         <div
           className="flex flex-row items-end justify-center min-w-auto"
           onMouseEnter={() => setIsHoverdPT(true)}
