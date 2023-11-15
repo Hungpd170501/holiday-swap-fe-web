@@ -4,7 +4,11 @@ import TopDestinationCard from './TopDestinationCard';
 import { FaArrowRight } from 'react-icons/fa6';
 import CaroselResortAndApartment from './CaroselResortAndApartment';
 
-const TopDestination = () => {
+interface TopDestinationProps {
+  listResort: any;
+}
+
+const TopDestination: React.FC<TopDestinationProps> = ({ listResort }) => {
   return (
     <div className="py-32 flex flex-col items-center">
       <div className="md:text-5xl text-3xl font-bold">
@@ -17,7 +21,7 @@ const TopDestination = () => {
       </div> */}
 
       {/* Carosel resort & apartment */}
-      <CaroselResortAndApartment />
+      <CaroselResortAndApartment listResort={listResort} />
       <div className="flex gap-4 items-center my-10 p-2 border-b-2 border-slate-600 hover:border-[#5C98F2] cursor-pointer">
         All Destination
         <FaArrowRight size={15} />

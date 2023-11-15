@@ -9,9 +9,17 @@ import StepsRating from './StepsRating';
 import StepsApartment from './StepsApartment';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
-export default function UsersProfileComponent() {
+interface UsersProfileComponentProps {
+  userDetail: any;
+}
+
+const UsersProfileComponent: React.FC<UsersProfileComponentProps> = ({ userDetail }) => {
   const router = useRouter();
+  const params = useSearchParams();
+  const rating = JSON.parse(params?.get('rating') as string);
+
   return (
     <Container className="py-36 bg-white">
       <div className="flex flex-row w-full gap-20">
@@ -22,14 +30,14 @@ export default function UsersProfileComponent() {
                 width={100}
                 height={100}
                 className="rounded-full"
-                src="/images/avt.jpg"
+                src={userDetail?.avatar || '/images/placeholder.jpg'}
                 alt="avatar"
               />
-              <div className="font-bold text-[25px] py-3">Thanh Kien</div>
+              <div className="font-bold text-xl py-3 text-center">{userDetail?.fullName}</div>
             </div>
             <div className="flex flex-col gap-2">
               <div>
-                <div className="font-bold text-[20px]">91</div>
+                <div className="font-bold text-[20px]">{rating.content.length}</div>
                 <div className="text-[12px]">Ratings</div>
               </div>
               <div className="bg-gray-400 w-full h-[1px]"></div>
@@ -107,4 +115,6 @@ export default function UsersProfileComponent() {
       </div>
     </Container>
   );
-}
+};
+
+export default UsersProfileComponent;

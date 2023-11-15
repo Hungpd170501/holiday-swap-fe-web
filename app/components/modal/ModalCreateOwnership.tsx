@@ -1,12 +1,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import Input from '../input/Input';
-import Modal from './Modal';
 import { toast } from 'react-hot-toast';
-import useCreatePlanModal from '@/app/hooks/useCreatePlanModal';
 import { Select, Textarea, Label, FileInput } from 'flowbite-react';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import { useSession } from 'next-auth/react';
@@ -66,6 +64,7 @@ export default function ModalCreateOwnership() {
     setFile((prevFiles) => prevFiles.filter((_, i) => i !== index));
     setPreviewImages((prevImages) => prevImages.filter((image) => image.index !== index));
   };
+
   const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
       return null;

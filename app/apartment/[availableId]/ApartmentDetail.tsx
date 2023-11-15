@@ -93,6 +93,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
             apartment={apartment}
             dateOut={dateOut}
             dateRange={dateRange}
+            rating={rating}
             dateRangeDefault={dateRangeDefault}
             handleChangeDateRange={handleChangeDateRange}
           />

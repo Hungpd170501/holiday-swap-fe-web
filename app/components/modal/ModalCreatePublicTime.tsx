@@ -14,6 +14,9 @@ import axios from 'axios';
 import useCreatePublicTimeModal from '@/app/hooks/useCreatePublicTimeModal';
 import CalendarAparment from '@/app/apartment/CalendarAparment';
 import { startOfWeek, endOfWeek, format, addDays, addMonths, subDays } from 'date-fns';
+import dayjs from 'dayjs';
+import isoWeek from 'dayjs/plugin/isoWeek';
+import weekday from 'dayjs/plugin/weekday';
 
 const initialDateRange = {
   startDate: new Date(),
@@ -51,8 +54,12 @@ export default function ModalCreatePublicTime() {
     const endDate = new Date(startDate);
     endDate.setDate(startDate.getDate() + 6); // A week is 7 days
 
-    setDateRange({ ...dateRange, startDate: new Date(startDate), endDate: new Date(endDate) });
-    setPublicDateRange({...publicDateRange, startDate: new Date(startDate), endDate: new Date(endDate)})
+    setDateRange({ ...dateRange, startDate: startDate, endDate: endDate });
+    setPublicDateRange({
+      ...publicDateRange,
+      startDate: startDate,
+      endDate: endDate,
+    });
   };
 
   const getDatesOutsideDateRange = (dateRange: any) => {
@@ -78,11 +85,19 @@ export default function ModalCreatePublicTime() {
     setTimeFramesId(value);
   };
 
-  const handleChangeDateRangeWeek = () => {
+  useEffect(() => {
     if (timeFramesWeekNumber) {
+      console.log('Check week', timeFramesWeekNumber);
       getWeekDates(timeFramesWeekNumber, 2024);
     }
-  };
+  }, [timeFramesWeekNumber]);
+
+  useEffect(() => {
+    if (dateRange) {
+      const newDateOUt = getDatesOutsideDateRange(dateRange);
+      setDateOut(newDateOUt);
+    }
+  }, [dateRange]);
 
   const {
     register,
@@ -142,11 +157,6 @@ export default function ModalCreatePublicTime() {
       };
       fetchData();
     }
-
-    if (timeFramesId) {
-      const newDateOUt = getDatesOutsideDateRange(dateRange);
-      setDateOut(newDateOUt);
-    }
   }, [timeFramesId]);
 
   const bodyContent = (
@@ -157,7 +167,6 @@ export default function ModalCreatePublicTime() {
           value={timeFramesId}
           onChange={(e: ChangeEvent<HTMLSelectElement>) => {
             handleChangeTimeFrameId(e.target.value);
-            handleChangeDateRangeWeek();
           }}
         >
           <option value="">Any</option>

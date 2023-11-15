@@ -23,6 +23,7 @@ interface ApartmentDetailBodyProps {
   dateOut: any;
   handleChangeDateRange: (value: any) => void;
   dateRangeDefault: any;
+  rating: any;
 }
 
 const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
@@ -31,6 +32,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
   dateOut,
   handleChangeDateRange,
   dateRangeDefault,
+  rating,
 }) => {
   const apartmentAmenitiesModal = useAparmentAmenitiesModal();
   const { dateRangeContext, setDateRangeContext } = useDateRange();
@@ -197,7 +199,12 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
 
       <div className="flex flex-row w-full gap-5 py-8">
         <div className="w-[60%]">
-          <Link href="/usersprofile" className="flex flex-row items-center gap-2">
+          <div
+            onClick={() =>
+              router.push(`/usersprofile/${apartment.user.userId}?rating=${JSON.stringify(rating)}`)
+            }
+            className="flex flex-row items-center gap-2"
+          >
             <div>
               <Image
                 className="rounded-full cursor-pointer"
@@ -213,11 +220,11 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
               </div>
               <div>Joins November 10, 2023</div>
             </div>
-          </Link>
+          </div>
           <div className="mt-3">
             <div className="flex flex-row items-center gap-2">
               <AiFillStar size={20} color="orange" />
-              <div className="text-gray-700">39 Reviews</div>
+              <div className="text-gray-700">{rating?.content?.length} Reviews</div>
             </div>
             <div className="flex flex-row items-center gap-2">
               <BsShieldFillCheck size={20} color="green" />
@@ -265,17 +272,5 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
     </div>
   );
 };
-
-interface MarkerProps {
-  text?: number;
-  lat?: number;
-  lng?: number;
-}
-
-const Marker: React.FC<MarkerProps> = ({ text }) => (
-  <span className="flex px-1 py-1 rounded-lg bg-white dark:bg-neutral-900 text-sm font-semibold items-center justify-center min-w-max shadow-lg hover:bg-neutral-900 hover:text-white dark:hover:bg-white dark:hover:text-neutral-900 transition-colors">
-    <span>Point:{text}</span>
-  </span>
-);
 
 export default ApartmentDetailBody;

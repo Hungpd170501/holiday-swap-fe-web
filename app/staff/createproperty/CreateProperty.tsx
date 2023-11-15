@@ -24,12 +24,14 @@ interface CreatePropertyProps {
   propertyTypes: any;
   propertyViews: any;
   inRoomAmenities: any;
+  listResort: any;
 }
 
 const CreateProperty: React.FC<CreatePropertyProps> = ({
   propertyTypes,
   propertyViews,
   inRoomAmenities,
+  listResort,
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -37,6 +39,7 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
   const [step, setStep] = useState(STEPS.BEDS);
   const [propertyTypeValue, setPropertyTypeValue] = useState<any>();
   const [propertyViewValue, setPropertyViewValue] = useState<any>();
+  const [resortIdValue, setResortIdValue] = useState<any>();
   const [file, setFile] = useState<any[]>([]);
 
   const handleChange = (e: any) => {
@@ -82,6 +85,10 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
     setCustomeValue('inRoomAmenities', value);
   };
 
+  const handelChangeResortId = (value: any) => {
+    setCustomeValue('resortId', value);
+  };
+
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     if (step !== STEPS.SIZE) {
       return onNext();
@@ -102,7 +109,7 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
       numberBedsRoom: data.numberBedsRoom,
       numberBathRoom: data.numberBathRoom,
       roomSize: data.roomSize,
-      resortId: 1,
+      resortId: data.resortId,
       propertyTypeId: propertyTypeValue,
       propertyViewId: propertyViewValue,
       inRoomAmenities: data.inRoomAmenities,
@@ -201,6 +208,16 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
             label="Size"
             placeholder="30"
           />
+          <div className="w-full py-4 grid grid-cols-1 gap-4">
+            <Select label="Select Resort" value={resortIdValue} onChange={handelChangeResortId}>
+              {listResort.content.map((item: any, index: any) => (
+                <Option value={item.id} key={item.id}>
+                  {item.resortName}
+                </Option>
+              ))}
+            </Select>
+          </div>
+
           <div className="w-full py-4 grid grid-cols-2 gap-4">
             <Select
               label="Select Property Type"
