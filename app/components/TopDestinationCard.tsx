@@ -174,7 +174,8 @@ const TopDestinationCard = () => {
             )}
           </div>
         </Link>
-        <div
+        <Link
+          href="/news/phanthietnews"
           className="flex flex-row items-end justify-center min-w-auto"
           onMouseEnter={() => setIsHoverdPT(true)}
           onMouseLeave={() => setIsHoverdPT(false)}
@@ -211,8 +212,9 @@ const TopDestinationCard = () => {
               <span className="pb-8">Phan Thiet</span>
             )}
           </div>
-        </div>
-        <div
+        </Link>
+        <Link
+          href="/news/gialainews"
           className="flex flex-row items-end justify-center min-w-auto"
           onMouseEnter={() => setIsHoverdGL(true)}
           onMouseLeave={() => setIsHoverdGL(false)}
@@ -249,7 +251,7 @@ const TopDestinationCard = () => {
               <span className="pb-8 w-[200px] text-center">Gia Lai</span>
             )}
           </div>
-        </div>
+        </Link>
       </div>
     </div>
   );

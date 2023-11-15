@@ -1,13 +1,13 @@
 'use client';
 import { Image } from 'antd';
+import Link from 'next/link';
 import React, { useState } from 'react';
 
 export default function DakLakNews() {
   const [isHoverdHCM, setIsHoverdHCM] = useState(false);
   const [isHoverDakLak, setIsHoverdDakLak] = useState(false);
   const [isHoverPT, setIsHoverdPT] = useState(false);
-  const [isHoverGL, setIsHoverdGL] = useState(false);
-  const [isHoverDL, setIsHoverdDL] = useState(false);
+  const [isHoverdVT, setIsHoverdVT] = useState(false);
 
   return (
     <div className="pt-32 pb-5 px-2 xl:px-40 flex flex-row justify-center w-full ">
@@ -228,7 +228,8 @@ export default function DakLakNews() {
           </div>
         </div>
         <div className=" hidden lg:hidden md:hidden xl:h-[1300px] xl:block ">
-          <div
+          <Link
+            href="/news/hcmnews"
             className="flex flex-row items-end justify-center min-w-auto mb-5"
             onMouseEnter={() => setIsHoverdHCM(true)}
             onMouseLeave={() => setIsHoverdHCM(false)}
@@ -265,16 +266,17 @@ export default function DakLakNews() {
                 <span className="pb-8">Ho Chi Minh</span>
               )}
             </div>
-          </div>
+          </Link>
 
-          <div
+          <Link
+            href="/news/vungtaunews"
             className="flex flex-row items-end justify-center min-w-auto mb-5"
-            onMouseEnter={() => setIsHoverdDakLak(true)}
-            onMouseLeave={() => setIsHoverdDakLak(false)}
+            onMouseEnter={() => setIsHoverdVT(true)}
+            onMouseLeave={() => setIsHoverdVT(false)}
           >
             <div className={isHoverDakLak ? 'opacity-90' : ''}>
               <img
-                src="/images/dak-lak.jpg"
+                src="/images/vung-tau.jpg"
                 alt="destination"
                 height={421}
                 width={600}
@@ -284,12 +286,12 @@ export default function DakLakNews() {
 
             <div
               className={`text-white md:text-3xl md:px-[153px] text-lg px-[80px] flex flex-col items-center font-bold absolute ${
-                isHoverDakLak ? '-translate-y-14 duration-300' : 'translate-y-0 duration-300'
+                isHoverdVT ? '-translate-y-14 duration-300' : 'translate-y-0 duration-300'
               }`}
             >
-              {isHoverDakLak ? (
+              {isHoverdVT ? (
                 <>
-                  <span>Dak Lak</span>
+                  <span>Vung Tau</span>
                   <div className="text-base font-light text-white flex flex-col justify-center items-center">
                     <span className="flex items-center justify-center text-[15px] w-full text-center  md:flex md:justify-center md:w-[200px] md:text-center lg:flex lg:justify-center lg:w-[300px] lg:text-center xl:flex xl:justify-center xl:w-auto xl:text-center xl:px-4">
                       Far far away, behind the word mountains, far from the countries Vokalia and
@@ -301,11 +303,12 @@ export default function DakLakNews() {
                   </div>
                 </>
               ) : (
-                <span className="pb-8 w-[200px] text-center">Dak Lak</span>
+                <span className="pb-8 w-[200px] text-center">Vung Tau</span>
               )}
             </div>
-          </div>
-          <div
+          </Link>
+          <Link
+            href="/news/phanthietnews"
             className="flex flex-row items-end justify-center min-w-auto"
             onMouseEnter={() => setIsHoverdPT(true)}
             onMouseLeave={() => setIsHoverdPT(false)}
@@ -342,7 +345,7 @@ export default function DakLakNews() {
                 <span className="pb-8">Phan Thiet</span>
               )}
             </div>
-          </div>
+          </Link>
         </div>
       </div>
     </div>

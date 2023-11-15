@@ -1,5 +1,6 @@
 'use client';
 import { Image } from 'antd';
+import Link from 'next/link';
 import React, { useState } from 'react';
 
 export default function DaLatNewsComponent() {
@@ -206,7 +207,8 @@ export default function DaLatNewsComponent() {
           </div>
         </div>
         <div className=" hidden lg:hidden md:hidden xl:h-[1300px] xl:block ">
-          <div
+          <Link
+            href="/news/hcmnews"
             className="flex flex-row items-end justify-center min-w-auto mb-5"
             onMouseEnter={() => setIsHoverdHCM(true)}
             onMouseLeave={() => setIsHoverdHCM(false)}
@@ -243,9 +245,10 @@ export default function DaLatNewsComponent() {
                 <span className="pb-8">Ho Chi Minh</span>
               )}
             </div>
-          </div>
+          </Link>
 
-          <div
+          <Link
+            href="/news/daklaknews"
             className="flex flex-row items-end justify-center min-w-auto mb-5"
             onMouseEnter={() => setIsHoverdDakLak(true)}
             onMouseLeave={() => setIsHoverdDakLak(false)}
@@ -282,8 +285,9 @@ export default function DaLatNewsComponent() {
                 <span className="pb-8 w-[200px] text-center">Dak Lak</span>
               )}
             </div>
-          </div>
-          <div
+          </Link>
+          <Link
+            href="/news/phanthietnews"
             className="flex flex-row items-end justify-center min-w-auto"
             onMouseEnter={() => setIsHoverdPT(true)}
             onMouseLeave={() => setIsHoverdPT(false)}
@@ -320,7 +324,7 @@ export default function DaLatNewsComponent() {
                 <span className="pb-8">Phan Thiet</span>
               )}
             </div>
-          </div>
+          </Link>
         </div>
       </div>
     </div>
