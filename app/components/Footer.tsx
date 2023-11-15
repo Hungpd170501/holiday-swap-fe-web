@@ -13,13 +13,13 @@ export default function Footer() {
             </div>
             <div className="text-[#5C98F2] text-[25px]">Swap</div>
           </div>
-          <Image
+          {/* <Image
             width={80}
             height={80}
             className=" mb-6 md:w-10 md:h-10 md:rounded-full md:mt-3 "
             src="/images/logo.png"
             alt="logo"
-          />
+          /> */}
         </div>
         <div className="flex flex-col overflow-hidden">
           <div className="text-white text-[25px] mb-[25px]">Contact</div>
