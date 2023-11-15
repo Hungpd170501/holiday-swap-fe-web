@@ -4,7 +4,6 @@ import {
   BtnBulletList,
   BtnClearFormatting,
   BtnItalic,
-  BtnLink,
   BtnNumberedList,
   BtnRedo,
   BtnStrikeThrough,
@@ -19,7 +18,7 @@ import {
 } from 'react-simple-wysiwyg';
 
 export default function RichTextComponent() {
-  const [value, setValue] = useState('simple text');
+  const [value, setValue] = useState('');
 
   function onChange(e: any) {
     setValue(e.target.value);
@@ -44,7 +43,6 @@ export default function RichTextComponent() {
           <BtnNumberedList />
           <BtnBulletList />
           <Separator />
-          <BtnLink />
           <BtnClearFormatting />
           <HtmlButton />
           <Separator />
