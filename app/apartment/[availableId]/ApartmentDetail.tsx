@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import ApartmentDetailHeader from './ApartmentDetailHeader';
 import ApartmentDetailBody from './ApartmentDetailBody';
 import CalendarAparment from '../CalendarAparment';
@@ -9,6 +9,8 @@ import { addDays, addMonths, subDays } from 'date-fns';
 import ApartmentReivew from './ApartmentReivew';
 import ApartmentReivewBox from './ApartmentReivewBox';
 import useAparmentReviewModal from '@/app/hooks/useApartmentReviewModal';
+import { useParams, useSearchParams } from 'next/navigation';
+import axios from 'axios';
 
 interface ApartmentDetailProps {
   apartment?: any;
@@ -22,8 +24,12 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     key: 'selection',
   };
   const apartmentReviewModal = useAparmentReviewModal();
+  const params = useSearchParams();
+  const propertyId = params?.get('propertyId');
+  const roomId = params?.get('roomId');
 
   const [dateRange, setDateRange] = useState(initialDateRange);
+  const [rating, setRating] = useState<any>();
   const [apartmentAllowGuest, setApartmentAllowGuest] = useState(
     apartment.property.numberKingBeds * 2 +
       apartment.property.numberQueenBeds * 2 +
@@ -62,6 +68,18 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     setDateRange(value.selection);
   };
 
+  useEffect(() => {
+    if (propertyId && roomId) {
+      const fetchRating = async () => {
+        const rating = await axios.get(
+          `https://holiday-swap.click/api/v1/rating?propertyId=${propertyId}&roomId=${roomId}&pageNo=0&pageSize=10&sortDirection=asc&sortBy=id`
+        );
+        setRating(rating.data);
+      };
+      fetchRating();
+    }
+  }, [propertyId, roomId]);
+
   return (
     <div className="lg:mx-1 xl:mx-16 py-20">
       <div className="flex flex-col">
@@ -91,28 +109,35 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
         </div>
       </div>
 
-      <div className="py-20 border-b border-gray-500">
-        <ApartmentReivew />
-      </div>
+      {rating && rating.content.length > 0 ? (
+        <Fragment>
+          <div className="py-20 border-b border-gray-500">
+            <ApartmentReivew apartment={apartment} rating={rating} />
+          </div>
 
-      <div className="py-20 grid grid-cols-1 md:grid-cols-2 gap-10">
-        <ApartmentReivewBox />
-        <ApartmentReivewBox />
-        <ApartmentReivewBox />
-        <ApartmentReivewBox />
-        <ApartmentReivewBox />
-        <ApartmentReivewBox />
+          <div className="py-20 grid grid-cols-1 md:grid-cols-2 gap-10">
+            {rating.content.slice(0, 6).map((item: any, index: number) => (
+              <ApartmentReivewBox key={index} rating={item} />
+            ))}
 
-        <div className="">
-          <button
-            onClick={apartmentReviewModal.onOpen}
-            type="button"
-            className="text-center border border-slate-700 rounded-lg text-xl py-3 px-6 hover:bg-gray-100 transition-all duration-300 transform active:scale-95"
-          >
-            Show all 39 reviews
-          </button>
+            {rating.content.length > 6 && (
+              <div className="">
+                <button
+                  onClick={() => apartmentReviewModal.onOpen(rating)}
+                  type="button"
+                  className="text-center border border-slate-700 rounded-lg text-xl py-3 px-6 hover:bg-gray-100 transition-all duration-300 transform active:scale-95"
+                >
+                  Show all {rating.content.length} reviews
+                </button>
+              </div>
+            )}
+          </div>
+        </Fragment>
+      ) : (
+        <div className="py-20 border-b border-gray-500 text-2xl text-bold text-black">
+          No reviews (yet)
         </div>
-      </div>
+      )}
     </div>
   );
 };

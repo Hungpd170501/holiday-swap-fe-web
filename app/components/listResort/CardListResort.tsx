@@ -23,7 +23,11 @@ const CardListResort: React.FC<CardListResortProps> = ({ data }) => {
           {data?.property.propertyImage.slice(0, 5).map((item: any) => (
             <div key={item.id} className="w-full h-full ">
               <Image
-                onClick={() => route.push(`/apartment/${data.availableTime.id}`)}
+                onClick={() =>
+                  route.push(
+                    `/apartment/${data.availableTime.id}?propertyId=${data.coOwnerId.propertyId}&roomId=${data.coOwnerId.roomId}`
+                  )
+                }
                 src={item.link}
                 alt="destination"
                 fill
@@ -34,7 +38,14 @@ const CardListResort: React.FC<CardListResortProps> = ({ data }) => {
         </Carousel>
       </div>
       <div className="flex flex-row justify-between py-3 ">
-        <div onClick={() => route.push(`/apartment/${data.availableTime.id}`)} className="w-full ">
+        <div
+          onClick={() =>
+            route.push(
+              `/apartment/${data.availableTime.id}?propertyId=${data.coOwnerId.propertyId}&roomId=${data.coOwnerId.roomId}`
+            )
+          }
+          className="w-full "
+        >
           <div className="text-base font-bold">{data?.property.propertyName}</div>
           <div className="text-gray-600 text-base ">{data?.resort.resortName}</div>
           <div className="text-gray-600 text-base">Owner by: {data?.user.username}</div>

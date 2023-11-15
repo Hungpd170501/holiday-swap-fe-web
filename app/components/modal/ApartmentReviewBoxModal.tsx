@@ -4,40 +4,36 @@ import Image from 'next/image';
 import React from 'react';
 import ReactStars from 'react-stars';
 
-const ApartmentReivewBoxModal = () => {
+interface AparmtnetReviewBoxModalProps {
+  rating: any;
+}
+
+const ApartmentReivewBoxModal: React.FC<AparmtnetReviewBoxModalProps> = ({ rating }) => {
   return (
     <div className="flex flex-col py-4">
       <div className="flex flex-row items-center gap-2">
         <Image
-          src="/images/placeholder.jpg"
-          width={30}
-          height={30}
+          src={rating?.user?.avatar || '/images/placeholder.jpg'}
+          width={50}
+          height={50}
           alt="Avatar"
           className="rounded-full object-cover"
         />
         <div className="flex flex-col">
-          <p className="text-black text-sm">Phu Hung</p>
-          <p className="text-slate-400 text-sm">6 years on HolidaySwap</p>
+          <p className="text-black text-base">
+            {rating?.ratingType === 'PRIVATE' ? 'Anonymous users' : rating?.user?.fullName}
+          </p>
+          <p className="text-slate-400 text-base">6 years on HolidaySwap</p>
         </div>
       </div>
 
       <div className="flex flex-row items-center gap-2">
-        <ReactStars count={5} size={10} color2="black" value={4} />
+        <ReactStars count={5} size={15} color2="black" value={rating?.rating} />
         <div>·</div>
-        <div className="text-xs text-black">3 weeks ago</div>
+        <div className="text-sm text-black">3 weeks ago</div>
       </div>
 
-      <div className="text-sm font-normal">
-        I feel like at home when I stay at Mingshus house. I like to chat with her lovely 7 year-
-        old son. The location is very good: near grocery stores and bus stop (5min walk) and
-        Cricklewood underground station (10min walk). The room is cozy and clean, my deluxe double
-        room has a nice view. I had a pleasant stay in Greater London. I will book Mingshus house
-        again if I travel to London next time. I feel like at home when I stay at Mingshus house. I
-        like to chat with her lovely 7 year- old son. The location is very good: near grocery stores
-        and bus stop (5min walk) and Cricklewood underground station (10min walk). The room is cozy
-        and clean, my deluxe double room has a nice view. I had a pleasant stay in Greater London. I
-        will book Mingshus house again if I travel to London next time.
-      </div>
+      <div className="text-base font-normal line-clamp-3">{rating?.comment}</div>
     </div>
   );
 };

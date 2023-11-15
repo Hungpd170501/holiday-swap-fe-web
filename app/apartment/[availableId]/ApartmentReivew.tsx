@@ -4,38 +4,61 @@ import React from 'react';
 import { AiFillStar } from 'react-icons/ai';
 import { Progress } from 'antd';
 
-const ApartmentReivew = () => {
+interface ApartmentReviewProps {
+  apartment: any;
+  rating: any;
+}
+
+const ApartmentReivew: React.FC<ApartmentReviewProps> = ({ apartment, rating }) => {
+  const percenFiveStar = Number(
+    (rating.content.filter((item: any) => item.rating === 5).length / rating.content.length) * 100
+  );
+  const percenFourStar = Number(
+    (rating.content.filter((item: any) => item.rating === 4).length / rating.content.length) * 100
+  );
+  const percenThreeStar = Number(
+    (rating.content.filter((item: any) => item.rating === 3).length / rating.content.length) * 100
+  );
+  const percenTwoStar = Number(
+    (rating.content.filter((item: any) => item.rating === 2).length / rating.content.length) * 100
+  );
+  const percenOneStar = Number(
+    (rating.content.filter((item: any) => item.rating === 1).length / rating.content.length) * 100
+  );
+
   return (
     <div className="flex flex-col gap-2 w-60">
       <div className="flex flex-row items-center gap-1">
         <AiFillStar size={30} />
-        <div className="text-2xl font-bold">4.82 · 39 reviews</div>
+        <div className="text-2xl font-bold">
+          {apartment?.property?.rating} · {rating?.content?.length} reviews
+        </div>
       </div>
 
       <div className="flex flex-col w-full">
         <div className="flex flex-row gap-2">
           <div className="w-2">5</div>
-          <Progress percent={45} showInfo={false} size="small" strokeColor="black" />
+          <Progress percent={percenFiveStar} showInfo={false} size="small" strokeColor="black" />
         </div>
 
         <div className="flex flex-row gap-2">
           <div className="w-2">4</div>
-          <Progress percent={45} showInfo={false} size="small" strokeColor="black" />
+          <Progress percent={percenFourStar} showInfo={false} size="small" strokeColor="black" />
         </div>
 
         <div className="flex flex-row gap-2">
           <div className="w-2">3</div>
-          <Progress percent={45} showInfo={false} size="small" strokeColor="black" />
+          <Progress percent={percenThreeStar} showInfo={false} size="small" strokeColor="black" />
         </div>
 
         <div className="flex flex-row gap-2">
           <div className="w-2">2</div>
-          <Progress percent={45} showInfo={false} size="small" strokeColor="black" />
+          <Progress percent={percenTwoStar} showInfo={false} size="small" strokeColor="black" />
         </div>
 
         <div className="flex flex-row gap-2">
           <div className="w-2">1</div>
-          <Progress percent={45} showInfo={false} size="small" strokeColor="black" />
+          <Progress percent={percenOneStar} showInfo={false} size="small" strokeColor="black" />
         </div>
       </div>
     </div>

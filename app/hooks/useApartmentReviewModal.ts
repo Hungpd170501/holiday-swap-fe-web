@@ -2,13 +2,15 @@ import { create } from 'zustand';
 
 interface AparmentReviewModalStore {
   isOpen: boolean;
-  onOpen: () => void;
+  rating: any;
+  onOpen: (rating: any) => void;
   onClose: () => void;
 }
 
 const useAparmentReviewModal = create<AparmentReviewModalStore>((set) => ({
   isOpen: false,
-  onOpen: () => set({ isOpen: true }),
+  rating: null,
+  onOpen: (rating: any) => set({ isOpen: true, rating: rating }),
   onClose: () => set({ isOpen: false }),
 }));
 
