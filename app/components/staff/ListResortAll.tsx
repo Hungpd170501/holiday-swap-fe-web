@@ -102,6 +102,12 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts }) => {
               >
                 Property Type
               </StyledTableCell>
+              <StyledTableCell
+                className="!bg-white !text-black !text-[17px] !font-semibold"
+                align="left"
+              >
+                Status
+              </StyledTableCell>
               {/* <StyledTableCell
                 className="!bg-white !text-black !text-[17px] !font-semibold"
                 align="left"
@@ -125,13 +131,14 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts }) => {
                     {row.resortName}
                   </Link>
                 </StyledTableCell>
-                <StyledTableCell className="!py-5 !text-common" align="right">
-                  {row.address}
-                </StyledTableCell>
+                <StyledTableCell>{row.addressLine}</StyledTableCell>
                 <StyledTableCell className="!py-5 " align="left">
                   {row.propertyTypes.map((item: any, index: number) => (
                     <div key={index}>{item.propertyTypeName}</div>
                   ))}
+                </StyledTableCell>
+                <StyledTableCell className="!py-5 " align="left">
+                  Active
                 </StyledTableCell>
                 {/* <StyledTableCell className="!py-5 " align="left">
                   {row?.resortAmenityTypes?.map((item: any, index: number) => (

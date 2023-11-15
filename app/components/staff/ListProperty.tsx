@@ -123,7 +123,6 @@ export default function ListProperty() {
             </div>
           </div>
         ))}
-        S
       </div>
       <div className="mt-5 flex items-center justify-center">
         <ul className="flex items-center">
