@@ -23,6 +23,7 @@ import ModalEditPoint from './components/modal/ModalEditPoint';
 import ModalCreatePublicTime from './components/modal/ModalCreatePublicTime';
 import ModalApartmentReview from './components/modal/ModalApartmentReview';
 import ModalWriteBlog from './components/modal/ModalWriteBlog';
+import ModalCreateReview from './components/modal/ModalCreateReview';
 
 const font = Poppins({
   subsets: ['latin'],
@@ -60,6 +61,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   <ModalEditPoint />
                   <ModalCreatePublicTime />
                   <ModalApartmentReview />
+                  <ModalCreateReview />
                   <ToasterProvider />
                 </ClientOnly>
 

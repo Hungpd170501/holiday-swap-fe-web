@@ -11,6 +11,7 @@ import ApartmentReivewBox from './ApartmentReivewBox';
 import useAparmentReviewModal from '@/app/hooks/useApartmentReviewModal';
 import { useParams, useSearchParams } from 'next/navigation';
 import axios from 'axios';
+import ApartmentDetailMap from './ApartmentDetailMap';
 
 interface ApartmentDetailProps {
   apartment?: any;
@@ -72,7 +73,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     if (propertyId && roomId) {
       const fetchRating = async () => {
         const rating = await axios.get(
-          `https://holiday-swap.click/api/v1/rating?propertyId=${propertyId}&roomId=${roomId}&pageNo=0&pageSize=10&sortDirection=asc&sortBy=id`
+          `https://holiday-swap.click/api/v1/rating?propertyId=${propertyId}&roomId=${roomId}&pageNo=0&pageSize=9999&sortDirection=asc&sortBy=id`
         );
         setRating(rating.data);
       };
@@ -109,28 +110,35 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
         </div>
       </div>
 
+      <div className="py-20 border-b border-gray-500">
+        <ApartmentDetailMap apartment={apartment} />
+      </div>
+
       {rating && rating.content.length > 0 ? (
         <Fragment>
-          <div className="py-20 border-b border-gray-500">
-            <ApartmentReivew apartment={apartment} rating={rating} />
-          </div>
+          <div className="grid grid-cols-6 py-20">
+            <div className="pb-5 col-span-2">
+              <ApartmentReivew apartment={apartment} rating={rating} />
+            </div>
+            <div className="col-span-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                {rating.content.slice(0, 6).map((item: any, index: number) => (
+                  <ApartmentReivewBox key={index} rating={item} />
+                ))}
 
-          <div className="py-20 grid grid-cols-1 md:grid-cols-2 gap-10">
-            {rating.content.slice(0, 6).map((item: any, index: number) => (
-              <ApartmentReivewBox key={index} rating={item} />
-            ))}
-
-            {rating.content.length > 6 && (
-              <div className="">
-                <button
-                  onClick={() => apartmentReviewModal.onOpen(rating)}
-                  type="button"
-                  className="text-center border border-slate-700 rounded-lg text-xl py-3 px-6 hover:bg-gray-100 transition-all duration-300 transform active:scale-95"
-                >
-                  Show all {rating.content.length} reviews
-                </button>
+                {rating.content.length > 6 && (
+                  <div className="">
+                    <button
+                      onClick={() => apartmentReviewModal.onOpen(rating, apartment)}
+                      type="button"
+                      className="text-center border border-slate-700 rounded-lg text-xl py-3 px-6 hover:bg-gray-100 transition-all duration-300 transform active:scale-95"
+                    >
+                      Show all {rating.content.length} reviews
+                    </button>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         </Fragment>
       ) : (

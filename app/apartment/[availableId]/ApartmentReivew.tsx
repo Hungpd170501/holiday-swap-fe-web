@@ -29,36 +29,36 @@ const ApartmentReivew: React.FC<ApartmentReviewProps> = ({ apartment, rating }) 
   return (
     <div className="flex flex-col gap-2 w-60">
       <div className="flex flex-row items-center gap-1">
-        <AiFillStar size={30} />
+        <AiFillStar size={30} color="orange" />
         <div className="text-2xl font-bold">
-          {apartment?.property?.rating} · {rating?.content?.length} reviews
+          {apartment?.property?.rating.toFixed(2)} · {rating?.content?.length} reviews
         </div>
       </div>
 
       <div className="flex flex-col w-full">
         <div className="flex flex-row gap-2">
           <div className="w-2">5</div>
-          <Progress percent={percenFiveStar} showInfo={false} size="small" strokeColor="black" />
+          <Progress percent={percenFiveStar} showInfo={false} size="small" strokeColor="orange" />
         </div>
 
         <div className="flex flex-row gap-2">
           <div className="w-2">4</div>
-          <Progress percent={percenFourStar} showInfo={false} size="small" strokeColor="black" />
+          <Progress percent={percenFourStar} showInfo={false} size="small" strokeColor="orange" />
         </div>
 
         <div className="flex flex-row gap-2">
           <div className="w-2">3</div>
-          <Progress percent={percenThreeStar} showInfo={false} size="small" strokeColor="black" />
+          <Progress percent={percenThreeStar} showInfo={false} size="small" strokeColor="orange" />
         </div>
 
         <div className="flex flex-row gap-2">
           <div className="w-2">2</div>
-          <Progress percent={percenTwoStar} showInfo={false} size="small" strokeColor="black" />
+          <Progress percent={percenTwoStar} showInfo={false} size="small" strokeColor="orange" />
         </div>
 
         <div className="flex flex-row gap-2">
           <div className="w-2">1</div>
-          <Progress percent={percenOneStar} showInfo={false} size="small" strokeColor="black" />
+          <Progress percent={percenOneStar} showInfo={false} size="small" strokeColor="orange" />
         </div>
       </div>
     </div>

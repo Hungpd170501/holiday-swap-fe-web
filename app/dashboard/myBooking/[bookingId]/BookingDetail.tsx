@@ -4,6 +4,7 @@ import { differenceInDays, format } from 'date-fns';
 import Image from 'next/image';
 import React from 'react';
 import { Card } from 'flowbite-react';
+import useCreateReviewModal from '@/app/hooks/useCreateReviewModal';
 
 interface BookingDetailProps {
   bookingDetail: any;
@@ -18,6 +19,8 @@ const BookingDetail: React.FC<BookingDetailProps> = ({ bookingDetail, ownerUser,
     const nightDifference = differenceInDays(end, start);
     return nightDifference;
   };
+
+  const createReviewModal = useCreateReviewModal();
 
   return (
     <div className="grid md:grid-cols-2 py-8 gap-10">
@@ -61,6 +64,16 @@ const BookingDetail: React.FC<BookingDetailProps> = ({ bookingDetail, ownerUser,
         <div className="py-3">
           <div className="text-xl">{bookingDetail?.propertyName}</div>
           <div className="text-slate-400">Description</div>
+        </div>
+
+        <div className="py-3">
+          <button
+            onClick={createReviewModal.onOpen}
+            type="button"
+            className="p-3 rounded-md bg-common hover:bg-hover text-white text-lg"
+          >
+            Review
+          </button>
         </div>
       </div>
 

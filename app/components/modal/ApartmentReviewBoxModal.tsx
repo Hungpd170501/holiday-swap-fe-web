@@ -28,7 +28,7 @@ const ApartmentReivewBoxModal: React.FC<AparmtnetReviewBoxModalProps> = ({ ratin
       </div>
 
       <div className="flex flex-row items-center gap-2">
-        <ReactStars count={5} size={15} color2="black" value={rating?.rating} />
+        <ReactStars count={5} size={15} color2="orange" value={rating?.rating} />
         <div>·</div>
         <div className="text-sm text-black">3 weeks ago</div>
       </div>
