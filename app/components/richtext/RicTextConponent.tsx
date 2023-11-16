@@ -18,37 +18,42 @@ import {
 } from 'react-simple-wysiwyg';
 
 export default function RichTextComponent() {
-  const [value, setValue] = useState('');
-
+  const [value, setValue] = useState('fghfgh');
+  function onsubmit() {
+    console.log(value);
+  }
   function onChange(e: any) {
     setValue(e.target.value);
   }
 
   return (
-    <EditorProvider>
-      <Editor
-        className=" pt-5 flex flex-col overflow-x-hidden overflow-y-auto h-[75vh]"
-        value={value}
-        onChange={onChange}
-      >
-        <Toolbar>
-          <BtnUndo />
-          <BtnRedo />
-          <Separator />
-          <BtnBold />
-          <BtnItalic />
-          <BtnUnderline />
-          <BtnStrikeThrough />
-          <Separator />
-          <BtnNumberedList />
-          <BtnBulletList />
-          <Separator />
-          <BtnClearFormatting />
-          <HtmlButton />
-          <Separator />
-          <BtnStyles />
-        </Toolbar>
-      </Editor>
-    </EditorProvider>
+    <>
+      <EditorProvider>
+        <Editor
+          className=" pt-5 flex flex-col overflow-x-hidden overflow-y-auto h-[75vh]"
+          value={value}
+          onChange={onChange}
+        >
+          <Toolbar>
+            <BtnUndo />
+            <BtnRedo />
+            <Separator />
+            <BtnBold />
+            <BtnItalic />
+            <BtnUnderline />
+            <BtnStrikeThrough />
+            <Separator />
+            <BtnNumberedList />
+            <BtnBulletList />
+            <Separator />
+            <BtnClearFormatting />
+            <HtmlButton />
+            <Separator />
+            <BtnStyles />
+          </Toolbar>
+        </Editor>
+      </EditorProvider>
+      <button onClick={onsubmit}>Post</button>
+    </>
   );
 }

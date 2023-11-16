@@ -320,7 +320,7 @@ const CreateResort: React.FC<CreateResortProps> = ({ amenitiesArray, propertyTyp
         <div className=" flex flex-row mb-14">
           <div className="w-[277px] text-gray-700">Description</div>
           <textarea
-            className="w-full"
+            className="w-full rounded-md   border-2 border-gray-500"
             // label="Description*"
             {...register('resortDescription')}
             id="resortDescription"

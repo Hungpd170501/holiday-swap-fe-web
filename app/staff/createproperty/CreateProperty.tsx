@@ -2,9 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
-import InputCreateResort from '../createresort/InputCreateResort';
 import { useForm, FieldValues, SubmitHandler } from 'react-hook-form';
-import { Select, Option } from '@material-tailwind/react';
+// import { Select, Option } from '@material-tailwind/react';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import toast from 'react-hot-toast';
 import { peoples, sizes } from '@/app/components/register/RegisterBody';
@@ -14,6 +13,7 @@ import ButtonRegister from '@/app/components/register/BtnRegister';
 import Input from '@/app/components/input/Input';
 import InputInRoomAmenities from './InputInRoomAmenities';
 import SelectRouterStaff from '@/app/components/staff/SelectRouterStaff';
+import { Select } from 'antd';
 
 enum STEPS {
   BEDS = 0,
@@ -189,7 +189,7 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
             errors={errors}
             type="text"
             id="propertyName"
-            label="Property Name"
+            label="Property Name*"
             placeholder="Property Name"
           />
           <Input
@@ -197,7 +197,7 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
             errors={errors}
             type="text"
             id="propertyDescription"
-            label="Property Description"
+            label="Property Description*"
             placeholder="Property Description"
           />
           <Input
@@ -205,43 +205,69 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
             errors={errors}
             type="number"
             id="roomSize"
-            label="Size"
+            label="Size*"
             placeholder="30"
           />
-          <div className="w-full py-4 grid grid-cols-1 gap-4">
-            <Select label="Select Resort" value={resortIdValue} onChange={handelChangeResortId}>
+
+          <div className="mt-8 mb-5 w-full">
+            <div>Select resort*</div>
+            <Select
+              className="w-full h-[44px] border-2 border-gray-400 rounded-md focus:border-transparent"
+              value={resortIdValue}
+              onChange={handelChangeResortId}
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input: string, option?: { children: string }) =>
+                (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+              }
+            >
               {listResort.content.map((item: any, index: any) => (
-                <Option value={item.id} key={item.id}>
+                <Select.Option value={item.id} key={item.id}>
                   {item.resortName}
-                </Option>
+                </Select.Option>
               ))}
             </Select>
           </div>
 
           <div className="w-full py-4 grid grid-cols-2 gap-4">
-            <Select
-              label="Select Property Type"
-              value={propertyTypeValue}
-              onChange={handleChangePropertyType}
-            >
-              {propertyTypes.map((item: any, index: any) => (
-                <Option value={item.id} key={item.id}>
-                  {item.propertyTypeName}
-                </Option>
-              ))}
-            </Select>
-
-            <Select
-              label="Select Property View"
-              value={propertyViewValue}
-              onChange={handleChangePropertyView}
-            >
-              {propertyViews.map((item: any, index: any) => (
-                <Option value={item.id} key={item.id}>
-                  {item.propertyViewName}
-                </Option>
-              ))}
-            </Select>
+            <div>
+              <div>Select property types*</div>
+              <Select
+                className="w-full h-[44px] border-2 border-gray-400 rounded-md "
+                value={propertyTypeValue}
+                onChange={handleChangePropertyType}
+                showSearch
+                optionFilterProp="children"
+                filterOption={(input: string, option?: { children: string }) =>
+                  (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+              >
+                {propertyTypes.map((item: any, index: any) => (
+                  <Select.Option value={item.id} key={item.id}>
+                    {item.propertyTypeName}
+                  </Select.Option>
+                ))}
+              </Select>
+            </div>
+            <div>
+              <div>Select property view*</div>
+              <Select
+                className="w-full h-[44px] border-2 border-gray-400 rounded-md "
+                value={propertyViewValue}
+                onChange={handleChangePropertyView}
+                showSearch
+                optionFilterProp="children"
+                filterOption={(input: string, option?: { children: string }) =>
+                  (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+              >
+                {propertyViews.map((item: any, index: any) => (
+                  <Select.Option value={item.id} key={item.id}>
+                    {item.propertyViewName}
+                  </Select.Option>
+                ))}
+              </Select>
+            </div>
           </div>
 
           <div>

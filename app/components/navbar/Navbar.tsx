@@ -58,6 +58,13 @@ const Navbar: React.FC<NavbarProps> = ({ onClick }) => {
 
           <div className="pt-6 flex flex-col justify-center">
             <div className="text-white py-5 border-b-[1px] border-white">Home</div>
+            <Link
+              href="/dashboard"
+              className="text-white py-5 border-b-[1px] border-white"
+              onClick={closeNavbar}
+            >
+              Dashboard
+            </Link>{' '}
             <div className="text-white py-5 border-b-[1px] border-white">Destination</div>
             <Link
               href="/apartment"

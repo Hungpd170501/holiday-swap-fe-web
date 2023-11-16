@@ -55,7 +55,23 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                     </Fragment>
                   );
                 } else if (currentUser?.role.roleId === 3) {
-                  return <MenuItem onClick={() => handleRouter('/staff')} label="Dashboard " />;
+                  return (
+                    <Fragment>
+                      <MenuItem onClick={() => handleRouter('/staff')} label="Dashboard " />
+                      <MenuItem
+                        onClick={() => handleRouter('/staff/createresort')}
+                        label="Create resort"
+                      />
+                      <MenuItem
+                        onClick={() => handleRouter('/staff/createproperty')}
+                        label="Create property"
+                      />
+                      <MenuItem
+                        onClick={() => handleRouter('/staff/listapproveOwnership')}
+                        label="Approve ownership"
+                      />
+                    </Fragment>
+                  );
                 }
               })()}
               <hr />

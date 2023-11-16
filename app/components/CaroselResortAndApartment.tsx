@@ -22,7 +22,7 @@ const Money = [
       return (
         <div className="grid grid-cols-3 md:grid-cols-5 gap-5 h-[350px]">
           {listResort?.content.slice(0, 1).map((item: any, index: number) => (
-            <Fragment>
+            <Fragment key={index}>
               <Link
                 href="#"
                 className=" border border-gray-300 rounded-md relative cursor-pointer hover:-translate-y-2 hover:duration-500 translate-y-0 duration-500"
@@ -36,6 +36,7 @@ const Money = [
 
               {data.data.content.slice(0, 4).map((item: any, index: number) => (
                 <Link
+                  key={index}
                   href="#"
                   className=" relative border border-gray-300 rounded-md cursor-pointer hover:-translate-y-2 hover:duration-500 translate-y-0 duration-500"
                 >
