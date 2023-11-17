@@ -11,39 +11,82 @@ import type { ColumnType, ColumnsType } from 'antd/es/table';
 import type {
   FilterConfirmProps,
   FilterValue,
+  SorterResult,
   TablePaginationConfig,
 } from 'antd/es/table/interface';
 
 import axios from '@/app/libs/axios';
+import { blue, red } from '@mui/material/colors';
 export default function ListProperty() {
-  const [properties, setProperties] = useState<DataType[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [properties, setProperties] = useState<PropertyType[]>();
+  const [resort, setResort] = useState<ResortType[]>();
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef<InputRef>(null);
-  const [tableParams,  setTableParams] = useState<TableParams>({
+  const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
       current: 1,
       pageSize: 10,
       total: 0,
       showSizeChanger: true,
-      showQuickJumper : true
+      showQuickJumper: true,
+      defaultCurrent: 1,
     },
   });
   useEffect(() => {
     fetchProperties();
-  }, []);
+  }, [JSON.stringify(tableParams)]);
+  const handleTableChange = (
+    pagination: TablePaginationConfig,
+    filters: Record<string, FilterValue>,
+    sorter: SorterResult<PropertyType>
+  ) => {
+    setTableParams({
+      pagination,
+      filters,
+      sorter,
+    });
+
+    // `dataSource` is useless since `pageSize` changed
+    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
+      setProperties([]);
+    }
+  };
   const fetchProperties = () => {
-    let url = 'https://holiday-swap.click/api/v1/properties';
+    console.log('filters: ', tableParams.filters);
+    let url = 'http://localhost:8080/api/v1/properties';
+    let resortId = `?resortId={s}`;
+    let propertyName = `&propertyName=${tableParams.filters?.propertyName ?? ''}`;
+    let status = `&status=${tableParams.filters?.status ?? ''}`;
+    let isDeleted = `&isDeleted=${tableParams.filters?.isDeleted ?? ''}`;
+    let pageNo = `?pageNo=${
+      tableParams.pagination?.current !== undefined ? tableParams.pagination.current - 1 : 0
+    }`;
+    let pageSize = `&pageSize=${tableParams.pagination?.pageSize ?? ''}`;
+    let sortDirection = `&sortDirection=${
+      tableParams.sorter?.order == 'ascend' ? 'asc' : 'desc' ?? ''
+    }`;
+    let sortBy = `&sortBy=${tableParams.sorter?.columnKey ?? ''}`;
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: url,
+      url: url
+        .concat(pageNo)
+        .concat(pageSize)
+        .concat(sortBy)
+        .concat(sortDirection)
+        .concat(isDeleted)
+        .concat(propertyName)
+        .concat(status),
       headers: {},
     };
 
+    setLoading(true);
     axios
       .request(config)
       .then((response) => {
+        setLoading(false);
         console.log('content: ', response.data);
         setProperties(response.data.content);
         setTableParams({
@@ -75,7 +118,7 @@ export default function ListProperty() {
     setSearchText('');
   };
 
-  const getColumnSearchProps = (dataIndex: DataIndex): ColumnType<DataType> => ({
+  const getColumnSearchProps = (dataIndex: DataIndex): ColumnType<PropertyType> => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
       <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
         <Input
@@ -88,7 +131,6 @@ export default function ListProperty() {
         />
         <Space>
           <Button
-            type="primary"
             onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
             icon={<SearchOutlined />}
             size="small"
@@ -97,6 +139,7 @@ export default function ListProperty() {
             Search
           </Button>
           <Button
+            danger
             onClick={() => clearFilters && handleReset(clearFilters)}
             size="small"
             style={{ width: 90 }}
@@ -129,11 +172,11 @@ export default function ListProperty() {
     filterIcon: (filtered: boolean) => (
       <SearchOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
     ),
-    onFilter: (value, record) =>
-      record[dataIndex]
-        .toString()
-        .toLowerCase()
-        .includes((value as string).toLowerCase()),
+    // onFilter: (value, record) =>
+    //   record[dataIndex]
+    //     .toString()
+    //     .toLowerCase()
+    //     .includes((value as string).toLowerCase()),
     onFilterDropdownOpenChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.current?.select(), 100);
@@ -152,24 +195,28 @@ export default function ListProperty() {
       ),
   });
 
-  const columns: ColumnsType<DataType> = [
+  const columns: ColumnsType<PropertyType> = [
+    // {
+    //   title: 'id',
+    //   dataIndex: 'id',
+    //   key: 'id',
+    //   sorter: true,
+    // },
     {
-      title: 'propertyName',
+      title: 'Property Name',
       dataIndex: 'propertyName',
       key: 'propertyName',
-      // width: '20%',
+
       ...getColumnSearchProps('propertyName'),
+      sorter: true,
     },
     {
-      title: 'propertyDescription',
+      title: 'Property Description',
       dataIndex: 'propertyDescription',
       key: 'propertyDescription',
-      ...getColumnSearchProps('propertyDescription'),
-      // sorter: (a, b) => a.address.length - b.address.length,
-      // sortDirections: ['descend', 'ascend'],
     },
     {
-      title: 'isDeleted',
+      title: 'Is Deleted',
       dataIndex: 'isDeleted',
       key: 'isDeleted',
       filters: [
@@ -196,32 +243,58 @@ export default function ListProperty() {
       },
     },
     {
-      title: 'status',
+      title: 'Status',
       dataIndex: 'status',
       key: 'status',
+      filterMode: 'tree',
       filters: [
         {
-          text: 'ACTIVE',
+          text: 'Active',
           value: 'ACTIVE',
         },
         {
-          text: 'DEACTIVATE',
+          text: 'Deactivate',
           value: 'DEACTIVATE',
         },
         {
-          text: 'NO_LONGER_IN_BUSINESS',
+          text: 'No Longer In Business',
           value: 'NO_LONGER_IN_BUSINESS',
         },
       ],
       // onFilter: (value: string, record) => record.address.indexOf(value) === 0,
     },
     {
-      title: 'resortId',
-      dataIndex: 'resortId',
-      key: 'resortId',
+      title: 'Resort',
+      dataIndex: 'resort',
+      key: 'resort',
+      render: (resort) => `${resort.resortName}`,
+      sorter: true,
+      filterMode: 'tree',
+      filterSearch: true,
+      filters: [
+        {
+          text: 'Active',
+          value: 'ACTIVE',
+        },
+        {
+          text: 'Deactivate',
+          value: 'DEACTIVATE',
+        },
+        {
+          text: 'No Longer In Business',
+          value: 'NO_LONGER_IN_BUSINESS',
+        },
+      ],
     },
     {
       title: 'Action',
+      render: (_, record) => (
+        <Space size="middle">
+          <a>Detail</a>
+          <a>Edit</a>
+          <a>Delete</a>
+        </Space>
+      ),
     },
   ];
   return (
@@ -234,12 +307,20 @@ export default function ListProperty() {
       </div>
       <SelectRouterStaff />
       <div>
-        <Table columns={columns} dataSource={properties} pagination={tableParams.pagination} />
+        <Table
+          columns={columns}
+          dataSource={properties}
+          pagination={tableParams.pagination}
+          loading={loading}
+          onChange={(pagination: any, filters: any, sorter: any) =>
+            handleTableChange(pagination, filters, sorter)
+          }
+        />
       </div>
     </div>
   );
 }
-interface DataType {
+interface PropertyType {
   id: number;
   propertyName: string;
   propertyDescription: string;
@@ -257,32 +338,63 @@ interface DataType {
   isDeleted: boolean;
   status: string;
   resortId: number;
+  resort: {
+    id: number;
+    resortName: string;
+    resortDescription: string;
+    status: string;
+    resortImages: [
+      {
+        id: number;
+        resortId: number;
+        link: string;
+        deleted: boolean;
+      }
+    ];
+    propertyTypes: [
+      {
+        id: number;
+        propertyTypeName: string;
+        propertyTypeDescription: string;
+        deleted: boolean;
+      }
+    ];
+
+    addressLine: string;
+    locationFormattedName: string;
+    locationDescription: string;
+    locationCode: string;
+    postalCode: string;
+    latitude: number;
+    longitude: number;
+    deleted: boolean;
+  };
   propertyType: {
-    id: 0;
-    propertyTypeName: 'string';
-    propertyTypeDescription: 'string';
-    deleted: true;
+    id: number;
+    propertyTypeName: string;
+    propertyTypeDescription: string;
+    deleted: boolean;
   };
   propertyView: {
-    id: 0;
-    propertyViewName: 'string';
-    propertyViewDescription: 'string';
-    deleted: true;
+    id: number;
+    propertyViewName: string;
+    propertyViewDescription: string;
+    deleted: boolean;
   };
   inRoomAmenityType: [
     {
-      id: 0;
-      inRoomAmenityTypeName: 'string';
-      inRoomAmenityTypeDescription: 'string';
-      isDeleted: true;
+      id: number;
+      inRoomAmenityTypeName: string;
+      inRoomAmenityTypeDescription: string;
+      isDeleted: boolean;
       inRoomAmenities: [
         {
-          id: 0;
-          inRoomAmenityName: 'string';
-          inRoomAmenityDescription: 'string';
-          inRoomAmenityLinkIcon: 'string';
-          isDeleted: true;
-          inRoomAmenityTypeId: 0;
+          id: number;
+          inRoomAmenityName: string;
+          inRoomAmenityDescription: string;
+          inRoomAmenityLinkIcon: string;
+          isDeleted: boolean;
+          inRoomAmenityTypeId: number;
         }
       ];
     }
@@ -301,6 +413,10 @@ interface TableParams {
   pagination?: TablePaginationConfig;
   sortField?: string;
   sortOrder?: string;
+  defaultCurrent?: number;
+  pageSizeOptions?: string[] | number[];
   filters?: Record<string, FilterValue>;
+  sorter?: SorterResult<PropertyType>;
 }
-type DataIndex = keyof DataType;
+type DataIndex = keyof PropertyType;
+interface ResortType {}
