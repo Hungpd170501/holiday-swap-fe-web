@@ -1,84 +1,229 @@
 'use client';
-import Link from 'next/link';
-import React, { useState } from 'react';
-import { Pagination } from 'antd';
 import SelectRouterStaff from './SelectRouterStaff';
+import Link from 'next/link';
+import React, { useEffect, useRef, useState } from 'react';
+import { SearchOutlined } from '@ant-design/icons';
+
+import Highlighter from 'react-highlight-words';
+import type { InputRef } from 'antd';
+import { Button, Input, Space, Table, Tag } from 'antd';
+import type { ColumnType, ColumnsType } from 'antd/es/table';
+import type {
+  FilterConfirmProps,
+  FilterValue,
+  TablePaginationConfig,
+} from 'antd/es/table/interface';
+
+import axios from '@/app/libs/axios';
 export default function ListProperty() {
-  const resortsPerPage = 6;
-  const [currentPage, setCurrentPage] = useState(1);
+  const [properties, setProperties] = useState<DataType[]>([]);
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
+  const searchInput = useRef<InputRef>(null);
+  const [tableParams,  setTableParams] = useState<TableParams>({
+    pagination: {
+      current: 1,
+      pageSize: 10,
+      total: 0,
+      showSizeChanger: true,
+      showQuickJumper : true
+    },
+  });
+  useEffect(() => {
+    fetchProperties();
+  }, []);
+  const fetchProperties = () => {
+    let url = 'https://holiday-swap.click/api/v1/properties';
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: url,
+      headers: {},
+    };
 
-  const ListResort = [
-    {
-      id: 1,
-      name: 'Resort 1',
-      des: ' Đây là đoạn mô tả của resort 1 Đây là đoạn mô tả của resort 1 Đây là đoạn mô tả của resort 1 Đây là đoạn mô tả của resort 1',
-      button: 'View more',
-    },
-    {
-      id: 2,
-      name: 'Resort 2',
-      des: ' Đây là đoạn mô tả của resort 1 Đây là đoạn mô tả của resort 2 Đây là đoạn mô tả của resort 1 Đây là đoạn mô tả của resort 1',
-      button: 'View more',
-    },
-    {
-      id: 3,
-      name: 'Resort 3',
-      des: ' Đây là đoạn mô tả của resort 1 Đây là đoạn mô tả của resort 3 Đây là đoạn mô tả của resort 1 Đây là đoạn mô tả của resort 1',
-      button: 'View more',
-    },
-    {
-      id: 4,
-      name: 'Resort 4',
-      des: ' Đây là đoạn mô tả của resort 1 Đây là đoạn mô tả của resort 4 Đây là đoạn mô tả của resort 1 Đây là đoạn mô tả của resort 1',
-      button: 'View more',
-    },
-    {
-      id: 5,
-      name: 'Resort 4',
-      des: ' Đây là đoạn mô tả của resort 1 Đây là đoạn mô tả của resort 4 Đây là đoạn mô tả của resort 1 Đây là đoạn mô tả của resort 1',
-      button: 'View more',
-    },
-    {
-      id: 6,
-      name: 'Resort 4',
-      des: ' Đây là đoạn mô tả của resort 1 Đây là đoạn mô tả của resort 4 Đây là đoạn mô tả của resort 1 Đây là đoạn mô tả của resort 1',
-      button: 'View more',
-    },
-    {
-      id: 7,
-      name: 'Resort 4',
-      des: ' Đây là đoạn mô tả của resort 1 Đây là đoạn mô tả của resort 4 Đây là đoạn mô tả của resort 1 Đây là đoạn mô tả của resort 1',
-      button: 'View more',
-    },
-    {
-      id: 8,
-      name: 'Resort 4',
-      des: ' Đây là đoạn mô tả của resort 1 Đây là đoạn mô tả của resort 4 Đây là đoạn mô tả của resort 1 Đây là đoạn mô tả của resort 1',
-      button: 'View more',
-    },
-    {
-      id: 9,
-      name: 'Resort 4',
-      des: ' Đây là đoạn mô tả của resort 1 Đây là đoạn mô tả của resort 4 Đây là đoạn mô tả của resort 1 Đây là đoạn mô tả của resort 1',
-      button: 'View more',
-    },
-    {
-      id: 10,
-      name: 'Resort 4',
-      des: ' Đây là đoạn mô tả của resort 1 Đây là đoạn mô tả của resort 4 Đây là đoạn mô tả của resort 1 Đây là đoạn mô tả của resort 1',
-      button: 'View more',
-    },
-  ];
-  const indexOfLastResort = currentPage * resortsPerPage;
-  const indexOfFirstResort = indexOfLastResort - resortsPerPage;
-  const currentResorts = ListResort.slice(indexOfFirstResort, indexOfLastResort);
-
-  const totalPages = Math.ceil(ListResort.length / resortsPerPage);
-
-  const paginate = (pageNumber: any) => {
-    setCurrentPage(pageNumber);
+    axios
+      .request(config)
+      .then((response) => {
+        console.log('content: ', response.data);
+        setProperties(response.data.content);
+        setTableParams({
+          ...tableParams,
+          pagination: {
+            ...tableParams.pagination,
+            total: response.data.totalElements,
+            // 200 is mock data, you should read it from server
+            // total: data.totalCount,
+          },
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const handleSearch = (
+    selectedKeys: string[],
+    confirm: (param?: FilterConfirmProps) => void,
+    dataIndex: DataIndex
+  ) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
   };
 
+  const handleReset = (clearFilters: () => void) => {
+    clearFilters();
+    setSearchText('');
+  };
+
+  const getColumnSearchProps = (dataIndex: DataIndex): ColumnType<DataType> => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+      <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+          style={{ marginBottom: 8, display: 'block' }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({ closeDropdown: false });
+              setSearchText((selectedKeys as string[])[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filter
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            close
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered: boolean) => (
+      <SearchOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes((value as string).toLowerCase()),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ''}
+        />
+      ) : (
+        text
+      ),
+  });
+
+  const columns: ColumnsType<DataType> = [
+    {
+      title: 'propertyName',
+      dataIndex: 'propertyName',
+      key: 'propertyName',
+      // width: '20%',
+      ...getColumnSearchProps('propertyName'),
+    },
+    {
+      title: 'propertyDescription',
+      dataIndex: 'propertyDescription',
+      key: 'propertyDescription',
+      ...getColumnSearchProps('propertyDescription'),
+      // sorter: (a, b) => a.address.length - b.address.length,
+      // sortDirections: ['descend', 'ascend'],
+    },
+    {
+      title: 'isDeleted',
+      dataIndex: 'isDeleted',
+      key: 'isDeleted',
+      filters: [
+        {
+          text: 'True',
+          value: 'true',
+        },
+        {
+          text: 'False',
+          value: 'false',
+        },
+      ],
+      // onFilter: (value: string, record) => record.address.indexOf(value) === 0,
+      render: (isDeleted) => {
+        let color = isDeleted == true ? 'red' : 'green';
+        // if (tag === 'loser') {
+        //   color = 'volcano';
+        // }
+        return (
+          <Tag color={color} key={isDeleted}>
+            {isDeleted.toString().toUpperCase()}
+          </Tag>
+        );
+      },
+    },
+    {
+      title: 'status',
+      dataIndex: 'status',
+      key: 'status',
+      filters: [
+        {
+          text: 'ACTIVE',
+          value: 'ACTIVE',
+        },
+        {
+          text: 'DEACTIVATE',
+          value: 'DEACTIVATE',
+        },
+        {
+          text: 'NO_LONGER_IN_BUSINESS',
+          value: 'NO_LONGER_IN_BUSINESS',
+        },
+      ],
+      // onFilter: (value: string, record) => record.address.indexOf(value) === 0,
+    },
+    {
+      title: 'resortId',
+      dataIndex: 'resortId',
+      key: 'resortId',
+    },
+    {
+      title: 'Action',
+    },
+  ];
   return (
     <div>
       <div className="mt-8 mb-10">
@@ -88,82 +233,74 @@ export default function ListProperty() {
         </div>
       </div>
       <SelectRouterStaff />
-      <div className="grid grid-cols-3 gap-5">
-        {currentResorts.map((resort) => (
-          <div
-            key={resort.id}
-            className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
-          >
-            <div className="p-5">
-              <div className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                {resort.name}
-              </div>
-              <div className="mb-3 font-normal text-gray-700 dark:text-gray-400">{resort.des}</div>
-              <Link
-                href="./listpropertyinresort"
-                className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                {resort.button}
-                <svg
-                  className="w-3.5 h-3.5 ml-2"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 5h12m0 0L9 1m4 4L9 9"
-                  />
-                </svg>
-              </Link>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="mt-5 flex items-center justify-center">
-        <ul className="flex items-center">
-          <li
-            className={`mr-2 ${currentPage === 1 ? 'hidden' : 'text-blue-700 hover:text-blue-900'}`}
-          >
-            <button
-              onClick={() => paginate(currentPage - 1)}
-              className="focus:outline-none  bg-common rounded-md px-5 py-2 text-white hover:bg-blue-600"
-            >
-              Previous
-            </button>
-          </li>
-          {Array.from({ length: totalPages }).map((_, index) => (
-            <li
-              key={index}
-              className={`mr-2 ${
-                currentPage === index + 1
-                  ? 'text-blue-700 font-bold'
-                  : 'text-gray-600 hover:text-blue-700'
-              }`}
-            >
-              <button onClick={() => paginate(index + 1)} className="focus:outline-none">
-                {index + 1}
-              </button>
-            </li>
-          ))}
-          <li
-            className={`ml-2 ${
-              currentPage === totalPages ? 'hidden' : 'text-blue-700 hover:text-blue-900'
-            }`}
-          >
-            <button
-              onClick={() => paginate(currentPage + 1)}
-              className="focus:outline-none bg-common rounded-md px-5 py-2 text-white hover:bg-blue-600"
-            >
-              Next
-            </button>
-          </li>
-        </ul>
+      <div>
+        <Table columns={columns} dataSource={properties} pagination={tableParams.pagination} />
       </div>
     </div>
   );
 }
+interface DataType {
+  id: number;
+  propertyName: string;
+  propertyDescription: string;
+  numberKingBeds: number;
+  numberQueenBeds: number;
+  numberSingleBeds: number;
+  numberDoubleBeds: number;
+  numberTwinBeds: number;
+  numberFullBeds: number;
+  numberSofaBeds: number;
+  numberMurphyBeds: number;
+  numberBedsRoom: number;
+  numberBathRoom: number;
+  roomSize: number;
+  isDeleted: boolean;
+  status: string;
+  resortId: number;
+  propertyType: {
+    id: 0;
+    propertyTypeName: 'string';
+    propertyTypeDescription: 'string';
+    deleted: true;
+  };
+  propertyView: {
+    id: 0;
+    propertyViewName: 'string';
+    propertyViewDescription: 'string';
+    deleted: true;
+  };
+  inRoomAmenityType: [
+    {
+      id: 0;
+      inRoomAmenityTypeName: 'string';
+      inRoomAmenityTypeDescription: 'string';
+      isDeleted: true;
+      inRoomAmenities: [
+        {
+          id: 0;
+          inRoomAmenityName: 'string';
+          inRoomAmenityDescription: 'string';
+          inRoomAmenityLinkIcon: 'string';
+          isDeleted: true;
+          inRoomAmenityTypeId: 0;
+        }
+      ];
+    }
+  ];
+  propertyImage: [
+    {
+      id: number;
+      propertyId: number;
+      link: string;
+      deleted: boolean;
+    }
+  ];
+  rating: number;
+}
+interface TableParams {
+  pagination?: TablePaginationConfig;
+  sortField?: string;
+  sortOrder?: string;
+  filters?: Record<string, FilterValue>;
+}
+type DataIndex = keyof DataType;
