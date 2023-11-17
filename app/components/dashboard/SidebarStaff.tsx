@@ -93,7 +93,7 @@ const SidebarStaff = () => {
       <div className="hidden lg:flex lg:min-h-full lg:rounded-md lg:w-72 lg:flex-col h-full">
         <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-[#F8F8F8] px-6 pb-4 border-r-2">
           <div className="flex h-16 shrink-0 items-center">
-            <h1 className="text-3xl font-bold text-gray-700">Resort</h1>
+            <div className="text-3xl font-bold text-gray-700">Resort</div>
           </div>
 
           <div className="flex flex-1 flex-col">
@@ -121,7 +121,7 @@ const SidebarStaff = () => {
             </ul>
           </div>
           <div className="flex h-16 shrink-0 items-center">
-            <h1 className="text-3xl font-bold text-gray-700">Member</h1>
+            <div className="text-3xl font-bold text-gray-700">Member</div>
           </div>
           <div className="flex flex-1 flex-col">
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -148,7 +148,7 @@ const SidebarStaff = () => {
             </ul>
           </div>
           <div className="flex h-16 shrink-0 items-center">
-            <h1 className="text-3xl font-bold text-gray-700">Approve</h1>
+            <div className="text-3xl font-bold text-gray-700">Approve</div>
           </div>
           <div className="flex flex-1 flex-col">
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
