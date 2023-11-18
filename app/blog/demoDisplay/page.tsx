@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import Container from '../../components/Container';
-import { FaRegComment, FaUser } from 'react-icons/fa6';
+import { FaHeart, FaRegComment, FaUser } from 'react-icons/fa6';
 import { Image } from 'antd';
 
 export default function DetailBlogComponents() {
@@ -29,7 +29,7 @@ export default function DetailBlogComponents() {
               <FaUser size={20} />
               <div>KienPT</div>
               <div className="flex flex-row items-center gap-2">
-                <FaRegComment size={20} />
+                <FaHeart size={20} />
                 <div>1</div>
               </div>
             </div>
@@ -56,7 +56,7 @@ export default function DetailBlogComponents() {
           guided tour. There is something for everyone – whether you are looking to drink.
         </div>
       </div>
-      <div className="w-full h-[1px] bg-gray-200 my-10"></div>
+      {/* <div className="w-full h-[1px] bg-gray-200 my-10"></div>
       <div className="text-center py-10 text-[20px]">
         <span>1</span> Response
       </div>
@@ -124,7 +124,7 @@ export default function DetailBlogComponents() {
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
     </Container>
   );
 }

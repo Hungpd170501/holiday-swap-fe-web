@@ -1,29 +1,40 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import Container from '../Container';
-import { FaRegComment, FaUser } from 'react-icons/fa6';
+import { FaHeart, FaRegComment, FaRegUser, FaUser } from 'react-icons/fa6';
 import { Image } from 'antd';
+import { AiOutlineLike } from 'react-icons/ai';
 
 export default function DetailBlogComponents() {
+  const [likeCount, setLikeCount] = useState(1); // Initial like count
+  const [liked, setLiked] = useState(false); // Initial like state
+
+  const handleLikeClick = () => {
+    setLikeCount(liked ? likeCount - 1 : likeCount + 1);
+    setLiked(!liked);
+  };
+
   return (
     <Container className="py-36">
-      <div className="flex flex-row items-center gap-10 px-5">
-        <div className="flex flex-col border-2 border-r-gray-400 pr-10 ">
-          <div className="text-[30px] font-bold">06</div>
-          <div>JUN</div>
-        </div>
+      <div className="px-5 md:px-36 flex flex-row items-center justify-between">
         <div>
-          <div className="flex flex-row items-center gap-5">
-            <div className="flex flex-row items-center gap-2">
-              <FaUser size={20} />
+          <div className="text-[35px] font-bold">Description of winter apartment with sea view</div>
+          <div className="flex flex-row items-center gap-4">
+            <div className="flex flex-row items-center gap-1">
+              <FaRegUser size={20} />
               <div>KienPT</div>
-              <div className="flex flex-row items-center gap-2">
-                <FaRegComment size={20} />
-                <div>1</div>
-              </div>
             </div>
           </div>
-          <div className="text-[35px] font-bold">Description of winter apartment with sea view</div>
+          <div className="flex flex-row items-center gap-2 mt-2">
+            <div className="text-gray-500">11/12/2023</div>
+            <div>-</div>
+            <div className="text-gray-500">17:30</div>
+          </div>
         </div>
+        <button className="flex flex-row items-center gap-1" onClick={handleLikeClick}>
+          <FaHeart size={30} color={liked ? 'red' : 'black'} />
+          <div className="text-[25px]">{likeCount}</div>
+        </button>
       </div>
       <div className="px-5 md:px-36 py-10">
         <div>
@@ -116,7 +127,7 @@ export default function DetailBlogComponents() {
             guided tour. There is something for everyone – whether you are looking to drink.
           </div>
         </div>
-        <div className="w-full h-[1px] bg-gray-200 my-10"></div>
+        {/* <div className="w-full h-[1px] bg-gray-200 my-10"></div>
         <div className="text-center py-10 text-[20px]">
           <span>1</span> Response
         </div>
@@ -184,7 +195,7 @@ export default function DetailBlogComponents() {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </Container>
   );
