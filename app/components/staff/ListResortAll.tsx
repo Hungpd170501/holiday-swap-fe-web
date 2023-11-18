@@ -9,8 +9,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Link from 'next/link';
-import DropdownDeleteResort from './DropdownDeleteResort';
 import SelectRouterStaff from './SelectRouterStaff';
+import DropdownStatusResort from './DropdownStatusResort';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -147,7 +147,7 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts }) => {
                 </StyledTableCell> */}
 
                 <StyledTableCell className="!py-5 !text-green-500 " align="right">
-                  <DropdownDeleteResort />
+                  <DropdownStatusResort />
                 </StyledTableCell>
               </StyledTableRow>
             ))}

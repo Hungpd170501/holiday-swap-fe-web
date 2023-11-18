@@ -14,7 +14,7 @@ import { RxRadiobutton } from 'react-icons/rx';
 export default function StaffDetailResort() {
   return requireAuth(
     <div>
-      <div>
+      <div className="mt-10">
         Staff {'>'} <span className="text-common">Detail Resort</span>
       </div>
       <div className="">
@@ -50,7 +50,7 @@ export default function StaffDetailResort() {
             alt="destination"
             height={800}
             width={350}
-            className="w-[620px] h-[318px] rounded-xl"
+            className="w-[628px] h-[318px] rounded-xl"
           />
         </div>
         <div className="flex flex-col gap-3">
