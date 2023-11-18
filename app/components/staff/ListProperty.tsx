@@ -1,12 +1,10 @@
 'use client';
-import SelectRouterStaff from './SelectRouterStaff';
-import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 
 import Highlighter from 'react-highlight-words';
 import type { InputRef } from 'antd';
-import { Button, Input, Space, Table, Tag } from 'antd';
+import { Button, Input, Space, Table } from 'antd';
 import type { ColumnType, ColumnsType } from 'antd/es/table';
 import type {
   FilterConfirmProps,
@@ -16,11 +14,10 @@ import type {
 } from 'antd/es/table/interface';
 
 import axios from '@/app/libs/axios';
-import { blue, red } from '@mui/material/colors';
+import SearchSelectResort from './SearchSelectResort';
 export default function ListProperty() {
   const [loading, setLoading] = useState(false);
   const [properties, setProperties] = useState<PropertyType[]>();
-  const [resort, setResort] = useState<ResortType[]>();
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef<InputRef>(null);
@@ -54,15 +51,16 @@ export default function ListProperty() {
     }
   };
   const fetchProperties = () => {
-    console.log('filters: ', tableParams.filters);
+    console.log('tableParams: ', tableParams);
     let url = 'http://localhost:8080/api/v1/properties';
-    let resortId = `?resortId={s}`;
-    let propertyName = `&propertyName=${tableParams.filters?.propertyName ?? ''}`;
-    let status = `&status=${tableParams.filters?.status ?? ''}`;
-    let isDeleted = `&isDeleted=${tableParams.filters?.isDeleted ?? ''}`;
     let pageNo = `?pageNo=${
       tableParams.pagination?.current !== undefined ? tableParams.pagination.current - 1 : 0
     }`;
+    let resortId = tableParams.filters?.resortId
+      ? `&resortId=${tableParams.filters?.resortId}`
+      : '';
+    let propertyName = `&propertyName=${tableParams.filters?.propertyName ?? ''}`;
+    let status = `&status=${tableParams.filters?.status ?? ''}`;
     let pageSize = `&pageSize=${tableParams.pagination?.pageSize ?? ''}`;
     let sortDirection = `&sortDirection=${
       tableParams.sorter?.order == 'ascend' ? 'asc' : 'desc' ?? ''
@@ -76,9 +74,9 @@ export default function ListProperty() {
         .concat(pageSize)
         .concat(sortBy)
         .concat(sortDirection)
-        .concat(isDeleted)
         .concat(propertyName)
-        .concat(status),
+        .concat(status)
+        .concat(resortId),
       headers: {},
     };
 
@@ -94,8 +92,6 @@ export default function ListProperty() {
           pagination: {
             ...tableParams.pagination,
             total: response.data.totalElements,
-            // 200 is mock data, you should read it from server
-            // total: data.totalCount,
           },
         });
       })
@@ -127,9 +123,9 @@ export default function ListProperty() {
           value={selectedKeys[0]}
           onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
           onPressEnter={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
-          style={{ marginBottom: 8, display: 'block' }}
+          style={{ marginBottom: 8, display: 'block', width: '200px' }}
         />
-        <Space>
+        <Space className="flex justify-between">
           <Button
             onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
             icon={<SearchOutlined />}
@@ -146,37 +142,12 @@ export default function ListProperty() {
           >
             Reset
           </Button>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              confirm({ closeDropdown: false });
-              setSearchText((selectedKeys as string[])[0]);
-              setSearchedColumn(dataIndex);
-            }}
-          >
-            Filter
-          </Button>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              close();
-            }}
-          >
-            close
-          </Button>
         </Space>
       </div>
     ),
     filterIcon: (filtered: boolean) => (
       <SearchOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
     ),
-    // onFilter: (value, record) =>
-    //   record[dataIndex]
-    //     .toString()
-    //     .toLowerCase()
-    //     .includes((value as string).toLowerCase()),
     onFilterDropdownOpenChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.current?.select(), 100);
@@ -216,33 +187,6 @@ export default function ListProperty() {
       key: 'propertyDescription',
     },
     {
-      title: 'Is Deleted',
-      dataIndex: 'isDeleted',
-      key: 'isDeleted',
-      filters: [
-        {
-          text: 'True',
-          value: 'true',
-        },
-        {
-          text: 'False',
-          value: 'false',
-        },
-      ],
-      // onFilter: (value: string, record) => record.address.indexOf(value) === 0,
-      render: (isDeleted) => {
-        let color = isDeleted == true ? 'red' : 'green';
-        // if (tag === 'loser') {
-        //   color = 'volcano';
-        // }
-        return (
-          <Tag color={color} key={isDeleted}>
-            {isDeleted.toString().toUpperCase()}
-          </Tag>
-        );
-      },
-    },
-    {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
@@ -271,20 +215,6 @@ export default function ListProperty() {
       sorter: true,
       filterMode: 'tree',
       filterSearch: true,
-      filters: [
-        {
-          text: 'Active',
-          value: 'ACTIVE',
-        },
-        {
-          text: 'Deactivate',
-          value: 'DEACTIVATE',
-        },
-        {
-          text: 'No Longer In Business',
-          value: 'NO_LONGER_IN_BUSINESS',
-        },
-      ],
     },
     {
       title: 'Action',
@@ -305,8 +235,8 @@ export default function ListProperty() {
           <span className="text-common">List property</span>
         </div>
       </div>
-      <SelectRouterStaff />
       <div>
+        <SearchSelectResort setTableParams={setTableParams} tableParams={tableParams} />
         <Table
           columns={columns}
           dataSource={properties}
@@ -419,4 +349,12 @@ interface TableParams {
   sorter?: SorterResult<PropertyType>;
 }
 type DataIndex = keyof PropertyType;
-interface ResortType {}
+interface ResortType {
+  id: number;
+  resortName: string;
+  resortDescription: string;
+}
+interface ResortValue {
+  label: string;
+  value: string;
+}
