@@ -233,7 +233,7 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
             <div>
               <div>Select property types*</div>
               <Select
-                className="w-full h-[44px] border-2 border-gray-400 rounded-md "
+                className="w-full h-[44px] border-2  border-gray-400 rounded-md "
                 value={propertyTypeValue}
                 onChange={handleChangePropertyType}
                 showSearch

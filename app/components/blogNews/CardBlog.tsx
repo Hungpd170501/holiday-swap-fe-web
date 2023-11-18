@@ -1,9 +1,9 @@
 import React from 'react';
-import { AiOutlineFolder } from 'react-icons/ai';
+import { AiOutlineLike } from 'react-icons/ai';
 import { BsFileEarmarkText } from 'react-icons/bs';
-import { TbMessageCircle2 } from 'react-icons/tb';
 import { CiClock2 } from 'react-icons/ci';
 import Link from 'next/link';
+import { FaHeart, FaRegHeart } from 'react-icons/fa6';
 
 export default function CardBlog() {
   return (
@@ -26,12 +26,9 @@ export default function CardBlog() {
               <BsFileEarmarkText size={15} color="gray" />
               <div className="text-[12px] font-thin ml-1 text-common">Thuc Bui</div>
             </div>
+
             <div className="flex flex-row items-center mr-8">
-              <AiOutlineFolder size={15} color="gray" />
-              <div className="text-[12px] font-thin ml-1 text-common">Blog, uncategoried</div>
-            </div>
-            <div className="flex flex-row items-center mr-8">
-              <TbMessageCircle2 size={15} color="gray" />
+              <FaRegHeart size={15} color="gray" />
               <div className="text-[12px] font-thin ml-1 text-common">1</div>
             </div>
           </div>
@@ -71,12 +68,9 @@ export default function CardBlog() {
               <BsFileEarmarkText size={15} color="gray" />
               <div className="text-[12px] font-thin ml-1 text-common">Thuc Bui</div>
             </div>
+
             <div className="flex flex-row items-center mr-8">
-              <AiOutlineFolder size={15} color="gray" />
-              <div className="text-[12px] font-thin ml-1 text-common">Blog, uncategoried</div>
-            </div>
-            <div className="flex flex-row items-center mr-8">
-              <TbMessageCircle2 size={15} color="gray" />
+              <AiOutlineLike size={15} color="gray" />
               <div className="text-[12px] font-thin ml-1 text-common">1</div>
             </div>
           </div>
@@ -116,12 +110,9 @@ export default function CardBlog() {
               <BsFileEarmarkText size={15} color="gray" />
               <div className="text-[12px] font-thin ml-1 text-common">Thuc Bui</div>
             </div>
+
             <div className="flex flex-row items-center mr-8">
-              <AiOutlineFolder size={15} color="gray" />
-              <div className="text-[12px] font-thin ml-1 text-common">Blog, uncategoried</div>
-            </div>
-            <div className="flex flex-row items-center mr-8">
-              <TbMessageCircle2 size={15} color="gray" />
+              <AiOutlineLike size={15} color="gray" />
               <div className="text-[12px] font-thin ml-1 text-common">1</div>
             </div>
           </div>
