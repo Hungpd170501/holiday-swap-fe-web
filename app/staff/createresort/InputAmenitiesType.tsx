@@ -73,12 +73,8 @@ const AmeniteisType: React.FC<AmenityTypeProps> = ({ amenities, onAmenityValueCh
   };
   return (
     <Fragment>
-      <div className="flex flex-row">
-        <select
-          id="amenities"
-          onChange={handleSelectChange}
-          className="text-gray-800 mr-[20px] px-4 py-3 bg-[#F8F8F8] border-b-2 border-black border-none focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent"
-        >
+      <div className="flex flex-row mb-2">
+        <select id="amenities" onChange={handleSelectChange} className="rounded-md">
           <option value="">-</option>
           {amenities?.map((item: any) => (
             <option key={item.id} value={item.id}>

@@ -2,7 +2,8 @@
 import React from 'react';
 import ModalBaseDetail from './ModalBaseDetail';
 import useWriteBlogModal from '@/app/hooks/useWriteBlogModal';
-import RichTextComponent from '../richtext/RicTextConponent';
+import RichTextComponent from '../richtext/RichTextComponent';
+import PrimeReactEditor from '../richtext/PrimeReactEditor';
 
 const ModalWriteBlog = () => {
   const writeBlogModal = useWriteBlogModal();
@@ -10,7 +11,8 @@ const ModalWriteBlog = () => {
   const bodyContent = (
     <div className="w-full">
       <div>
-        <RichTextComponent />
+        {/* <RichTextComponent /> */}
+        <PrimeReactEditor />
       </div>
       <div className="flex flex-row items-end justify-end my-3"></div>
     </div>
