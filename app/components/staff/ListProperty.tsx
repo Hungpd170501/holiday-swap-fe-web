@@ -52,7 +52,7 @@ export default function ListProperty() {
   };
   const fetchProperties = () => {
     console.log('tableParams: ', tableParams);
-    let url = 'http://localhost:8080/api/v1/properties';
+    let url = 'https://holiday-swap.click/api/v1/properties';
     let pageNo = `?pageNo=${
       tableParams.pagination?.current !== undefined ? tableParams.pagination.current - 1 : 0
     }`;
@@ -177,9 +177,7 @@ export default function ListProperty() {
       title: 'Property Name',
       dataIndex: 'propertyName',
       key: 'propertyName',
-
       ...getColumnSearchProps('propertyName'),
-      sorter: true,
     },
     {
       title: 'Property Description',
@@ -191,6 +189,7 @@ export default function ListProperty() {
       dataIndex: 'status',
       key: 'status',
       filterMode: 'tree',
+      filteredValue: tableParams.filters?.status || null,
       filters: [
         {
           text: 'Active',
@@ -205,7 +204,6 @@ export default function ListProperty() {
           value: 'NO_LONGER_IN_BUSINESS',
         },
       ],
-      // onFilter: (value: string, record) => record.address.indexOf(value) === 0,
     },
     {
       title: 'Resort',
@@ -213,6 +211,7 @@ export default function ListProperty() {
       key: 'resort',
       render: (resort) => `${resort.resortName}`,
       sorter: true,
+      sortOrder: tableParams.sorter?.columnKey === 'resort' ? tableParams.sorter.order : null,
       filterMode: 'tree',
       filterSearch: true,
     },
@@ -227,6 +226,7 @@ export default function ListProperty() {
       ),
     },
   ];
+ 
   return (
     <div>
       <div className="mt-8 mb-10">
@@ -237,6 +237,7 @@ export default function ListProperty() {
       </div>
       <div>
         <SearchSelectResort setTableParams={setTableParams} tableParams={tableParams} />
+        
         <Table
           columns={columns}
           dataSource={properties}

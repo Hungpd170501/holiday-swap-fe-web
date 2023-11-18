@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState } from 'react';
 import debounce from 'lodash/debounce';
-import { Select, Space, Spin, Typography } from 'antd';
+import { Button, Select, Space, Spin, Typography } from 'antd';
 import type { SelectProps } from 'antd/es/select';
 import { FilterValue, SorterResult, TablePaginationConfig } from 'antd/es/table/interface';
 
@@ -62,7 +62,7 @@ interface ResortValue {
 
 async function fetchListResort(resortname: string): Promise<ResortValue[]> {
   console.log('fetching resort', resortname);
-  let url = `http://localhost:8080/api/v1/resorts?`;
+  let url = `https://holiday-swap.click/api/v1/resorts?`;
   let resortName = `nameResort=${resortname}`;
   return fetch(url.concat(resortName))
     .then((response) => response.json())
@@ -103,21 +103,33 @@ const SearchSelectResort: React.FC<SearchSelectResortProps> = ({ setTableParams,
     setTableParams(newTableParams);
     console.log('tableParams :', newTableParams);
   };
+  const clearAll = () => {
+    setTableParams(defaultPagination);
+  };
   return (
-    <Space.Compact direction="vertical" style={{ width: '100%' }}>
-      <Typography.Text>Filter by resort</Typography.Text>
-      <DebounceSelect
-        mode="multiple"
-        allowClear
-        value={value}
-        placeholder="Select resort"
-        fetchOptions={fetchListResort}
-        onChange={(newValue: ResortValue | ResortValue[]) => {
-          handlerOnSelect(newValue);
-        }}
-        style={{ width: '40%' }}
-      />
-    </Space.Compact>
+    <Space style={{ width: '100%' }} align="end">
+      <div style={{ width: '300px' }}>
+        <p>Filter by resort</p>
+        <DebounceSelect
+          mode="multiple"
+          allowClear
+          value={value}
+          placeholder="Select resort"
+          fetchOptions={fetchListResort}
+          onChange={(newValue: ResortValue | ResortValue[]) => {
+            handlerOnSelect(newValue);
+          }}
+          style={{ width: '100%' }}
+        />
+      </div>
+      <Space direction="vertical" style={{ width: '30%' }}>
+        {/* <Typography.Text>Filter by resort</Typography.Text> */}
+
+        <Button style={{ backgroundColor: 'rgb(92, 152, 242)', color: 'white' }} onClick={clearAll}>
+          Clear filters and sorters
+        </Button>
+      </Space>
+    </Space>
   );
 };
 
