@@ -65,7 +65,7 @@ const PrimeReactEditor = () => {
         style={{ height: '320px' }}
         // uncomment 3 following lines to custom toolbar (will have to write custom css)
         theme="snow"
-        // showHeader={false}
+        showHeader={false}
         modules={{ toolbar: { container: toolbarOptions, handlers: { image: imageHandler } } }}
       />
       <div className="mt-2 flex flex-row justify-end">
