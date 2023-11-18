@@ -127,7 +127,7 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts }) => {
             {resorts?.content.map((row: any, index: number) => (
               <StyledTableRow key={index}>
                 <StyledTableCell className="!py-5 !text-common" component="th" scope="row">
-                  <Link href="/staff/staffdetailresort" className="hover:underline">
+                  <Link href={`/staff/staffdetailresort/${row.id}`} className="hover:underline">
                     {row.resortName}
                   </Link>
                 </StyledTableCell>

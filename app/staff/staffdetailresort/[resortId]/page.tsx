@@ -1,8 +1,9 @@
+import GetResortById from '@/app/actions/getResortById';
 import DropDownEditResort from '@/app/components/staff/DropDownEditResort';
 import ListActionApproveApartment from '@/app/components/staff/ListActionApproveApartment';
 import requireAuth from '@/app/libs/requireAuth';
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AiOutlineCheck, AiOutlineClose, AiTwotoneStar } from 'react-icons/ai';
 import { BiDollarCircle, BiMailSend } from 'react-icons/bi';
 import { BsCalendarDate, BsClock } from 'react-icons/bs';
@@ -10,8 +11,16 @@ import { FaWifi } from 'react-icons/fa6';
 import { FiPhoneCall } from 'react-icons/fi';
 import { IoIosPeople } from 'react-icons/io';
 import { RxRadiobutton } from 'react-icons/rx';
+import GoogleMapReact from 'google-map-react-concurrent';
+import MapResort from '../MapResort';
 
-export default function StaffDetailResort() {
+interface IParams {
+  resortId: string;
+}
+export default async function StaffDetailResort({ params }: { params: IParams }) {
+  const resortDetail = await GetResortById(params);
+  console.log(resortDetail);
+
   return requireAuth(
     <div>
       <div className="mt-10">
@@ -21,12 +30,10 @@ export default function StaffDetailResort() {
         <div className="flex-col">
           <div className="pb-6 w-full flex flex-row items-center justify-between">
             <div>
-              <div className="pt-10  text-[40px]">
-                JW Marriott Phu Quoc Emerald Bay Resort & Spa
-              </div>
+              <div className="pt-10  text-[40px]">{resortDetail.resortName}</div>
               <div className="flex flex-row items-center gap-1">
                 <div className="font-bold text-[20px]">Address: </div>
-                <div>Kien Giang Phu Quoc</div>
+                <div>{resortDetail.addressLine}</div>
               </div>
               <div className="flex flex-row items-center gap-1">
                 <div className="font-bold text-[20px]">Property type: </div>
@@ -44,66 +51,29 @@ export default function StaffDetailResort() {
         </div>
       </div>
       <div className=" flex flex-row justify-between items-center">
-        <div>
-          <Image
-            src="/images/resort1.jpg"
-            alt="destination"
-            height={800}
-            width={350}
-            className="w-[628px] h-[318px] rounded-xl"
-          />
-        </div>
-        <div className="flex flex-col gap-3">
-          <div className="grid grid-cols-2 gap-3 pl-[20px]">
+        {resortDetail.resortImages.map((row: any, index: any) => (
+          <div key={index}>
             <Image
-              src="/images/resortdetail1.jpg"
+              src={row.link}
               alt="destination"
               height={800}
               width={350}
-              className="w-[195px] h-[150px] rounded-xl"
-            />
-            <Image
-              src="/images/resortdetail2.jpg"
-              alt="destination"
-              height={800}
-              width={350}
-              className="w-[195px] h-[150px] rounded-xl"
+              className="w-[628px] h-[318px] rounded-xl"
             />
           </div>
-          <div className="grid grid-cols-2 gap-3 pl-[20px]">
-            <Image
-              src="/images/resortdetail3.jpg"
-              alt="destination"
-              height={800}
-              width={350}
-              className="w-[195px] h-[150px] rounded-xl"
-            />
-            <Image
-              src="/images/resortdetail4.jpg"
-              alt="destination"
-              height={800}
-              width={350}
-              className="w-[195px] h-[150px] rounded-xl"
-            />
-          </div>
-        </div>
+        ))}
       </div>
+      <MapResort
+        latitude={resortDetail.latitude}
+        id={resortDetail.id}
+        resortName={resortDetail.resortName}
+        longitude={resortDetail.longitude}
+      />
       <div className="flex flex-row items-center">
         <div className=" w-full">
           <div className="text-[25px] py-[30px]">Detail</div>
           <div className="pr-[30px]">
-            <div className="pb-[10px]">
-              Leave your guidebooks at home and dive into the local cultures that make each
-              destination so special. Well connect you with our exclusive experiences. Each trip is
-              carefully crafted to let enjoy your vacation.
-            </div>
-            <div>
-              A wonderful serenity has taken possession of my entire soul, like these sweet mornings
-              of spring which I enjoy with my whole heart. I am alone, and feel the charm of
-              existence in this spot, which was created for the bliss of souls like mine. I am so
-              happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence,
-              that I neglect my talents.
-            </div>
+            <div className="pb-[10px]">{resortDetail.resortDescription}</div>
           </div>
 
           <div className="py-5 ">
@@ -142,7 +112,6 @@ export default function StaffDetailResort() {
           </div>
         </div>
       </div>
-      {/* <ListActionApproveApartment /> */}
     </div>,
     [3]
   );
