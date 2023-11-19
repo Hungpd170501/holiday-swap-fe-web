@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
-import { SearchOutlined } from '@ant-design/icons';
+import { DeleteFilled, DeleteTwoTone, SearchOutlined } from '@ant-design/icons';
 
 import Highlighter from 'react-highlight-words';
 import type { InputRef } from 'antd';
@@ -15,6 +15,8 @@ import type {
 
 import axios from '@/app/libs/axios';
 import SearchSelectResort from './SearchSelectResort';
+import PopconfirmDeleteProperty from './PopconfirmDeleteProperty';
+import ModalDetailProperty from './ModalDetailProperty';
 export default function ListProperty() {
   const [loading, setLoading] = useState(false);
   const [properties, setProperties] = useState<PropertyType[]>();
@@ -65,7 +67,7 @@ export default function ListProperty() {
     let sortDirection = `&sortDirection=${
       tableParams.sorter?.order == 'ascend' ? 'asc' : 'desc' ?? ''
     }`;
-    let sortBy = `&sortBy=${tableParams.sorter?.columnKey ?? ''}`;
+    let sortBy = `&sortBy=${tableParams.sorter?.column?.key ?? ''}`;
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
@@ -176,8 +178,10 @@ export default function ListProperty() {
     {
       title: 'Property Name',
       dataIndex: 'propertyName',
-      key: 'propertyName',
+      key: 'id',
       ...getColumnSearchProps('propertyName'),
+      sorter: true,
+      sortOrder: tableParams.sorter?.column?.key === 'id' ? tableParams.sorter.order : null,
     },
     {
       title: 'Property Description',
@@ -206,27 +210,25 @@ export default function ListProperty() {
       ],
     },
     {
-      title: 'Resort',
-      dataIndex: 'resort',
-      key: 'resort',
-      render: (resort) => `${resort.resortName}`,
+      title: 'Resort Name',
+      dataIndex: 'resortId',
+      key: 'resortId',
+      render: (_, record) => `${record.resort.resortName}`,
       sorter: true,
-      sortOrder: tableParams.sorter?.columnKey === 'resort' ? tableParams.sorter.order : null,
-      filterMode: 'tree',
-      filterSearch: true,
+      sortOrder: tableParams.sorter?.column?.key === 'resortId' ? tableParams.sorter.order : null,
     },
     {
       title: 'Action',
       render: (_, record) => (
         <Space size="middle">
-          <a>Detail</a>
+          <ModalDetailProperty id={record.id} />
           <a>Edit</a>
-          <a>Delete</a>
+          <PopconfirmDeleteProperty id={record.id} fetchProperties={fetchProperties} />
         </Space>
       ),
     },
   ];
- 
+
   return (
     <div>
       <div className="mt-8 mb-10">
@@ -237,7 +239,7 @@ export default function ListProperty() {
       </div>
       <div>
         <SearchSelectResort setTableParams={setTableParams} tableParams={tableParams} />
-        
+
         <Table
           columns={columns}
           dataSource={properties}

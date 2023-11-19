@@ -113,6 +113,7 @@ const SearchSelectResort: React.FC<SearchSelectResortProps> = ({ setTableParams,
         <DebounceSelect
           mode="multiple"
           allowClear
+          maxTagCount={'responsive'}
           value={value}
           placeholder="Select resort"
           fetchOptions={fetchListResort}
