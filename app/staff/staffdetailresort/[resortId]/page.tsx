@@ -37,15 +37,29 @@ export default async function StaffDetailResort({ params }: { params: IParams })
               </div>
               <div className="flex flex-row items-center gap-1">
                 <div className="font-bold text-[20px]">Property type: </div>
-                <div>Deluxe, site</div>
+                <div>
+                  {resortDetail.propertyTypes.map((row: any, index: any) => (
+                    <React.Fragment key={index}>
+                      <span className="inline-block">{row.propertyTypeName}</span>
+                      {index < resortDetail.propertyTypes.length - 1 && <span>, </span>}
+                    </React.Fragment>
+                  ))}
+                </div>
               </div>
               <div className="flex flex-row items-center gap-1">
                 <div className="font-bold text-[20px]">Amenity: </div>
-                <div>Sports, Dining services, Public area, health & wellness</div>
+                <div>
+                  {resortDetail.resortAmenityTypes.map((row: any, index: any) => (
+                    <React.Fragment key={index}>
+                      <span className="inline-block">{row.resortAmenityTypeName}</span>
+                      {index < resortDetail.propertyTypes.length - 1 && <span>, </span>}
+                    </React.Fragment>
+                  ))}
+                </div>
               </div>
             </div>
             <div>
-              <DropDownEditResort />
+              <DropDownEditResort resortId={resortDetail.id} />
             </div>
           </div>
         </div>
@@ -63,12 +77,14 @@ export default async function StaffDetailResort({ params }: { params: IParams })
           </div>
         ))}
       </div>
-      <MapResort
-        latitude={resortDetail.latitude}
-        id={resortDetail.id}
-        resortName={resortDetail.resortName}
-        longitude={resortDetail.longitude}
-      />
+      <div className="w-screen h-screen">
+        <MapResort
+          latitude={resortDetail.latitude}
+          id={resortDetail.id}
+          resortName={resortDetail.resortName}
+          longitude={resortDetail.longitude}
+        />
+      </div>
       <div className="flex flex-row items-center">
         <div className=" w-full">
           <div className="text-[25px] py-[30px]">Detail</div>

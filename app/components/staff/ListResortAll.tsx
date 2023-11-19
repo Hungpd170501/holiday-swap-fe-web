@@ -42,35 +42,6 @@ function createData(
   return { resortname, address, meter, bedroom, rules };
 }
 
-const rows = [
-  createData(
-    'JW Marriott Phu Quoc Emerald Bay Resort & Spa',
-    'Phu Quoc',
-    'Sea Resort',
-    '1200$ - 2500$',
-    '...'
-  ),
-  createData('Amanoi Resort', 'Ninh Thuan', 'Moutaint Resort', '890$ - 2000$', '...'),
-  createData('The Anam Cam Ranh', 'Khanh Hoa', 'Moutaint Resort', '990$ - 2300$', '...'),
-  createData(
-    'Vinpearl Resort & Spa Phu Quoc',
-    'Phu Quoc',
-    'Moutaint Resort',
-    '1890$ - 3000$',
-    '...'
-  ),
-  createData('Six Senses Ninh Van Bay', 'Khanh Hoa', 'Sea Resort', '190$ - 500$', '...'),
-  createData('Fusion Maia Da Nang', 'Da Nang', 'Sea Resort', '230$ - 700$', '...'),
-  createData('Vinpearl Luxury Da Nang', 'Da Nang', 'Sea Resort', '1000$ - 3000$', '...'),
-  createData(
-    'InterContinental Danang Sun Peninsula Resort',
-    'Da Nang',
-    'Sea Resort',
-    '900$ - 2000$',
-    '...'
-  ),
-];
-
 interface ListResortAllProps {
   resorts?: any;
 }

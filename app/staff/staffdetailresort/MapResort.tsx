@@ -11,28 +11,28 @@ interface MarkerProps {
 }
 
 const Marker: React.FC<MarkerProps> = ({ text }) => (
-  <span className="flex px-1 py-1 rounded-lg bg-white dark:bg-neutral-900 text-sm font-semibold items-center justify-center min-w-max shadow-lg hover:bg-neutral-900 hover:text-white dark:hover:bg-white dark:hover:text-neutral-900 transition-colors">
+  <span className="flex px-1 py-1 rounded-lg bg-white dark:bg-neutral-900 text-sm font-semibold items-center justify-center min-w-max shadow-lg hover:bg-neutral-900 hover:text-white dark:hover:bg-white dark:hover:text-neutral-900 transition-colors ">
     <span>Resort Name:{text}</span>
   </span>
 );
 
 interface IParams {
-  latitude?: number;
-  longitude?: number;
+  latitude: number;
+  longitude: number;
   resortName?: string;
   id?: string;
 }
 const MapResort: React.FC<IParams> = ({ latitude, id, resortName, longitude }) => {
   return (
-    <div>
+    <div className=" w-screen h-screen">
       <GoogleMapReact
         bootstrapURLKeys={{
           key: 'AIzaSyDTZQ9gsIrh6G2_HtnX7pTgFS74G_VVedU',
           version: 'weekly',
         }}
         defaultCenter={{
-          lat: 0,
-          lng: 1,
+          lat: latitude,
+          lng: longitude,
         }}
         defaultZoom={12}
         yesIWantToUseGoogleMapApiInternals
