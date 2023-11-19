@@ -109,6 +109,13 @@ export default function ListProperty() {
     confirm();
     setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
+    setTableParams({
+      ...tableParams,
+      filters: {
+        ...tableParams.filters,
+        [dataIndex]: selectedKeys,
+      },
+    });
   };
 
   const handleReset = (clearFilters: () => void) => {
