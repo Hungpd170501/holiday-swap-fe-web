@@ -171,14 +171,22 @@ const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({
                   <span
                     className={`${
                       detail.status === 'PENDING' ? ' text-orange-600' : 'text-green-600'
-                    }`}
+                    } ${detail.status === 'REJECTED' ? ' text-rose-600' : ''}`}
                   >
-                    {detail.status === 'PENDING' ? 'PENDING' : 'ACCEPTED'}
+                    {(() => {
+                      if (detail.status === 'ACCEPTED') {
+                        return 'ACCEPTED';
+                      } else if (detail.status === 'PENDING') {
+                        return 'PENDING';
+                      } else if (detail.status === 'REJECTED') {
+                        return 'REJECTED';
+                      }
+                    })()}
                   </span>
                 </div>
               </div>
 
-              {detail.status !== 'ACCEPTED' && (
+              {detail.status !== 'ACCEPTED' && detail.status !== 'REJECTED' && (
                 <div className="flex flex-end justify-end items-center gap-5">
                   <button
                     onClick={() =>
