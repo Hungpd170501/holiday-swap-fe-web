@@ -61,7 +61,117 @@ const FormDetailProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) =
             </Image.PreviewGroup>
           </div>
         </div>
-        <div className="flex flex-col mr-10 text-gray-400 ">
+        {propertyDetail?.numberKingBeds ?? 0 > 0 ? (
+          <>
+            <div className="flex flex-col mr-10 text-gray-400 ">
+              <div className="mb-5">King Bed</div>
+            </div>
+            <div className="flex flex-col mr-16 text-gray-600">
+              <div className="mb-5"> {propertyDetail?.numberKingBeds}</div>
+            </div>
+          </>
+        ) : (
+          ''
+        )}
+        {propertyDetail?.numberQueenBeds ?? 0 > 0 ? (
+          <>
+            <div className="flex flex-col mr-10 text-gray-400 ">
+              <div className="mb-5">Queen Bed</div>
+            </div>
+            <div className="flex flex-col mr-16 text-gray-600">
+              <div className="mb-5"> {propertyDetail?.numberQueenBeds}</div>
+            </div>
+          </>
+        ) : (
+          ''
+        )}
+        {propertyDetail?.numberSingleBeds ?? 0 > 0 ? (
+          <>
+            <div className="flex flex-col mr-10 text-gray-400 ">
+              <div className="mb-5">Single Bed</div>
+            </div>
+            <div className="flex flex-col mr-16 text-gray-600">
+              <div className="mb-5"> {propertyDetail?.numberSingleBeds}</div>
+            </div>
+          </>
+        ) : (
+          ''
+        )}
+        {propertyDetail?.numberDoubleBeds ?? 0 > 0 ? (
+          <>
+            <div className="flex flex-col mr-10 text-gray-400 ">
+              <div className="mb-5"> Double Bed</div>
+            </div>
+            <div className="flex flex-col mr-16 text-gray-600">
+              <div className="mb-5"> {propertyDetail?.numberDoubleBeds}</div>
+            </div>
+          </>
+        ) : (
+          ''
+        )}
+        {propertyDetail?.numberTwinBeds ?? 0 > 0 ? (
+          <>
+            <div className="flex flex-col mr-10 text-gray-400 ">
+              <div className="mb-5"> Twin Bed</div>
+            </div>
+            <div className="flex flex-col mr-16 text-gray-600">
+              <div className="mb-5"> {propertyDetail?.numberTwinBeds}</div>
+            </div>
+          </>
+        ) : (
+          ''
+        )}
+        {propertyDetail?.numberFullBeds ?? 0 > 0 ? (
+          <>
+            <div className="flex flex-col mr-10 text-gray-400 ">
+              <div className="mb-5"> Full Bed</div>
+            </div>
+            <div className="flex flex-col mr-16 text-gray-600">
+              <div className="mb-5"> {propertyDetail?.numberFullBeds}</div>
+            </div>
+          </>
+        ) : (
+          ''
+        )}
+        {propertyDetail?.numberSofaBeds ?? 0 > 0 ? (
+          <>
+            <div className="flex flex-col mr-10 text-gray-400 ">
+              <div className="mb-5"> Sofa Bed</div>
+            </div>
+            <div className="flex flex-col mr-16 text-gray-600">
+              <div className="mb-5"> {propertyDetail?.numberSofaBeds}</div>
+            </div>
+          </>
+        ) : (
+          ''
+        )}
+        {propertyDetail?.numberMurphyBeds ?? 0 > 0 ? (
+          <>
+            <div className="flex flex-col mr-10 text-gray-400 ">
+              <div className="mb-5"> Murphy Bed</div>
+            </div>
+            <div className="flex flex-col mr-16 text-gray-600">
+              <div className="mb-5"> {propertyDetail?.numberMurphyBeds}</div>
+            </div>{' '}
+          </>
+        ) : (
+          ''
+        )}
+        <div className="col-span-4 flex grid grid-cols-4 gap-4">
+          <div className="flex flex-col mr-10 text-gray-400 ">
+            <div className="mb-5"> Bed Room</div>
+          </div>
+          <div className="flex flex-col mr-16 text-gray-600">
+            <div className="mb-5"> {propertyDetail?.numberBedsRoom}</div>
+          </div>
+          <div className="flex flex-col mr-10 text-gray-400 ">
+            <div className="mb-5"> Bath Room</div>
+          </div>
+          <div className="flex flex-col mr-16 text-gray-600">
+            <div className="mb-5"> {propertyDetail?.numberBathRoom}</div>
+          </div>
+        </div>
+        <div className="flex flex-col mr-10 text-gray-400">
           <div className="mb-5">Size</div>
         </div>
         <div className="flex flex-col mr-16 text-gray-600 col-span-3">
