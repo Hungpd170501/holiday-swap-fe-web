@@ -49,7 +49,7 @@ interface ListResortAllProps {
 const ListResortAll: React.FC<ListResortAllProps> = ({ resorts }) => {
   return (
     <>
-      <div className="mt-10">
+      <div className="">
         Dashboard {'>'} <span className="text-common">List resort</span>
       </div>
       <SelectRouterStaff />

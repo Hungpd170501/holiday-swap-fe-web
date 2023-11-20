@@ -23,7 +23,7 @@ export default async function StaffDetailResort({ params }: { params: IParams })
 
   return requireAuth(
     <div>
-      <div className="mt-10">
+      <div className="">
         Staff {'>'} <span className="text-common">Detail Resort</span>
       </div>
       <EditResort resortDetail={resortDetail} />

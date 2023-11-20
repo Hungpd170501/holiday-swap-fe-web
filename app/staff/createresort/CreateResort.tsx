@@ -281,7 +281,7 @@ const CreateResort: React.FC<CreateResortProps> = ({ amenitiesArray, propertyTyp
 
   return (
     <div>
-      <div className="mt-10">
+      <div className="">
         <span className="hover:underline" onClick={() => router.push('/staff')}>
           Dashboard
         </span>{' '}

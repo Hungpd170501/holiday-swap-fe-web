@@ -110,7 +110,7 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
 
   return (
     <div>
-      <div className="mt-8 mb-10">
+      <div className=" mb-10">
         <div>
           Staff {'> '}
           <span className="text-common">List Approve Ownership</span>
