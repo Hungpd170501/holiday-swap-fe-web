@@ -67,12 +67,12 @@ const SidebarStaff = () => {
       icon: PiNotepadBold,
       current: pathName?.includes('/staff/listmember') ? true : false,
     },
-    {
-      name: 'Upgrade Member',
-      href: '/staff/upgrademembership',
-      icon: LuArrowUpSquare,
-      current: pathName?.includes('/staff/upgrademembership') ? true : false,
-    },
+    // {
+    //   name: 'Upgrade Member',
+    //   href: '/staff/upgrademembership',
+    //   icon: LuArrowUpSquare,
+    //   current: pathName?.includes('/staff/upgrademembership') ? true : false,
+    // },
   ];
   const sidebarExchange = [
     {
@@ -81,12 +81,12 @@ const SidebarStaff = () => {
       icon: MdOutlineSwapHorizontalCircle,
       current: pathName?.includes('/staff/listapproveOwnership') ? true : false,
     },
-    {
-      name: 'Infomation',
-      href: '/staff/infomation',
-      icon: LiaFileInvoiceDollarSolid,
-      current: pathName?.includes('/staff/infomation') ? true : false,
-    },
+    // {
+    //   name: 'Infomation',
+    //   href: '/staff/infomation',
+    //   icon: LiaFileInvoiceDollarSolid,
+    //   current: pathName?.includes('/staff/infomation') ? true : false,
+    // },
   ];
   return (
     <div className="pt-[20px] pl-5 pr-5">

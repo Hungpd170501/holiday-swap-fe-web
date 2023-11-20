@@ -215,7 +215,7 @@ const TransferMoney: React.FC<TransferMoneyProps> = ({ currentUser, memberships 
 
   return (
     <>
-      <div className="mt-10">
+      <div className="">
         Dashboard {'>'} <span className="text-common">Transfer</span>
       </div>
       <Steps className="mt-5" current={current} items={items} />

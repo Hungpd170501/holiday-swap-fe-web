@@ -15,10 +15,10 @@ const Wallet: React.FC<WalletProps> = ({ userWallet, transfer, historyTransactio
   const router = useRouter();
   return (
     <div>
-      <div className="mt-10">
+      <div className="">
         Dashboard {'>'} <span className="text-common">My Wallet</span>
       </div>
-      <div className="flex flex-col w-full items-center">
+      <div className="flex flex-col px-10 w-full items-center">
         <div className="bg-white w-full rounded-3xl h-auto px-5 py-8 shadow-xl mt-10">
           <div className="flex flex-row items-center gap-60 justify-between">
             <div className="flex flex-row items-center">
@@ -100,9 +100,11 @@ const Wallet: React.FC<WalletProps> = ({ userWallet, transfer, historyTransactio
         <div className="bg-gray-200 w-[1000px] rounded-b-3xl h-auto px-5 py-4 shadow-xl"></div>
         <div className="bg-gray-300 w-[900px] rounded-b-3xl h-auto px-5 py-4 shadow-xl"></div>
       </div>
-      <div className="mt-16 text-[25px]  text-common font-bold">Wallet History</div>
-      <div className="w-full">
-        <HistoryPayment historyTransaction={historyTransaction} />
+      <div className="px-10">
+        <div className="mt-16 text-[25px]  text-common font-bold">Wallet History</div>
+        <div className="w-full">
+          <HistoryPayment historyTransaction={historyTransaction} />
+        </div>
       </div>
     </div>
   );

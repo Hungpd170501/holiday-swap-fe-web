@@ -56,7 +56,7 @@ export default function ListResortDashboard() {
     <div className="hidden md:block md:w-auto md:h-auto md:py-10">
       <div className="flex flex-row justify-between items-center mt-10">
         <div className="text-common text-[20px] font-bold ">List Resort</div>
-        <Link className="text-gray-400" href="#">
+        <Link className="text-gray-400" href="/staff/listresort">
           View All List Resort
         </Link>
       </div>

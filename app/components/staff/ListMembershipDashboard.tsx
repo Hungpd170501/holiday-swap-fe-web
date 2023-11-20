@@ -70,10 +70,10 @@ const rows = [
 
 export default function ListMembershipDashboard() {
   return (
-    <div className="hidden md:block md:w-auto md:h-auto md:py-10">
-      <div className="flex flex-row justify-between items-center mt-10">
+    <div className="hidden md:block md:w-auto md:h-auto ">
+      <div className="flex flex-row justify-between items-center ">
         <div className="text-common text-[20px] font-bold ">List Membership</div>
-        <Link className="text-gray-400" href="#">
+        <Link className="text-gray-400" href="/staff/listmember">
           View All List Membership
         </Link>
       </div>

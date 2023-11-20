@@ -14,7 +14,7 @@ import { RxRadiobutton } from 'react-icons/rx';
 export default function StaffDetailResort() {
   return requireAuth(
     <div>
-      <div className="mt-10">
+      <div className="">
         Staff {'>'} <span className="text-common">Detail Resort</span>
       </div>
       <div className="">

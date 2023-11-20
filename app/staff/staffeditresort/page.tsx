@@ -5,7 +5,7 @@ import React from 'react';
 export default function StaffEditResort() {
   return requireAuth(
     <div>
-      <div className="mt-10">
+      <div className="">
         Dashboard {'>'} <span className="text-common">Update resort</span>
       </div>
       <div className=" w-[600px] py-10">
