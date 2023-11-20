@@ -9,19 +9,40 @@ import { Editor, EditorTextChangeEvent } from 'primereact/editor';
 import 'primereact/resources/themes/tailwind-light/theme.css';
 import { useRouter } from 'next/navigation';
 import useWriteBlogModal from '@/app/hooks/useWriteBlogModal';
+import axios from 'axios';
+import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
+import toast from 'react-hot-toast';
+import { useSession } from 'next-auth/react';
 
 const PrimeReactEditor = () => {
   const router = useRouter();
   const writeBlogModal = useWriteBlogModal();
   const [blogContent, setBlogContent] = useState<string>('');
+  const axiosAuthClient = useAxiosAuthClient();
+  const { data: session } = useSession();
 
-  const postBlog = () => {
-    console.log('Posted: ');
-    console.log(blogContent);
+  const postBlog = async () => {
+    console.log('Posted: ', blogContent);
     localStorage.setItem('blogContent', blogContent);
-    // navigate to /blog/demoDisplay
     router.push('/blog/demoDisplay');
-    writeBlogModal.onClose();
+
+    const accessToken = session?.user?.access_token;
+    const config = { headers: { Authorization: `Bearer ${accessToken}`, "Content-type": "multipart/form-data" } };
+
+    axios
+      .post(`https://holiday-swap.click/api/post/create?content`, blogContent, config)
+      .then(() => {
+        toast.success('Create post success');
+        writeBlogModal.onClose();
+        router.push('demoDisplay');
+      })
+      .catch((response) => {
+        if (response && response.response && response.response.data) {
+          toast.error(response.response.data.message);
+        } else {
+          toast.error('Something went wrong!');
+        }
+      });
   };
 
   const onTextChange = (e: EditorTextChangeEvent) => {
@@ -66,7 +87,7 @@ const PrimeReactEditor = () => {
         // uncomment 3 following lines to custom toolbar (will have to write custom css)
         theme="snow"
         showHeader={false}
-        modules={{ toolbar: { container: toolbarOptions, handlers: { image: imageHandler } } }}
+        modules={{ toolbar: { container: toolbarOptions } }}
       />
       <div className="mt-2 flex flex-row justify-end">
         <button

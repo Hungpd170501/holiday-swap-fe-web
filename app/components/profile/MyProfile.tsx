@@ -70,6 +70,7 @@ const MyProfile: React.FC<MyProfileProps> = ({ currentUser }) => {
             </div>
             <div className="flex flex-col mr-16 text-gray-600 ">
               <div className="mb-5 ml-9">{currentUser?.username}</div>
+
               <div className="mb-5 ml-9">{format(new Date(currentUser?.dob), 'dd-MM-yyyy')}</div>
               <div className="mb-5 ml-9">{currentUser?.email}</div>
             </div>
