@@ -315,7 +315,7 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
   }
   return (
     <div>
-      <div className="mt-10">
+      <div className="">
         <span className="hover:underline" onClick={() => router.push('/staff')}>
           Dashboard
         </span>{' '}

@@ -14,7 +14,7 @@ export default async function StaffEditResort({ params }: { params: IParams }) {
 
   return requireAuth(
     <div>
-      <div className="mt-10">
+      <div className="">
         Dashboard {'>'} <span className="text-common">Update resort</span>
       </div>
       <div className=" w-[600px] py-10">

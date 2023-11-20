@@ -57,7 +57,7 @@ const MyProfile: React.FC<MyProfileProps> = ({ currentUser }) => {
           </div>
           <div className="flex flex-col gap-3 px-4 py-4 md:hidden lg:hidden xl:hidden">
             <div>Name: {currentUser?.username}</div>
-            <div>Birth Date: {format(new Date(currentUser?.dob), 'MMMM dd, yyyy')} </div>
+            <div>Birth Date: {format(new Date(currentUser?.dob), 'dd-MM-yyyy')}</div>
             <div>Email: {currentUser?.email}</div>
             <div>Gender: {currentUser?.gender}</div>
             <div>Phone: {currentUser?.phone}</div>
@@ -70,7 +70,8 @@ const MyProfile: React.FC<MyProfileProps> = ({ currentUser }) => {
             </div>
             <div className="flex flex-col mr-16 text-gray-600 ">
               <div className="mb-5 ml-9">{currentUser?.username}</div>
-              <div className="mb-5 ml-9">{format(new Date(currentUser?.dob), 'MMMM dd, yyyy')}</div>
+
+              <div className="mb-5 ml-9">{format(new Date(currentUser?.dob), 'dd-MM-yyyy')}</div>
               <div className="mb-5 ml-9">{currentUser?.email}</div>
             </div>
             <div className="flex flex-col mr-10 text-gray-400   ">

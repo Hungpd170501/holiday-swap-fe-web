@@ -127,7 +127,7 @@ const ListMembershipAll: React.FC<ListMembershipAllProps> = ({ users }) => {
 
   return (
     <>
-      <div className="mt-10">
+      <div className="">
         Staff {'>'} <span className="text-common">List Membership</span>
       </div>
       <SelectRouterStaff />

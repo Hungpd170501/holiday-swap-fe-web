@@ -29,7 +29,7 @@ export default function EditProfileComponent() {
   };
 
   return (
-    <div>
+    <div className="px-10">
       <div>
         <div className="block lg:hidden xl:hidden">
           <select
@@ -48,7 +48,7 @@ export default function EditProfileComponent() {
             <option value="/dashboard/myBooking">My Booking</option>
           </select>
         </div>
-        <div className="xl:mt-10">
+        <div className="">
           Dashboard {'>'} <span className="text-common">Edit profile</span>
         </div>
         <div className="w-full md:w-[600px] md:py-10">

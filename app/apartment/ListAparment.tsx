@@ -41,9 +41,9 @@ const ListAparment: React.FC<ListApartmentProps> = ({ listApartment, listResort 
       />
 
       <Container className="gap-5">
-        <div className="py-2">
+        {/* <div className="py-2">
           <Categories />
-        </div>
+        </div> */}
         <ListResort
           listApartment={listApartment}
           resortId={resortId}
