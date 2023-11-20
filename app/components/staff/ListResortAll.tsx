@@ -53,7 +53,7 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
   const pageSize = 10;
   const totalPages = Math.ceil(resorts?.totalElements / pageSize);
 
-  const onPageChange = async (newPage: number) => {
+  const onPageChange = async (newPage: any) => {
     try {
       const newResortsData = await GetListResort(newPage);
 
