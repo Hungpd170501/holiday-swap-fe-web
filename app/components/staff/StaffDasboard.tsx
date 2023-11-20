@@ -57,12 +57,6 @@ const StaffDashboard: React.FC<StaffDasboardProps> = ({ currentUser }) => {
           </div>
         </div>
       </div>
-      <div>
-        <ListResortDashboard />
-      </div>
-      <div>
-        <ListMembershipDashboard />
-      </div>
     </div>
   );
 };
