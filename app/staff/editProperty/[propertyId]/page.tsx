@@ -5,7 +5,7 @@ import Link from 'next/link';
 import React from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import Container from '@/app/components/Container';
-import FormDetailProperty from './FormEditProperty';
+import FormEditProperty from './FormEditProperty';
 interface IParams {
   propertyId: number;
 }
@@ -20,7 +20,7 @@ const EditProperty = async ({ params }: { params: IParams }) => {
           </div>
           <div className="flex flex-row">
             <div className="flex flex-row mb-14 ">
-              <FormDetailProperty propertyId={params.propertyId} />
+              <FormEditProperty propertyId={params.propertyId} />
             </div>
           </div>
         </div>
