@@ -227,10 +227,10 @@ const CreateResort: React.FC<CreateResortProps> = ({ amenitiesArray, propertyTyp
     console.log(mapPlaceToLocation(location as Place));
     axios
       .post(`https://holiday-swap.click/api/v1/resorts`, formData, config)
-      // .post(`https://holiday-swap.click`, formData, config)
       .then(() => {
         toast.success('Create resort success');
         reset();
+        router.push('/staff/listresort');
       })
       .catch((response) => {
         toast.error(response.response.data.message);

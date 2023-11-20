@@ -32,7 +32,7 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail }) => {
       <div className="">
         <div className="flex-col">
           <div className="pb-6 w-full flex flex-row items-center justify-between">
-            <div>
+            <div className="flex flex-col gap-3">
               <div className="pt-10  text-[40px]">{resortDetail.resortName}</div>
               <div className="flex flex-row items-center gap-1">
                 <div className="font-bold text-[20px]">Address: </div>
@@ -49,7 +49,7 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail }) => {
                   ))}
                 </div>
               </div>
-              <div className="flex flex-row items-center gap-1">
+              <div className="flex flex-row  gap-1">
                 <div className="font-bold text-[20px]">Amenity: </div>
                 <div>
                   {resortDetail.resortAmenityTypes.map((row: any, index: any) => (
@@ -117,7 +117,7 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail }) => {
         </div>
       </div>
 
-      <div className="w-full h-[700px] py-5">
+      <div className="w-full h-[700px] my-10 ">
         <MapResort
           latitude={resortDetail.latitude}
           id={resortDetail.id}
@@ -131,7 +131,7 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail }) => {
           <div className="pr-[30px]">
             <div className="pb-[10px]">{resortDetail.resortDescription}</div>
           </div>
-
+          {/* 
           <div className="py-5 ">
             <div className="flex flex-row items-center  mb-[10px]">
               <RxRadiobutton className="mr-[10px]" />
@@ -149,7 +149,7 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail }) => {
               <RxRadiobutton className="mr-[10px]" />
               <div>Sunset on the cruise</div>
             </div>
-          </div>
+          </div> */}
           <div className="h-[0.5px] bg-gray-300 mb-[20px] mr-[430px]"></div>
         </div>
         <div className="flex flex-col">
