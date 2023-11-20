@@ -41,7 +41,10 @@ const ListResort: React.FC<ListResortProps> = ({
         page - 1
       }&guest=${numberOfGuest}&resortId=${resortId}&pageSize=12&sortBy=id`;
 
-      if (dateRangeNew && dateRangeNew.endDate.toDateString() !== initialDate.endDate.toDateString()) {
+      if (
+        dateRangeNew &&
+        dateRangeNew.endDate.toDateString() !== initialDate.endDate.toDateString()
+      ) {
         apiUrl += `&checkIn=${format(dateRangeNew.startDate, 'yyyy-MM-dd')}&checkOut=${format(
           dateRangeNew.endDate,
           'yyyy-MM-dd'
@@ -54,8 +57,7 @@ const ListResort: React.FC<ListResortProps> = ({
     };
 
     getList();
-  }, [page, numberOfGuest, resortId, dateRangeNew, dateRange, initialDate]);
-
+  }, [page, numberOfGuest, resortId, dateRangeNew, initialDate]);
 
   return (
     <Fragment>

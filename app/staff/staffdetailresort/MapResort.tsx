@@ -24,7 +24,7 @@ interface IParams {
 }
 const MapResort: React.FC<IParams> = ({ latitude, id, resortName, longitude }) => {
   return (
-    <div className=" w-screen h-screen">
+    <div className=" w-full h-full">
       <GoogleMapReact
         bootstrapURLKeys={{
           key: 'AIzaSyDTZQ9gsIrh6G2_HtnX7pTgFS74G_VVedU',
