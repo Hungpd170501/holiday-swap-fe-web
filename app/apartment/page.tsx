@@ -11,7 +11,7 @@ export const metadata = {
 
 export default async function listResortPage() {
   const listApartment = await GetListApartment();
-  const listResort = await GetListResort(parseInt('0', 10));
+  const listResort = await GetListResort('0');
   return (
     <ClientOnly>
       <ListAparment listApartment={listApartment} listResort={listResort} />

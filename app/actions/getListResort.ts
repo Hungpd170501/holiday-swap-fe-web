@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default async function GetListResort(pageNo: number, config: any = {}) {
+export default async function GetListResort(pageNo: string, config: any = {}) {
   try {
     const { resortName } = config;
 
