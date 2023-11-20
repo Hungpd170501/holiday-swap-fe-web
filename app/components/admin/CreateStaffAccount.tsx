@@ -1,8 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import React, { ChangeEvent, useState } from 'react';
-import InputMini from '../input/InputMini';
-import UploadAvtStaff from './UploadAvtStaff';
 import { DatePicker, Image } from 'antd';
 import dayjs from 'dayjs';
 import { BiBlock } from 'react-icons/bi';
@@ -87,6 +85,7 @@ export default function CreateStaffAccount() {
       axiosAuthClient
         .post('https://holiday-swap.click/api/v1/users', formData)
         .then(() => {
+          router.push('/admin/liststaff');
           toast.success('Create staff success');
           reset();
         })
