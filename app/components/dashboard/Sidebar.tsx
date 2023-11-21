@@ -73,12 +73,12 @@ const Sidebar = () => {
       icon: PiNotepadBold,
       current: pathName?.includes('/dashboard/ownerBooking') ? true : false,
     },
-    {
-      name: 'Invoices',
-      href: '/dashboard/invoices',
-      icon: LiaFileInvoiceDollarSolid,
-      current: pathName?.includes('/dashboard/invoices') ? true : false,
-    },
+    // {
+    //   name: 'Invoices',
+    //   href: '/dashboard/invoices',
+    //   icon: LiaFileInvoiceDollarSolid,
+    //   current: pathName?.includes('/dashboard/invoices') ? true : false,
+    // },
     {
       name: 'Reviews',
       href: '/dashboard/review',
@@ -86,32 +86,32 @@ const Sidebar = () => {
       current: pathName?.includes('/dashboard/review') ? true : false,
     },
   ];
-  const sidebarExchange = [
-    {
-      name: 'My Exchange',
-      href: '/dashboard/myExchange',
-      icon: MdOutlineSwapHorizontalCircle,
-      current: pathName?.includes('/dashboard/myExchange') ? true : false,
-    },
-    {
-      name: 'Invoices Exchange',
-      href: '/dashboard/invoiceExchange',
-      icon: LiaFileInvoiceDollarSolid,
-      current: pathName?.includes('/dashboard/invoiceExchange') ? true : false,
-    },
-    {
-      name: 'Reviews Exchange',
-      href: '/dashboard/reviewExchange',
-      icon: AiOutlineStar,
-      current: pathName?.includes('/dashboard/reviewExchange') ? true : false,
-    },
-  ];
+  // const sidebarExchange = [
+  //   {
+  //     name: 'My Exchange',
+  //     href: '/dashboard/myExchange',
+  //     icon: MdOutlineSwapHorizontalCircle,
+  //     current: pathName?.includes('/dashboard/myExchange') ? true : false,
+  //   },
+  //   {
+  //     name: 'Invoices Exchange',
+  //     href: '/dashboard/invoiceExchange',
+  //     icon: LiaFileInvoiceDollarSolid,
+  //     current: pathName?.includes('/dashboard/invoiceExchange') ? true : false,
+  //   },
+  //   {
+  //     name: 'Reviews Exchange',
+  //     href: '/dashboard/reviewExchange',
+  //     icon: AiOutlineStar,
+  //     current: pathName?.includes('/dashboard/reviewExchange') ? true : false,
+  //   },
+  // ];
   return (
     <div className="hidden md:hidden md:pt-5 md:pl-5 md:pr-5 lg:block ">
       <div className="hidden lg:flex lg:min-h-full lg:rounded-md lg:w-72 lg:flex-col h-full">
         <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-[#F8F8F8] px-6 pb-4 border-r-2">
           <div className="flex h-16 shrink-0 items-center">
-            <h1 className="text-3xl font-bold text-gray-700">My Account</h1>
+            <div className="text-3xl font-bold text-gray-700">My Account</div>
           </div>
 
           <div className="flex flex-1 flex-col">
@@ -140,7 +140,7 @@ const Sidebar = () => {
           </div>
 
           <div className="flex h-16 shrink-0 items-center">
-            <h1 className="text-3xl font-bold text-gray-700">My Wallet</h1>
+            <div className="text-3xl font-bold text-gray-700">My Wallet</div>
           </div>
 
           <div className="flex flex-1 flex-col">
@@ -168,7 +168,7 @@ const Sidebar = () => {
             </ul>
           </div>
           <div className="flex h-16 shrink-0 items-center">
-            <h1 className="text-3xl font-bold text-gray-700">Booking</h1>
+            <div className="text-3xl font-bold text-gray-700">Booking</div>
           </div>
           <div className="flex flex-1 flex-col">
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -194,8 +194,8 @@ const Sidebar = () => {
               </li>
             </ul>
           </div>
-          <div className="flex h-16 shrink-0 items-center">
-            <h1 className="text-3xl font-bold text-gray-700">Exchange</h1>
+          {/* <div className="flex h-16 shrink-0 items-center">
+            <div className="text-3xl font-bold text-gray-700">Exchange</div>
           </div>
           <div className="flex flex-1 flex-col">
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -220,7 +220,7 @@ const Sidebar = () => {
                 </ul>
               </li>
             </ul>
-          </div>
+          </div> */}
           <div>
             <button className="bg-[#5C98F2] px-4 py-3 rounded-md text-white">Sign Out</button>
           </div>
