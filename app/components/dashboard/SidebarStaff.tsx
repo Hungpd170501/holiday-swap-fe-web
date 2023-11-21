@@ -59,6 +59,18 @@ const SidebarStaff = () => {
       icon: MdOutlineCreateNewFolder,
       current: pathName?.includes('/staff/createproperty') ? true : false,
     },
+    {
+      name: 'Create Property View',
+      href: '/staff/createPropertyView',
+      icon: MdOutlineCreateNewFolder,
+      current: pathName?.includes('/staff/createPropertyView') ? true : false,
+    },
+    {
+      name: 'Create Property Type',
+      href: '/staff/createPropertyType',
+      icon: MdOutlineCreateNewFolder,
+      current: pathName?.includes('/staff/createPropertyType') ? true : false,
+    },
   ];
   const sidebarMember = [
     {

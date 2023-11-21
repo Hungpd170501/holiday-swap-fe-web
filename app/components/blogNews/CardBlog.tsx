@@ -7,14 +7,17 @@ import Image from 'next/image';
 import { BiSolidDislike, BiSolidLike } from 'react-icons/bi';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import toast from 'react-hot-toast';
+import { useSession } from 'next-auth/react';
 
 interface CardBlogProps {
   post: any;
+  currentUser: any;
 }
 
-const CardBlog: React.FC<CardBlogProps> = ({ post }) => {
+const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
   const [postList, setPostList] = useState<any>();
   const axiosAuthClient = useAxiosAuthClient();
+  const { data: session } = useSession();
 
   useEffect(() => {
     if (post) {
@@ -23,7 +26,7 @@ const CardBlog: React.FC<CardBlogProps> = ({ post }) => {
   }, [post]);
 
   const handleLikePost = (postId: any) => {
-    if (postId) {
+    if (postId && currentUser) {
       axiosAuthClient
         .put(`https://holiday-swap.click/api/post/react?postId=${postId}&reaction=like`)
         .then(() => {
@@ -32,11 +35,13 @@ const CardBlog: React.FC<CardBlogProps> = ({ post }) => {
         .catch((response) => {
           toast.error(response.response.data.message);
         });
+    } else {
+      toast.error('You must be login to like post!');
     }
   };
 
   const handleDislikePost = (postId: any) => {
-    if (postId) {
+    if (postId && currentUser) {
       axiosAuthClient
         .put(`https://holiday-swap.click/api/post/react?postId=${postId}&reaction=dislike`)
         .then(() => {
@@ -45,6 +50,8 @@ const CardBlog: React.FC<CardBlogProps> = ({ post }) => {
         .catch((response) => {
           toast.error(response.response.data.message);
         });
+    } else {
+      toast.error('You must be login to dislike post!');
     }
   };
 
