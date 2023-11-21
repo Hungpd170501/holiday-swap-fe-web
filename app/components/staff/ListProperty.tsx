@@ -342,7 +342,7 @@ export default function ListProperty() {
                   <Button
                     type="primary"
                     style={{ color: 'white', backgroundColor: 'orange', width: 74.4 }}
-                    onClick={() => route.push(`/staff/detailProperty/${record.id}`)}
+                    onClick={() => route.push(`/staff/editProperty/${record.id}`)}
                   >
                     Edit
                   </Button>
