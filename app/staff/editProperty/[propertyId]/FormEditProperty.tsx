@@ -488,7 +488,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
                   },
                 ]}
               >
-                <InputNumber min={1} />
+                <InputNumber min={0} />
               </Form.Item>
             </Col>
             <Col className="gutter-row" span={12}>
