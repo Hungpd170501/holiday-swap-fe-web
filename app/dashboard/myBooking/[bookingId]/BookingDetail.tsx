@@ -77,10 +77,12 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
           <div className="text-slate-400">Description</div>
         </div>
 
-        {bookingDetail?.rating === false && (
+        {bookingDetail?.rating === true && (
           <div className="py-3">
             <button
-              onClick={createReviewModal.onOpen}
+              onClick={() =>
+                createReviewModal.onOpen(bookingDetail?.availableTimeId, currentUser?.userId, bookingDetail?.id)
+              }
               type="button"
               className="p-3 rounded-md bg-common hover:bg-hover text-white text-lg"
             >

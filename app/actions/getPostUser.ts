@@ -4,11 +4,7 @@ import { getServerSession } from 'next-auth';
 
 export default async function GetPostUser() {
   try {
-    const session = await getServerSession(authOptions);
-    const accessToken = session?.user?.access_token;
-    const config = { headers: { Authorization: `Bearer ${accessToken}` } };
-
-    const post = await axios.get(`https://holiday-swap.click/api/post/get`, config);
+    const post = await axios.get(`https://holiday-swap.click/api/post/get`);
 
     if (!post) {
       return null;

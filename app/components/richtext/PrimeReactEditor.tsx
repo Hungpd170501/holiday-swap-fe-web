@@ -1,11 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-
-// PrimeReact editor built on top of quillJS editor, a lightweight editor easier to setup but less option
-// QuillJS don't encourage arbitrary changes to it's content so change to TinyMCE, CKEditor or SummerNote for higher customization
 import { Editor, EditorTextChangeEvent } from 'primereact/editor';
-
-// Theme for Editor in case not custom theme - will be disable if use toolBarOptions
 import 'primereact/resources/themes/tailwind-light/theme.css';
 import { useRouter } from 'next/navigation';
 import useWriteBlogModal from '@/app/hooks/useWriteBlogModal';
@@ -13,6 +8,7 @@ import axios from 'axios';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
+import { Label, Textarea } from 'flowbite-react';
 
 const PrimeReactEditor = () => {
   const router = useRouter();
@@ -22,19 +18,16 @@ const PrimeReactEditor = () => {
   const { data: session } = useSession();
 
   const postBlog = async () => {
-    console.log('Posted: ', blogContent);
-    localStorage.setItem('blogContent', blogContent);
-    router.push('/blog/demoDisplay');
-
     const accessToken = session?.user?.access_token;
-    const config = { headers: { Authorization: `Bearer ${accessToken}`, "Content-type": "multipart/form-data" } };
+    const config = {
+      headers: { Authorization: `Bearer ${accessToken}`, 'Content-type': 'application/json' },
+    };
 
     axios
-      .post(`https://holiday-swap.click/api/post/create?content`, blogContent, config)
+      .post(`https://holiday-swap.click/api/post/create`, blogContent, config)
       .then(() => {
         toast.success('Create post success');
         writeBlogModal.onClose();
-        router.push('demoDisplay');
       })
       .catch((response) => {
         if (response && response.response && response.response.data) {
@@ -79,7 +72,13 @@ const PrimeReactEditor = () => {
   }
 
   return (
-    <>
+    <div className="flex flex-col gap-2">
+      <div className="max-w-md">
+        <div className="mb-2 block">
+          <Label htmlFor="comment" value="Your title for this blog" />
+        </div>
+        <Textarea id="comment" placeholder="Leave a comment..." required rows={4} />
+      </div>
       <Editor
         value={blogContent}
         onTextChange={onTextChange}
@@ -88,6 +87,7 @@ const PrimeReactEditor = () => {
         theme="snow"
         showHeader={false}
         modules={{ toolbar: { container: toolbarOptions } }}
+        className="h-[80%]"
       />
       <div className="mt-2 flex flex-row justify-end">
         <button
@@ -97,7 +97,7 @@ const PrimeReactEditor = () => {
           Post
         </button>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -13,7 +13,7 @@ import type {
 } from 'antd/es/table/interface';
 import axios from '@/app/libs/axios';
 import SearchSelectResort from './SearchSelectResort';
-import PopConfirmDeleteProperty from './PopConfirmDeleteProperty';
+import PopConfirmDeleteProperty from './PopconfirmDeleteProperty';
 import { useRouter } from 'next/navigation';
 import PopChangeStatusPropertyToDeActivate from './PopChangeStatusPropertyToDeActivate';
 import PopChangeStatusPropertyToActive from './PopChangeStatusPropertyToActive';
