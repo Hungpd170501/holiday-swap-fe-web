@@ -11,6 +11,8 @@ import Paper from '@mui/material/Paper';
 import Link from 'next/link';
 import SelectRouterStaff from './SelectRouterStaff';
 import DropdownStatusResort from './DropdownStatusResort';
+import GetListResort from '@/app/actions/getListResort';
+import { Pagination } from 'flowbite-react';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -45,8 +47,23 @@ function createData(
 interface ListResortAllProps {
   resorts?: any;
 }
+const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }) => {
+  const [resorts, setResorts] = React.useState<any>(initialResorts);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const pageSize = 10;
+  const totalPages = Math.ceil(resorts?.totalElements / pageSize);
 
-const ListResortAll: React.FC<ListResortAllProps> = ({ resorts }) => {
+  const onPageChange = async (newPage: any) => {
+    try {
+      const newResortsData = await GetListResort(newPage);
+
+      setResorts({ content: newResortsData.content, totalElements: newResortsData.totalElements });
+
+      setCurrentPage(newPage);
+    } catch (error) {
+      console.error('Error fetching list of resorts:', error);
+    }
+  };
   return (
     <>
       <div className="">
@@ -125,6 +142,14 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts }) => {
           </TableBody>
         </Table>
       </TableContainer>
+      <div className="flex py-5 overflow-x-auto sm:justify-center">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+          showIcons
+        />
+      </div>
     </>
   );
 };

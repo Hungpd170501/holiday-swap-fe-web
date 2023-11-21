@@ -128,6 +128,7 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
       .then(() => {
         toast.success('Create Property Success!');
         reset();
+        router.push('/staff/listproperty'); // Navigate to the listproperty page
       })
       .catch((response) => {
         toast.error(response.response.data.message);
