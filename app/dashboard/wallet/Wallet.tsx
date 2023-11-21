@@ -13,6 +13,9 @@ interface WalletProps {
 
 const Wallet: React.FC<WalletProps> = ({ userWallet, transfer, historyTransaction }) => {
   const router = useRouter();
+  const numberTopup = historyTransaction?.filter(
+    (item: any) => item.message.includes('Admin') && item.status === 'SUCCESS'
+  ).length;
   return (
     <div>
       <div className="">
@@ -50,7 +53,7 @@ const Wallet: React.FC<WalletProps> = ({ userWallet, transfer, historyTransactio
               <div className="flex flex-row items-center">
                 <div className="bg-[#f1e4f1] w-auto h-auto rounded-lg px-5 py-3 flex flex-row items-center">
                   <div className="bg-white rounded-full w-11 h-11 flex flex-col justify-center items-center mr-[10px]">
-                    <div className="text-[25px] text-[#e6abe6]">21</div>
+                    <div className="text-[25px] text-[#e6abe6]">{numberTopup}</div>
                   </div>
                   <div className="flex flex-col">
                     <div>Number of top-up</div>
