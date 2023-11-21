@@ -1,9 +1,9 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
-import { SearchOutlined } from '@ant-design/icons';
+import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import type { InputRef } from 'antd';
-import { Button, Input, Space, Table } from 'antd';
+import { Button, Dropdown, Input, Menu, Space, Table } from 'antd';
 import type { ColumnType, ColumnsType } from 'antd/es/table';
 import type {
   FilterConfirmProps,
@@ -13,8 +13,10 @@ import type {
 } from 'antd/es/table/interface';
 import axios from '@/app/libs/axios';
 import SearchSelectResort from './SearchSelectResort';
-import PopconfirmDeleteProperty from './PopconfirmDeleteProperty';
+import PopConfirmDeleteProperty from './PopConfirmDeleteProperty';
 import { useRouter } from 'next/navigation';
+import PopChangeStatusPropertyToDeActivate from './PopChangeStatusPropertyToDeActivate';
+import PopChangeStatusPropertyToActive from './PopChangeStatusPropertyToActive';
 interface PropertyType {
   id: number;
   propertyName: string;
@@ -321,27 +323,73 @@ export default function ListProperty() {
       sortOrder: tableParams.sorter?.column?.key === 'resortId' ? tableParams.sorter.order : null,
     },
     {
-      title: 'Action',
+      // title: 'Action',
       render: (_, record) => (
-        <Space size="middle">
-          {/* <ModalDetailProperty id={record.id} /> */}
-          <Button
-            type="primary"
-            style={{ color: 'white', backgroundColor: 'green' }}
-            // icon={<FileSearchOutlined />}
-            onClick={() => route.push(`/staff/detailProperty/${record.id}`)}
+        <Space>
+          <Dropdown
+            overlay={
+              <Menu>
+                <Menu.Item key="0">
+                  <Button
+                    type="primary"
+                    style={{ color: 'white', backgroundColor: 'green', width: 74.4 }}
+                    onClick={() => route.push(`/staff/detailProperty/${record.id}`)}
+                  >
+                    Detail
+                  </Button>
+                </Menu.Item>
+                <Menu.Item key="1">
+                  <Button
+                    type="primary"
+                    style={{ color: 'white', backgroundColor: 'orange', width: 74.4 }}
+                    onClick={() => route.push(`/staff/detailProperty/${record.id}`)}
+                  >
+                    Edit
+                  </Button>
+                </Menu.Item>
+                <Menu.Item key="2">
+                  <PopConfirmDeleteProperty id={record.id} fetchProperties={fetchProperties} />
+                </Menu.Item>
+              </Menu>
+            }
+            trigger={['click']}
           >
-            Detail
-          </Button>
-          <Button
-            type="primary"
-            style={{ color: 'white', backgroundColor: 'orange' }}
-            // icon={<FileSearchOutlined />}
-            onClick={() => route.push(`/staff/editProperty/${record.id}`)}
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                Action
+                <DownOutlined />
+              </Space>
+            </a>
+          </Dropdown>
+          <Dropdown
+            overlay={
+              <Menu>
+                {record.status == 'ACTIVE' ? (
+                  <Menu.Item key="0">
+                    <PopChangeStatusPropertyToDeActivate
+                      id={record.id}
+                      fetchProperties={fetchProperties}
+                    />
+                  </Menu.Item>
+                ) : (
+                  <Menu.Item key="0">
+                    <PopChangeStatusPropertyToActive
+                      id={record.id}
+                      fetchProperties={fetchProperties}
+                    />
+                  </Menu.Item>
+                )}
+              </Menu>
+            }
+            trigger={['click']}
           >
-            Edit
-          </Button>
-          <PopconfirmDeleteProperty id={record.id} fetchProperties={fetchProperties} />
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                Status
+                <DownOutlined />
+              </Space>
+            </a>
+          </Dropdown>
         </Space>
       ),
     },

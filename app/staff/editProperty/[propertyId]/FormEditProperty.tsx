@@ -3,10 +3,23 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Col, Form, Input, InputNumber, Modal, Row, Select, Upload } from 'antd';
+import {
+  Button,
+  Checkbox,
+  Col,
+  Form,
+  Input,
+  InputNumber,
+  Modal,
+  Row,
+  Select,
+  Upload,
+  message,
+} from 'antd';
 import type { RcFile, UploadProps } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 interface FormDetailPropertyProps {
   propertyId: number;
@@ -29,7 +42,8 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
   const [previewTitle, setPreviewTitle] = useState('');
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [listImageDelete, setListImageDelete] = useState<number[]>([]);
-  const [listImageCreate, setListImageCreate] = useState<string[]>([]);
+  // const [listImageCreate, setListImageCreate] = useState<string[]>([]);
+  const route = useRouter();
   const [formEditProperty] = Form.useForm();
   const onFinish = async (values: any) => {
     values = { ...values, listImageDelete: listImageDelete };
@@ -37,11 +51,13 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
     console.log(values);
     console.log('fileList', fileCreate);
     let data = new FormData();
-    fileCreate.map((file) => {
-      if (file.originFileObj) {
-        data.append('propertyImages', file.originFileObj);
-      }
-    });
+    if (fileCreate.length > 0)
+      fileCreate.map((file) => {
+        if (file.originFileObj) {
+          data.append('propertyImages', file.originFileObj);
+        }
+      });
+    // data.append('propertyImages', null);
     data.append(
       'propertyUpdateRequest',
       new Blob([JSON.stringify(values)], { type: 'application/json' })
@@ -49,7 +65,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
     let config = {
       method: 'put',
       maxBodyLength: Infinity,
-      url: `http://localhost:8080/api/v1/properties/${propertyId}`,
+      url: `https://holiday-swap.click/api/v1/properties/${propertyId}`,
       headers: {},
       data: data,
     };
@@ -58,9 +74,12 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
+        message.success('Update success.');
+        route.push(`/staff/listproperty`);
       })
       .catch((error) => {
         console.log(error);
+        message.error('Update fail.');
       });
   };
 
@@ -79,11 +98,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
     setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
   };
 
-  const handleChange: UploadProps['onChange'] = ({
-    file: newFileAdded,
-    fileList: newFileList,
-    event: e,
-  }) => {
+  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
     setFileList(
       newFileList.map((file) => {
         file.status = 'done';
@@ -144,7 +159,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'http://localhost:8080/api/v1/property-view/list',
+      url: 'https://holiday-swap.click/api/v1/property-view/list',
       headers: {},
     };
 
@@ -162,7 +177,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'http://localhost:8080/api/v1/property-types/list',
+      url: 'https://holiday-swap.click/api/v1/property-types/list',
       headers: {},
     };
 
@@ -180,7 +195,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'http://localhost:8080/api/v1/in-room-amenity-types/list',
+      url: 'https://holiday-swap.click/api/v1/in-room-amenity-types/list',
       headers: {},
     };
 
@@ -205,13 +220,24 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
     setListImageDelete([...listImageDelete, Number(file.uid)]);
   }
 
-  // function onActionUpload(): string | PromiseLike<string> {
-  //   return new Promise((resolve, reject) => {
-  //     // Your asynchronous code here, such as making an API call
-  //     // resolve('/api/upload'); // Resolve with the upload URL on success
-  //     // reject('Error uploading file'); // Reject with an error message on failure
-  //   });
-  // }
+  const validatePropertyImage = () => {
+    return new Promise((resolve, reject) => {
+      if (fileList.length > 0) {
+        resolve('ok');
+      } else {
+        reject('Please input your property image!');
+      }
+    });
+  };
+  const validateBed = () => {
+    return new Promise((resolve, reject) => {
+      if (fileList.length > 0) {
+        resolve('ok');
+      } else {
+        reject('Please input your property image!');
+      }
+    });
+  };
 
   return (
     <>
@@ -249,8 +275,14 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
             <Col className="gutter-row" span={24}>
               <Form.Item
                 label="Upload"
-                name="listImageDelete"
-                // rules={[{ required: true, message: 'Please input your property image!' }]}
+                name="propertyImage"
+                rules={[
+                  {
+                    required: true,
+                    validator: validatePropertyImage,
+                    message: 'Please input your property image!',
+                  },
+                ]}
               >
                 <Upload
                   listType="picture-card"
@@ -350,7 +382,9 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
               <Form.Item<PropertyTypeUpdate>
                 label="Bed Room"
                 name="numberBedsRoom"
-                // rules={[{ required: true, message: 'Please input your property description!' }]}
+                rules={[
+                  { required: true, message: 'Please input your property number Beds Room!' },
+                ]}
               >
                 <InputNumber min={0} />
               </Form.Item>
@@ -359,7 +393,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
               <Form.Item<PropertyTypeUpdate>
                 label="Bath Bed"
                 name="numberBathRoom"
-                // rules={[{ required: true, message: 'Please input your property description!' }]}
+                rules={[{ required: true, message: 'Please input your property number BathRoom!' }]}
               >
                 <InputNumber min={0} />
               </Form.Item>
@@ -368,16 +402,20 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
               <Form.Item<PropertyTypeUpdate>
                 label="Size"
                 name="roomSize"
-                // rules={[{ required: true, message: 'Please input your property description!' }]}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your room size!',
+                  },
+                ]}
               >
-                <InputNumber min={0} />
+                <InputNumber min={10} />
               </Form.Item>
             </Col>
           </Row>
           <Form.Item<PropertyTypeUpdate>
             label="Property View"
             name="propertyViewId"
-            // initialValue={propertyDetail?.propertyViewId}
             rules={[{ required: true, message: 'Please input your property property view!' }]}
           >
             <Select
@@ -419,11 +457,6 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
               placeholder="Select property type"
               optionFilterProp="children"
               allowClear
-              // defaultValue={propertyDetail?.inRoomAmenityType.map((e1) =>
-              //   e1.inRoomAmenities.map((e2) => {
-              //     e2.inRoomAmenityTypeId;
-              //   })
-              // )}
               filterOption={filterOption}
               mode="multiple"
               options={inRoomAmenityTypeList?.map((e) => ({
@@ -435,21 +468,6 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
               }))}
             />
           </Form.Item>
-
-          {/* <Form.Item<PropertyTypeUpdate>
-            label="Resort"
-            name="resortId"
-            rules={[{ required: true, message: 'Please input your property status!' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item<PropertyTypeUpdate>
-            label="Status"
-            name="status"
-            rules={[{ required: true, message: 'Please input your property status!' }]}
-          >
-            <Input />
-          </Form.Item> */}
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button danger htmlType="submit">
               Submit

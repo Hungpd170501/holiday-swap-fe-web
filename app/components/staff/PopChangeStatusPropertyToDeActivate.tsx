@@ -3,40 +3,48 @@ import { Button, message, Popconfirm } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import axios from '@/app/libs/axios';
 
-interface PopConfirmDeletePropertyProps {
+interface PopChangeStatusPropertyToDeActivateProps {
   fetchProperties: () => void;
   id: number;
 }
 
-const PopConfirmDeleteProperty: React.FC<PopConfirmDeletePropertyProps> = ({ id , fetchProperties}) => {
-  const confirm = (e: React.MouseEvent<HTMLElement>) =>
-    new Promise((resolve) => {
+const PopChangeStatusPropertyToDeActivate: React.FC<PopChangeStatusPropertyToDeActivateProps> = ({
+  id,
+  fetchProperties,
+}) => {
+  const confirm = (e: React.MouseEvent<HTMLElement>) => {
+    let data = JSON.stringify('DEACTIVATE');
+    return new Promise((resolve) => {
       //setTimeout(() => resolve(null), 3000);
       let config = {
-        method: 'delete',
+        method: 'put',
         maxBodyLength: Infinity,
-        url: `https://holiday-swap.click/api/v1/properties/${id}`,
-        headers: {},
+        url: `https://holiday-swap.click/api/v1/properties/${id}/status`,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: data,
       };
 
       axios
         .request(config)
         .then((response) => {
           console.log(response.data);
-          message.success('Delete success.');
+          message.success('Change status success.');
           resolve(null);
           fetchProperties();
         })
         .catch((error) => {
-          message.error(`Delete faild. \n ${error}`);
+          message.error(`Change status failed. \n ${error}`);
           resolve(null);
           console.log(error);
         });
     });
+  };
   return (
     <Popconfirm
-      title={'Delete the property'}
-      description="Are you sure to delete this property?"
+      title={'Change status the property'}
+      description="Are you sure to change status this property?"
       onConfirm={(e: any) => confirm(e)}
       // onCancel={(e: any) => cancel(e)}
       okText="Yes"
@@ -44,9 +52,9 @@ const PopConfirmDeleteProperty: React.FC<PopConfirmDeletePropertyProps> = ({ id 
       okType="default"
       icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
     >
-      <Button danger>Delete</Button>
+      <Button danger>Deactive</Button>
     </Popconfirm>
   );
 };
 
-export default PopConfirmDeleteProperty;
+export default PopChangeStatusPropertyToDeActivate;
