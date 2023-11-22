@@ -1,9 +1,8 @@
+import requireAuth from '@/app/libs/requireAuth';
 import React from 'react';
-import requireAuth from './../../libs/requireAuth';
 import ListPropertyType from './ListPropertyType';
 import GetPropertyTypeStaff from '@/app/actions/getPropertyTypeStaff';
 
-export default async function ListPropertyTypePage() {
-  const propertyTypes = await GetPropertyTypeStaff();
-  return requireAuth(<ListPropertyType propertyTypes={propertyTypes} />, [3]);
+export default async function ListPropertyViewPage() {
+  return requireAuth(<ListPropertyType />, [3]);
 }
