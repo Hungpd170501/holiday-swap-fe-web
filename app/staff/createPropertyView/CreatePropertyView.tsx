@@ -33,6 +33,7 @@ const CreatePropertyView = () => {
     axiosAuthClient
       .post(`/property-view`, data, config)
       .then(() => {
+        router.push('/staff/listPropertyView');
         toast.success('Create property view success');
         reset();
       })

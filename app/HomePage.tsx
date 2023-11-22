@@ -21,7 +21,7 @@ const HomePage: React.FC<HomePageProps> = ({ listResort }) => {
       <Container>
         <div className="pt-32 xl:px-9">
           <div className="grid md:grid-cols-2 grid-cols-1">
-            <Banner />
+            <Banner listResort={listResort} />
           </div>
           <TopDestination listResort={listResort} />
           <TopApartment />

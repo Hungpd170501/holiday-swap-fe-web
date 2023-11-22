@@ -72,6 +72,12 @@ const SidebarStaff = () => {
       current: pathName?.includes('/staff/createPropertyView') ? true : false,
     },
     {
+      name: 'List Property Type',
+      href: '/staff/listPropertyType',
+      icon: PiFolders,
+      current: pathName?.includes('/staff/listPropertyType') ? true : false,
+    },
+    {
       name: 'Create Property Type',
       href: '/staff/createPropertyType',
       icon: MdOutlineCreateNewFolder,
