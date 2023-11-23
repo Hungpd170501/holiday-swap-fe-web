@@ -10,7 +10,7 @@ import { HiMiniComputerDesktop } from 'react-icons/hi2';
 import { MdComputer, MdOutlineSwapHorizontalCircle } from 'react-icons/md';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BiWallet } from 'react-icons/bi';
+import { BiMessageDetail, BiSolidNotification, BiWallet } from 'react-icons/bi';
 import { FaMoneyBillTransfer } from 'react-icons/fa6';
 
 function classNames(...classes: string[]) {
@@ -86,6 +86,7 @@ const Sidebar = () => {
       current: pathName?.includes('/dashboard/review') ? true : false,
     },
   ];
+
   // const sidebarExchange = [
   //   {
   //     name: 'My Exchange',
@@ -106,6 +107,23 @@ const Sidebar = () => {
   //     current: pathName?.includes('/dashboard/reviewExchange') ? true : false,
   //   },
   // ];
+
+  //
+  const sidebarMessages = [
+    {
+      name: 'Chats',
+      href: '/chat',
+      icon: BiMessageDetail,
+      current: pathName === '/chat',
+    },
+    // {
+    //   name: 'Notifications',
+    //   href: '/dashboard/invoiceExchange',
+    //   icon: BiSolidNotification,
+    //   current: pathName === '/notification',
+    // }
+  ];
+
   return (
     <div className="hidden md:hidden md:pt-5 md:pl-5 md:pr-5 lg:block ">
       <div className="hidden lg:flex lg:min-h-full lg:rounded-md lg:w-72 lg:flex-col h-full">
@@ -220,7 +238,37 @@ const Sidebar = () => {
                 </ul>
               </li>
             </ul>
+          </div>
           </div> */}
+
+
+          <div className="flex h-16 shrink-0 items-center">
+            <h1 className="text-3xl font-bold text-gray-700">Messages</h1>
+          </div>
+          <div className="flex flex-1 flex-col">
+            <ul role="list" className="flex flex-1 flex-col gap-y-7">
+              <li>
+                <ul role="list" className="-mx-2 space-y-1">
+                  {sidebarMessages.map((option) => (
+                    <li key={option.name}>
+                      <Link
+                        href={option.href}
+                        className={classNames(
+                          option.current
+                            ? 'bg-common text-white'
+                            : 'text-gray-400 hover:text-white hover:bg-common',
+                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                        )}
+                      >
+                        <option.icon className="text-gray-300 group-hover:text-white h-6 w-6 shrink-0" />
+                        {option.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            </ul>
+          </div>
           <div>
             <button className="bg-[#5C98F2] px-4 py-3 rounded-md text-white">Sign Out</button>
           </div>

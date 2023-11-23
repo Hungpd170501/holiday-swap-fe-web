@@ -79,15 +79,3 @@ select:focus {
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   border-color: #9CA3AF;
 }
-
-.mapboxgl-ctrl-geocoder {
-  position: absolute !important;
-  top: 0 !important;
-  min-width: 450px !important;
-  width: 100% !important;
-}
-
-.ant-drawer-content-wrapper {
-  height: 100% !important;
-  width: 100% !important;
-}

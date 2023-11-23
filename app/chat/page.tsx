@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import EmptyState from "./components/EmptyState";
+import EmptyState from "../components/chat/EmptyState";
 import clsx from "clsx";
 import useConversation from "../hooks/useConverastion";
 
@@ -10,7 +10,7 @@ export default function Chat() {
   return (
     <div
       className={clsx(
-        `lg:pl-80 lg:block h-screen`,
+        `lg:block h-screen`,
         isOpen ? "block" : "hidden"
       )}
     >
