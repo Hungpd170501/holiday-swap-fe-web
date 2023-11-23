@@ -1,12 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { Table } from 'flowbite-react';
 import { useRouter } from 'next/navigation';
 import React, { Fragment, useEffect, useState } from 'react';
-import { Pagination } from 'flowbite-react';
+import { Button, Label, Pagination, Table, TextInput } from 'flowbite-react';
 import GetPropertyTypeStaff from '@/app/actions/getPropertyTypeStaff';
-import ModalDeletePropertyType from './ModalDeletePropertyType';
 import useEditPropertyTypeModal from '@/app/hooks/useEditPropertyTypeModal';
+import useDeletePropertyTypeModal from '@/app/hooks/useDeletePropertyTypeModal';
 interface IPropertyType {
   id: number;
   propertyTypeName: string;
@@ -19,10 +19,6 @@ interface Pageable {
   sortDirection: string;
   sortBy: string;
 }
-interface ApiParam {
-  searchName: string;
-  pageable: Pageable;
-}
 interface ListPropertyTypeProps {
   propertyViews?: any;
 }
@@ -31,6 +27,7 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
   const router = useRouter();
   const [propertyViewList, setPropertyViewList] = useState<IPropertyType[]>([]);
   const editPropertyTypeModal = useEditPropertyTypeModal();
+  const deletePropertyTypeModal = useDeletePropertyTypeModal();
 
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
@@ -41,7 +38,7 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
   const [pageable, setPageable] = useState<Pageable>({
     pageNo: 0,
     pageSize: 10,
-    sortDirection: 'asc',
+    sortDirection: 'desc',
     sortBy: 'id',
   });
   const [searchName, setSeachName] = useState<string>('');
@@ -58,20 +55,51 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
     }
     setTotalPages(responsePropertyType.totalPages);
   };
+  const handleEditClick = (item: IPropertyType) => {
+    editPropertyTypeModal.item = item;
+    editPropertyTypeModal.onOpen();
+  };
+  const handleDeleteClick = (item: IPropertyType) => {
+    deletePropertyTypeModal.item = item;
+    deletePropertyTypeModal.onOpen();
+  };
   useEffect(() => {
-    fetchPropertyType();
-  }, [JSON.stringify(pageable), JSON.stringify(searchName)]);
+    fetchPropertyType(editPropertyTypeModal.item.id);
+  }, [
+    JSON.stringify(pageable),
+    JSON.stringify(searchName),
+    editPropertyTypeModal.isSuccess,
+    deletePropertyTypeModal.isSuccess,
+  ]);
+
+  function handleSearchNameSubmit(e: React.FormEvent<HTMLFormElement>): void {
+    e.preventDefault();
+    setSeachName(e.currentTarget.searchName.value);
+  }
 
   return (
     <Fragment>
       <div className="">
         <span className="hover:underline" onClick={() => router.push('/staff')}>
           Dashboard
-        </span>{' '}
+        </span>
         {'>'} <span className="text-common">List property view</span>
       </div>
 
       <div className="py-10">
+        <div className="my-2  ">
+          <form onSubmit={(e) => handleSearchNameSubmit(e)}>
+            <Label
+              htmlFor="searchName"
+              value="Search Name: "
+              className="mx-1 inline-block align-middle"
+            />
+            <div className="flex">
+              <TextInput name="searchName" type="text" className="mx-1" />
+              <Button type="submit">Submit</Button>
+            </div>
+          </form>
+        </div>
         <Table>
           <Table.Head>
             <Table.HeadCell>No</Table.HeadCell>
@@ -92,10 +120,16 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
                 <Table.Cell>
                   <div className="flex">
                     <div
-                      onClick={editPropertyTypeModal.onOpen}
-                      className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                      onClick={() => handleEditClick(item)}
+                      className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 mx-1"
                     >
                       Edit
+                    </div>
+                    <div
+                      onClick={() => handleDeleteClick(item)}
+                      className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 mx-1"
+                    >
+                      Delete
                     </div>
                   </div>
                 </Table.Cell>

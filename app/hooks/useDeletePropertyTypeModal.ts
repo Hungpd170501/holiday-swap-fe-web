@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-interface EditPropertyTypeModalStore {
+interface DeletePropertyTypeModalStore {
   isOpen: boolean;
   item: IPropertyType;
   onOpen: () => void;
@@ -13,7 +13,7 @@ interface IPropertyType {
   propertyTypeDescription: string;
   deleted: boolean;
 }
-const useEditPropertyTypeModal = create<EditPropertyTypeModalStore>((set) => ({
+const useDeletePropertyTypeModal = create<DeletePropertyTypeModalStore>((set) => ({
   isOpen: false,
   item: {
     id: 0,
@@ -26,4 +26,4 @@ const useEditPropertyTypeModal = create<EditPropertyTypeModalStore>((set) => ({
   isSuccess: false,
 }));
 
-export default useEditPropertyTypeModal;
+export default useDeletePropertyTypeModal;
