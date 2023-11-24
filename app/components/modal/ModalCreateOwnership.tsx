@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import Input from '../input/Input';
+import InputComponent from '../input/Input';
 import { toast } from 'react-hot-toast';
 import { Select, Textarea, Label, FileInput } from 'flowbite-react';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
@@ -280,7 +280,7 @@ export default function ModalCreateOwnership() {
       )}
 
       <div className="grid grid-cols-2 gap-4">
-        <Input
+        <InputComponent
           id="weekNumber"
           label="Number of week in a year"
           disabled={isLoading}
@@ -292,7 +292,7 @@ export default function ModalCreateOwnership() {
           required
           tooltipContent="This is the week you own in the year, for example if you own the 6th week in 2023, you enter 6. You can enter multiple weeks by separating the weeks with a comma. For example: 6, 10, 11"
         />
-        <Input
+        <InputComponent
           id="roomId"
           label="Apartment ID"
           disabled={isLoading}

@@ -2,7 +2,7 @@
 
 import React, { Fragment, useState } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
-import Input from '../components/input/Input';
+import InputComponent from '../components/input/Input';
 import { useForm, FieldValues, SubmitHandler } from 'react-hook-form';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { useRouter } from 'next/navigation';
@@ -156,7 +156,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
                 {index === 0 ? '' : `Guest ${index + 1}`}
               </div>
               <div className="grid grid-cols-2 gap-5">
-                <Input
+                <InputComponent
                   type="text"
                   label={`Email`}
                   id={`email${index}`}
@@ -164,7 +164,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
                   required
                   errors={errors}
                 />
-                <Input
+                <InputComponent
                   type="text"
                   label={`Full Name`}
                   id={`fullName${index}`}
@@ -174,7 +174,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
                 />
               </div>
               <div className="grid grid-cols-1">
-                <Input
+                <InputComponent
                   type="text"
                   label={`Phone Number`}
                   id={`phoneNumber${index}`}

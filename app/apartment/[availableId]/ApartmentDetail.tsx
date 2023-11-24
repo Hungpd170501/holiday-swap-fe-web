@@ -60,6 +60,16 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
       datesOutsideDateRange.push(new Date(i));
     }
 
+    if (apartment.timeHasBooked) {
+      const checkInDate = new Date(apartment.timeHasBooked.checkIn);
+      const checkOutDate = new Date(apartment.timeHasBooked.checkOut);
+
+      // Add dates between checkIn and checkOut to datesOutsideDateRange
+      for (let i = checkInDate.getTime(); i <= checkOutDate.getTime(); i += 24 * 60 * 60 * 1000) {
+        datesOutsideDateRange.push(new Date(i));
+      }
+    }
+
     return datesOutsideDateRange;
   };
 

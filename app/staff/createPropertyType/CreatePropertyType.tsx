@@ -17,7 +17,7 @@ const CreatePropertyType = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm<FieldValues>({
     defaultValues: {
       propertyTypeName: '',
@@ -33,6 +33,7 @@ const CreatePropertyType = () => {
     axiosAuthClient
       .post(`/property-types`, data, config)
       .then(() => {
+        router.push('/staff/listPropertyType');
         toast.success('Create property type success');
         reset();
       })

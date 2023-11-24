@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import Input from '../input/Input';
+import InputComponent from '../input/Input';
 import Link from 'next/link';
 import BtnRegister from './BtnRegister';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
@@ -477,7 +477,7 @@ const RegisterBody = () => {
       <div className="px-4 md:px-20 flex-col w-full bg-white">
         <div className="flex items-center py-12 w-full text-3xl">You fill information of you</div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <Input
+          <InputComponent
             register={register}
             errors={errors}
             type="text"
@@ -485,7 +485,7 @@ const RegisterBody = () => {
             label="Username*"
             placeholder="Username"
           />
-          <Input
+          <InputComponent
             register={register}
             errors={errors}
             type="text"
@@ -496,7 +496,7 @@ const RegisterBody = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <Input
+          <InputComponent
             register={register}
             errors={errors}
             type="password"
@@ -504,7 +504,7 @@ const RegisterBody = () => {
             label="Password"
             placeholder="Password"
           />
-          <Input
+          <InputComponent
             register={register}
             errors={errors}
             type="password"
@@ -551,7 +551,7 @@ const RegisterBody = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <Input
+          <InputComponent
             register={register}
             errors={errors}
             type="text"
@@ -559,7 +559,7 @@ const RegisterBody = () => {
             label="Phone"
             placeholder="Phone"
           />
-          {/* <Input
+          {/* <InputComponent
             type="text"
             id="lastName"
             label="Last Name"

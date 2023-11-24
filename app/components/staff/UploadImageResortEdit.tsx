@@ -1,9 +1,12 @@
-"use client";
-import React, { useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
-import { Modal, Upload } from "antd";
-import type { RcFile, UploadProps } from "antd/es/upload";
-import type { UploadFile } from "antd/es/upload/interface";
+'use client';
+import React, { ChangeEvent, useState } from 'react';
+import { PlusOutlined } from '@ant-design/icons';
+import { Modal, Upload } from 'antd';
+import type { RcFile, UploadProps } from 'antd/es/upload';
+import type { UploadFile } from 'antd/es/upload/interface';
+import Image from 'next/image';
+import { FaRegTimesCircle } from 'react-icons/fa';
+import { GoPlus } from 'react-icons/go';
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -13,91 +16,100 @@ const getBase64 = (file: RcFile): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-const UploadImageResortEdit: React.FC = () => {
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [previewTitle, setPreviewTitle] = useState("");
-  const [fileList, setFileList] = useState<UploadFile[]>([
-    {
-      uid: "-1",
-      name: "image.png",
-      status: "done",
-      url: "http://localhost:3000/_next/image?url=%2Fimages%2Fresort1.jpg&w=384&q=75",
-    },
-    {
-      uid: "-2",
-      name: "image.png",
-      status: "done",
-      url: "http://localhost:3000/_next/image?url=%2Fimages%2Fresortdetail1.jpg&w=384&q=75",
-    },
-    {
-      uid: "-3",
-      name: "image.png",
-      status: "done",
-      url: "http://localhost:3000/_next/image?url=%2Fimages%2Fresortdetail2.jpg&w=384&q=75",
-    },
-    {
-      uid: "-4",
-      name: "image.png",
-      status: "done",
-      url: "http://localhost:3000/_next/image?url=%2Fimages%2Fresortdetail4.jpg&w=384&q=75",
-    },
-    // {
-    //   uid: "-xxx",
-    //   percent: 50,
-    //   name: "image.png",
-    //   status: "uploading",
-    //   url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    // },
-    // {
-    //   uid: "-5",
-    //   name: "image.png",
-    //   status: "error",
-    // },
-  ]);
+interface UploadImageResortEditProps {
+  resortImages: any;
+  handleAddOldImages: (image: any) => void;
+  handeChangeNewImages: (image: any) => void;
+}
 
-  const handleCancel = () => setPreviewOpen(false);
+const UploadImageResortEdit: React.FC<UploadImageResortEditProps> = ({
+  resortImages,
+  handleAddOldImages,
+  handeChangeNewImages,
+}) => {
+  const [resortImagesList, setResortImagesList] = useState<any[]>(resortImages);
+  const [newImages, setNewImages] = useState<any[]>([]);
+  const [previewImage, setPreviewImage] = useState<any[]>([]);
 
-  const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as RcFile);
+  const handleDeleteImage = (item: any) => {
+    if (item) {
+      setResortImagesList(resortImagesList.filter((prev) => prev.id !== item.id));
+      handleAddOldImages(item);
     }
-
-    setPreviewImage(file.url || (file.preview as string));
-    setPreviewOpen(true);
-    setPreviewTitle(
-      file.name || file.url!.substring(file.url!.lastIndexOf("/") + 1)
-    );
   };
 
-  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
-    setFileList(newFileList);
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files && Array.from(e.target.files);
 
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
-  );
+    if (files) {
+      files.forEach((file) => {
+        handeChangeNewImages(file);
+        const reader = new FileReader();
+
+        reader.onload = () => {
+          if (reader.readyState === 2) {
+            setPreviewImage((old) => [...old, reader.result]);
+          }
+        };
+
+        reader.readAsDataURL(file);
+      });
+    }
+  };
+
   return (
     <>
-      <Upload
-        action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-        listType="picture-card"
-        fileList={fileList}
-        onPreview={handlePreview}
-        onChange={handleChange}
-      >
-        {fileList.length >= 8 ? null : uploadButton}
-      </Upload>
-      <Modal
-        open={previewOpen}
-        title={previewTitle}
-        footer={null}
-        onCancel={handleCancel}
-      >
-        <img alt="example" style={{ width: "100%" }} src={previewImage} />
-      </Modal>
+      <div className="grid grid-cols-6 gap-3">
+        {resortImagesList.map((item: any, index: number) => (
+          <div className="relative">
+            <div key={item.id} className="p-2 border-gray-300 border rounded-md">
+              <Image
+                src={item.link}
+                alt="image"
+                width={1000}
+                height={700}
+                className="object-cover"
+              />
+            </div>
+            <FaRegTimesCircle
+              onClick={() => handleDeleteImage(item)}
+              size={20}
+              className="absolute top-1 right-1 cursor-pointer hover:opacity-90"
+            />
+          </div>
+        ))}
+        {previewImage &&
+          previewImage.length > 0 &&
+          previewImage.map((item: any, index: number) => (
+            <div className="relative">
+              <div key={index} className="p-2 border-gray-300 border rounded-md">
+                <Image src={item} alt="image" width={1000} height={700} className="object-cover" />
+              </div>
+              <FaRegTimesCircle
+                onClick={() => handleDeleteImage(item)}
+                size={20}
+                className="absolute top-1 right-1 cursor-pointer hover:opacity-90"
+              />
+            </div>
+          ))}
+        <div className="py-10 md:py-0 lg:py-0 xl:py-0 ">
+          <label
+            htmlFor="avatar"
+            className="flex flex-col h-[120px] items-center justify-center border-dashed border border-gray-400 rounded-md hover:opacity-80 hover:cursor-pointer"
+          >
+            <GoPlus size={30} />
+            <span>Upload</span>
+          </label>
+          <input
+            onChange={handleImageChange}
+            type="file"
+            id="avatar"
+            className="hidden"
+            accept="image/*"
+            multiple
+          />
+        </div>
+      </div>
     </>
   );
 };

@@ -7,6 +7,10 @@ import GetTransfer from '@/app/actions/getTransfer';
 import GetHistoryTransaction from '@/app/actions/getHistoryTransaction';
 import requireAuth from '@/app/libs/requireAuth';
 
+export const metadata = {
+  title: 'Your wallet',
+};
+
 export default async function WalletPage() {
   const userWallet = await GetUserWallet();
   const transfer = await GetTransfer();

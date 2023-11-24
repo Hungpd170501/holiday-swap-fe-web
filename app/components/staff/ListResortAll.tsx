@@ -126,7 +126,28 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                   ))}
                 </StyledTableCell>
                 <StyledTableCell className="!py-5 " align="left">
-                  Active
+                  {(() => {
+                    let statusText = '';
+                    if (row.status === 'ACTIVE') {
+                      statusText = 'ACTIVE';
+                    } else if (row.status === 'DEACTIVATE') {
+                      statusText = 'DEACTIVATE';
+                    } else if (row.status === 'NO_LONGER_IN_BUSINESS') {
+                      statusText = 'LONGER BUSINESS';
+                    }
+
+                    return (
+                      <div
+                        className={`py-2 px-1 text-sm text-center  bg-slate-200 font-bold rounded-md ${
+                          statusText === 'ACTIVE' ? 'text-green-500' : ''
+                        } ${statusText === 'DEACTIVATE' ? 'text-rose-500' : ''} ${
+                          statusText === 'NO_LONGER_IN_BUSINESS' ? 'text-orange-500' : ''
+                        }`}
+                      >
+                        {statusText}
+                      </div>
+                    );
+                  })()}
                 </StyledTableCell>
                 {/* <StyledTableCell className="!py-5 " align="left">
                   {row?.resortAmenityTypes?.map((item: any, index: number) => (

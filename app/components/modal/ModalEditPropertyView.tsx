@@ -2,29 +2,27 @@
 
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import Modal from './Modal';
+import InputComponent from '../input/Input';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { Textarea, Label } from 'flowbite-react';
-import useEditPropertyTypeModal from '@/app/hooks/useEditPropertyTypeModal';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import toast from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
-import InputComponent from '../input/Input';
+import useEditPropertyViewModal from '@/app/hooks/useEditPropertyViewModal';
 
-export default function ModalEditPropertyType() {
+export default function ModalEditPropertyView() {
   const [isLoading, setIsLoading] = useState(false);
-  const editPropertyTypeModal = useEditPropertyTypeModal();
-  const propertyType = editPropertyTypeModal.propertyType;
-  const [propertyTypeName, setPropertyTypeName] = useState<string>();
-  const [propertyTypeDescription, setPropertyTypeDescription] = useState<string>();
+  const editPropertyViewModal = useEditPropertyViewModal();
+  const propertyView = editPropertyViewModal.propertyView;
+  const [propertyViewName, setPropertyViewName] = useState<string>();
+  const [propertyViewDescription, setPropertyViewDescription] = useState<string>();
   const axiosAuthClient = useAxiosAuthClient();
-  const router = useRouter();
 
   useEffect(() => {
-    if (propertyType) {
-      setPropertyTypeName(propertyType.propertyTypeName);
-      setPropertyTypeDescription(propertyType.propertyTypeDescription);
+    if (propertyView) {
+      setPropertyViewName(propertyView.propertyViewName);
+      setPropertyViewDescription(propertyView.propertyViewDescription);
     }
-  }, [propertyType]);
+  }, [propertyView]);
 
   const {
     register,
@@ -37,18 +35,16 @@ export default function ModalEditPropertyType() {
     },
   });
 
-  const propertyTypeDescriptionField = register('propertyTypeDescription', { required: true });
-
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
 
     const config = { headers: { 'Content-type': 'application/json' } };
 
     axiosAuthClient
-      .put(`https://holiday-swap.click/api/v1/property-types/${propertyType?.id}`, data, config)
+      .put(`https://holiday-swap.click/api/v1/property-view/${propertyView?.id}`, data, config)
       .then(() => {
-        toast.success('Update property type success!');
-        editPropertyTypeModal.onClose();
+        toast.success('Update property view success!');
+        editPropertyViewModal.onClose();
       })
       .catch((response) => {
         toast.error(response.response.data.message);
@@ -60,27 +56,27 @@ export default function ModalEditPropertyType() {
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <InputComponent
-        label="Property Type Name"
-        value={propertyTypeName}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => setPropertyTypeName(e.target.value)}
-        id="propertyTypeName"
+        label="Property View Name"
+        value={propertyViewName}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => setPropertyViewName(e.target.value)}
+        id="propertyViewName"
         errors={errors}
         register={register}
         required
       />
       <div className="w-full">
         <div className="mb-2 block">
-          <label>Property Type Description</label>
+          <label>Property View Description</label>
         </div>
         <Textarea
-          id="propertyTypeDescription"
-          value={propertyTypeDescription}
+          id="propertyViewDescription"
+          value={propertyViewDescription}
           placeholder="Leave a comment..."
           required
           rows={4}
-          {...register('propertyTypeDescription', {
+          {...register('propertyViewDescription', {
             onChange: (e) => {
-              setPropertyTypeDescription(e.target.value);
+              setPropertyViewDescription(e.target.value);
             },
           })}
         />
@@ -90,10 +86,10 @@ export default function ModalEditPropertyType() {
   return (
     <Modal
       disabled={isLoading}
-      isOpen={editPropertyTypeModal.isOpen}
-      title="Edit property type"
+      isOpen={editPropertyViewModal.isOpen}
+      title="Edit property view"
       actionLabel="Submit"
-      onClose={editPropertyTypeModal.onClose}
+      onClose={editPropertyViewModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
     />

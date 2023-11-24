@@ -1,6 +1,6 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import axios from "axios";
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import axios from 'axios';
 
 export default async function GetUserWallet() {
   try {

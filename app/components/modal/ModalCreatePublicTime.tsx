@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import Input from '../input/Input';
+import InputComponent from '../input/Input';
 import Modal from './Modal';
 import { toast } from 'react-hot-toast';
 import useCreatePlanModal from '@/app/hooks/useCreatePlanModal';
@@ -192,7 +192,7 @@ export default function ModalCreatePublicTime() {
         </div>
       )}
       <div className="grid grid-cols-1">
-        <Input
+        <InputComponent
           id="pricePerNight"
           label="Price/Night"
           register={register}

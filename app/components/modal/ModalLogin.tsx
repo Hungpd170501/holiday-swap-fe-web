@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import React, { useCallback, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import Heading from '../Heading';
-import Input from '../input/Input';
+import InputComponent from '../input/Input';
 import Modal from './Modal';
 import { signIn } from 'next-auth/react';
 import { toast } from 'react-hot-toast';
@@ -80,7 +80,7 @@ export default function ModalLogin() {
       </div>
       {isForgotPasswordModalOpen ? (
         <div className="grid grid-cols-1 gap-4">
-          <Input
+          <InputComponent
             id="email"
             label="Email"
             disabled={isLoading}
@@ -92,7 +92,7 @@ export default function ModalLogin() {
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-4">
-          <Input
+          <InputComponent
             id="email"
             label="Email"
             disabled={isLoading}
@@ -100,7 +100,7 @@ export default function ModalLogin() {
             errors={errors}
             required
           />
-          <Input
+          <InputComponent
             id="password"
             label="Password"
             type="password"

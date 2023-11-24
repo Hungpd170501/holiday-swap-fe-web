@@ -10,6 +10,7 @@ interface InputProps {
   label: string;
   tooltipContent?: string;
   value?: any;
+  valueRegister?: any;
   onChange?: (value: any) => void;
   type?: string;
   placeholder?: string;
@@ -20,11 +21,12 @@ interface InputProps {
   errors: FieldErrors;
 }
 
-const Input: React.FC<InputProps> = ({
+const InputComponent: React.FC<InputProps> = ({
   id,
   label,
   type = 'text',
   placeholder = '',
+  valueRegister,
   disabled,
   tooltipContent,
   formatPrice,
@@ -67,4 +69,4 @@ const Input: React.FC<InputProps> = ({
   );
 };
 
-export default Input;
+export default InputComponent;

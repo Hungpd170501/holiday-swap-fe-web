@@ -18,21 +18,21 @@ const HistoryPayment: React.FC<HistoryPaymentProps> = ({ historyTransaction }) =
   const [value, setValue] = useState('1');
   const [currentPage, setCurrentPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
-  const itemsPerPage = 5; // Số lượng mục trên mỗi trang
+  const itemsPerPage = 10; // Số lượng mục trên mỗi trang
   const [displayedItems, setDisplayItems] = useState<any>();
 
   // Tính toán số trang dựa trên số lượng mục và số lượng mục trên mỗi trang
   useEffect(() => {
     if (historyTransaction) {
-      setPageCount(Math.floor(historyTransaction?.length / itemsPerPage));
+      setPageCount(Math.ceil(historyTransaction?.length / itemsPerPage));
     }
   }, [historyTransaction]);
 
   useEffect(() => {
-    setDisplayItems(
-      historyTransaction?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
-    );
-  }, [currentPage]);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    setDisplayItems(historyTransaction?.slice(startIndex, endIndex));
+  }, [currentPage, historyTransaction, itemsPerPage]);
 
   // Hàm xử lý sự kiện khi trang thay đổi
   const handlePageChange = (selectedPage: { selected: number }) => {
@@ -65,7 +65,7 @@ const HistoryPayment: React.FC<HistoryPaymentProps> = ({ historyTransaction }) =
                 <div className="flex flex-col">
                   <div className="text-gray-900 text-base font-bold">
                     {item.type === 'RECIVED'
-                      ? `From: ${item.from === 'VN_PAY' ? 'Top up your wallet' : item.from}`
+                      ? `${item.from === 'VN_PAY' ? 'Top up your wallet' : 'From: ' + item.from}`
                       : `To: ${item.to}`}
                   </div>
                   <div className="text-gray-600 text-sm">{item.message}</div>
@@ -81,7 +81,7 @@ const HistoryPayment: React.FC<HistoryPaymentProps> = ({ historyTransaction }) =
               <Table.Cell className="text-gray-900 text-lg">
                 <div
                   className={`font-bold ${
-                    (item.amount as string).includes('+') ? 'text-green-600' : ''
+                    (item.amount as string).includes('+') ? 'text-green-600' : 'text-rose-600'
                   }`}
                 >
                   {item.amount}

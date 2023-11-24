@@ -7,6 +7,11 @@ import { Pagination } from 'flowbite-react';
 import GetPropertyTypeStaff from '@/app/actions/getPropertyTypeStaff';
 import ModalDeletePropertyType from './ModalDeletePropertyType';
 import useEditPropertyTypeModal from '@/app/hooks/useEditPropertyTypeModal';
+import { Button, Modal } from 'flowbite-react';
+import axios from 'axios';
+import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
+import toast from 'react-hot-toast';
+
 interface IPropertyType {
   id: number;
   propertyTypeName: string;
@@ -31,8 +36,11 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
   const router = useRouter();
   const [propertyViewList, setPropertyViewList] = useState<IPropertyType[]>([]);
   const editPropertyTypeModal = useEditPropertyTypeModal();
+  const axiosAuthClient = useAxiosAuthClient();
 
   const [currentPage, setCurrentPage] = useState<number>(0);
+  const [openModal, setOpenModal] = useState(false);
+  const [idDelete, setIdDelete] = useState<any>();
   const [totalPages, setTotalPages] = useState<number>(0);
   const onPageChange = (page: number) => {
     setCurrentPage(page);
@@ -62,6 +70,19 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
     fetchPropertyType();
   }, [JSON.stringify(pageable), JSON.stringify(searchName)]);
 
+  const handleDeleteProperty = (id: any) => {
+    axiosAuthClient
+      .delete(`https://holiday-swap.click/api/v1/property-types/${id}`)
+      .then(() => {
+        setOpenModal(false);
+        toast.success('Delete property success');
+      })
+      .catch((response) => {
+        setOpenModal(false);
+        toast.error(response.response.data.message);
+      });
+  };
+
   return (
     <Fragment>
       <div className="">
@@ -90,12 +111,21 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
                 <Table.Cell>{item.propertyTypeName}</Table.Cell>
                 <Table.Cell>{item.propertyTypeDescription}</Table.Cell>
                 <Table.Cell>
-                  <div className="flex">
+                  <div className="flex gap-3">
                     <div
-                      onClick={editPropertyTypeModal.onOpen}
-                      className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                      onClick={() => editPropertyTypeModal.onOpen(item)}
+                      className="font-medium text-cyan-600 hover:underline hover:cursor-pointer dark:text-cyan-500"
                     >
                       Edit
+                    </div>
+                    <div
+                      onClick={() => {
+                        setOpenModal(true);
+                        setIdDelete(item.id);
+                      }}
+                      className="font-medium text-rose-600 hover:underline hover:cursor-pointer dark:text-rose-500"
+                    >
+                      Delete
                     </div>
                   </div>
                 </Table.Cell>
@@ -112,6 +142,25 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
             showIcons
           />
         </div>
+
+        <Modal show={openModal} onClose={() => setOpenModal(false)}>
+          <Modal.Header>Delete property</Modal.Header>
+          <Modal.Body>
+            <div className="space-y-6">
+              <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                Do you want to delete this property
+              </p>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button color="red" className="font-bold" onClick={() => handleDeleteProperty(idDelete)}>
+              I accept
+            </Button>
+            <Button color="gray" onClick={() => setOpenModal(false)}>
+              Decline
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </Fragment>
   );

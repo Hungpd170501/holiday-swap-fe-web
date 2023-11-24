@@ -1,6 +1,6 @@
 'use client';
 import React, { ChangeEvent, useState } from 'react';
-import Input from '../input/Input';
+import InputComponent from '../input/Input';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
@@ -157,7 +157,7 @@ const EditProfileComponent: React.FC<EditProfileProps> = ({ currentUser }) => {
         </div>
         <div className=" w-full md:w-[700px]">
           <div className=" flex flex-row mb-14">
-            <Input
+            <InputComponent
               id="fullName"
               label="Full Name"
               errors={errors}

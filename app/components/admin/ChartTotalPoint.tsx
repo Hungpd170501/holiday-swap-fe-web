@@ -28,11 +28,11 @@ export const options = {
   },
 };
 
-const ChartIncome = () => {
+const ChartTotalPoint = () => {
   const labels = ['Mon', 'Tue', 'Web', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   const [type, setType] = useState('current');
-  const [dataCommiss, setDataCommiss] = useState<any>();
+  const [dataTotalPoint, setDataTotalPoint] = useState<any>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,13 +41,13 @@ const ChartIncome = () => {
         type: type,
       };
       const data = await axios.post(
-        'https://holiday-swap.click/api/v1/reportdashboard/totalcommission/week',
+        'https://holiday-swap.click/api/v1/reportdashboard/totalpoint/week',
         body,
         config
       );
       const bookingArray = Object.values(data.data);
 
-      setDataCommiss(bookingArray);
+      setDataTotalPoint(bookingArray);
     };
     fetchData();
   }, [type]);
@@ -56,8 +56,8 @@ const ChartIncome = () => {
     labels,
     datasets: [
       {
-        label: 'Commission',
-        data: dataCommiss?.slice(0, 7),
+        label: 'Total point',
+        data: dataTotalPoint?.slice(0, 7),
         borderColor: 'rgb(53, 162, 235)',
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
       },
@@ -67,22 +67,22 @@ const ChartIncome = () => {
   const handleChangeWeek = async (type: any) => {
     const config = { headers: { 'Cotent-type': 'application/json' } };
     const body = {
-      monday: new Date(dataCommiss.slice(7, 8)),
+      monday: new Date(dataTotalPoint.slice(7, 8)),
       type: type,
     };
     const dataBooking = await axios.post(
-      'https://holiday-swap.click/api/v1/reportdashboard/totalcommission/week',
+      'https://holiday-swap.click/api/v1/reportdashboard/totalpoint/week',
       body,
       config
     );
     const bookingArray = Object.values(dataBooking.data);
 
-    setDataCommiss(bookingArray);
+    setDataTotalPoint(bookingArray);
   };
 
   return (
     <div className="p-5 w-full flex flex-col items-center">
-      <div className="font-bold text-xl text-black">Commission in week</div>
+      <div className="font-bold text-xl text-black">Total point in week</div>
       <div className="p-4 min-w-full h-[300px]">
         <Line options={options} data={data} />
       </div>
@@ -115,4 +115,4 @@ const ChartIncome = () => {
   );
 };
 
-export default ChartIncome;
+export default ChartTotalPoint;

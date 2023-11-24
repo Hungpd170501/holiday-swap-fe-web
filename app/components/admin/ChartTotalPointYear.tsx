@@ -28,11 +28,24 @@ export const options = {
   },
 };
 
-const ChartIncome = () => {
-  const labels = ['Mon', 'Tue', 'Web', 'Thu', 'Fri', 'Sat', 'Sun'];
+const ChartTotalPointYear = () => {
+  const labels = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
 
   const [type, setType] = useState('current');
-  const [dataCommiss, setDataCommiss] = useState<any>();
+  const [dataTotalPoint, setDataTotalPoint] = useState<any>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,13 +54,13 @@ const ChartIncome = () => {
         type: type,
       };
       const data = await axios.post(
-        'https://holiday-swap.click/api/v1/reportdashboard/totalcommission/week',
+        'https://holiday-swap.click/api/v1/reportdashboard/totalpoint/year',
         body,
         config
       );
       const bookingArray = Object.values(data.data);
 
-      setDataCommiss(bookingArray);
+      setDataTotalPoint(bookingArray);
     };
     fetchData();
   }, [type]);
@@ -56,33 +69,35 @@ const ChartIncome = () => {
     labels,
     datasets: [
       {
-        label: 'Commission',
-        data: dataCommiss?.slice(0, 7),
+        label: 'Total point',
+        data: dataTotalPoint?.slice(0, 12),
         borderColor: 'rgb(53, 162, 235)',
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
       },
     ],
   };
 
-  const handleChangeWeek = async (type: any) => {
+  const handleChangeYear = async (type: any) => {
     const config = { headers: { 'Cotent-type': 'application/json' } };
     const body = {
-      monday: new Date(dataCommiss.slice(7, 8)),
+      year: new Date(dataTotalPoint.slice(12, 13)).getFullYear(),
       type: type,
     };
     const dataBooking = await axios.post(
-      'https://holiday-swap.click/api/v1/reportdashboard/totalcommission/week',
+      'https://holiday-swap.click/api/v1/reportdashboard/totalpoint/year',
       body,
       config
     );
     const bookingArray = Object.values(dataBooking.data);
 
-    setDataCommiss(bookingArray);
+    setDataTotalPoint(bookingArray);
   };
 
   return (
     <div className="p-5 w-full flex flex-col items-center">
-      <div className="font-bold text-xl text-black">Commission in week</div>
+      <div className="font-bold text-xl text-black">
+        Total point in year {dataTotalPoint?.slice(12, 13)}
+      </div>
       <div className="p-4 min-w-full h-[300px]">
         <Line options={options} data={data} />
       </div>
@@ -91,7 +106,7 @@ const ChartIncome = () => {
           <button
             onClick={() => {
               setType('back');
-              handleChangeWeek(type);
+              handleChangeYear(type);
             }}
             type="button"
           >
@@ -103,7 +118,7 @@ const ChartIncome = () => {
           <button
             onClick={() => {
               setType('next');
-              handleChangeWeek(type);
+              handleChangeYear(type);
             }}
             type="button"
           >
@@ -115,4 +130,4 @@ const ChartIncome = () => {
   );
 };
 
-export default ChartIncome;
+export default ChartTotalPointYear;

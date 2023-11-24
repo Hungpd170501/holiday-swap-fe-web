@@ -5,7 +5,7 @@ import { DatePicker, Image } from 'antd';
 import dayjs from 'dayjs';
 import { BiBlock } from 'react-icons/bi';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import Input from '../input/Input';
+import InputComponent from '../input/Input';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import toast from 'react-hot-toast';
 import { FileInput } from 'flowbite-react';
@@ -141,11 +141,17 @@ export default function CreateStaffAccount() {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-5">
-          <Input id="email" label="Email" register={register} errors={errors} required />
-          <Input id="username" label="Username" register={register} errors={errors} required />
+          <InputComponent id="email" label="Email" register={register} errors={errors} required />
+          <InputComponent
+            id="username"
+            label="Username"
+            register={register}
+            errors={errors}
+            required
+          />
         </div>
         <div className="grid grid-cols-2 gap-5">
-          <Input
+          <InputComponent
             id="password"
             label="Password"
             type="password"
@@ -154,7 +160,7 @@ export default function CreateStaffAccount() {
             required
           />
 
-          <Input
+          <InputComponent
             id="confirmPassword"
             label="Confirm password"
             type="password"
@@ -191,8 +197,20 @@ export default function CreateStaffAccount() {
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <Input id="fullName" label="Full name" register={register} errors={errors} required />
-          <Input id="phone" label="Phone Number" register={register} errors={errors} required />
+          <InputComponent
+            id="fullName"
+            label="Full name"
+            register={register}
+            errors={errors}
+            required
+          />
+          <InputComponent
+            id="phone"
+            label="Phone Number"
+            register={register}
+            errors={errors}
+            required
+          />
         </div>
       </div>
       <div className="flex flex-row justify-end w-full py-3">
