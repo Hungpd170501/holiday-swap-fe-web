@@ -75,7 +75,6 @@ export default function ModalEditPropertyType() {
           placeholder="Leave a comment..."
           required
           rows={4}
-      
           {...register('propertyTypeDescription')}
         />
       </div>

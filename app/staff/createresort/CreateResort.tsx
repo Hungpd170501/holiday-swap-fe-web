@@ -282,7 +282,11 @@ const CreateResort: React.FC<CreateResortProps> = ({ amenitiesArray, propertyTyp
 
   return (
     <div>
-      <HeadingDashboard routerDashboard='/staff' pageCurrentContent='Create resort' pageCurrentRouter='/staff/createresort' />
+      <HeadingDashboard
+        routerDashboard="/staff"
+        pageCurrentContent="Create resort"
+        pageCurrentRouter="/staff/createresort"
+      />
       <SelectRouterStaff />
 
       <div className="mb-14 mt-5">

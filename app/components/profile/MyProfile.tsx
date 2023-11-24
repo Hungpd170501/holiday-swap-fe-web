@@ -89,6 +89,7 @@ const MyProfile: React.FC<MyProfileProps> = ({ currentUser, historyBooking }) =>
         </div>
       </div>
 
+
       <CurrentBooking historyBooking={historyBooking} />
 
     </div>

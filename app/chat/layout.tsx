@@ -26,21 +26,21 @@ export default async function ChatLayout({ children }: { children: React.ReactNo
   const currentUser = await GetCurrentUser();
   return requireAuth(
     <>
-      <Provider>
-        <div className="flex flex-row pt-16 h-screen">
-          {/* <div className="sticky col-span-4 top-[100px] h-full">
+      {/* <Provider> */}
+      <div className="flex flex-row pt-16 h-screen">
+        {/* <div className="sticky col-span-4 top-[100px] h-full">
             <Sidebar />
           </div> */}
-          <main className="pt-[0.9rem] w-full">
-            <Layout className="bg-gray-200 h-screen custom-max-height ">
-              <ConversationList initialItems={conversations} currentUser={currentUser} />
-              <Layout>
-                <div className="h-screen custom-max-height">{children}</div>
-              </Layout>
+        <main className="pt-[0.9rem] w-full">
+          <Layout className="bg-gray-200 h-screen custom-max-height ">
+            <ConversationList initialItems={conversations} currentUser={currentUser} />
+            <Layout>
+              <div className="h-screen custom-max-height">{children}</div>
             </Layout>
-          </main>
-        </div>
-      </Provider>
+          </Layout>
+        </main>
+      </div>
+      {/* </Provider> */}
     </>,
     [1, 2, 3, 4]
   );
