@@ -167,7 +167,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             height={50}
             className="rounded-full"
           />
-          <div className="text-gray-400">{currentUser?.username}</div>
+          <div className="text-gray-400">{currentUser?.fullName}</div>
         </div>
       </div>
 

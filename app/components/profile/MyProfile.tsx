@@ -89,11 +89,6 @@ const MyProfile: React.FC<MyProfileProps> = ({ currentUser }) => {
       </div>
 
       <CurrentBooking />
-      {/* {selectedOption && (
-        <Link href={selectedOption}>
-          <div>Go to {selectedOption}</div>
-        </Link>
-      )} */}
     </div>
   );
 };

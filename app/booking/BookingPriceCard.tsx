@@ -56,6 +56,7 @@ const BookingPriceCard: React.FC<BookingPriceCardProps> = ({
               <div className="flex flex-row items-center">
                 <img className="w-5 h-5 rounded-full" src="./images/avt.jpg" alt="" />
               </div>
+
               <div className="text-[12px]">Owner by Pham Thanh Kien</div>
             </div>
             <div className="flex flex-row items-center">

@@ -7,6 +7,7 @@ import EditPublicTime from '../managementApartment/EditPublicTime';
 import { BiBlock } from 'react-icons/bi';
 import { Upload } from 'antd';
 import useCreatePublicTimeModal from '@/app/hooks/useCreatePublicTimeModal';
+import useEditApartmentModal from '@/app/hooks/useEditApartmentModal';
 
 interface ManageApartmentProps {
   detailCoOwner: any;
@@ -40,7 +41,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({ detailCoOwner, proper
   const [images, setImages] = useState(imagesData);
   const imageInputRef = useRef(null);
   const createModalPublicTime = useCreatePublicTimeModal();
-
+  const EditApartmentModal = useEditApartmentModal();
   const handleDeleteImage = (index: any) => {
     const updatedImages = [...images];
     updatedImages.splice(index, 1);
@@ -85,11 +86,12 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({ detailCoOwner, proper
               </div>
             </div> */}
             <div className="w-[60%]">
-              <div className="flex flex-row gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 {detail.contractImages.length === 1 ? (
                   <Fragment>
                     {detail.contractImages.map((item: any, index: number) => (
                       <Image
+                        className="p-2 border-gray-300 border rounded-md"
                         key={item.id}
                         src={item.link}
                         width="100%"
@@ -102,6 +104,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({ detailCoOwner, proper
                   <Fragment>
                     {detail.contractImages.map((item: any, index: number) => (
                       <Image
+                        className="p-2 border-gray-300 border rounded-md"
                         key={item.id}
                         src={item.link}
                         width={200}
@@ -119,8 +122,8 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({ detailCoOwner, proper
                 <div className="py-2">
                   <div className="flex flex-row items-center justify-between gap-3 mb-3 mt-3">
                     <div className="underline text-[20px] ">{propertyDetail?.propertyName}</div>
-                    <div>
-                      <FiEdit size={20} />
+                    <div className="cursor-pointer ">
+                      <FiEdit onClick={EditApartmentModal.onOpen} size={20} />
                     </div>
                   </div>
                   <div className="flex flex-row items-center gap-2">
