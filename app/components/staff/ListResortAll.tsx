@@ -12,8 +12,14 @@ import Link from 'next/link';
 import SelectRouterStaff from './SelectRouterStaff';
 import DropdownStatusResort from './DropdownStatusResort';
 import GetListResort from '@/app/actions/getListResort';
-import { Pagination } from 'flowbite-react';
+import { Dropdown, Pagination } from 'flowbite-react';
 import HeadingDashboard from '../HeadingDashboard';
+import { BsCheck2Circle } from 'react-icons/bs';
+import { BiBlock } from 'react-icons/bi';
+import { MdOutlinePending } from 'react-icons/md';
+import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
+import toast from 'react-hot-toast';
+import axios from 'axios';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -35,6 +41,24 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+const statusList = [
+  {
+    status: 'ACTIVE',
+    icon: BsCheck2Circle,
+    color: '#2fde26',
+  },
+  {
+    status: 'DEACTIVATE',
+    icon: BiBlock,
+    color: '#e62538',
+  },
+  {
+    status: 'NO_LONGER_IN_BUSINESS',
+    icon: MdOutlinePending,
+    color: '#e06d14',
+  },
+];
+
 function createData(
   resortname: string,
   address: string,
@@ -50,9 +74,10 @@ interface ListResortAllProps {
 }
 const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }) => {
   const [resorts, setResorts] = React.useState<any>(initialResorts);
-  const [currentPage, setCurrentPage] = React.useState(1);
+  const [currentPage, setCurrentPage] = React.useState<number>(1);
   const pageSize = 10;
   const totalPages = Math.ceil(resorts?.totalElements / pageSize);
+  const axiosAuthClient = useAxiosAuthClient();
 
   const onPageChange = async (newPage: any) => {
     try {
@@ -64,6 +89,34 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
     } catch (error) {
       console.error('Error fetching list of resorts:', error);
     }
+  };
+
+  const handleOnChangeStatus = (id: any, value: any) => {
+    const body = value;
+    const config = {
+      headers: { 'Content-type': 'application/json' },
+    };
+
+    axiosAuthClient
+      .put(`/resorts/${id}/status`, body, config)
+      .then(async () => {
+        toast.success('Update status success');
+        const newList = await GetListResort(currentPage.toString());
+        setResorts({
+          content: newList.content,
+          totalElements: newList.totalElements,
+        });
+      })
+      .catch((response) => {
+        toast.error(response);
+      })
+      .finally(async () => {
+        const newList = await GetListResort(currentPage.toString());
+        setResorts({
+          content: newList.content,
+          totalElements: newList.totalElements,
+        });
+      });
   };
   return (
     <>
@@ -99,12 +152,6 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
               >
                 Status
               </StyledTableCell>
-              {/* <StyledTableCell
-                className="!bg-white !text-black !text-[17px] !font-semibold"
-                align="left"
-              >
-                Amenity Type{' '}
-              </StyledTableCell> */}
 
               <StyledTableCell
                 className="!bg-white !text-black !text-[17px] !font-semibold"
@@ -152,14 +199,74 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                     );
                   })()}
                 </StyledTableCell>
-                {/* <StyledTableCell className="!py-5 " align="left">
-                  {row?.resortAmenityTypes?.map((item: any, index: number) => (
-                    <div key={index}>{item.resortAmenityTypeName}</div>
-                  ))}
-                </StyledTableCell> */}
 
                 <StyledTableCell className="!py-5 !text-green-500 " align="right">
-                  <DropdownStatusResort />
+                  <Dropdown
+                    label=""
+                    dismissOnClick={false}
+                    renderTrigger={() => (
+                      <span className="text-sky-500 hover:underline cursor-pointer">Edit</span>
+                    )}
+                  >
+                    {(() => {
+                      if (row.status === 'ACTIVE') {
+                        return (
+                          <>
+                            {statusList.slice(1, 3).map((status: any, index: number) => (
+                              <Dropdown.Item
+                                key={index}
+                                value={status.status}
+                                className="flex items-center gap-2"
+                                onClick={() => handleOnChangeStatus(row.id, status.status)}
+                              >
+                                <status.icon size={18} color={status.color} />
+
+                                <span className={`text-[${status.color}]`}>{status.status}</span>
+                              </Dropdown.Item>
+                            ))}
+                          </>
+                        );
+                      } else if (row.status === 'DEACTIVATE') {
+                        const newArrray = statusList.filter(
+                          (item) =>
+                            item.status === 'ACTIVE' || item.status === 'NO_LONGER_IN_BUSINESS'
+                        );
+                        return (
+                          <>
+                            {newArrray.map((status: any, index: number) => (
+                              <Dropdown.Item
+                                key={index}
+                                value={status.status}
+                                className="flex items-center gap-2"
+                                onClick={() => handleOnChangeStatus(row.id, status.status)}
+                              >
+                                <status.icon size={18} color={status.color} />
+
+                                <span className={`text-[${status.color}]`}>{status.status}</span>
+                              </Dropdown.Item>
+                            ))}
+                          </>
+                        );
+                      } else if (row.status === 'NO_LONGER_IN_BUSINESS') {
+                        return (
+                          <>
+                            {statusList.slice(0, 2).map((status: any, index: number) => (
+                              <Dropdown.Item
+                                key={index}
+                                value={status.status}
+                                className="flex items-center gap-2"
+                                onClick={() => handleOnChangeStatus(row.id, status.status)}
+                              >
+                                <status.icon size={18} color={status.color} />
+
+                                <span className={`text-[${status.color}]`}>{status.status}</span>
+                              </Dropdown.Item>
+                            ))}
+                          </>
+                        );
+                      }
+                    })()}
+                  </Dropdown>
                 </StyledTableCell>
               </StyledTableRow>
             ))}

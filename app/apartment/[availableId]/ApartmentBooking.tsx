@@ -129,7 +129,11 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
           currentUser.userId
         }&totalPrice=${totalPrice}&totalGuest=${totalGuest}&dateRangeBooking=${JSON.stringify(
           dateRangeBooking
-        )}&dateRange=${JSON.stringify(fixedDateRange)}&apartmentAllowGuest=${apartmentAllowGuest}`
+        )}&dateRange=${JSON.stringify(
+          fixedDateRange
+        )}&apartmentAllowGuest=${apartmentAllowGuest}&avatar=${apartment.user.avatar}&fullName=${
+          apartment.user.fullName
+        }&rating=${apartment.property.rating}&resortName=${apartment.resort.resortName}`
       );
     }
   };

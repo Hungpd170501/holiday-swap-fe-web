@@ -17,6 +17,7 @@ import { startOfWeek, endOfWeek, format, addDays, addMonths, subDays } from 'dat
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import weekday from 'dayjs/plugin/weekday';
+import ModalCreate from './ModalCreate';
 
 const initialDateRange = {
   startDate: new Date(),
@@ -39,7 +40,14 @@ export default function ModalCreatePublicTime() {
   const [publicDateRange, setPublicDateRange] = useState(dateRange);
   const [timeFramesId, setTimeFramesId] = useState();
   const [timeFramesWeekNumber, setTimeFramesWeekNumber] = useState();
+  const [yearCreate, setYearCreate] = useState<number>(new Date().getFullYear() + 1);
   const [dateOut, setDateOut] = useState<any>();
+
+  useEffect(() => {
+    if (detailCoOwner) {
+      setTimeFramesId(detailCoOwner.timeFrames[0].id);
+    }
+  }, [detailCoOwner]);
 
   const getWeekDates = (weekNumber: number, year: number) => {
     const januaryFirst = new Date(year, 0, 1); // January is month 0 in JavaScript
@@ -88,9 +96,9 @@ export default function ModalCreatePublicTime() {
   useEffect(() => {
     if (timeFramesWeekNumber) {
       console.log('Check week', timeFramesWeekNumber);
-      getWeekDates(timeFramesWeekNumber, 2024);
+      getWeekDates(timeFramesWeekNumber, yearCreate);
     }
-  }, [timeFramesWeekNumber]);
+  }, [timeFramesWeekNumber, yearCreate]);
 
   useEffect(() => {
     if (dateRange) {
@@ -134,6 +142,7 @@ export default function ModalCreatePublicTime() {
       .then(() => {
         toast.success('Create public success');
         reset();
+        createPublicTime.onClose();
       })
       .catch((response) => {
         toast.error(response.response.data.message);
@@ -162,6 +171,17 @@ export default function ModalCreatePublicTime() {
   const bodyContent = (
     <div className="flex flex-col gap-4 overflow-x-hidden overflow-y-auto no-scrollbar h-[90%]">
       <div className="grid grid-cols-1">
+        <InputComponent
+          id="yearCreate"
+          label="Year to create"
+          value={yearCreate}
+          register={register}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setYearCreate(Number(e.target.value))}
+          errors={errors}
+          required
+        />
+      </div>
+      <div className="grid grid-cols-1">
         <Label value="Select week" />
         <Select
           value={timeFramesId}
@@ -169,7 +189,6 @@ export default function ModalCreatePublicTime() {
             handleChangeTimeFrameId(e.target.value);
           }}
         >
-          <option value="">Any</option>
           {detailCoOwner?.timeFrames.map((item: any, index: number) => (
             <option key={item.id} value={item.id}>
               {item.weekNumber}
@@ -204,7 +223,7 @@ export default function ModalCreatePublicTime() {
   );
 
   return (
-    <Modal
+    <ModalCreate
       disabled={isLoading}
       isOpen={createPublicTime.isOpen}
       title="Create Public Time"

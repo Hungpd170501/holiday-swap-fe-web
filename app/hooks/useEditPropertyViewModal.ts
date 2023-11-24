@@ -7,6 +7,7 @@ interface EditPropertyViewModalStore {
   onClose: () => void;
   isSuccess: boolean;
   onEditSuccess: () => void;
+  onEditReset: () => void;
 }
 
 const useEditPropertyViewModal = create<EditPropertyViewModalStore>((set) => ({
@@ -16,6 +17,7 @@ const useEditPropertyViewModal = create<EditPropertyViewModalStore>((set) => ({
   onOpen: (propertyView: any) => set({ isOpen: true, propertyView: propertyView }),
   onClose: () => set({ isOpen: false }),
   onEditSuccess: () => set({ isSuccess: true }),
+  onEditReset: () => set({ isSuccess: false }),
 }));
 
 export default useEditPropertyViewModal;

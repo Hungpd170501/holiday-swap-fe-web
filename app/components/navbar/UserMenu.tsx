@@ -16,6 +16,7 @@ import Divider from '@mui/material/Divider';
 import ConversationApis, { Conversation } from '@/app/actions/ConversationApis';
 import { fetchConversations, setConversationLoaded } from '@/app/redux/slices/conversationSlice';
 import { usePathname } from 'next/navigation';
+import useWriteBlogModal from '@/app/hooks/useWriteBlogModal';
 
 interface UserMenuProps {
   currentUser?: Object | any | null;
@@ -36,6 +37,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const notifications = useSelector((state: any) => state.pushNotification.data);
   const conversations = useSelector((state: any) => state.conversation.data);
   const conversationsLoaded = useSelector((state: any) => state.conversation.loaded);
+  const writeBlogModal = useWriteBlogModal();
   const [isOpen, setIsOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isMessageOpen, setIsMessageOpen] = useState(false);
@@ -82,6 +84,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
       socket.subscribeHandler(currentUser, conversationIds);
     }
   }, [conversations, socket]);
+
+  const handleOpenWriteBlogModal = () => {
+    writeBlogModal.onOpen();
+    setIsOpen(false);
+  };
 
   return (
     <>
@@ -208,6 +215,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                       <MenuItem onClick={() => handleRouter('/dashboard')} label="Dashboard" />
                       <MenuItem onClick={() => handleRouter('/recharge')} label="Recharge" />
                       <MenuItem onClick={() => handleRouter('/chat')} label="Chat" />
+                      <MenuItem onClick={handleOpenWriteBlogModal} label="Write blog" />
                       <MenuItem
                         onClick={() => handleRouter('/dashboard/myBooking')}
                         label="My Booking"

@@ -28,6 +28,10 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
   const apartmentAllowGuest = searchParams?.get('apartmentAllowGuest');
   const totalPrice = searchParams?.get('totalPrice');
   const priceNight = searchParams?.get('priceNight');
+  const avatar = searchParams?.get('avatar');
+  const fullName = searchParams?.get('fullName');
+  const rating = searchParams?.get('rating');
+  const resortName = searchParams?.get('resortName');
 
   return (
     <Container className="bg-white">
@@ -49,6 +53,10 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
             totalPrice={totalPrice}
             priceNight={priceNight}
             dateRangeBooking={dateRangeBooking}
+            avatar={avatar}
+            fullName={fullName}
+            rating={rating}
+            resortName={resortName}
           />
         </div>
       </div>

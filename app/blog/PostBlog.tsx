@@ -14,16 +14,10 @@ const PostBlog: React.FC<PostBlogProps> = ({ post, currentUser }) => {
   return (
     <Container className="py-32 bg-white">
       <div className="flex flex-row gap-5 ">
-        <div className="col-span-8">
+        <div className="w-full">
           <CardBlog post={post} currentUser={currentUser} />
         </div>
-        {currentUser ? (
-          <div className="sticky col-span-4 top-[134px] h-full">
-            <SidebarBlogNews />
-          </div>
-        ) : (
-          <div className="col-span-4"></div>
-        )}
+        
       </div>
     </Container>
   );

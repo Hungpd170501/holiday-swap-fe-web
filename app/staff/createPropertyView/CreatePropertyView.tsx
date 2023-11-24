@@ -39,7 +39,8 @@ const CreatePropertyView = () => {
         reset();
       })
       .catch((response) => {
-        toast.error(response.response.data.message);
+        console.log(response);
+        toast.error(response?.response?.data?.message);
       })
       .finally(() => {
         setIsLoading(false);

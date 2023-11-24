@@ -16,6 +16,10 @@ interface BookingPriceCardProps {
   totalPrice: any;
   priceNight: any;
   dateRangeBooking: any;
+  avatar: any;
+  fullName: any;
+  rating: any;
+  resortName: any
 }
 
 const BookingPriceCard: React.FC<BookingPriceCardProps> = ({
@@ -24,6 +28,10 @@ const BookingPriceCard: React.FC<BookingPriceCardProps> = ({
   totalPrice,
   priceNight,
   dateRangeBooking,
+  avatar,
+  fullName,
+  rating,
+  resortName,
 }) => {
   const dateRangeJSON = JSON.parse(dateRangeBooking);
   const [dateRangeValue, setDateRangeValue] = useState({
@@ -51,17 +59,17 @@ const BookingPriceCard: React.FC<BookingPriceCardProps> = ({
           <div className="w-full">
             <div className="text-[10px]">Entire apartment</div>
             <div className="text-[20px] w-full py-1 font-bold">{apartmentName}</div>
-            <div className="pb-1">Vung Bau Resort</div>
+            <div className="pb-1">{resortName}</div>
             <div className="py-1 flex flex-row items-center gap-1">
               <div className="flex flex-row items-center">
-                <img className="w-5 h-5 rounded-full" src="./images/avt.jpg" alt="" />
+                <Image className="rounded-full object-cover" width={20} height={20} src={avatar || "/images/placeholder.jpg"} alt="Avatar" />
               </div>
-              <div className="text-[12px]">Owner by Pham Thanh Kien</div>
+              <div className="text-[12px]">Owner by {fullName}</div>
             </div>
-            <div className="flex flex-row items-center">
+            {rating && rating !== null && (<div className="flex flex-row items-center">
               <AiFillStar color="orange" size={15} />
-              4.8
-            </div>
+              {rating}
+            </div>)}
           </div>
         </div>
       </div>
@@ -80,13 +88,7 @@ const BookingPriceCard: React.FC<BookingPriceCardProps> = ({
             point
           </div>
         </div>
-        <div className="flex flex-row justify-between text-base text-gray-600">
-          <div className="flex flex-row items-center gap-2">
-            <div>Service fee HolidaySwap</div>
-            <TooltipFee />
-          </div>
-          <div>10 point</div>
-        </div>
+       
       </div>
 
       {/* Total */}

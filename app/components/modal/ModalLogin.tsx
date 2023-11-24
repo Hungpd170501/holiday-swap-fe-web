@@ -23,6 +23,7 @@ export default function ModalLogin() {
   } = useForm<FieldValues>({
     defaultValues: {
       email: '',
+      password: '',
     },
   });
 
@@ -30,11 +31,12 @@ export default function ModalLogin() {
     setIsLoading(true);
     if (isForgotPasswordModalOpen) {
     } else {
-      signIn('credentials', { ...data, redirect: false }).then((callback) => {
+      signIn('credentials', { ...data, redirect: false }).then(async (callback) => {
         setIsLoading(false);
         if (callback?.ok) {
           toast.success('Logged in');
           router.refresh();
+          loginModal.onLogin();
           loginModal.onClose();
         }
 

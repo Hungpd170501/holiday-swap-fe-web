@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { ChangeEvent, ChangeEventHandler, useState } from 'react';
 import { Editor, EditorTextChangeEvent } from 'primereact/editor';
 import 'primereact/resources/themes/tailwind-light/theme.css';
 import { useRouter } from 'next/navigation';
@@ -10,9 +10,39 @@ import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import { Label, Textarea } from 'flowbite-react';
 
+interface TextAreaProps {
+  className?: string;
+  id?: string;
+  type?: string;
+  placeholder?: string;
+  onChange?: (
+    e?: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
+  ) => void;
+}
+
+const TextAreaComponent: React.FC<TextAreaProps> = ({
+  className,
+  id,
+  type,
+  placeholder,
+  onChange,
+}) => {
+  return (
+    <Textarea
+      className={className}
+      onChange={onChange}
+      id={id}
+      placeholder="placeholder"
+      required
+      rows={4}
+    />
+  );
+};
+
 const PrimeReactEditor = () => {
   const router = useRouter();
   const writeBlogModal = useWriteBlogModal();
+  const [title, setTitle] = useState<string>('');
   const [blogContent, setBlogContent] = useState<string>('');
   const axiosAuthClient = useAxiosAuthClient();
   const { data: session } = useSession();
@@ -23,8 +53,13 @@ const PrimeReactEditor = () => {
       headers: { Authorization: `Bearer ${accessToken}`, 'Content-type': 'application/json' },
     };
 
+    const dataSubmit = {
+      content: blogContent,
+      title: title,
+    };
+
     axios
-      .post(`https://holiday-swap.click/api/post/create`, blogContent, config)
+      .post(`https://holiday-swap.click/api/post/create`, dataSubmit, config)
       .then(() => {
         toast.success('Create post success');
         writeBlogModal.onClose();
@@ -73,11 +108,19 @@ const PrimeReactEditor = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="max-w-md">
+      <div className="min-w-full">
         <div className="mb-2 block">
-          <Label htmlFor="comment" value="Your title for this blog" />
+          <Label htmlFor="title" value="Your title for this blog" />
         </div>
-        <Textarea id="comment" placeholder="Leave a comment..." required rows={4} />
+        <input
+          onChange={(e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) =>
+            setTitle(e.target.value)
+          }
+          className="peer p-4 pt-6 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed focus:ring-0"
+          required
+          id="title"
+          placeholder="Leave a comment..."
+        />
       </div>
       <Editor
         value={blogContent}
