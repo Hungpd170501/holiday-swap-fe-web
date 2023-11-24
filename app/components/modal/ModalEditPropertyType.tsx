@@ -3,7 +3,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import Modal from './Modal';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { Textarea, Label } from 'flowbite-react';
+import { Textarea } from 'flowbite-react';
 import useEditPropertyTypeModal from '@/app/hooks/useEditPropertyTypeModal';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import toast from 'react-hot-toast';
@@ -28,7 +28,9 @@ export default function ModalEditPropertyType() {
 
   const {
     register,
+    setValue,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {

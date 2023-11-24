@@ -5,7 +5,7 @@ import React from 'react';
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <Provider>
-      <div className="flex flex-row  pt-20">
+      <div className="flex flex-row pt-5">
         <div className="sticky col-span-4 top-0 h-full">
           <Sidebar />
         </div>

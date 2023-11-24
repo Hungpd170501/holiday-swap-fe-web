@@ -1,14 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { Table } from 'flowbite-react';
 import { useRouter } from 'next/navigation';
 import React, { Fragment, useEffect, useState } from 'react';
-import { Pagination } from 'flowbite-react';
 import GetPropertyTypeStaff from '@/app/actions/getPropertyTypeStaff';
-import ModalDeletePropertyType from './ModalDeletePropertyType';
 import useEditPropertyTypeModal from '@/app/hooks/useEditPropertyTypeModal';
-import { Button, Modal } from 'flowbite-react';
-import axios from 'axios';
+import { Button, Modal, Label, Pagination, Table, TextInput } from 'flowbite-react';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import toast from 'react-hot-toast';
 
@@ -24,10 +21,6 @@ interface Pageable {
   sortDirection: string;
   sortBy: string;
 }
-interface ApiParam {
-  searchName: string;
-  pageable: Pageable;
-}
 interface ListPropertyTypeProps {
   propertyViews?: any;
 }
@@ -38,7 +31,7 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
   const editPropertyTypeModal = useEditPropertyTypeModal();
   const axiosAuthClient = useAxiosAuthClient();
 
-  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [openModal, setOpenModal] = useState(false);
   const [idDelete, setIdDelete] = useState<any>();
   const [totalPages, setTotalPages] = useState<number>(0);
@@ -49,7 +42,7 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
   const [pageable, setPageable] = useState<Pageable>({
     pageNo: 0,
     pageSize: 10,
-    sortDirection: 'asc',
+    sortDirection: 'desc',
     sortBy: 'id',
   });
   const [searchName, setSeachName] = useState<string>('');
@@ -66,6 +59,7 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
     }
     setTotalPages(responsePropertyType.totalPages);
   };
+
   useEffect(() => {
     fetchPropertyType();
   }, [JSON.stringify(pageable), JSON.stringify(searchName)]);
@@ -83,16 +77,34 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
       });
   };
 
+  const handleSearchNameSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    setSeachName(e.currentTarget.searchName.value);
+  };
+
   return (
     <Fragment>
       <div className="">
         <span className="hover:underline" onClick={() => router.push('/staff')}>
           Dashboard
-        </span>{' '}
+        </span>
         {'>'} <span className="text-common">List property view</span>
       </div>
 
       <div className="py-10">
+        <div className="my-2  ">
+          <form onSubmit={(e) => handleSearchNameSubmit(e)}>
+            <Label
+              htmlFor="searchName"
+              value="Search Name: "
+              className="mx-1 inline-block align-middle"
+            />
+            <div className="flex">
+              <TextInput name="searchName" type="text" className="mx-1" />
+              <Button type="submit">Submit</Button>
+            </div>
+          </form>
+        </div>
         <Table>
           <Table.Head>
             <Table.HeadCell>No</Table.HeadCell>
@@ -153,7 +165,11 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button color="red" className="font-bold" onClick={() => handleDeleteProperty(idDelete)}>
+            <Button
+              color="red"
+              className="font-bold"
+              onClick={() => handleDeleteProperty(idDelete)}
+            >
               I accept
             </Button>
             <Button color="gray" onClick={() => setOpenModal(false)}>

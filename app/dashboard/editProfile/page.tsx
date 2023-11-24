@@ -11,8 +11,8 @@ export default async function EditProfile() {
   const currentUser = await GetCurrentUser();
   return requireAuth(
     <div>
-      <EditProfileComponent currentUser={currentUser} />
+      <EditProfileComponent/>
     </div>,
-    [2]
+    [1, 2, 3, 4]
   );
 }

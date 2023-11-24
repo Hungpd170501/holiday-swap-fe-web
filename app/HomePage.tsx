@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ClientOnly from './components/ClientOnly';
 import Container from './components/Container';
 import Banner from './components/banner/Banner';
