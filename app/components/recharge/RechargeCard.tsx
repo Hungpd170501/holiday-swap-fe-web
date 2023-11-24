@@ -6,10 +6,15 @@ import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 
-export default function RechargeCard() {
+interface RechargeCardProps {
+  point: any;
+}
+
+const RechargeCard: React.FC<RechargeCardProps> = ({ point }) => {
   const [clickedCard, setClickedCard] = useState(-1);
   const [isLoading, setIsLoading] = useState(false);
   const [amount, setAmount] = useState('');
+  const [amountPoint, setAmountPoint] = useState('');
   const [orderInfor, setOrderInfor] = useState('nap_tien_vnp');
   const [returnUrl, setReturnUrl] = useState<any>();
   const axiosAuthClient = useAxiosAuthClient();
@@ -27,43 +32,43 @@ export default function RechargeCard() {
   const cardData = [
     {
       text: '100 point',
-      price: '120.000 VND',
-      amount: 120000,
+      price: `${100 * Number(point.pointPrice)} VND`,
+      amount: 100,
     },
     {
       text: '200 point',
-      price: '230.000 VND',
-      amount: 230000,
+      price: `${200 * Number(point.pointPrice)} VND`,
+      amount: 200,
     },
     {
       text: '300 point',
-      price: '340.000 VND',
-      amount: 340000,
+      price: `${300 * Number(point.pointPrice)} VND`,
+      amount: 300,
     },
     {
       text: '400 point',
-      price: '450.000 VND',
-      amount: 450000,
+      price: `${400 * Number(point.pointPrice)} VND`,
+      amount: 400,
     },
     {
       text: '500 point',
-      price: '560.000 VND',
-      amount: 560000,
+      price: `${500 * Number(point.pointPrice)} VND`,
+      amount: 500,
     },
     {
       text: '600 point',
-      price: '670.000 VND',
-      amount: 670000,
+      price: `${600 * Number(point.pointPrice)} VND`,
+      amount: 600,
     },
   ];
 
   const handleCardClick = (index: number) => {
     if (clickedCard === index) {
       setClickedCard(-1);
-      setAmount('');
+      setAmountPoint('');
     } else {
       setClickedCard(index);
-      setAmount(cardData[index].amount.toString());
+      setAmountPoint(cardData[index].amount.toString());
     }
   };
 
@@ -84,6 +89,12 @@ export default function RechargeCard() {
         toast.error(response.response.data.message);
       });
   };
+
+  useEffect(() => {
+    if (point && amountPoint) {
+      setAmount((Number(amountPoint) * Number(point.pointPrice)).toString());
+    }
+  }, [point, amountPoint]);
 
   return (
     <div className="px-20">
@@ -119,9 +130,15 @@ export default function RechargeCard() {
             <input
               className="border border-gray-500 w-[700px] px-4 py-2 focus-visible:outline-none rounded-lg"
               type="text"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              value={amountPoint}
+              onChange={(e) => setAmountPoint(e.target.value)}
             />
+            <div className="text-base font-bold py-4">
+              The total amount you need to pay is:{' '}
+              <span className="text-green-500">
+                {amountPoint} point x {point.pointPrice} VND/point = {amount} VND
+              </span>
+            </div>
             <button
               className=" bg-[#5C98F2] px-4 py-4 rounded-xl text-white mt-10 hover:bg-blue-500"
               type="submit"
@@ -134,4 +151,6 @@ export default function RechargeCard() {
       </div>
     </div>
   );
-}
+};
+
+export default RechargeCard;

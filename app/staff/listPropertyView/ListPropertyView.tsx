@@ -32,6 +32,7 @@ const ListPropertyView: React.FC<ListPropertyViewProps> = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [openModal, setOpenModal] = useState(false);
   const [idDelete, setIdDelete] = useState<any>();
+  const [isDeleted, setIsDeleted] = useState(false);
   const axiosAuthClient = useAxiosAuthClient();
 
   const onPageChange = (page: number) => {
@@ -64,15 +65,22 @@ const ListPropertyView: React.FC<ListPropertyViewProps> = () => {
     fetchPropertyView();
 
     if (isSuccess === true) {
-      fetchPropertyView()
+      fetchPropertyView();
+      editPropertyViewModal.onEditReset();
     }
-  }, [JSON.stringify(pageable), JSON.stringify(searchName), isSuccess]);
+
+    if (isDeleted === true) {
+      fetchPropertyView();
+      setIsDeleted(false);
+    }
+  }, [JSON.stringify(pageable), JSON.stringify(searchName), isSuccess, isDeleted]);
 
   const handleDeleteProperty = (id: any) => {
     axiosAuthClient
       .delete(`https://holiday-swap.click/api/v1/property-view/${id}`)
       .then(() => {
         setOpenModal(false);
+        setIsDeleted(true)
         toast.success('Delete property success');
       })
       .catch((response) => {

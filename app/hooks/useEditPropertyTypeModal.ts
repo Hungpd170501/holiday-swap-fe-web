@@ -7,6 +7,7 @@ interface EditPropertyTypeModalStore {
   onClose: () => void;
   isSuccess: boolean;
   onEditSuccess: () => void;
+  onEditReset: () => void;
 }
 interface IPropertyType {
   id: number;
@@ -21,6 +22,7 @@ const useEditPropertyTypeModal = create<EditPropertyTypeModalStore>((set) => ({
   onClose: () => set({ isOpen: false }),
   isSuccess: false,
   onEditSuccess: () => set({ isSuccess: true }),
+  onEditReset: () => set({ isSuccess: false }),
 }));
 
 export default useEditPropertyTypeModal;

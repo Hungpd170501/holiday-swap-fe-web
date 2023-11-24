@@ -59,18 +59,11 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
     <div className="bg-white w-full h-auto ">
       {postList?.map((item: any, index: number) => (
         <div key={item.id} className="shadow-sm border border-gray-200 rounded-xl mb-10">
-          <div className="overflow-hidden object-cover ">
-            <img
-              src="/images/resort3.jpg"
-              alt="img News"
-              className="w-[1080px] rounded-t-lg h-[380px] object-cover relative hover:scale-110 hover:transition-transform duration-500 hover:duration-500"
-            />
-          </div>
           <div className="px-10 my-8 flex flex-col ">
             <div className="flex flex-row items-center justify-between">
               <div className="py-4 flex flex-row gap-2 items-center">
                 <Image
-                  src={item.avatar}
+                  src={item.avatar || '/images/placeholder.jpg'}
                   alt="Avatar"
                   width={50}
                   height={50}
@@ -106,7 +99,7 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
                 </div>
               </div>
             </div>
-            <div className="text-[25px] pt-3 pb-5">Pack wisely before traveling</div>
+            <div className="text-[25px] pt-3 pb-5">{item.title}</div>
             <div
               className="text-[13px] text-gray-500"
               dangerouslySetInnerHTML={{ __html: item.content }}

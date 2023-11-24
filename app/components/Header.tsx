@@ -10,7 +10,7 @@ import Navbar from './navbar/Navbar';
 import clsx from 'clsx';
 import useLoginModal from '../hooks/useLoginModal';
 import UserMenu from './navbar/UserMenu';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface HeaderProps {
   currentUser?: any | null;
@@ -19,9 +19,10 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ currentUser }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const loginModal = useLoginModal();
+  const isLogin = loginModal.isLogin;
   const pathName = usePathname();
+  const router = useRouter();
   const [scroll, setScroll] = useState(false);
-
 
   // const { data: session } = useSession();
   // console.log("Session: ", { session });
@@ -46,12 +47,18 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (isLogin === true) {
+      if (currentUser && currentUser.role.roleId === 3) {
+        router.push('/staff');
+      } else if (currentUser && currentUser.role.roleId === 1) {
+        router.push('/admin');
+      }
+    }
+  }, [isLogin, currentUser]);
+
   return (
-    <div
-      className={clsx(
-        `w-full z-50 fixed`
-      )}
-    >
+    <div className={clsx(`w-full z-50 fixed`)}>
       <Container
         className={
           scroll

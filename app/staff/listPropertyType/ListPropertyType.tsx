@@ -69,10 +69,12 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
 
     if (isSuccess === true) {
       fetchPropertyType();
+      editPropertyTypeModal.onEditReset();
     }
 
-    if (isDeleted) {
+    if (isDeleted === true) {
       fetchPropertyType();
+      setIsDeleted(false);
     }
   }, [JSON.stringify(pageable), JSON.stringify(searchName), isSuccess, isDeleted]);
 

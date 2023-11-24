@@ -6,9 +6,10 @@ import { format } from 'date-fns';
 
 interface MyProfileProps {
   currentUser?: any | null;
+  historyBooking: any;
 }
 
-const MyProfile: React.FC<MyProfileProps> = ({ currentUser }) => {
+const MyProfile: React.FC<MyProfileProps> = ({ currentUser, historyBooking }) => {
   const [selectedOption, setSelectedOption] = useState('');
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -88,7 +89,9 @@ const MyProfile: React.FC<MyProfileProps> = ({ currentUser }) => {
         </div>
       </div>
 
-      <CurrentBooking />
+
+      <CurrentBooking historyBooking={historyBooking} />
+
     </div>
   );
 };
