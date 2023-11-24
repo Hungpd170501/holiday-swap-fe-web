@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import HeadingDashboard from '../HeadingDashboard';
 
 const Money = [
   {
@@ -216,9 +217,7 @@ const TransferMoney: React.FC<TransferMoneyProps> = ({ currentUser, memberships 
 
   return (
     <>
-      <div className="">
-        Dashboard {'>'} <span className="text-common">Transfer</span>
-      </div>
+      <HeadingDashboard routerDashboard='/dashboard' pageCurrentContent='Tranfer point' pageCurrentRouter='/dashboard/transfer' />
       <Steps className="mt-5" current={current} items={items} />
       <div>
         {Money[current].content({

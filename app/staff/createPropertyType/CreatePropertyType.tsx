@@ -1,6 +1,7 @@
 'use client';
 
 import Button from '@/app/components/Button';
+import HeadingDashboard from '@/app/components/HeadingDashboard';
 import Input from '@/app/components/input/Input';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import { useRouter } from 'next/navigation';
@@ -46,12 +47,11 @@ const CreatePropertyType = () => {
   };
   return (
     <div>
-      <div className="">
-        <span className="hover:underline" onClick={() => router.push('/staff')}>
-          Dashboard
-        </span>{' '}
-        {'>'} <span className="text-common">Create Property Type</span>
-      </div>
+      <HeadingDashboard
+        routerDashboard="/staff"
+        pageCurrentContent="Create property type"
+        pageCurrentRouter="/staff/createPropertyType"
+      />
 
       <div className="py-10 w-6/12">
         <div className="py-4">

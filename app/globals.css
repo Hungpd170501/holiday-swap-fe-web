@@ -79,3 +79,7 @@ select:focus {
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   border-color: #9CA3AF;
 }
+
+.custom-max-height {
+  max-height: calc(100% - 0em) !important;
+}

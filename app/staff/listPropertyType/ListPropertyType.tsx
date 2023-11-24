@@ -8,6 +8,7 @@ import useEditPropertyTypeModal from '@/app/hooks/useEditPropertyTypeModal';
 import { Button, Modal, Label, Pagination, Table, TextInput } from 'flowbite-react';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import toast from 'react-hot-toast';
+import HeadingDashboard from '@/app/components/HeadingDashboard';
 
 interface IPropertyType {
   id: number;
@@ -27,13 +28,15 @@ interface ListPropertyTypeProps {
 
 const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
   const router = useRouter();
-  const [propertyViewList, setPropertyViewList] = useState<IPropertyType[]>([]);
+  const [propertyTypeList, setPropertyTypeList] = useState<IPropertyType[]>([]);
   const editPropertyTypeModal = useEditPropertyTypeModal();
+  const isSuccess = editPropertyTypeModal.isSuccess;
   const axiosAuthClient = useAxiosAuthClient();
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [openModal, setOpenModal] = useState(false);
   const [idDelete, setIdDelete] = useState<any>();
+  const [isDeleted, setIsDeleted] = useState(false);
   const [totalPages, setTotalPages] = useState<number>(0);
   const onPageChange = (page: number) => {
     setCurrentPage(page);
@@ -45,6 +48,7 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
     sortDirection: 'desc',
     sortBy: 'id',
   });
+
   const [searchName, setSeachName] = useState<string>('');
   const fetchPropertyType = async (id?: number) => {
     const responsePropertyType = await GetPropertyTypeStaff({
@@ -55,14 +59,22 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
       const result = responsePropertyType.content.filter((element: any) => element.id != id);
       const theFilterOut = responsePropertyType.content.filter((element: any) => element.id == id);
       result.splice(0, 0, ...theFilterOut);
-      setPropertyViewList(result);
+      setPropertyTypeList(result);
     }
     setTotalPages(responsePropertyType.totalPages);
   };
 
   useEffect(() => {
     fetchPropertyType();
-  }, [JSON.stringify(pageable), JSON.stringify(searchName)]);
+
+    if (isSuccess === true) {
+      fetchPropertyType();
+    }
+
+    if (isDeleted) {
+      fetchPropertyType();
+    }
+  }, [JSON.stringify(pageable), JSON.stringify(searchName), isSuccess, isDeleted]);
 
   const handleDeleteProperty = (id: any) => {
     axiosAuthClient
@@ -70,6 +82,7 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
       .then(() => {
         setOpenModal(false);
         toast.success('Delete property success');
+        setIsDeleted(true);
       })
       .catch((response) => {
         setOpenModal(false);
@@ -84,15 +97,14 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
 
   return (
     <Fragment>
-      <div className="">
-        <span className="hover:underline" onClick={() => router.push('/staff')}>
-          Dashboard
-        </span>
-        {'>'} <span className="text-common">List property view</span>
-      </div>
+      <HeadingDashboard
+        routerDashboard="/staff"
+        pageCurrentContent="List property type"
+        pageCurrentRouter="/staff/listPropertyType"
+      />
 
       <div className="py-10">
-        <div className="my-2  ">
+        <div className="py-4">
           <form onSubmit={(e) => handleSearchNameSubmit(e)}>
             <Label
               htmlFor="searchName"
@@ -115,7 +127,7 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {propertyViewList.map((item: IPropertyType, index: any) => (
+            {propertyTypeList.map((item: IPropertyType, index: any) => (
               <Table.Row key={item.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {pageable.pageNo * pageable.pageSize + index + 1}
@@ -156,24 +168,24 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
         </div>
 
         <Modal show={openModal} onClose={() => setOpenModal(false)}>
-          <Modal.Header>Delete property</Modal.Header>
+          <Modal.Header>Delete property type</Modal.Header>
           <Modal.Body>
             <div className="space-y-6">
               <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                Do you want to delete this property
+                Do you want to delete this property type
               </p>
             </div>
           </Modal.Body>
-          <Modal.Footer>
+          <Modal.Footer className="flex justify-end">
             <Button
               color="red"
               className="font-bold"
               onClick={() => handleDeleteProperty(idDelete)}
             >
-              I accept
+              Delete
             </Button>
             <Button color="gray" onClick={() => setOpenModal(false)}>
-              Decline
+              Cancel
             </Button>
           </Modal.Footer>
         </Modal>

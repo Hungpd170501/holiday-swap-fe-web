@@ -21,6 +21,7 @@ import { Skeleton } from 'antd';
 import { toast } from 'react-hot-toast';
 import { create } from '@/public/vendor/doka.esm.min';
 import '@/public/vendor/doka.min.css';
+import HeadingDashboard from '../HeadingDashboard';
 
 registerPlugin(
   FilePondPluginFileValidateType,
@@ -115,9 +116,7 @@ export default function EditProfileComponent() {
             <option value="/dashboard/chat">Chat</option>
           </select>
         </div>
-        <div className="xl:mt-10">
-          Dashboard {'>'} <span className="text-common">Edit profile</span>
-        </div>
+        <HeadingDashboard routerDashboard='/dashboard' pageCurrentContent='Edit profile' pageCurrentRouter='/dashboard/editProfile' />
         {!loading ? (
           <form onSubmit={onSubmit}>
             <div className="p-4 flex flex-col-reverse flex-shrink-0 md:flex-row md:mt-8">
@@ -149,6 +148,7 @@ export default function EditProfileComponent() {
                       {...register('email')}
                       type="email"
                       defaultValue={user?.email}
+                      readOnly
                       id="Email"
                       name="email"
                       className="pl-3 py-3 w-full text-sm focus:outline-none placeholder-gray-500 bg-transparent text-gray-500 dark:text-gray-400 rounded-r"
@@ -269,6 +269,7 @@ export default function EditProfileComponent() {
                       {...register('phone')}
                       type="tel"
                       defaultValue={user?.phone}
+                      readOnly
                       id="Phone"
                       name="phone"
                       className="pl-3 py-3 w-full text-sm focus:outline-none placeholder-gray-500 bg-transparent text-gray-500 dark:text-gray-400 rounded-r"

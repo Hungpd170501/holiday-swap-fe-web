@@ -8,9 +8,7 @@ export default async function OwnerBookingPage() {
 
   return requireAuth(
     <div>
-      <div className="">
-        Dashboard {'>'} <span className="text-common">Owner Booking</span>
-      </div>
+      
       <div>
         <OwnerBooking historyOwnerBooking={historyOwnerBooking} />
       </div>

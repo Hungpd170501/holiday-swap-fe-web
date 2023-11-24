@@ -13,6 +13,7 @@ import { BiBlock } from 'react-icons/bi';
 import { BsCheck2Circle } from 'react-icons/bs';
 import { MdOutlinePending } from 'react-icons/md';
 import SelectRouterStaff from './SelectRouterStaff';
+import HeadingDashboard from '../HeadingDashboard';
 
 const TABS = [
   {
@@ -111,10 +112,11 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
   return (
     <div>
       <div className=" mb-10">
-        <div>
-          Staff {'> '}
-          <span className="text-common">List Approve Ownership</span>
-        </div>
+        <HeadingDashboard
+        routerDashboard="/staff"
+        pageCurrentContent="List approve ownership"
+        pageCurrentRouter="/staff/listapproveOwnership"
+      />
         <SelectRouterStaff />
       </div>
       <Fragment>

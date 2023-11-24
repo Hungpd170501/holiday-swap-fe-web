@@ -14,6 +14,7 @@ import Input from '@/app/components/input/Input';
 import InputInRoomAmenities from './InputInRoomAmenities';
 import SelectRouterStaff from '@/app/components/staff/SelectRouterStaff';
 import { Select } from 'antd';
+import HeadingDashboard from '@/app/components/HeadingDashboard';
 
 enum STEPS {
   BEDS = 0,
@@ -316,12 +317,11 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
   }
   return (
     <div>
-      <div className="">
-        <span className="hover:underline" onClick={() => router.push('/staff')}>
-          Dashboard
-        </span>{' '}
-        {'>'} <span className="text-common">Create Property</span>
-      </div>
+      <HeadingDashboard
+        routerDashboard="/staff"
+        pageCurrentContent="Create property"
+        pageCurrentRouter="/staff/createproperty"
+      />
       <SelectRouterStaff />
 
       {bodyContent}

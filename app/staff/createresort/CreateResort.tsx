@@ -21,6 +21,7 @@ import SelectRouterStaff from '@/app/components/staff/SelectRouterStaff';
 import Input from '@/shared/Input';
 import FormItem from '@/shared/FormItem';
 import Label from '@/shared/Label';
+import HeadingDashboard from '@/app/components/HeadingDashboard';
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoiaHVuZ3BkMTcwNTAxIiwiYSI6ImNsbmMycGJldjBoNWUyeXBnZXM3aXhhYXEifQ.H-6U4cHRC5mRfJKH4GI0qQ';
@@ -281,12 +282,7 @@ const CreateResort: React.FC<CreateResortProps> = ({ amenitiesArray, propertyTyp
 
   return (
     <div>
-      <div className="">
-        <span className="hover:underline" onClick={() => router.push('/staff')}>
-          Dashboard
-        </span>{' '}
-        {'>'} <span className="text-common">Create Resort</span>
-      </div>
+      <HeadingDashboard routerDashboard='/staff' pageCurrentContent='Create resort' pageCurrentRouter='/staff/createresort' />
       <SelectRouterStaff />
 
       <div className="mb-14 mt-5">

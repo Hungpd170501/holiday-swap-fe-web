@@ -9,6 +9,7 @@ import { Fragment, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Pagination } from 'flowbite-react';
 import axios from 'axios';
+import HeadingDashboard from '../HeadingDashboard';
 
 const TABLE_HEAD = ['Property ID', 'Room ID', 'Start date', 'End date', 'Type', 'Status', ''];
 
@@ -74,9 +75,7 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
 
   return (
     <Fragment>
-      <div className="">
-        Dashboard {'>'} <span className="text-common">Ownership</span>
-      </div>
+      <HeadingDashboard routerDashboard='/dashboard' pageCurrentContent='Ownership' pageCurrentRouter='/dashboard/ownership' />
       <div className="py-6 flex flex-row w-full justify-between">
         <div className="flex flex-row items-center gap-2">
           <div>Search by room ID</div>

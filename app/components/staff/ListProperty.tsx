@@ -17,6 +17,7 @@ import PopConfirmDeleteProperty from './PopconfirmDeleteProperty';
 import { useRouter } from 'next/navigation';
 import PopChangeStatusPropertyToDeActivate from './PopChangeStatusPropertyToDeActivate';
 import PopChangeStatusPropertyToActive from './PopChangeStatusPropertyToActive';
+import HeadingDashboard from '../HeadingDashboard';
 interface PropertyType {
   id: number;
   propertyName: string;
@@ -402,10 +403,11 @@ export default function ListProperty() {
   return (
     <div>
       <div className="mt-8 mb-10">
-        <div>
-          Staff {'> '}
-          <span className="text-common">List property</span>
-        </div>
+        <HeadingDashboard
+          routerDashboard="/staff"
+          pageCurrentContent="List property"
+          pageCurrentRouter="/staff/listproperty"
+        />
       </div>
       <div>
         <SearchSelectResort setTableParams={setTableParams} tableParams={tableParams} />

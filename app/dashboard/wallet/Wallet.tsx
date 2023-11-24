@@ -1,5 +1,6 @@
 'use client';
 
+import HeadingDashboard from '@/app/components/HeadingDashboard';
 import HistoryPayment from '@/app/components/wallet/HistoryPayment';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -18,9 +19,7 @@ const Wallet: React.FC<WalletProps> = ({ userWallet, transfer, historyTransactio
   ).length;
   return (
     <div>
-      <div className="">
-        Dashboard {'>'} <span className="text-common">My Wallet</span>
-      </div>
+      <HeadingDashboard routerDashboard='/dashboard' pageCurrentContent='My wallet' pageCurrentRouter='/dashboard/wallet' />
       <div className="flex flex-col px-10 w-full items-center">
         <div className="bg-white w-full rounded-3xl h-auto px-5 py-8 shadow-xl mt-10">
           <div className="flex flex-row items-center gap-60 justify-between">

@@ -3,7 +3,8 @@
 import { differenceInDays, format } from 'date-fns';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { Fragment } from 'react';
+import HeadingDashboard from '../HeadingDashboard';
 
 interface OwnerBookingProps {
   historyOwnerBooking: any;
@@ -19,7 +20,9 @@ const OwnerBooking: React.FC<OwnerBookingProps> = ({ historyOwnerBooking }) => {
     return nightDifference;
   };
   return (
-    <div className="py-6">
+   <Fragment>
+    <HeadingDashboard routerDashboard='/dashboard' pageCurrentContent='Owner booking' pageCurrentRouter='/dashboard/ownerBooking' />
+     <div className="py-6">
       {historyOwnerBooking?.length > 0 ? (
         historyOwnerBooking.map((item: any) => (
           <div
@@ -73,6 +76,7 @@ const OwnerBooking: React.FC<OwnerBookingProps> = ({ historyOwnerBooking }) => {
         </div>
       )}
     </div>
+   </Fragment>
   );
 };
 

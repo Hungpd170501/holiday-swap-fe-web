@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import HeadingDashboard from '../HeadingDashboard';
 export default function ChangePassword() {
   const [selectedOption, setSelectedOption] = useState('');
 
@@ -31,9 +32,7 @@ export default function ChangePassword() {
             <option value="/dashboard/myBooking">My Booking</option>
           </select>
         </div>
-        <div className="pb-10 ">
-          Dashboard {'  >  '} <span className="text-common"> Change Password</span>
-        </div>
+        <HeadingDashboard routerDashboard='/dashboard' pageCurrentContent='Change password' pageCurrentRouter='/dashboard/changePassword' />
 
         <div>
           <div className=" flex flex-col mb-10  md:flex md:flex-row md:mb-14">

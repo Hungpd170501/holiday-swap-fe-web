@@ -9,22 +9,14 @@ import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import InputComponent from '../input/Input';
+import GetPropertyTypeStaff from '@/app/actions/getPropertyTypeStaff';
 
 export default function ModalEditPropertyType() {
   const [isLoading, setIsLoading] = useState(false);
   const editPropertyTypeModal = useEditPropertyTypeModal();
   const propertyType = editPropertyTypeModal.propertyType;
-  const [propertyTypeName, setPropertyTypeName] = useState<string>();
-  const [propertyTypeDescription, setPropertyTypeDescription] = useState<string>();
   const axiosAuthClient = useAxiosAuthClient();
   const router = useRouter();
-
-  useEffect(() => {
-    if (propertyType) {
-      setPropertyTypeName(propertyType.propertyTypeName);
-      setPropertyTypeDescription(propertyType.propertyTypeDescription);
-    }
-  }, [propertyType]);
 
   const {
     register,
@@ -39,7 +31,12 @@ export default function ModalEditPropertyType() {
     },
   });
 
-  const propertyTypeDescriptionField = register('propertyTypeDescription', { required: true });
+  useEffect(() => {
+    if (propertyType) {
+      setValue('propertyTypeName', propertyType.propertyTypeName);
+      setValue('propertyTypeDescription', propertyType.propertyTypeDescription);
+    }
+  }, [propertyType]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
@@ -48,9 +45,10 @@ export default function ModalEditPropertyType() {
 
     axiosAuthClient
       .put(`https://holiday-swap.click/api/v1/property-types/${propertyType?.id}`, data, config)
-      .then(() => {
+      .then(async () => {
         toast.success('Update property type success!');
         editPropertyTypeModal.onClose();
+        editPropertyTypeModal.onEditSuccess();
       })
       .catch((response) => {
         toast.error(response.response.data.message);
@@ -63,8 +61,6 @@ export default function ModalEditPropertyType() {
     <div className="flex flex-col gap-4">
       <InputComponent
         label="Property Type Name"
-        value={propertyTypeName}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => setPropertyTypeName(e.target.value)}
         id="propertyTypeName"
         errors={errors}
         register={register}
@@ -76,15 +72,11 @@ export default function ModalEditPropertyType() {
         </div>
         <Textarea
           id="propertyTypeDescription"
-          value={propertyTypeDescription}
           placeholder="Leave a comment..."
           required
           rows={4}
-          {...register('propertyTypeDescription', {
-            onChange: (e) => {
-              setPropertyTypeDescription(e.target.value);
-            },
-          })}
+      
+          {...register('propertyTypeDescription')}
         />
       </div>
     </div>

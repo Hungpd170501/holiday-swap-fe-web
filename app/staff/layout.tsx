@@ -6,7 +6,7 @@ export default async function DashboardStaffLayout({ children }: { children: Rea
   return (
     <Provider>
       <div className="flex flex-row gap-10 pt-20">
-        <div className="sticky col-span-4 top-0 h-full">
+        <div className="sticky top-20 col-span-4 h-full">
           <SidebarStaff />
         </div>
         <main className="w-full mt-8 h-full pr-14 col-span-8">{children}</main>

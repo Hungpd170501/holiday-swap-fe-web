@@ -13,6 +13,7 @@ import SelectRouterStaff from './SelectRouterStaff';
 import DropdownStatusResort from './DropdownStatusResort';
 import GetListResort from '@/app/actions/getListResort';
 import { Pagination } from 'flowbite-react';
+import HeadingDashboard from '../HeadingDashboard';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -66,9 +67,11 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
   };
   return (
     <>
-      <div className="">
-        Dashboard {'>'} <span className="text-common">List resort</span>
-      </div>
+      <HeadingDashboard
+        routerDashboard="/staff"
+        pageCurrentContent="List resort"
+        pageCurrentRouter="/staff/listresort"
+      />
       <SelectRouterStaff />
       <div className="text-common text-[20px] font-bold py-5 ">List Resort</div>
       <TableContainer component={Paper}>

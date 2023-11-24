@@ -13,27 +13,26 @@ export default function ModalEditPropertyView() {
   const [isLoading, setIsLoading] = useState(false);
   const editPropertyViewModal = useEditPropertyViewModal();
   const propertyView = editPropertyViewModal.propertyView;
-  const [propertyViewName, setPropertyViewName] = useState<string>();
-  const [propertyViewDescription, setPropertyViewDescription] = useState<string>();
   const axiosAuthClient = useAxiosAuthClient();
-
-  useEffect(() => {
-    if (propertyView) {
-      setPropertyViewName(propertyView.propertyViewName);
-      setPropertyViewDescription(propertyView.propertyViewDescription);
-    }
-  }, [propertyView]);
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      propertyTypeName: '',
-      propertyTypeDescription: '',
+      propertyViewName: '',
+      propertyViewDescription: '',
     },
   });
+
+  useEffect(() => {
+    if (propertyView) {
+      setValue('propertyViewName', propertyView.propertyViewName);
+      setValue('propertyViewDescription', propertyView.propertyViewDescription);
+    }
+  }, [propertyView]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
@@ -45,6 +44,7 @@ export default function ModalEditPropertyView() {
       .then(() => {
         toast.success('Update property view success!');
         editPropertyViewModal.onClose();
+        editPropertyViewModal.onEditSuccess();
       })
       .catch((response) => {
         toast.error(response.response.data.message);
@@ -57,8 +57,6 @@ export default function ModalEditPropertyView() {
     <div className="flex flex-col gap-4">
       <InputComponent
         label="Property View Name"
-        value={propertyViewName}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => setPropertyViewName(e.target.value)}
         id="propertyViewName"
         errors={errors}
         register={register}
@@ -70,15 +68,10 @@ export default function ModalEditPropertyView() {
         </div>
         <Textarea
           id="propertyViewDescription"
-          value={propertyViewDescription}
           placeholder="Leave a comment..."
           required
           rows={4}
-          {...register('propertyViewDescription', {
-            onChange: (e) => {
-              setPropertyViewDescription(e.target.value);
-            },
-          })}
+          {...register('propertyViewDescription')}
         />
       </div>
     </div>
