@@ -137,6 +137,7 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail, amineties, proper
       marker.setLngLat(e.result.geometry.coordinates).addTo(mapboxglMap);
     });
     setLocation(fetchLocation);
+    setLocationContextLength(fetchLocation?.context?.length??3);
     marker.on('dragend', () => {
       const lngLat = marker.getLngLat();
       setLocation((prev) => {
