@@ -21,17 +21,11 @@ const RechargeSuccess = () => {
     // axiosAuthClient.get(
     //   `https://holiday-swap.click/api/v1/payment/payment_infor/${moneyTransferId}?vnp_ResponseCode=${responseCode}`
     // );
-    if (session?.user.access_token) {
-      const config = {
-        headers: { Authorization: `Bearer ${session?.user.access_token}` },
-      };
 
-      axios.get(
-        `https://holiday-swap.click/api/v1/payment/payment_infor/${moneyTransferId}?vnp_ResponseCode=${responseCode}`,
-        config
-      );
-    }
-  }, [pathName, session?.user.access_token]);
+    axios.get(
+      `https://holiday-swap.click/api/v1/payment/payment_infor/${moneyTransferId}?vnp_ResponseCode=${responseCode}`
+    );
+  }, [pathName]);
   return (
     <Container className="bg-green-50">
       <div className="w-full h-screen flex flex-col justify-center items-center">
