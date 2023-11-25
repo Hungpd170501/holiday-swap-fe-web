@@ -12,6 +12,7 @@ import useAparmentReviewModal from '@/app/hooks/useApartmentReviewModal';
 import { useParams, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import ApartmentDetailMap from './ApartmentDetailMap';
+import moment from 'moment-timezone';
 
 interface ApartmentDetailProps {
   apartment?: any;
@@ -60,20 +61,30 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
       datesOutsideDateRange.push(new Date(i));
     }
 
-    if (apartment.timeHasBooked) {
-      const checkInDate = new Date(apartment.timeHasBooked.checkIn);
-      const checkOutDate = new Date(apartment.timeHasBooked.checkOut);
+    if (
+      apartment.timeHasBooked &&
+      Array.isArray(apartment.timeHasBooked) &&
+      apartment.timeHasBooked.length > 0
+    ) {
+      apartment.timeHasBooked.forEach((booking: any) => {
+        const checkInDate = new Date(booking.checkIn);
+        console.log('Check in date', booking.checkIn);
+        const checkOutDate = new Date(booking.checkOut);
 
-      // Add dates between checkIn and checkOut to datesOutsideDateRange
-      for (let i = checkInDate.getTime(); i <= checkOutDate.getTime(); i += 24 * 60 * 60 * 1000) {
-        datesOutsideDateRange.push(new Date(i));
-      }
+        // Add dates between checkIn and checkOut to datesOutsideDateRange
+        for (let i = checkInDate.getTime(); i <= checkOutDate.getTime(); i += 24 * 60 * 60 * 1000) {
+          console.log('Check date range has booked', new Date(i));
+          datesOutsideDateRange.push(new Date(i));
+        }
+      });
     }
 
     return datesOutsideDateRange;
   };
 
   const [dateOut, setDateOut] = useState(getDatesOutsideDateRange(dateRangeDefault));
+
+  console.log('Check date out', dateOut);
 
   const handleChangeDateRange = (value: any) => {
     setDateRange(value.selection);

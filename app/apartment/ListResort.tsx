@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Pagination } from 'flowbite-react';
 import { format } from 'date-fns';
 import { useSearchParams } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 interface ListResortProps {
   listApartment: any;
@@ -32,7 +33,8 @@ const ListResort: React.FC<ListResortProps> = ({
   const [numberOfGuestValue, setNumberOfGuestValue] = useState(numberOfGuest);
   const [initialDate, setInitialDate] = useState(initialDateRange);
   const [dateRangeNew, setDateRangeNew] = useState<any>(dateRange);
-  const [totalPages, setTotalPages] = useState<any>(listApartment.totalPages);
+  const [totalPages, setTotalPages] = useState<any>(listApartment?.totalPages);
+  const { data: session } = useSession();
 
   const searchParams = useSearchParams();
   const resortIdParams = searchParams?.get('resortId');
@@ -71,7 +73,9 @@ const ListResort: React.FC<ListResortProps> = ({
           )}`;
         }
 
-        const list = await axios.get(apiUrl);
+        const config = { headers: { Authorization: `Bearer ${session?.user.access_token}` } };
+
+        const list = await axios.get(apiUrl, config);
         setListResort(list.data);
         setTotalPages(list.data?.totalPages);
       } else {
@@ -86,14 +90,25 @@ const ListResort: React.FC<ListResortProps> = ({
           )}&checkOut=${format(new Date(dateRangeNew.endDate), 'yyyy-MM-dd')}`;
         }
 
-        const list = await axios.get(apiUrl);
+        const config = { headers: { Authorization: `Bearer ${session?.user.access_token}` } };
+
+        const list = await axios.get(apiUrl, config);
         setListResort(list.data);
         setTotalPages(list.data?.totalPages);
       }
     };
 
     getList();
-  }, [page, numberOfGuest, resortId, dateRangeNew, initialDate, numberOfGuestValue, resortIdValue]);
+  }, [
+    page,
+    numberOfGuest,
+    resortId,
+    dateRangeNew,
+    initialDate,
+    numberOfGuestValue,
+    resortIdValue,
+    session,
+  ]);
 
   console.log('Check date range new', dateRangeNew);
 

@@ -18,10 +18,6 @@ const RechargeSuccess = () => {
   const responseCode = '00';
 
   useEffect(() => {
-    // axiosAuthClient.get(
-    //   `https://holiday-swap.click/api/v1/payment/payment_infor/${moneyTransferId}?vnp_ResponseCode=${responseCode}`
-    // );
-
     axios.get(
       `https://holiday-swap.click/api/v1/payment/payment_infor/${moneyTransferId}?vnp_ResponseCode=${responseCode}`
     );

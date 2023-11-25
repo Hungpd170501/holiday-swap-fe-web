@@ -25,9 +25,10 @@ const PostDetail: React.FC<PostDetailProps> = ({ postDetail, currentUser }) => {
         .put(`https://holiday-swap.click/api/post/react?postId=${postId}&reaction=like`)
         .then(async () => {
           toast.success('Like post success');
-          const newData = await GetPostById(postId);
+          const params = { postId }; // Wrap postId in an object
+          const newData = await GetPostById(params);
           if (newData) {
-            setPostDetailValue(newData.data);
+            setPostDetailValue(newData);
           }
         })
         .catch((response) => {
@@ -44,9 +45,10 @@ const PostDetail: React.FC<PostDetailProps> = ({ postDetail, currentUser }) => {
         .put(`https://holiday-swap.click/api/post/react?postId=${postId}&reaction=dislike`)
         .then(async () => {
           toast.success('Dislike post success');
-          const newData = await GetPostById(postId);
+          const params = { postId }; // Wrap postId in an object
+          const newData = await GetPostById(params);
           if (newData) {
-            setPostDetailValue(newData.data);
+            setPostDetailValue(newData);
           }
         })
         .catch((response) => {

@@ -8,6 +8,8 @@ import { BiBlock } from 'react-icons/bi';
 import { Upload } from 'antd';
 import useCreatePublicTimeModal from '@/app/hooks/useCreatePublicTimeModal';
 import useEditApartmentModal from '@/app/hooks/useEditApartmentModal';
+import { lastIndexOf } from 'lodash';
+import { format } from 'date-fns';
 
 interface ManageApartmentProps {
   detailCoOwner: any;
@@ -116,40 +118,102 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({ detailCoOwner, proper
                 )}
                 {}
               </div>
+
+              <div className="w-full py-5">
+                <div className="border border-gray-500  rounded-md px-5">
+                  <div className="py-2">
+                    <div className="flex flex-row items-center justify-between gap-3 mb-3 mt-3">
+                      <div className="text-[20px] ">Time frame</div>
+                    </div>
+                    {detail.timeFrames.map((item: any, index: any) => (
+                      <div key={index} className="pb-4">
+                        <div className="flex flex-row items-center gap-2">
+                          <div className="">Week:</div>
+                          <div className="flex flex-row items-center w-full justify-between">
+                            <div className="text-common">{item.weekNumber}</div>
+                          </div>
+                        </div>
+
+                        {item.availableTimes.map((available: any, index: number) => (
+                          <div key={index} className="flex flex-col justify-center gap-2 ml-5 w-full">
+                            <div className="w-full">
+                              Time public:{' '}
+                              <span className="text-common">
+                                {format(new Date(available.startTime), 'dd/MM/yyyy')} -{' '}
+                                {format(new Date(available.endTime), 'dd/MM/yyyy')}
+                              </span>
+                            </div>
+
+                            <div className="w-full">
+                              Status: <span className="text-common">{available.status}</span>
+                            </div>
+
+                            <div className="w-full">
+                              Price/night:{' '}
+                              <span className="text-common">{available.pricePerNight}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="w-[40%]">
-              <div className="border border-gray-500  rounded-md px-5">
+            <div className="w-[40%] sticky">
+              <div className="border border-gray-500  rounded-md px-5 sticky top-32">
                 <div className="py-2">
                   <div className="flex flex-row items-center justify-between gap-3 mb-3 mt-3">
                     <div className="underline text-[20px] ">{propertyDetail?.propertyName}</div>
-                    <div className="cursor-pointer ">
-                      <FiEdit onClick={EditApartmentModal.onOpen} size={20} />
-                    </div>
                   </div>
                   <div className="flex flex-row items-center gap-2">
                     <div className="underline">Status:</div>
                     <div className="flex flex-row items-center w-full justify-between">
                       <div className="underline text-common">{detail.status}</div>
-                      <div>
-                        <FiEdit size={20} />
-                      </div>
                     </div>
                   </div>
                   <div className="flex flex-row items-center w-full justify-between py-4">
                     <div>
                       Resort: <span className="text-common">Phu Quoc Resort VIP</span>
                     </div>
-                    <BiBlock />
                   </div>
+                  <div className="flex flex-row items-center w-full justify-between py-4">
+                    <div>
+                      Type owner:{' '}
+                      <span className="text-common">
+                        {detail.type === 'DEEDED' ? 'Owner forever' : 'Owner a previod time'}
+                      </span>
+                    </div>
+                  </div>
+                  {detail.type === 'RIGHT_TO_USE' ? (
+                    <div className="flex flex-row items-center w-full justify-between py-4">
+                      <div>
+                        Time owner:{' '}
+                        <span className="text-common">
+                          {new Date(detail.startTime).getFullYear()} -{' '}
+                          {new Date(detail.endTime).getFullYear()}
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    ''
+                  )}
                   <div className="flex flex-row items-center w-full justify-between ">
-                    <div>Pbulic time:</div>
-                    <FiEdit size={20} />
+                    <div>
+                      Week number owner:{' '}
+                      {detail.timeFrames.map((item: any, index: number) => (
+                        <Fragment key={index}>
+                          {item.weekNumber}
+                          {index !== detail.timeFrames.length - 1 && ', '}
+                        </Fragment>
+                      ))}
+                    </div>
                   </div>
+
                   <div className="flex flex-row items-center w-full justify-between py-4">
                     <div>
                       Apartment ID: <span className="text-common">{detail.id.roomId}</span>
                     </div>
-                    <BiBlock />
                   </div>
                   <div className="flex flex-row items-center w-full justify-center mt-4">
                     <button
@@ -164,7 +228,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({ detailCoOwner, proper
             </div>
           </div>
 
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <div className="relative rounded-md border-dashed border-2 border-gray-300 p-4">
               <input
                 type="file"
@@ -179,14 +243,14 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({ detailCoOwner, proper
                 </label>
               </div>
             </div>
-          </div>
-          <div className="mt-4">
+          </div> */}
+          {/* <div className="mt-4">
             <div className="py-2">Description</div>
             <textarea className="w-full  rounded-md" name="" id="" cols={20} rows={10}></textarea>
-          </div>
-          <div className="flex flex-row w-full justify-end">
+          </div> */}
+          {/* <div className="flex flex-row w-full justify-end">
             <button className="text-white bg-common rounded-md px-5 py-2 ">Save</button>
-          </div>
+          </div> */}
         </div>
       </Image.PreviewGroup>
     </div>
