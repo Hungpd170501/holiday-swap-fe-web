@@ -8,6 +8,7 @@ import { BiSolidDislike, BiSolidLike } from 'react-icons/bi';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 interface CardBlogProps {
   post: any;
@@ -18,6 +19,7 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
   const [postList, setPostList] = useState<any>();
   const axiosAuthClient = useAxiosAuthClient();
   const { data: session } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     if (post) {
@@ -101,16 +103,16 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
             </div>
             <div className="text-[25px] pt-3 pb-5">{item.title}</div>
             <div
-              className="text-[13px] text-gray-500"
+              className="text-[13px] text-gray-500 line-clamp-3"
               dangerouslySetInnerHTML={{ __html: item.content }}
             ></div>
             <div>
-              <Link
-                className="bg-[#5C98F2] hover:bg-blue-600  w-[130px] h-[51px] flex flex-row items-center justify-center rounded-md mt-5 text-white font-medium"
-                href="./detailblog"
+              <div
+                className="bg-[#5C98F2] hover:cursor-pointer hover:bg-blue-600  w-[130px] h-[51px] flex flex-row items-center justify-center rounded-md mt-5 text-white font-medium"
+                onClick={() => router.push(`/blog/${item.id}`)}
               >
                 Read More
-              </Link>
+              </div>
             </div>
           </div>
         </div>
