@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+
 import React, { useEffect, useState } from 'react';
 import BookingReview from '../dashboard/BookingReview';
 import Image from 'next/image';
@@ -28,6 +29,7 @@ const CurrentBooking: React.FC<CurrentBookingProps> = ({ historyBooking }) => {
     }
   }, [historyBooking]);
 
+
   return (
     <div className="hidden md:block md:w-auto md:h-auto md:py-10">
       <div className="flex flex-row justify-between items-center">
@@ -38,6 +40,7 @@ const CurrentBooking: React.FC<CurrentBookingProps> = ({ historyBooking }) => {
         >
           View All Booking
         </div>
+
       </div>
       {historyBookingList &&
         historyBookingList.map((item: any, index: number) => (
@@ -81,6 +84,7 @@ const CurrentBooking: React.FC<CurrentBookingProps> = ({ historyBooking }) => {
             </div>
           </div>
         ))}
+
     </div>
   );
 };

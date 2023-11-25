@@ -1,7 +1,9 @@
 import React from 'react';
 import Booking from './Booking';
 import GetCurrentUser from '../actions/getCurrentUser';
+
 import requireAuth from '../libs/requireAuth';
+
 
 export const metadata = {
   title: 'Confirm and pay',

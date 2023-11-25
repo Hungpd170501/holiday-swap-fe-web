@@ -12,6 +12,7 @@ import axios from 'axios';
 import useCreateOwnershipModal from '@/app/hooks/useCreateOwnershipModal';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import ModalCreate from './ModalCreate';
+import ToolTipCreateOwnership from '../tooltip/ToolTipCreateOwnership';
 
 export const type = [
   {
@@ -302,7 +303,10 @@ export default function ModalCreateOwnership() {
         />
       </div>
       <div className="grid grid-cols-1 gap-1">
-        <label>Contract Image</label>
+        <div className="flex flex-row items-center gap-1">
+          <label>Contract Image</label>
+          <ToolTipCreateOwnership />
+        </div>
         <FileInput
           {...register('contractImages', {
             required: 'Recipe picture is required',
