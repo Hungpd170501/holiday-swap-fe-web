@@ -18,7 +18,7 @@ export default async function StaffEditResort({ params }: { params: IParams }) {
   const resortDetail = await GetResortById(params);
   const amineties = await GetAmenityResortType();
   const propertyTypes = await GetPropertyType();
-  const locationPromise = axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${resortDetail?.resortName}.json?access_token=${MAPBOX_TOKEN}`)
+  const locationPromise = axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${resortDetail?.resortName}.json?access_token=${MAPBOX_TOKEN}&country=vn`)
     .then(response => {
       const fetchedLocation = (response?.data?.features as Place[])
           ?.find((place) => place.id === resortDetail?.locationCode)
