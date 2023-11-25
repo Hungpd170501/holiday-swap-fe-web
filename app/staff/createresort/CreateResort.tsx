@@ -448,18 +448,19 @@ const CreateResort: React.FC<CreateResortProps> = ({ amenitiesArray, propertyTyp
             )}
           </span>
         </div>
-        <div className="flex flex-row mb-10">
-          <InputCreatePropertyType
-            propertyTypesResort={propertyTypesArray}
-            handlePropertiesChange={handlePropertiesChange}
-          />
-        </div>
         <div className="flex flex-row mb-14">
           <InputAmenitiesType
             amenities={amenitiesArray}
             handleAmenitiesChange={handleAmenitiesChange}
           />
         </div>
+        <div className="flex flex-row mb-10">
+          <InputCreatePropertyType
+            propertyTypesResort={propertyTypesArray}
+            handlePropertiesChange={handlePropertiesChange}
+          />
+        </div>
+        
 
         {/* <div className=" flex flex-row mb-14">
           <div className="w-[277px] text-gray-700">Detail*</div>

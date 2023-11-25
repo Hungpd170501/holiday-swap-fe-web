@@ -50,7 +50,7 @@ const InputAmenitiesType: React.FC<InputAmenitiesTypeProps> = ({
               value={item.id}
               checked={amenitiesArrayValue.some((element: any) => element.id === item.id)}
             />
-            <Label htmlFor="promotion">{item.resortAmenityTypeName}</Label>
+            <Label htmlFor="promotion">{item.resortAmenityName}</Label>
           </div>
         ))}
       </div>
