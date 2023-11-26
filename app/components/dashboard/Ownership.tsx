@@ -143,7 +143,7 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
                       }
                       className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 hover:cursor-pointer"
                     >
-                      <p>Edit</p>
+                      <p>Detail</p>
                     </div>
                   </Table.Cell>
                 </Table.Row>
