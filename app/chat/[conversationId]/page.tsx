@@ -13,11 +13,15 @@ interface IParams {
 
 const ConversationId = async ({ params }: { params: IParams }) => {
   // const conversations = await getConversationById(params.conversationId);
-  const conversations = await GetConversations() as Conversation[];
-  const currentUser= await GetCurrentUser();
+  const conversations = (await GetConversations()) as Conversation[];
+  const currentUser = await GetCurrentUser();
   const messages = await MessageApis.getMessagesByConversationId(params.conversationId);
 
-  if (!((conversations?.find((c:Conversation) => c?.conversationId?.toString()===params?.conversationId)as Conversation))) {
+  if (
+    !(conversations?.find(
+      (c: Conversation) => c?.conversationId?.toString() === params?.conversationId
+    ) as Conversation)
+  ) {
     return (
       <div className="lg:pl-80 h-full">
         <div className="h-full flex flex-col">
@@ -30,15 +34,24 @@ const ConversationId = async ({ params }: { params: IParams }) => {
   return (
     <div className="h-screen custom-max-height">
       <div className="h-screen flex flex-col custom-max-height">
-        <Header conversation={(conversations?.find((c:Conversation) => c?.conversationId?.toString()===params?.conversationId)as Conversation)}
-                currentUser={currentUser}
+        <Header
+          conversation={
+            conversations?.find(
+              (c: Conversation) => c?.conversationId?.toString() === params?.conversationId
+            ) as Conversation
+          }
+          currentUser={currentUser}
         />
-        <Body initialMessages={messages.reverse()}
-              users={
-                  (conversations?.find((c:Conversation) => c?.conversationId?.toString()===params?.conversationId)as Conversation)
-                    ?.participants.map((p)=>p.user)}
-              currentUser={currentUser}/>
-        <Form currentUser={currentUser}/>
+        <Body
+          initialMessages={messages.reverse()}
+          users={(
+            conversations?.find(
+              (c: Conversation) => c?.conversationId?.toString() === params?.conversationId
+            ) as Conversation
+          )?.participants.map((p) => p.user)}
+          currentUser={currentUser}
+        />
+        <Form currentUser={currentUser} />
       </div>
     </div>
   );

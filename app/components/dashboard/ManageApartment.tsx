@@ -81,27 +81,6 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({ detailCoOwner, proper
       <Image.PreviewGroup>
         <div className="py-3">
           <div className="flex flex-row gap-3 w-full">
-            {/* <div className="w-[60%]  gap-2 py-4 md:grid md:grid-cols-1  md:gap-2 md:py-4">
-              <div className="relative hidden md:block md:relative lg:block lg:relative xl:block xl:relative">
-                <div className="hidden md:grid md:grid-cols-1 md:gap-2  lg:grid lg:grid-cols-2 lg:gap-2  xl:grid xl:grid-cols-2 xl:gap-2 ">
-                  {detailCoOwner.contractImages.slice(0, 5).map((item: any, index: number) => (
-                    <div
-                      key={item.id}
-                      className={`w-full  relative overflow-hidden  md:block ${
-                        index === 1 ? '' : ''
-                      } ${index === 3 ? '' : ''}`}
-                    >
-                      <Image
-                        key={item.id}
-                        alt="image"
-                        src={item.link}
-                        className="object-cover w-full cursor-pointer"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div> */}
             <div className="w-[60%]">
               <div className="grid grid-cols-3 gap-3">
                 {detail.contractImages.length === 1 ? (
@@ -158,6 +137,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({ detailCoOwner, proper
                             </div>
                           </div>
                         </div>
+
 
                         {item.availableTimes.map((available: any, innerIndex: number) => (
                           <Fragment key={innerIndex}>
@@ -256,30 +236,6 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({ detailCoOwner, proper
               </div>
             </div>
           </div>
-
-          {/* <div className="mt-4">
-            <div className="relative rounded-md border-dashed border-2 border-gray-300 p-4">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                ref={imageInputRef}
-                className="absolute w-full h-full opacity-0"
-              />
-              <div className="text-center">
-                <label form="imageInput" className="cursor-pointer">
-                  <span className="text-gray-600">Upload more images</span>
-                </label>
-              </div>
-            </div>
-          </div> */}
-          {/* <div className="mt-4">
-            <div className="py-2">Description</div>
-            <textarea className="w-full  rounded-md" name="" id="" cols={20} rows={10}></textarea>
-          </div> */}
-          {/* <div className="flex flex-row w-full justify-end">
-            <button className="text-white bg-common rounded-md px-5 py-2 ">Save</button>
-          </div> */}
         </div>
       </Image.PreviewGroup>
     </div>

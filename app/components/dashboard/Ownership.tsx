@@ -75,7 +75,11 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
 
   return (
     <Fragment>
-      <HeadingDashboard routerDashboard='/dashboard' pageCurrentContent='Ownership' pageCurrentRouter='/dashboard/ownership' />
+      <HeadingDashboard
+        routerDashboard="/dashboard"
+        pageCurrentContent="Ownership"
+        pageCurrentRouter="/dashboard/ownership"
+      />
       <div className="py-6 flex flex-row w-full justify-between">
         <div className="flex flex-row items-center gap-2">
           <div>Search by room ID</div>
@@ -132,19 +136,22 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
                     )}
                   </Table.Cell>
                   <Table.Cell>
-                    <div
-                      onClick={() =>
-                        handleRouter(
-                          item.id.propertyId,
-                          item.id.userId,
-                          item.id.roomId,
-                          item.status
-                        )
-                      }
-                      className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 hover:cursor-pointer"
-                    >
-                      <p>Detail</p>
-                    </div>
+      {item.status === 'ACCEPTED' && (
+                      <div
+                        onClick={() =>
+                          handleRouter(
+                            item.id.propertyId,
+                            item.id.userId,
+                            item.id.roomId,
+                            item.status
+                          )
+                        }
+                        className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 hover:cursor-pointer"
+                      >
+                        <p>Detail</p>
+                      </div>
+                    )}
+
                   </Table.Cell>
                 </Table.Row>
               ))}
