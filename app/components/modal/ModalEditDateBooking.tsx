@@ -47,15 +47,13 @@ export default function ModalEditDateBooking() {
     return datesOutsideDateRange;
   };
 
-  const [dateOut, setDateOut] = useState(getDatesOutsideDateRange(dateRange));
-
-  console.log('Check date range booking', dateRange);
-
   const {
     dateRangeContext,
     dateRangeDefaultContext,
     setDateRangeContext,
     setDateRangeDefaultContext,
+    dateOut,
+    setDateOut,
   } = useDateRange();
 
   const bodyContent = (
@@ -65,7 +63,7 @@ export default function ModalEditDateBooking() {
         onChange={(value: any) => {
           setDateRangeContext(value.selection);
         }}
-        minDate={dateRangeContext?.startDate}
+        minDate={dateRangeDefaultContext?.startDate}
         disabledDates={dateOut}
         className="w-full"
       />
@@ -77,6 +75,7 @@ export default function ModalEditDateBooking() {
       disabled={isLoading}
       isOpen={editDateBookingModal.isOpen}
       actionLabel="Save"
+      title="Edit date booking"
       onClose={editDateBookingModal.onClose}
       body={bodyContent}
       onSubmit={editDateBookingModal.onClose}

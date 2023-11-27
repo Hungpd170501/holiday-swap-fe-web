@@ -26,10 +26,7 @@ const RechargeSuccess = () => {
     <Container className="bg-green-50">
       <div className="w-full h-screen flex flex-col justify-center items-center">
         <div className="font-bold text-[30px] py-3">Deposit successful!</div>
-        <div>
-          You have successfully deposited <span className="text-common">300 points</span> into your
-          wallet
-        </div>
+        <div>You have successfully deposited into your wallet</div>
         <div>
           <img className="w-60 h-60 " src="/images/check-mark.png" alt="" />
         </div>

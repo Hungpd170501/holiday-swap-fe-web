@@ -32,13 +32,22 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
   const roomId = params?.get('roomId');
 
   const [dateRange, setDateRange] = useState(initialDateRange);
-  const { dateRangeDefaultContext, setDateRangeDefaultContext } = useDateRange();
+  const {
+    dateRangeContext,
+    setDateRangeContext,
+    dateRangeDefaultContext,
+    setDateRangeDefaultContext,
+    dateOut,
+    setDateOut,
+  } = useDateRange();
 
   useEffect(() => {
-    setDateRangeDefaultContext(initialDateRange);
-  }, [apartment]);
+    if (dateRange) {
+      setDateRangeDefaultContext(dateRange);
+    }
+  }, [dateRange]);
 
-  console.log('Check date range default context', dateRangeDefaultContext);
+  console.log('check date range', dateRangeDefaultContext);
 
   const [rating, setRating] = useState<any>();
   const [apartmentAllowGuest, setApartmentAllowGuest] = useState(
@@ -55,8 +64,8 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
   const [dateRangeDefault, setDateRangeDefault] = useState(initialDateRange);
 
   const getDatesOutsideDateRange = (dateRange: any) => {
-    const startDate = dateRange.startDate;
-    const endDate = dateRange.endDate;
+    const startDate = dateRange?.startDate;
+    const endDate = dateRange?.endDate;
 
     const startDateOutsideDateRange = addDays(endDate, 1);
     const endDateOutsideDateRange = subDays(addMonths(startDate, 30), 1);
@@ -91,9 +100,9 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     return datesOutsideDateRange;
   };
 
-  const [dateOut, setDateOut] = useState(getDatesOutsideDateRange(dateRangeDefault));
-
-  console.log('Check date out', dateOut);
+  useEffect(() => {
+    setDateOut(getDatesOutsideDateRange(dateRangeDefaultContext));
+  }, [dateRangeDefaultContext]);
 
   const handleChangeDateRange = (value: any) => {
     setDateRange(value.selection);

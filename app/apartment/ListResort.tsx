@@ -76,7 +76,7 @@ const ListResort: React.FC<ListResortProps> = ({
         const config = { headers: { Authorization: `Bearer ${session?.user.access_token}` } };
         let list;
 
-        if (session?.user.access_token) {
+        if (session && session?.user.access_token) {
           list = await axios.get(apiUrl, config);
         } else {
           list = await axios.get(apiUrl);
@@ -98,7 +98,7 @@ const ListResort: React.FC<ListResortProps> = ({
         const config = { headers: { Authorization: `Bearer ${session?.user.access_token}` } };
         let list;
 
-        if (session?.user.access_token) {
+        if (session && session?.user.access_token) {
           list = await axios.get(apiUrl, config);
         } else {
           list = await axios.get(apiUrl);

@@ -11,8 +11,10 @@ interface DateRange {
 interface DateRangeContextType {
   dateRangeContext: DateRange;
   dateRangeDefaultContext: DateRange;
+  dateOut: any[];
   setDateRangeContext: (dateRange: any) => void;
   setDateRangeDefaultContext: (dateRange: any) => void;
+  setDateOut: (dateRange: any) => void;
 }
 
 const DateRangeContext = createContext<DateRangeContextType | undefined>(undefined);
@@ -32,12 +34,15 @@ interface DateRangeProviderProps {
 export function DateRangeProvider({ children }: DateRangeProviderProps) {
   const [dateRangeContext, setDateRangeContext] = useState<any>(null);
   const [dateRangeDefaultContext, setDateRangeDefaultContext] = useState<any>(null);
+  const [dateOut, setDateOut] = useState<any[]>([]);
 
   return (
     <DateRangeContext.Provider
       value={{
         dateRangeContext,
         dateRangeDefaultContext,
+        dateOut,
+        setDateOut,
         setDateRangeContext,
         setDateRangeDefaultContext,
       }}
