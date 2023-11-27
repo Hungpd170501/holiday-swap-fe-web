@@ -58,6 +58,7 @@ export default function ModalLogin() {
 
   const toggleCreateAccountModal = useCallback(() => {
     setIsForgotPasswordModalOpen(false);
+    loginModal.onClose();
     router.push('/register');
   }, []);
 

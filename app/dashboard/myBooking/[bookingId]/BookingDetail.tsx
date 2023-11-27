@@ -49,9 +49,9 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
             />
           </div>
           <div className="flex flex-col">
-            <div>{ownerUser?.content[0].fullName}</div>
+            <div>{ownerUser?.content[0]?.fullName}</div>
             <div className="text-slate-500">
-              {ownerResort?.content[0].addressLine
+              {ownerResort?.content[0]?.addressLine
                 .split(',')
                 .map((part: any) => part.trim())
                 .slice(-2)
@@ -81,7 +81,11 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
           <div className="py-3">
             <button
               onClick={() =>
-                createReviewModal.onOpen(bookingDetail?.availableTimeId, currentUser?.userId, bookingDetail?.id)
+                createReviewModal.onOpen(
+                  bookingDetail?.availableTimeId,
+                  currentUser?.userId,
+                  bookingDetail?.id
+                )
               }
               type="button"
               className="p-3 rounded-md bg-common hover:bg-hover text-white text-lg"

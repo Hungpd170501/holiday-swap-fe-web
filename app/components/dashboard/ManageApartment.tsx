@@ -74,7 +74,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({ detailCoOwner, proper
     }
   };
 
-  console.log("Check is open array", isOpenTimePublicArr);
+  console.log('Check is open array', isOpenTimePublicArr);
 
   return (
     <div>

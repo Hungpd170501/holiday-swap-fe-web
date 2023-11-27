@@ -11,6 +11,7 @@ import { addDays, addMonths, format, subDays } from 'date-fns';
 import useEditGuestBookingModal from '../hooks/useEditGuestBookingMoadal';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useDateRange } from '../apartment/DateRangeContext';
 
 interface BookingInformationProps {
   totalGuest?: any;
@@ -43,6 +44,9 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
     endDate: new Date(valueDateJson.endDate),
     key: 'selection',
   });
+
+  const { dateRangeContext, setDateRangeContext } = useDateRange();
+
   const editDateBookingModal = useEditDateBookingModal();
   const editGuestBookingModal = useEditGuestBookingModal();
   const {
@@ -55,8 +59,8 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
     const bookingData = {
       availableTimeId: availableTimeId,
       userId: userId,
-      checkInDate: format(dateRangeValue.startDate, 'yyyy-MM-dd'),
-      checkOutDate: format(dateRangeValue.endDate, 'yyyy-MM-dd'),
+      checkInDate: format(dateRangeContext.startDate, 'yyyy-MM-dd'),
+      checkOutDate: format(dateRangeContext.endDate, 'yyyy-MM-dd'),
       userOfBookingRequests: guests.map((item, index) => ({
         email: data[`email${index}`], // Use the indexed email field
         fullName: data[`fullName${index}`], // Use the indexed full name field
@@ -108,8 +112,8 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
             <div className="flex flex-col gap-2">
               <div className="text-base text-black font-semibold">Dates</div>
               <div className="text-gray-600">
-                {format(dateRangeValue.startDate, 'd')} –{' '}
-                {format(dateRangeValue.endDate, 'd MMM yyyy')}
+                {format(dateRangeContext?.startDate, 'd')} –{' '}
+                {format(dateRangeContext?.endDate, 'd MMM yyyy')}
               </div>
             </div>
             <div

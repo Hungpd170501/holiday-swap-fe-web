@@ -13,6 +13,7 @@ import { useParams, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import ApartmentDetailMap from './ApartmentDetailMap';
 import moment from 'moment-timezone';
+import { useDateRange } from '../DateRangeContext';
 
 interface ApartmentDetailProps {
   apartment?: any;
@@ -31,6 +32,14 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
   const roomId = params?.get('roomId');
 
   const [dateRange, setDateRange] = useState(initialDateRange);
+  const { dateRangeDefaultContext, setDateRangeDefaultContext } = useDateRange();
+
+  useEffect(() => {
+    setDateRangeDefaultContext(initialDateRange);
+  }, [apartment]);
+
+  console.log('Check date range default context', dateRangeDefaultContext);
+
   const [rating, setRating] = useState<any>();
   const [apartmentAllowGuest, setApartmentAllowGuest] = useState(
     apartment.property.numberKingBeds * 2 +

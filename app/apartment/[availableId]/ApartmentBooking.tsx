@@ -40,7 +40,18 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
   const [totalPrice, setTotalPrice] = useState(0);
   const loginModal = useLoginModal();
   const router = useRouter();
-  const { dateRangeContext, setDateRangeContext } = useDateRange();
+  const {
+    dateRangeContext,
+    setDateRangeContext,
+    dateRangeDefaultContext,
+    setDateRangeDefaultContext,
+  } = useDateRange();
+
+  useEffect(() => {
+    setDateRangeContext(dateRange);
+  }, [dateRange]);
+
+  console.log('Check date range context', dateRangeContext);
 
   const handleDescreaseAdultGuest = (value: number) => {
     if (value <= 1) {
@@ -209,7 +220,7 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
             </div>
             {visibleCalendar ? (
               <CalendarAparment
-                value={dateRange}
+                value={dateRangeDefaultContext}
                 onChange={(value: any) => {
                   handleChangeDateRange(value);
                   setDateRangeBooking(value.selection);
