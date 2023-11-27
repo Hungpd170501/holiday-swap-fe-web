@@ -35,12 +35,6 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
   rating,
 }) => {
   const apartmentAmenitiesModal = useAparmentAmenitiesModal();
-  const initialDateRange = {
-    startDate: new Date(apartment.availableTime.startTime),
-    endDate: new Date(apartment.availableTime.endTime),
-    key: 'selection',
-  };
-
   const {
     dateRangeContext,
     setDateRangeContext,
@@ -48,18 +42,13 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
     setDateRangeDefaultContext,
   } = useDateRange();
 
-  useEffect(() => {
-    if (
-      dateRangeContext === null ||
-      JSON.stringify(dateRangeContext) === JSON.stringify(initialDateRange)
-    ) {
-      setDateRangeContext(dateRangeDefaultContext);
-    } else {
-      setDateRangeContext(dateRangeContext);
-    }
-  }, [dateRangeDefaultContext, dateRangeContext]);
-
-  console.log('Check date Range cotext body', dateRangeContext);
+  // useEffect(() => {
+  //   if (!dateRangeContext) {
+  //     setDateRangeContext(dateRangeDefaultContext);
+  //   } else {
+  //     setDateRangeContext(dateRangeContext);
+  //   }
+  // }, [dateRangeDefaultContext, dateRangeContext]);
 
   const calculateNightDifference = (startDate: any, endDate: any) => {
     const start = new Date(startDate);
@@ -198,7 +187,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
                 setDateRangeContext(value.selection);
               }}
               className="w-[100%] !text-[1em]"
-              minDate={dateRangeDefault?.startDate}
+              minDate={dateRangeDefaultContext?.startDate}
               disabledDates={dateOut}
             />
           ) : (
@@ -214,7 +203,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
                 setDateRangeContext(value.selection);
               }}
               className="w-[100%] !text-[1em]"
-              minDate={dateRangeDefault?.startDate}
+              minDate={dateRangeDefaultContext?.startDate}
               disabledDates={dateOut}
             />
           ) : (

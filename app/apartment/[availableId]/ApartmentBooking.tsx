@@ -50,17 +50,6 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
     setDateRangeDefaultContext,
   } = useDateRange();
 
-  useEffect(() => {
-    console.log('Check date range context null', dateRangeContext);
-    if (!dateRangeContext || JSON.stringify(dateRangeContext) === JSON.stringify(initialDateRange)) {
-      setDateRangeContext(dateRangeDefaultContext);
-    } else {
-      setDateRangeContext(dateRangeContext);
-    }
-  }, [dateRangeDefaultContext, dateRangeContext]);
-
-  console.log('Check date range context', dateRangeContext);
-
   const handleDescreaseAdultGuest = (value: number) => {
     if (value <= 1) {
       return 1;

@@ -14,6 +14,7 @@ import axios from 'axios';
 import ApartmentDetailMap from './ApartmentDetailMap';
 import moment from 'moment-timezone';
 import { useDateRange } from '../DateRangeContext';
+import useNewDateRange from '@/app/hooks/useNewDateRange';
 
 interface ApartmentDetailProps {
   apartment?: any;
@@ -30,8 +31,11 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
   const params = useSearchParams();
   const propertyId = params?.get('propertyId');
   const roomId = params?.get('roomId');
+  const newDateRange = useNewDateRange();
+  const isNew = newDateRange.isNew;
 
   const [dateRange, setDateRange] = useState(initialDateRange);
+  const [initialDateRangeValue, setInitialDateRangeValue] = useState(initialDateRange);
   const {
     dateRangeContext,
     setDateRangeContext,
@@ -42,12 +46,30 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
   } = useDateRange();
 
   useEffect(() => {
-    if (dateRange) {
-      setDateRangeDefaultContext(dateRange);
+    if (initialDateRangeValue) {
+      setDateRangeDefaultContext(initialDateRangeValue);
     }
-  }, [dateRange]);
+  }, [initialDateRangeValue]);
 
-  console.log('check date range', dateRangeDefaultContext);
+  useEffect(() => {
+    if (isNew === true) {
+      setDateRangeContext(initialDateRangeValue);
+    } else {
+      setDateRangeContext(dateRangeContext);
+    }
+  }, [dateRangeDefaultContext, dateRangeContext, initialDateRangeValue, isNew]);
+
+  useEffect(() => {
+    if (JSON.stringify(dateRangeContext) === JSON.stringify(initialDateRangeValue)) {
+      newDateRange.setNewReset();
+    }
+  }, [dateRangeContext, dateRangeDefaultContext]);
+
+  console.log('Check is new', isNew);
+  console.log(
+    'Check is equal',
+    JSON.stringify(dateRangeContext) === JSON.stringify(dateRangeDefaultContext)
+  );
 
   const [rating, setRating] = useState<any>();
   const [apartmentAllowGuest, setApartmentAllowGuest] = useState(
@@ -119,6 +141,8 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
       fetchRating();
     }
   }, [propertyId, roomId]);
+
+  console.log('Check date Range context', dateRangeContext);
 
   return (
     <div className="lg:mx-1 xl:mx-16 py-20">
