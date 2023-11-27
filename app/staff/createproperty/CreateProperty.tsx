@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, FieldValues, SubmitHandler } from 'react-hook-form';
 // import { Select, Option } from '@material-tailwind/react';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
@@ -42,6 +42,7 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
   const [propertyViewValue, setPropertyViewValue] = useState<any>();
   const [resortIdValue, setResortIdValue] = useState<any>();
   const [file, setFile] = useState<any[]>([]);
+  const [totalGuests, setTotalGuests] = useState<number>(0);
 
   const handleChange = (e: any) => {
     const selectedFiles = Array.from(e.target.files);
@@ -54,6 +55,7 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
     register,
     handleSubmit,
     setValue,
+    getValues,
     reset,
     formState: { errors },
   } = useForm<FieldValues>({});
@@ -90,9 +92,36 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
     setCustomeValue('resortId', value);
   };
 
+  useEffect(() => {
+    // Calculate totalGuests whenever relevant form fields change
+    setTotalGuests(
+      Number(getValues('numberKingBeds')) * 2 +
+        Number(getValues('numberQueenBeds')) * 2 +
+        Number(getValues('numberSingleBeds')) +
+        Number(getValues('numberDoubleBeds')) * 2 +
+        Number(getValues('numberTwinBeds')) * 2 +
+        Number(getValues('numberFullBeds')) * 2 +
+        Number(getValues('numberSofaBeds')) +
+        Number(getValues('numberMurphyBeds'))
+    );
+  }, [getValues]);
+
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     if (step !== STEPS.SIZE) {
-      return onNext();
+      const totalBeds =
+        Number(data.numberKingBeds) +
+        Number(data.numberQueenBeds) +
+        Number(data.numberDoubleBeds) +
+        Number(data.numberTwinBeds) +
+        Number(data.numberFullBeds) +
+        Number(data.numberSofaBeds) +
+        Number(data.numberMurphyBeds);
+      if (totalBeds === 0) {
+        toast.error('You must have at least 1 type of bed');
+        return null;
+      } else {
+        return onNext();
+      }
     }
     setIsLoading(true);
     const formData = new FormData();
@@ -139,10 +168,12 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
       });
   };
 
+  console.log('Check total guest', totalGuests);
+
   let bodyContent = (
     <div className="py-5 grid grid-cols-1 md:grid-cols-2 gap-5">
       <div className="flex flex-col">
-        <div className="pb-14">
+        <div className="pb-8">
           {peoples.map((item, index) => (
             <SizeHomeInput
               key={index}
@@ -154,6 +185,12 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
               setCustomeValue={setCustomeValue}
             />
           ))}
+
+          {totalGuests !== 0 ? (
+            <div className="pb-14">Your home can accommodate up to {totalGuests} people.</div>
+          ) : (
+            ''
+          )}
         </div>
 
         <div className="flex justify-center">

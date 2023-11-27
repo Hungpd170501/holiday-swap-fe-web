@@ -42,11 +42,6 @@ const statusList = [
     icon: BiBlock,
     color: '#e62538',
   },
-  {
-    status: 'PENDING',
-    icon: MdOutlinePending,
-    color: '#e06d14',
-  },
 ];
 
 interface ListStaffProps {
@@ -67,7 +62,7 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://holiday-swap.click/api/v1/users/search?roleIds=1&roleIds=3&limit=10&offset=${
+          `https://holiday-swap.click/api/v1/users/search?status=ACTIVE&status=BLOCKED&roleIds=1&roleIds=3&limit=10&offset=${
             currentPage - 1
           }&sortProps=id&sortDirection=desc`
         );
@@ -159,17 +154,13 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
                       statusText = 'ACTIVE';
                     } else if (item.status === 'BLOCKED') {
                       statusText = 'BLOCKED';
-                    } else if (item.status === 'PENDING') {
-                      statusText = 'PENDING';
                     }
 
                     return (
                       <div
                         className={`py-2 px-1 text-sm text-center  bg-slate-200 rounded-md ${
                           statusText === 'ACTIVE' ? 'text-green-500' : ''
-                        } ${statusText === 'BLOCKED' ? 'text-rose-500' : ''} ${
-                          statusText === 'PENDING' ? 'text-orange-500' : ''
-                        }`}
+                        } ${statusText === 'BLOCKED' ? 'text-rose-500' : ''}`}
                       >
                         {statusText}
                       </div>
@@ -188,27 +179,7 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
                       if (item.status === 'ACTIVE') {
                         return (
                           <>
-                            {statusList.slice(1, 3).map((status: any, index: number) => (
-                              <Dropdown.Item
-                                key={index}
-                                value={status.status}
-                                className="flex items-center gap-2"
-                                onClick={() => handleOnChangeStatus(item.userId, status.status)}
-                              >
-                                <status.icon size={18} color={status.color} />
-
-                                <span className={`text-[${status.color}]`}>{status.status}</span>
-                              </Dropdown.Item>
-                            ))}
-                          </>
-                        );
-                      } else if (item.status === 'BLOCKED') {
-                        const newArrray = statusList.filter(
-                          (item) => item.status === 'ACTIVE' || item.status === 'PENDING'
-                        );
-                        return (
-                          <>
-                            {newArrray.map((status: any, index: number) => (
+                            {statusList.slice(1, 2).map((status: any, index: number) => (
                               <Dropdown.Item
                                 key={index}
                                 value={status.status}
@@ -225,7 +196,7 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
                       } else if (item.status === 'PENDING') {
                         return (
                           <>
-                            {statusList.slice(0, 2).map((status: any, index: number) => (
+                            {statusList.slice(0, 1).map((status: any, index: number) => (
                               <Dropdown.Item
                                 key={index}
                                 value={status.status}

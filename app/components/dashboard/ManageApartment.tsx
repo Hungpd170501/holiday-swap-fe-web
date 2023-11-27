@@ -10,6 +10,7 @@ import useCreatePublicTimeModal from '@/app/hooks/useCreatePublicTimeModal';
 import useEditApartmentModal from '@/app/hooks/useEditApartmentModal';
 import { lastIndexOf } from 'lodash';
 import { format } from 'date-fns';
+import { RiArrowDownSFill, RiArrowUpSFill } from 'react-icons/ri';
 
 interface ManageApartmentProps {
   detailCoOwner: any;
@@ -41,6 +42,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({ detailCoOwner, proper
   ];
   const [detail, setDetail] = useState(detailCoOwner);
   const [images, setImages] = useState(imagesData);
+  const [isOpenTimePublic, setIsOpenTimePublic] = useState(false);
   const imageInputRef = useRef(null);
   const createModalPublicTime = useCreatePublicTimeModal();
   const EditApartmentModal = useEditApartmentModal();
@@ -48,6 +50,17 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({ detailCoOwner, proper
     const updatedImages = [...images];
     updatedImages.splice(index, 1);
     setImages(updatedImages);
+  };
+
+  const [isOpenTimePublicArr, setIsOpenTimePublicArr] = useState(
+    new Array(detailCoOwner.timeFrames.length).fill(false)
+  );
+
+  // Function to toggle isOpenTimePublic for a specific index
+  const toggleIsOpenTimePublic = (index: number) => {
+    const updatedArr = [...isOpenTimePublicArr];
+    updatedArr[index] = !updatedArr[index];
+    setIsOpenTimePublicArr(updatedArr);
   };
 
   const handleImageChange = (e: any) => {
@@ -60,6 +73,8 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({ detailCoOwner, proper
       setImages(updatedImages);
     }
   };
+
+  console.log('Check is open array', isOpenTimePublicArr);
 
   return (
     <div>
@@ -106,35 +121,47 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({ detailCoOwner, proper
                     </div>
                     {detail.timeFrames.map((item: any, index: any) => (
                       <div key={index} className="pb-4">
-                        <div className="flex flex-row items-center gap-2">
-                          <div className="">Week:</div>
-                          <div className="flex flex-row items-center w-full justify-between">
-                            <div className="text-common">{item.weekNumber}</div>
+                        <div
+                          onClick={() => toggleIsOpenTimePublic(index)}
+                          className="flex flex-row item gap-2 hover:cursor-pointer"
+                        >
+                          {isOpenTimePublicArr[index] ? (
+                            <RiArrowUpSFill size={20} />
+                          ) : (
+                            <RiArrowDownSFill size={20} />
+                          )}
+                          <div className="flex flex-row items-center gap-2">
+                            <div className="">Week:</div>
+                            <div className="flex flex-row items-center w-full justify-between">
+                              <div className="text-common">{item.weekNumber}</div>
+                            </div>
                           </div>
                         </div>
 
-                        {item.availableTimes.map((available: any, index: number) => (
-                          <div
-                            key={index}
-                            className="flex flex-col justify-center gap-2 ml-5 w-full"
-                          >
-                            <div className="w-full">
-                              Time public:{' '}
-                              <span className="text-common">
-                                {format(new Date(available.startTime), 'dd/MM/yyyy')} -{' '}
-                                {format(new Date(available.endTime), 'dd/MM/yyyy')}
-                              </span>
-                            </div>
 
-                            <div className="w-full">
-                              Status: <span className="text-common">{available.status}</span>
-                            </div>
+                        {item.availableTimes.map((available: any, innerIndex: number) => (
+                          <Fragment key={innerIndex}>
+                            {isOpenTimePublicArr[index] && (
+                              <div className="flex flex-col justify-center gap-2 ml-10 w-full">
+                                <div className="w-full">
+                                  Time public:{' '}
+                                  <span className="text-common">
+                                    {format(new Date(available.startTime), 'dd/MM/yyyy')} -{' '}
+                                    {format(new Date(available.endTime), 'dd/MM/yyyy')}
+                                  </span>
+                                </div>
 
-                            <div className="w-full">
-                              Price/night:{' '}
-                              <span className="text-common">{available.pricePerNight}</span>
-                            </div>
-                          </div>
+                                <div className="w-full">
+                                  Status: <span className="text-common">{available.status}</span>
+                                </div>
+
+                                <div className="w-full">
+                                  Price/night:{' '}
+                                  <span className="text-common">{available.pricePerNight}</span>
+                                </div>
+                              </div>
+                            )}
+                          </Fragment>
                         ))}
                       </div>
                     ))}

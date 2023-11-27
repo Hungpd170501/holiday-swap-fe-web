@@ -95,7 +95,6 @@ const Point: React.FC<PointProps> = ({ point }) => {
           <Table.HeadCell>Point Price</Table.HeadCell>
           <Table.HeadCell>Created Date</Table.HeadCell>
           <Table.HeadCell>Status</Table.HeadCell>
-          <Table.HeadCell>Action</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
           <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
@@ -112,14 +111,10 @@ const Point: React.FC<PointProps> = ({ point }) => {
                 }
               })()}
             </Table.Cell>
-            <Table.Cell>{listPoint?.pointStatus}</Table.Cell>
             <Table.Cell>
-              <button
-                onClick={editPointModal.onOpen}
-                className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-              >
-                Update
-              </button>
+              <div className="py-2 w-16 text-sm text-center  bg-slate-200 rounded-md text-green-500">
+                {listPoint?.pointStatus}
+              </div>
             </Table.Cell>
           </Table.Row>
         </Table.Body>

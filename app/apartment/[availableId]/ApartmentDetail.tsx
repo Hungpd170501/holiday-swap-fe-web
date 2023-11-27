@@ -13,6 +13,7 @@ import { useParams, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import ApartmentDetailMap from './ApartmentDetailMap';
 import moment from 'moment-timezone';
+import { useDateRange } from '../DateRangeContext';
 
 interface ApartmentDetailProps {
   apartment?: any;
@@ -31,6 +32,23 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
   const roomId = params?.get('roomId');
 
   const [dateRange, setDateRange] = useState(initialDateRange);
+  const {
+    dateRangeContext,
+    setDateRangeContext,
+    dateRangeDefaultContext,
+    setDateRangeDefaultContext,
+    dateOut,
+    setDateOut,
+  } = useDateRange();
+
+  useEffect(() => {
+    if (dateRange) {
+      setDateRangeDefaultContext(dateRange);
+    }
+  }, [dateRange]);
+
+  console.log('check date range', dateRangeDefaultContext);
+
   const [rating, setRating] = useState<any>();
   const [apartmentAllowGuest, setApartmentAllowGuest] = useState(
     apartment.property.numberKingBeds * 2 +
@@ -46,8 +64,8 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
   const [dateRangeDefault, setDateRangeDefault] = useState(initialDateRange);
 
   const getDatesOutsideDateRange = (dateRange: any) => {
-    const startDate = dateRange.startDate;
-    const endDate = dateRange.endDate;
+    const startDate = dateRange?.startDate;
+    const endDate = dateRange?.endDate;
 
     const startDateOutsideDateRange = addDays(endDate, 1);
     const endDateOutsideDateRange = subDays(addMonths(startDate, 30), 1);
@@ -82,9 +100,9 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     return datesOutsideDateRange;
   };
 
-  const [dateOut, setDateOut] = useState(getDatesOutsideDateRange(dateRangeDefault));
-
-  console.log('Check date out', dateOut);
+  useEffect(() => {
+    setDateOut(getDatesOutsideDateRange(dateRangeDefaultContext));
+  }, [dateRangeDefaultContext]);
 
   const handleChangeDateRange = (value: any) => {
     setDateRange(value.selection);

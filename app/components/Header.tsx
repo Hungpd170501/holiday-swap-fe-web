@@ -51,8 +51,10 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
     if (isLogin === true) {
       if (currentUser && currentUser.role.roleId === 3) {
         router.push('/staff');
+        loginModal.onLoginReset();
       } else if (currentUser && currentUser.role.roleId === 1) {
         router.push('/admin');
+        loginModal.onLoginReset();
       }
     }
   }, [isLogin, currentUser]);

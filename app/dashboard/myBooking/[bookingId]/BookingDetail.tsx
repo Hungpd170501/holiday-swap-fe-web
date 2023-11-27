@@ -49,7 +49,7 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
             />
           </div>
           <div className="flex flex-col">
-            <div>{ownerUser?.content[0].fullName}</div>
+            <div>{ownerUser?.content[0]?.fullName}</div>
             <div className="text-slate-500">
               {ownerResort?.content[0]?.addressLine
                 .split(',')
