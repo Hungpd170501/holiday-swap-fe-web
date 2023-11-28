@@ -71,7 +71,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ postDetail, currentUser }) => {
       toast.error('You must be login to dislike post!');
     }
   };
-
+  console.log('checkc ahksd', postDetailValue);
   return (
     <Container className="py-36">
       <div className="flex flex-row items-center gap-10 px-5">
@@ -81,8 +81,9 @@ const PostDetail: React.FC<PostDetailProps> = ({ postDetail, currentUser }) => {
           </div>
           <div>{format(new Date(postDetailValue.datePosted), 'MMM')}</div>
         </div>
-        <div>
-          <div className="flex flex-row items-center gap-5">
+
+        <div className="flex flex-row items-center gap-5 w-full">
+          <div className="flex flex-row  w-full justify-between items-center">
             <div className="flex flex-row items-center gap-2">
               <Image
                 className="rounded-full object-cover"
@@ -91,38 +92,39 @@ const PostDetail: React.FC<PostDetailProps> = ({ postDetail, currentUser }) => {
                 src={postDetailValue?.avatar || '/images/placeholder.jpg'}
                 alt="Avatar"
               />
-              <div>{postDetailValue?.username}</div>
-              <div className="flex flex-row gap-7">
-                <div className="flex flex-row items-center">
-                  <BiSolidLike
-                    className="hover:cursor-pointer"
-                    onClick={() => handleLikePost(postDetailValue?.id)}
-                    size={30}
-                    color={postDetailValue?.liked === true ? 'blue' : 'gray'}
-                  />
-                  <div className="text-lg font-thin ml-1 text-common">{postDetailValue?.likes}</div>
-                </div>
+              <div>
+                <div className="text-[20px] font-bold">{postDetailValue?.userName}</div>
+                <div>{format(new Date(postDetailValue?.datePosted), 'dd-MM-yyyy')}</div>
+              </div>
+            </div>
+            <div className="flex flex-row gap-7 px-32">
+              <div className="flex flex-row items-center">
+                <BiSolidLike
+                  className="hover:cursor-pointer"
+                  onClick={() => handleLikePost(postDetailValue?.id)}
+                  size={30}
+                  color={postDetailValue?.liked === true ? 'blue' : 'gray'}
+                />
+                <div className="text-lg font-thin ml-1 text-common">{postDetailValue?.likes}</div>
+              </div>
 
-                <div className="flex flex-row items-center">
-                  <BiSolidDislike
-                    className="hover:cursor-pointer"
-                    onClick={() => handleDislikePost(postDetailValue?.id)}
-                    size={30}
-                    color={postDetailValue?.disliked === true ? 'red' : 'gray'}
-                  />
-                  <div className="text-lg font-thin ml-1 text-common">
-                    {postDetailValue?.dislikes}
-                  </div>
+              <div className="flex flex-row items-center">
+                <BiSolidDislike
+                  className="hover:cursor-pointer"
+                  onClick={() => handleDislikePost(postDetailValue?.id)}
+                  size={30}
+                  color={postDetailValue?.disliked === true ? 'red' : 'gray'}
+                />
+                <div className="text-lg font-thin ml-1 text-common">
+                  {postDetailValue?.dislikes}
                 </div>
               </div>
             </div>
           </div>
-          {/* <div className="text-[35px] font-bold">Description of winter apartment with sea view</div> */}
         </div>
       </div>
 
-      {/* parse html string to html */}
-      <div className="text-xl pt-3 pb-5 font-bold">{postDetailValue?.title}</div>
+      <div className="text-xl pt-3 pb-5 font-bold px-36 mt-5">{postDetailValue?.title}</div>
       <div
         className="px-5 md:px-36 py-10"
         dangerouslySetInnerHTML={{ __html: postDetailValue?.content }}
