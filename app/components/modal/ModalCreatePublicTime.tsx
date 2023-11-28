@@ -54,7 +54,7 @@ export default function ModalCreatePublicTime() {
     const weekStart = startOfWeek(januaryFirst, { weekStartsOn: 1 }); // Assuming your week starts on Monday
 
     // Calculate the number of days to add to reach the desired week
-    const daysToAdd = (weekNumber - 1) * 7;
+    const daysToAdd = (weekNumber) * 7;
 
     const startDate = new Date(weekStart);
     startDate.setDate(weekStart.getDate() + daysToAdd);

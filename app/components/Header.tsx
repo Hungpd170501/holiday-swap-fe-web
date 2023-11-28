@@ -51,8 +51,10 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
     if (isLogin === true) {
       if (currentUser && currentUser.role.roleId === 3) {
         router.push('/staff');
+        loginModal.onLoginReset();
       } else if (currentUser && currentUser.role.roleId === 1) {
         router.push('/admin');
+        loginModal.onLoginReset();
       }
     }
   }, [isLogin, currentUser]);
@@ -70,7 +72,16 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
           <div className="flex flex-col">
             <div className="flex flex-row justify-between items-center gap-3">
               <Logo />
-              <LinkHeader />
+              {currentUser ? (
+                <div className="ml-36">
+                  <LinkHeader />
+                </div>
+              ) : (
+                <div className="mr-7">
+                  <LinkHeader />
+                </div>
+              )}
+
               {currentUser ? (
                 <UserMenu currentUser={currentUser} />
               ) : (

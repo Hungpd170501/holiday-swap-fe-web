@@ -6,6 +6,7 @@ import React from 'react';
 import { Carousel } from 'flowbite-react';
 import { format } from 'date-fns';
 import { AiFillStar } from 'react-icons/ai';
+import useNewDateRange from '@/app/hooks/useNewDateRange';
 
 interface CardListResortProps {
   data: any;
@@ -13,6 +14,12 @@ interface CardListResortProps {
 
 const CardListResort: React.FC<CardListResortProps> = ({ data }) => {
   const route = useRouter();
+  const newDateRange = useNewDateRange();
+
+  const handleRedirectApartmentDetail = (url: string) => {
+    route.push(url);
+    newDateRange.setNew();
+  };
   return (
     <div className="flex flex-col cursor-pointer ">
       <div>
@@ -24,7 +31,7 @@ const CardListResort: React.FC<CardListResortProps> = ({ data }) => {
             <div key={item.id} className="w-full h-full ">
               <Image
                 onClick={() =>
-                  route.push(
+                  handleRedirectApartmentDetail(
                     `/apartment/${data.availableTime.id}?propertyId=${data.coOwnerId.propertyId}&roomId=${data.coOwnerId.roomId}`
                   )
                 }
@@ -64,12 +71,14 @@ const CardListResort: React.FC<CardListResortProps> = ({ data }) => {
             </div>
           </div>
         </div>
-        <div className="">
-          <div className="flex flex-row items-center gap-1">
-            <AiFillStar color="orange" />
-            <div>4.1</div>
+        {data?.property?.rating && (
+          <div className="">
+            <div className="flex flex-row items-center gap-1">
+              <AiFillStar color="orange" />
+              <div>{data?.property.rating}</div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

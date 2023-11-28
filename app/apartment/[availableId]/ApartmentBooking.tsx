@@ -3,8 +3,6 @@
 import React, { ChangeEvent, Fragment, useEffect, useState } from 'react';
 import { BsChevronDown, BsChevronUp } from 'react-icons/bs';
 import { differenceInDays, format } from 'date-fns';
-import { GrSubtractCircle } from 'react-icons/gr';
-import { AiOutlinePlusCircle } from 'react-icons/ai';
 import CalendarAparment from '../CalendarAparment';
 import { useRouter } from 'next/navigation';
 import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
@@ -31,6 +29,11 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
   apartmentAllowGuest,
   dateRangeDefault,
 }) => {
+  const initialDateRange = {
+    startDate: new Date(apartment.availableTime.startTime),
+    endDate: new Date(apartment.availableTime.endTime),
+    key: 'selection',
+  };
   const [visibleGuest, setVisibleGuest] = useState(false);
   const [visibleCalendar, setVisibleCalendar] = useState(false);
   const [dateRangeBooking, setDateRangeBooking] = useState<Date[]>(dateRange);
@@ -40,7 +43,12 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
   const [totalPrice, setTotalPrice] = useState(0);
   const loginModal = useLoginModal();
   const router = useRouter();
-  const { dateRangeContext, setDateRangeContext } = useDateRange();
+  const {
+    dateRangeContext,
+    setDateRangeContext,
+    dateRangeDefaultContext,
+    setDateRangeDefaultContext,
+  } = useDateRange();
 
   const handleDescreaseAdultGuest = (value: number) => {
     if (value <= 1) {
@@ -164,52 +172,56 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
 
           <div className="flex flex-col rounded-lg boder border-gray-600">
             {/* Check-in / Check-out */}
-            <div
-              onClick={handleVisibleCalendar}
-              className={`grid grid-cols-2 rounded-t-lg  ${
-                visibleCalendar ? 'border-2 border-black' : 'border border-gray-600'
-              } `}
-            >
+            {dateRangeContext ? (
               <div
-                className={`p-2 border-r  ${
-                  visibleGuest ? 'border-b-2 border-black' : 'border-gray-600'
-                }`}
+                onClick={handleVisibleCalendar}
+                className={`grid grid-cols-2 rounded-t-lg  ${
+                  visibleCalendar ? 'border-2 border-black' : 'border border-gray-600'
+                } `}
               >
-                <div className="text-xs">CHECK-IN</div>
-                <input
-                  type="text"
-                  readOnly
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    handleChangeDateRange({
-                      ...dateRange,
-                      startDate: new Date(e.target.value),
-                    })
-                  }
-                  className="border-0 text-base text-gray-600 focus:outline-0 focus:outline-transparent focus:border-0 focus:border-transparent focus:ring-0 w-full"
-                  value={`${format(new Date(dateRange.startDate), 'dd/MM/yyyy')}`}
-                />
+                <div
+                  className={`p-2 border-r  ${
+                    visibleGuest ? 'border-b-2 border-black' : 'border-gray-600'
+                  }`}
+                >
+                  <div className="text-xs">CHECK-IN</div>
+                  <input
+                    type="text"
+                    readOnly
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                      handleChangeDateRange({
+                        ...dateRangeContext,
+                        startDate: new Date(e.target.value),
+                      })
+                    }
+                    className="border-0 text-base text-gray-600 focus:outline-0 focus:outline-transparent focus:border-0 focus:border-transparent focus:ring-0 w-full"
+                    value={`${format(new Date(dateRangeContext?.startDate), 'dd/MM/yyyy')}`}
+                  />
+                </div>
+                <div
+                  className={`p-2  ${visibleGuest ? 'border-b-2 border-black' : 'border-gray-600'}`}
+                >
+                  <div className="text-xs">CHECK-OUT</div>
+                  <input
+                    type="text"
+                    readOnly
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                      handleChangeDateRange({
+                        ...dateRangeContext,
+                        endDate: new Date(e.target.value),
+                      })
+                    }
+                    className="border-0 text-base text-gray-600 focus:outline-0 focus:outline-transparent focus:border-0 focus:border-transparent focus:ring-0 w-full"
+                    value={`${format(new Date(dateRangeContext?.endDate), 'dd/MM/yyyy')}`}
+                  />
+                </div>
               </div>
-              <div
-                className={`p-2  ${visibleGuest ? 'border-b-2 border-black' : 'border-gray-600'}`}
-              >
-                <div className="text-xs">CHECK-OUT</div>
-                <input
-                  type="text"
-                  readOnly
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    handleChangeDateRange({
-                      ...dateRange,
-                      endDate: new Date(e.target.value),
-                    })
-                  }
-                  className="border-0 text-base text-gray-600 focus:outline-0 focus:outline-transparent focus:border-0 focus:border-transparent focus:ring-0 w-full"
-                  value={`${format(new Date(dateRange.endDate), 'dd/MM/yyyy')}`}
-                />
-              </div>
-            </div>
+            ) : (
+              ''
+            )}
             {visibleCalendar ? (
               <CalendarAparment
-                value={dateRange}
+                value={dateRangeContext}
                 onChange={(value: any) => {
                   handleChangeDateRange(value);
                   setDateRangeBooking(value.selection);
@@ -217,7 +229,7 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
                 }}
                 className="w-auto xl:w-[700px] xl:absolute xl:top-36 xl:-left-[352px] xl:z-30 xl:!text-[1em]"
                 disabledDates={dateOut}
-                minDate={dateRangeDefault.startDate}
+                minDate={dateRangeDefaultContext?.startDate}
               />
             ) : (
               ''

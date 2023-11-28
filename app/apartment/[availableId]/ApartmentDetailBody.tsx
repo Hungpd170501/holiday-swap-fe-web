@@ -35,7 +35,20 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
   rating,
 }) => {
   const apartmentAmenitiesModal = useAparmentAmenitiesModal();
-  const { dateRangeContext, setDateRangeContext } = useDateRange();
+  const {
+    dateRangeContext,
+    setDateRangeContext,
+    dateRangeDefaultContext,
+    setDateRangeDefaultContext,
+  } = useDateRange();
+
+  // useEffect(() => {
+  //   if (!dateRangeContext) {
+  //     setDateRangeContext(dateRangeDefaultContext);
+  //   } else {
+  //     setDateRangeContext(dateRangeContext);
+  //   }
+  // }, [dateRangeDefaultContext, dateRangeContext]);
 
   const calculateNightDifference = (startDate: any, endDate: any) => {
     const start = new Date(startDate);
@@ -44,13 +57,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
     return nightDifference;
   };
 
-  useEffect(() => {
-    setDateRangeContext(dateRange);
-  }, [dateRange]);
-
   const router = useRouter();
-
-  console.log('Check date range default', dateRangeDefault);
 
   return (
     <div className="w-full pb-4 flex flex-col">
@@ -172,28 +179,36 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
           </div>
         </div>
         <div className="hidden md:block lg:block xl:block">
-          <CalendarAparment
-            value={dateRange}
-            onChange={(value: any) => {
-              handleChangeDateRange(value);
-              setDateRangeContext(value.selection);
-            }}
-            className="w-[100%] !text-[1em]"
-            minDate={dateRangeDefault.startDate}
-            disabledDates={dateOut}
-          />
+          {dateRangeContext ? (
+            <CalendarAparment
+              value={dateRangeContext}
+              onChange={(value: any) => {
+                handleChangeDateRange(value);
+                setDateRangeContext(value.selection);
+              }}
+              className="w-[100%] !text-[1em]"
+              minDate={dateRangeDefaultContext?.startDate}
+              disabledDates={dateOut}
+            />
+          ) : (
+            ''
+          )}
         </div>
         <div className="md:hidden lg:hidden xl:hidden">
-          <CalendarAparmentBody
-            value={dateRange}
-            onChange={(value: any) => {
-              handleChangeDateRange(value);
-              setDateRangeContext(value.selection);
-            }}
-            className="w-[100%] !text-[1em]"
-            minDate={dateRangeDefault.startDate}
-            disabledDates={dateOut}
-          />
+          {dateRangeContext ? (
+            <CalendarAparment
+              value={dateRangeContext}
+              onChange={(value: any) => {
+                handleChangeDateRange(value);
+                setDateRangeContext(value.selection);
+              }}
+              className="w-[100%] !text-[1em]"
+              minDate={dateRangeDefaultContext?.startDate}
+              disabledDates={dateOut}
+            />
+          ) : (
+            ''
+          )}
         </div>
       </div>
 

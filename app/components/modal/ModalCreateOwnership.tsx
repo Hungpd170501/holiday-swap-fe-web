@@ -125,7 +125,7 @@ export default function ModalCreateOwnership() {
       const newArray = value.split(',');
       setWeekNumberValue(newArray);
     } else {
-      setWeekNumberSingle(value);
+      setWeekNumberValue((prev: any) => [...prev, value]);
     }
   };
 
@@ -158,10 +158,7 @@ export default function ModalCreateOwnership() {
       endTime: typeValue === 'DEEDED' ? null : endYear,
       startTime: typeValue === 'DEEDED' ? null : startYear,
       type: typeValue,
-      timeFrames:
-        weekNumberValue.length === 1
-          ? { weekNumber: weekNumberSingle }
-          : weekNumberValue?.map((element: any) => ({ weekNumber: element as number })),
+      timeFrames: weekNumberValue?.map((element: any) => ({ weekNumber: element as number })),
     };
     const coOwnerIdBlob = new Blob([JSON.stringify(coOwnerId)], {
       type: 'application/json',

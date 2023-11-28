@@ -21,7 +21,7 @@ const SidebarAdmin = () => {
   const pathName = usePathname();
   const sidebarMyaccount = [
     {
-      name: 'Report',
+      name: 'Dashboard',
       href: '/admin',
       icon: AiFillPieChart,
       current: pathName === '/admin' ? true : false,
@@ -45,12 +45,6 @@ const SidebarAdmin = () => {
       href: '/admin/point',
       icon: BiSolidCoin,
       current: pathName?.includes('/admin/point') ? true : false,
-    },
-    {
-      name: 'Plan',
-      href: '/admin/plan',
-      icon: MdBusinessCenter,
-      current: pathName?.includes('/admin/plan') ? true : false,
     },
   ];
   const sidebarExchange = [

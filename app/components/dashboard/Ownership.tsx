@@ -136,7 +136,7 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
                     )}
                   </Table.Cell>
                   <Table.Cell>
-                    {item.status === 'ACCEPTED' && (
+      {item.status === 'ACCEPTED' && (
                       <div
                         onClick={() =>
                           handleRouter(
@@ -148,9 +148,10 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
                         }
                         className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 hover:cursor-pointer"
                       >
-                        <p>Edit</p>
+                        <p>Detail</p>
                       </div>
                     )}
+
                   </Table.Cell>
                 </Table.Row>
               ))}

@@ -13,6 +13,8 @@ import { useParams, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import ApartmentDetailMap from './ApartmentDetailMap';
 import moment from 'moment-timezone';
+import { useDateRange } from '../DateRangeContext';
+import useNewDateRange from '@/app/hooks/useNewDateRange';
 
 interface ApartmentDetailProps {
   apartment?: any;
@@ -29,8 +31,46 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
   const params = useSearchParams();
   const propertyId = params?.get('propertyId');
   const roomId = params?.get('roomId');
+  const newDateRange = useNewDateRange();
+  const isNew = newDateRange.isNew;
 
   const [dateRange, setDateRange] = useState(initialDateRange);
+  const [initialDateRangeValue, setInitialDateRangeValue] = useState(initialDateRange);
+  const {
+    dateRangeContext,
+    setDateRangeContext,
+    dateRangeDefaultContext,
+    setDateRangeDefaultContext,
+    dateOut,
+    setDateOut,
+  } = useDateRange();
+
+  useEffect(() => {
+    if (initialDateRangeValue) {
+      setDateRangeDefaultContext(initialDateRangeValue);
+    }
+  }, [initialDateRangeValue]);
+
+  useEffect(() => {
+    if (isNew === true) {
+      setDateRangeContext(initialDateRangeValue);
+    } else {
+      setDateRangeContext(dateRangeContext);
+    }
+  }, [dateRangeDefaultContext, dateRangeContext, initialDateRangeValue, isNew]);
+
+  useEffect(() => {
+    if (JSON.stringify(dateRangeContext) === JSON.stringify(initialDateRangeValue)) {
+      newDateRange.setNewReset();
+    }
+  }, [dateRangeContext, dateRangeDefaultContext]);
+
+  console.log('Check is new', isNew);
+  console.log(
+    'Check is equal',
+    JSON.stringify(dateRangeContext) === JSON.stringify(dateRangeDefaultContext)
+  );
+
   const [rating, setRating] = useState<any>();
   const [apartmentAllowGuest, setApartmentAllowGuest] = useState(
     apartment.property.numberKingBeds * 2 +
@@ -46,8 +86,8 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
   const [dateRangeDefault, setDateRangeDefault] = useState(initialDateRange);
 
   const getDatesOutsideDateRange = (dateRange: any) => {
-    const startDate = dateRange.startDate;
-    const endDate = dateRange.endDate;
+    const startDate = dateRange?.startDate;
+    const endDate = dateRange?.endDate;
 
     const startDateOutsideDateRange = addDays(endDate, 1);
     const endDateOutsideDateRange = subDays(addMonths(startDate, 30), 1);
@@ -82,9 +122,9 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     return datesOutsideDateRange;
   };
 
-  const [dateOut, setDateOut] = useState(getDatesOutsideDateRange(dateRangeDefault));
-
-  console.log('Check date out', dateOut);
+  useEffect(() => {
+    setDateOut(getDatesOutsideDateRange(dateRangeDefaultContext));
+  }, [dateRangeDefaultContext]);
 
   const handleChangeDateRange = (value: any) => {
     setDateRange(value.selection);
@@ -101,6 +141,8 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
       fetchRating();
     }
   }, [propertyId, roomId]);
+
+  console.log('Check date Range context', dateRangeContext);
 
   return (
     <div className="lg:mx-1 xl:mx-16 py-20">

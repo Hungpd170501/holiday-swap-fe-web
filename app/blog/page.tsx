@@ -3,9 +3,20 @@ import GetPostUser from '../actions/getPostUser';
 import PostBlog from './PostBlog';
 import GetCurrentUser from '../actions/getCurrentUser';
 
+export const metadata = {
+  title: 'Blog',
+};
+
 export default async function PostBlogPage() {
-  const post = await GetPostUser();
   const currentUser = await GetCurrentUser();
-  
+  let post;
+  if (currentUser) {
+    const userId = currentUser.userId;
+    console.log('Check userId', userId);
+    post = await GetPostUser({ userId });
+  } else {
+    post = await GetPostUser();
+  }
+
   return <PostBlog post={post} currentUser={currentUser} />;
 }

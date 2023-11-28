@@ -13,6 +13,7 @@ interface ListResortProps {
   resortId: any;
   dateRange: any;
   numberOfGuest: any;
+  currentUser: any;
 }
 
 const initialDateRange = {
@@ -26,6 +27,7 @@ const ListResort: React.FC<ListResortProps> = ({
   resortId,
   dateRange,
   numberOfGuest,
+  currentUser,
 }) => {
   const [page, setPage] = useState<number>(1);
   const [listResort, setListResort] = useState<any>(listApartment);
@@ -74,8 +76,13 @@ const ListResort: React.FC<ListResortProps> = ({
         }
 
         const config = { headers: { Authorization: `Bearer ${session?.user.access_token}` } };
+        let list;
 
-        const list = await axios.get(apiUrl, config);
+        if (currentUser) {
+          list = await axios.get(apiUrl, config);
+        } else {
+          list = await axios.get(apiUrl);
+        }
         setListResort(list.data);
         setTotalPages(list.data?.totalPages);
       } else {
@@ -91,8 +98,13 @@ const ListResort: React.FC<ListResortProps> = ({
         }
 
         const config = { headers: { Authorization: `Bearer ${session?.user.access_token}` } };
+        let list;
 
-        const list = await axios.get(apiUrl, config);
+        if (currentUser) {
+          list = await axios.get(apiUrl, config);
+        } else {
+          list = await axios.get(apiUrl);
+        }
         setListResort(list.data);
         setTotalPages(list.data?.totalPages);
       }
@@ -107,7 +119,7 @@ const ListResort: React.FC<ListResortProps> = ({
     initialDate,
     numberOfGuestValue,
     resortIdValue,
-    session,
+    session?.user.access_token,
   ]);
 
   console.log('Check date range new', dateRangeNew);

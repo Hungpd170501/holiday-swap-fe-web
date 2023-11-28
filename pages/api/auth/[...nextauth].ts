@@ -38,6 +38,9 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
+  session: {
+    maxAge: 3 * 60 * 60,
+  },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
       if (user) {
