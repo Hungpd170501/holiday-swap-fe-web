@@ -10,34 +10,49 @@ import CalendarAparment from '@/app/apartment/CalendarAparment';
 import useEditDateBookingModal from '@/app/hooks/useEditDateBookingModal';
 import useEditGuestBookingModal from '@/app/hooks/useEditGuestBookingMoadal';
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { useGuest } from '@/app/apartment/GuestContext';
 
 export default function ModalEditGuestBooking() {
   const [isLoading, setIsLoading] = useState(false);
 
   const editGuestBookingModal = useEditGuestBookingModal();
+  const isSave = editGuestBookingModal.isSave;
   const totalGuestProps = editGuestBookingModal.totalGuest;
   const apartmentAllowGuestProps = editGuestBookingModal.apartmentAllowGuest;
-  const [totalGuest, setTotalGuest] = useState(totalGuestProps);
-  const [apartmentAllowGuest, setApartmentAllowGuest] = useState(apartmentAllowGuestProps);
+  const [totalGuest, setTotalGuest] = useState<number>(0);
+  const [apartmentAllowGuest, setApartmentAllowGuest] = useState<number>(0);
   const [adultsGuest, setAdultsGuest] = useState(1);
   const [childrenGuest, setChildrenGuest] = useState(0);
+
+  console.log('Check is save', isSave);
+
+  const {
+    adultGuestContext,
+    childrenGuestContext,
+    totalGuestContext,
+    allowTotalGuestContext,
+    setAdultGuestContext,
+    setChildrenGuestContext,
+    setTotalGuestContext,
+    setAllowTotalGuestContext,
+  } = useGuest();
 
   const handleDescreaseAdultGuest = (value: number) => {
     if (value <= 1) {
       return 1;
     }
 
-    setAdultsGuest(value - 1);
-    setTotalGuest(totalGuest - 1);
+    setAdultGuestContext(value - 1);
+    // setTotalGuestContext(totalGuestContext - 1);
   };
 
   const handleInscreaseAdultGuest = (value: number) => {
-    if (value >= apartmentAllowGuest || value + childrenGuest >= apartmentAllowGuest) {
+    if (value >= allowTotalGuestContext || value + childrenGuestContext >= allowTotalGuestContext) {
       return value;
     }
 
-    setAdultsGuest(value + 1);
-    setTotalGuest(totalGuest + 1);
+    setAdultGuestContext(value + 1);
+    // setTotalGuestContext(totalGuestContext + 1);
   };
 
   const handldeDescreaseChildrenGuest = (value: number) => {
@@ -45,18 +60,30 @@ export default function ModalEditGuestBooking() {
       return 0;
     }
 
-    setChildrenGuest(value - 1);
-    setTotalGuest(totalGuest - 1);
+    setChildrenGuestContext(value - 1);
+    // setTotalGuestContext(totalGuestContext - 1);
   };
 
   const handleInscreaseChildrenGuest = (value: number) => {
-    if (value >= apartmentAllowGuest || value + adultsGuest >= apartmentAllowGuest) {
+    if (value >= allowTotalGuestContext || value + adultGuestContext >= allowTotalGuestContext) {
       return value;
     }
 
-    setChildrenGuest(value + 1);
-    setTotalGuest(totalGuest + 1);
+    setChildrenGuestContext(value + 1);
+    // setTotalGuestContext(totalGuestContext + 1);
   };
+
+  const handeSaveValue = () => {
+    editGuestBookingModal.onSave();
+    editGuestBookingModal.onClose();
+  };
+
+  useEffect(() => {
+    if (isSave === true) {
+      setTotalGuestContext(adultGuestContext + childrenGuestContext);
+      editGuestBookingModal.onSaveReset();
+    }
+  }, [isSave, adultGuestContext, childrenGuestContext]);
 
   const bodyContent = (
     <div className="h-full w-full">
@@ -66,20 +93,20 @@ export default function ModalEditGuestBooking() {
           <div className="text-xs text-gray-700">Age 18+</div>
         </div>
         <div className="flex flex-row items-center gap-3">
-          <button onClick={() => handleDescreaseAdultGuest(adultsGuest)} type="button">
+          <button onClick={() => handleDescreaseAdultGuest(adultGuestContext)} type="button">
             <MinusCircleOutlined
               style={{
                 fontSize: 30,
-                color: `${adultsGuest <= 1 ? 'gray' : ''}`,
+                color: `${adultGuestContext <= 1 ? 'gray' : ''}`,
               }}
             />
           </button>
-          <div className="w-5 text-center">{adultsGuest}</div>
-          <button onClick={() => handleInscreaseAdultGuest(adultsGuest)} type="button">
+          <div className="w-5 text-center">{adultGuestContext}</div>
+          <button onClick={() => handleInscreaseAdultGuest(adultGuestContext)} type="button">
             <PlusCircleOutlined
               style={{
                 fontSize: 30,
-                color: `${totalGuest >= apartmentAllowGuest ? 'gray' : ''}`,
+                color: `${totalGuestContext >= allowTotalGuestContext ? 'gray' : ''}`,
               }}
             />
           </button>
@@ -92,20 +119,20 @@ export default function ModalEditGuestBooking() {
           <div className="text-xs text-gray-700">Ages 12 - 17</div>
         </div>
         <div className="flex flex-row items-center gap-3">
-          <button onClick={() => handldeDescreaseChildrenGuest(childrenGuest)} type="button">
+          <button onClick={() => handldeDescreaseChildrenGuest(childrenGuestContext)} type="button">
             <MinusCircleOutlined
               style={{
                 fontSize: 30,
-                color: `${childrenGuest <= 0 ? 'gray' : ''}`,
+                color: `${childrenGuestContext <= 0 ? 'gray' : ''}`,
               }}
             />
           </button>
-          <div className="w-5 text-center">{childrenGuest}</div>
-          <button onClick={() => handleInscreaseChildrenGuest(childrenGuest)} type="button">
+          <div className="w-5 text-center">{childrenGuestContext}</div>
+          <button onClick={() => handleInscreaseChildrenGuest(childrenGuestContext)} type="button">
             <PlusCircleOutlined
               style={{
                 fontSize: 30,
-                color: `${totalGuest >= apartmentAllowGuest ? 'gray' : ''}`,
+                color: `${totalGuestContext >= allowTotalGuestContext ? 'gray' : ''}`,
               }}
             />
           </button>
@@ -120,6 +147,7 @@ export default function ModalEditGuestBooking() {
       isOpen={editGuestBookingModal.isOpen}
       title="Edit guests"
       actionLabel="Save"
+      onSubmit={handeSaveValue}
       onClose={editGuestBookingModal.onClose}
       body={bodyContent}
     />

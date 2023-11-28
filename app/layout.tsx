@@ -28,6 +28,7 @@ import ModalEditPropertyType from './components/modal/ModalEditPropertyType';
 import ModalEditPropertyView from './components/modal/ModalEditPropertyView';
 import ModalDeletePropertyType from './components/modal/ModalDeletePropertyType';
 import ModalEditApartment from './components/modal/ModalEditApartment';
+import { GuestProvider } from './apartment/GuestContext';
 
 const font = Poppins({
   subsets: ['latin'],
@@ -51,31 +52,33 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <ReduxProvider>
           <Provider>
             <DateRangeProvider>
-              <Suspense fallback={<Loading />}>
-                <Header currentUser={currentUser} />
-                <ClientOnly>
-                  <ModalDetailProperty />
-                  <ModalLogin />
-                  <ModalWriteBlog />
-                  <ModalCreatePlan />
-                  <ModalCreateOwnership />
-                  <ModalApartmentAmenities />
-                  <ModalEditDateBooking />
-                  <ModalEditGuestBooking />
-                  <ModalEditPoint />
-                  <ModalCreatePublicTime />
-                  <ModalApartmentReview />
-                  <ModalCreateReview />
-                  <ModalEditPropertyType />
-                  <ModalEditPropertyView />
-                  <ModalDeletePropertyType />
-                  <ModalEditApartment />
-                  <ToasterProvider />
-                </ClientOnly>
+              <GuestProvider>
+                <Suspense fallback={<Loading />}>
+                  <Header currentUser={currentUser} />
+                  <ClientOnly>
+                    <ModalDetailProperty />
+                    <ModalLogin />
+                    <ModalWriteBlog />
+                    <ModalCreatePlan />
+                    <ModalCreateOwnership />
+                    <ModalApartmentAmenities />
+                    <ModalEditDateBooking />
+                    <ModalEditGuestBooking />
+                    <ModalEditPoint />
+                    <ModalCreatePublicTime />
+                    <ModalApartmentReview />
+                    <ModalCreateReview />
+                    <ModalEditPropertyType />
+                    <ModalEditPropertyView />
+                    <ModalDeletePropertyType />
+                    <ModalEditApartment />
+                    <ToasterProvider />
+                  </ClientOnly>
 
-                {children}
-                <Footer />
-              </Suspense>
+                  {children}
+                  <Footer />
+                </Suspense>
+              </GuestProvider>
             </DateRangeProvider>
           </Provider>
         </ReduxProvider>

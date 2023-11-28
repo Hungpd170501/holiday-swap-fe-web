@@ -4,7 +4,7 @@ import React, { Fragment, useState } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import InputComponent from '../components/input/Input';
 import { useForm, FieldValues, SubmitHandler } from 'react-hook-form';
-import { AiOutlinePlusCircle } from 'react-icons/ai';
+import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
 import useEditDateBookingModal from '../hooks/useEditDateBookingModal';
 import { addDays, addMonths, format, subDays } from 'date-fns';
@@ -12,6 +12,8 @@ import useEditGuestBookingModal from '../hooks/useEditGuestBookingMoadal';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useDateRange } from '../apartment/DateRangeContext';
+import { useGuest } from '../apartment/GuestContext';
+import { Button, Modal } from 'flowbite-react';
 
 interface BookingInformationProps {
   totalGuest?: any;
@@ -32,6 +34,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
 }) => {
   const router = useRouter();
   const [totalGuestValue, setTotalGuestValue] = useState(totalGuest);
+  const [openModal, setOpenModal] = useState(false);
   const valueDateJson = JSON.parse(dateRangeBooking);
   const dateRangeJson = JSON.parse(dateRange);
   const [dateRanges, setDateRanges] = useState({
@@ -46,9 +49,11 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
   });
 
   const { dateRangeContext, setDateRangeContext } = useDateRange();
+  const { totalGuestContext } = useGuest();
 
   const editDateBookingModal = useEditDateBookingModal();
   const editGuestBookingModal = useEditGuestBookingModal();
+  const isSave = editGuestBookingModal.isSave;
   const {
     register,
     handleSubmit,
@@ -73,6 +78,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
     axios
       .post('https://holiday-swap.click/api/booking/create', bookingData, config)
       .then(() => {
+        setOpenModal(false);
         router.push('/booking/success');
       })
       .catch((response) => {
@@ -86,7 +92,13 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
     setGuests([...guests, { email: '', fullName: '', phoneNumber: '' }]);
   };
 
-  console.log('Check date Ranges', dateRange);
+  const removeGuest = (index: number) => {
+    if (index >= 0 && guests.length > 1) {
+      const updatedGuests = [...guests];
+      updatedGuests.splice(index, 1);
+      setGuests(updatedGuests);
+    }
+  };
 
   const handleChangeDateRange = (value: any) => {
     setDateRangeValue(value.selection);
@@ -112,8 +124,8 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
             <div className="flex flex-col gap-2">
               <div className="text-base text-black font-semibold">Dates</div>
               <div className="text-gray-600">
-                {format(dateRangeContext?.startDate, 'd')} –{' '}
-                {format(dateRangeContext?.endDate, 'd MMM yyyy')}
+                {format(dateRangeContext.startDate, 'd MMM')} - {' '}
+                {format(dateRangeContext.endDate, 'd MMM yyyy')}
               </div>
             </div>
             <div
@@ -128,7 +140,9 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
               <div className="text-base text-black font-semibold">Guests</div>
               <div className="text-gray-600">
                 {`${
-                  totalGuestValue === 1 ? `${totalGuestValue} guest` : `${totalGuestValue} guests`
+                  totalGuestContext === 1
+                    ? `${totalGuestContext} guest`
+                    : `${totalGuestContext} guests`
                 }`}
               </div>
             </div>
@@ -145,20 +159,33 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
         <div className="flex flex-col pt-12 pb-8 border-b border-gray-400">
           <div className="text-xl font-bold">Guest Info</div>
           <div className="flex flex-row justify-end gap-2 cursor-pointer">
-            {totalGuestValue < 1 || guests.length === Number(totalGuestValue) ? (
+            {totalGuestContext < 1 || guests.length === Number(totalGuestContext) ? (
               ''
             ) : (
-              <div className="flex flex-row items-center" onClick={addGuest}>
-                <AiOutlinePlusCircle size={15} />
+              <div className="flex flex-row items-center gap-1" onClick={addGuest}>
+                <PlusCircleOutlined size={20} />
                 <div className="text-sm font-base">Add new guest</div>
               </div>
             )}
           </div>
           {guests.map((guest, index) => (
-            <div key={index} className="flex flex-col">
-              <div className="pt-5 text-lg font-bold">
-                {index === 0 ? '' : `Guest ${index + 1}`}
-              </div>
+            <div
+              key={index}
+              className={`flex flex-col pb-4 ${index !== guests.length - 1 ? 'mb-10' : ''}`}
+            >
+              {index === 0 && <div className="pt-5 text-lg font-bold">{`Guest ${index + 1}`}</div>}
+              {index >= 1 && (
+                <div className="flex flex-row justify-between">
+                  <div className="pt-5 text-lg font-bold">{`Guest ${index + 1}`}</div>
+                  <div
+                    className="flex flex-row items-center gap-1 hover:cursor-pointer"
+                    onClick={() => removeGuest(index)}
+                  >
+                    <MinusCircleOutlined size={20} />
+                    <div className="text-sm font-base">Remove guest</div>
+                  </div>
+                </div>
+              )}
               <div className="grid grid-cols-2 gap-5">
                 <InputComponent
                   type="text"
@@ -201,7 +228,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
         {/* Request to book */}
         <div className="py-8">
           <button
-            onClick={handleSubmit(onSubmit)}
+            onClick={() => setOpenModal(true)}
             className="px-8 py-5 text-center text-xl text-white bg-common hover:bg-hover rounded-lg"
             type="button"
           >
@@ -209,6 +236,26 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
           </button>
         </div>
       </div>
+
+      <Modal show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal.Header>Booking</Modal.Header>
+        <Modal.Body>
+          <div className="space-y-6">
+            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+              If you really want to book this property, make sure you have checked the information
+              carefully.
+            </p>
+          </div>
+        </Modal.Body>
+        <Modal.Footer className="flex justify-end">
+          <Button color="blue" className="font-bold text-lg" onClick={handleSubmit(onSubmit)}>
+            Booking
+          </Button>
+          <Button color="gray" className="text-lg" onClick={() => setOpenModal(false)}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

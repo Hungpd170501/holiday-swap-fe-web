@@ -33,7 +33,6 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
           config
         )
         .then(async () => {
-          toast.success('Like post success');
           const newData = await GetPostUser(currentUser.userId);
           setPostList(newData);
         })
@@ -55,7 +54,6 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
           config
         )
         .then(async () => {
-          toast.success('Dislike post success');
           const newData = await GetPostUser(currentUser.userId);
           setPostList(newData);
         })

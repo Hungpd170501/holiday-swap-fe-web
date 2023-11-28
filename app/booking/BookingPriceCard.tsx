@@ -65,17 +65,20 @@ const BookingPriceCard: React.FC<BookingPriceCardProps> = ({
             <div className="pb-1">{resortName}</div>
             <div className="py-1 flex flex-row items-center gap-1">
               <div className="flex flex-row items-center">
-                <img className="w-5 h-5 rounded-full" src="./images/avt.jpg" alt="" />
+                <Image
+                  className="rounded-full object-cover"
+                  width={20}
+                  height={20}
+                  src={avatar || '/images/placeholder.jpg'}
+                  alt="Avatar"
+                />
               </div>
-              {/* <div className="flex flex-row items-center">
-                 <Image className="rounded-full object-cover" width={20} height={20} src={avatar || "/images/placeholder.jpg"} alt="Avatar" />
-               </div> */}
               <div className="text-[12px]">Owner by {fullName}</div>
             </div>
-            {rating && rating !== null && (
+            {rating !== 'null' && (
               <div className="flex flex-row items-center">
                 <AiFillStar color="orange" size={15} />
-                {rating}
+                {typeof rating}
               </div>
             )}
           </div>

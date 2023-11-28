@@ -3,6 +3,7 @@
 import { Tooltip } from 'flowbite-react';
 import React from 'react';
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
 import { BiHelpCircle } from 'react-icons/bi';
 
 interface InputProps {
@@ -57,6 +58,7 @@ const InputComponent: React.FC<InputProps> = ({
         disabled={disabled}
         {...register(id, { required })}
         placeholder={placeholder}
+        name={id}
         type={type}
         value={value}
         onChange={onChange}
@@ -64,6 +66,13 @@ const InputComponent: React.FC<InputProps> = ({
         ${errors[id] ? 'border-red-400' : 'border-gray-400'} ${
           errors[id] ? 'focus:border-red-400' : 'focus:border-black'
         }`}
+      />
+      <ErrorMessage errors={errors} name={id} />
+
+      <ErrorMessage
+        errors={errors}
+        name={id}
+        render={({ message }) => <p className="text-sm text-rose-500">{message}</p>}
       />
     </div>
   );

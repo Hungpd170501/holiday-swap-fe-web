@@ -5,7 +5,7 @@ import ApartmentDetailHeader from './ApartmentDetailHeader';
 import ApartmentDetailBody from './ApartmentDetailBody';
 import CalendarAparment from '../CalendarAparment';
 import ApartmentBooking from './ApartmentBooking';
-import { addDays, addMonths, subDays } from 'date-fns';
+import { addDays, addMonths, differenceInDays, format, subDays } from 'date-fns';
 import ApartmentReivew from './ApartmentReivew';
 import ApartmentReivewBox from './ApartmentReivewBox';
 import useAparmentReviewModal from '@/app/hooks/useApartmentReviewModal';
@@ -15,6 +15,7 @@ import ApartmentDetailMap from './ApartmentDetailMap';
 import moment from 'moment-timezone';
 import { useDateRange } from '../DateRangeContext';
 import useNewDateRange from '@/app/hooks/useNewDateRange';
+import { useGuest } from '../GuestContext';
 
 interface ApartmentDetailProps {
   apartment?: any;
@@ -36,6 +37,46 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
 
   const [dateRange, setDateRange] = useState(initialDateRange);
   const [initialDateRangeValue, setInitialDateRangeValue] = useState(initialDateRange);
+  const [apartmentAllowGuest, setApartmentAllowGuest] = useState(
+    apartment.property.numberKingBeds * 2 +
+      apartment.property.numberQueenBeds * 2 +
+      apartment.property.numberSingleBeds +
+      apartment.property.numberDoubleBeds * 2 +
+      apartment.property.numberTwinBeds * 2 +
+      apartment.property.numberFullBeds * 2 +
+      apartment.property.numberSofaBeds +
+      apartment.property.numberMurphyBeds
+  );
+
+  const [checkInMap, setCheckInMap] = useState<Map<string, any>>(new Map());
+  const [checkOutMap, setCheckOutMap] = useState<Map<string, any>>(new Map());
+
+  useEffect(() => {
+    const updateCheckInAndOutMaps = () => {
+      const newCheckInMap = new Map();
+      const newCheckOutMap = new Map();
+
+      if (
+        apartment.timeHasBooked &&
+        Array.isArray(apartment.timeHasBooked) &&
+        apartment.timeHasBooked.length > 0
+      ) {
+        apartment.timeHasBooked.forEach((booking: any, index: number) => {
+          const checkInDate = new Date(booking.checkIn);
+          const checkOutDate = new Date(booking.checkOut);
+
+          newCheckInMap.set(format(checkInDate, 'yyyy-MM-dd'), checkInDate);
+          newCheckOutMap.set(format(checkOutDate, 'yyyy-MM-dd'), checkOutDate);
+        });
+      }
+
+      setCheckInMap(newCheckInMap);
+      setCheckOutMap(newCheckOutMap);
+    };
+
+    updateCheckInAndOutMaps();
+  }, [apartment.timeHasBooked]);
+
   const {
     dateRangeContext,
     setDateRangeContext,
@@ -44,6 +85,21 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     dateOut,
     setDateOut,
   } = useDateRange();
+
+  const {
+    setTotalGuestContext,
+    setAdultGuestContext,
+    setChildrenGuestContext,
+    setAllowTotalGuestContext,
+  } = useGuest();
+
+  useEffect(() => {
+    if (window.performance) {
+      if (performance.navigation.type == 1) {
+        newDateRange.setNew();
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (initialDateRangeValue) {
@@ -54,6 +110,10 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
   useEffect(() => {
     if (isNew === true) {
       setDateRangeContext(initialDateRangeValue);
+      setAdultGuestContext(1);
+      setTotalGuestContext(1);
+      setChildrenGuestContext(0);
+      setAllowTotalGuestContext(apartmentAllowGuest);
     } else {
       setDateRangeContext(dateRangeContext);
     }
@@ -65,23 +125,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     }
   }, [dateRangeContext, dateRangeDefaultContext]);
 
-  console.log('Check is new', isNew);
-  console.log(
-    'Check is equal',
-    JSON.stringify(dateRangeContext) === JSON.stringify(dateRangeDefaultContext)
-  );
-
   const [rating, setRating] = useState<any>();
-  const [apartmentAllowGuest, setApartmentAllowGuest] = useState(
-    apartment.property.numberKingBeds * 2 +
-      apartment.property.numberQueenBeds * 2 +
-      apartment.property.numberSingleBeds +
-      apartment.property.numberDoubleBeds * 2 +
-      apartment.property.numberTwinBeds * 2 +
-      apartment.property.numberFullBeds * 2 +
-      apartment.property.numberSofaBeds +
-      apartment.property.numberMurphyBeds
-  );
 
   const [dateRangeDefault, setDateRangeDefault] = useState(initialDateRange);
 
@@ -108,19 +152,67 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     ) {
       apartment.timeHasBooked.forEach((booking: any) => {
         const checkInDate = new Date(booking.checkIn);
-        console.log('Check in date', booking.checkIn);
         const checkOutDate = new Date(booking.checkOut);
 
-        // Add dates between checkIn and checkOut to datesOutsideDateRange
-        for (let i = checkInDate.getTime(); i <= checkOutDate.getTime(); i += 24 * 60 * 60 * 1000) {
-          console.log('Check date range has booked', new Date(i));
-          datesOutsideDateRange.push(new Date(i));
+        console.log('Check difference', differenceInDays(checkOutDate, checkInDate));
+
+        if (differenceInDays(checkOutDate, checkInDate) < 2) {
+          checkInMap.forEach((checkInDate) => {
+            if (checkOutMap.has(format(checkInDate, 'yyyy-MM-dd'))) {
+              datesOutsideDateRange.push(new Date(checkInDate));
+            } else {
+              console.log('Ko có');
+            }
+          });
+
+          // Check if a date is beyond the general availability range
+          if (startDate) {
+            if (checkInMap.has(format(startDate, 'yyyy-MM-dd'))) {
+              datesOutsideDateRange.push(new Date(startDate));
+            }
+          }
+
+          if (endDate) {
+            if (checkOutMap.has(format(endDate, 'yyyy-MM-dd'))) {
+              datesOutsideDateRange.push(new Date(endDate));
+            }
+          }
+        } else {
+          for (
+            let i = checkInDate.getTime() + 24 * 60 * 60 * 1000;
+            i <= checkOutDate.getTime() - 24 * 60 * 60 * 1000;
+            i += 24 * 60 * 60 * 1000
+          ) {
+            checkInMap.forEach((checkInDate) => {
+              if (checkOutMap.has(format(checkInDate, 'yyyy-MM-dd'))) {
+                datesOutsideDateRange.push(new Date(checkInDate));
+              } else {
+                console.log('Ko có');
+              }
+            });
+
+            if (startDate) {
+              if (checkInMap.has(format(startDate, 'yyyy-MM-dd'))) {
+                datesOutsideDateRange.push(new Date(startDate));
+              }
+            }
+
+            if (endDate) {
+              if (checkOutMap.has(format(endDate, 'yyyy-MM-dd'))) {
+                datesOutsideDateRange.push(new Date(endDate));
+              }
+            }
+            datesOutsideDateRange.push(new Date(i));
+          }
         }
       });
     }
 
     return datesOutsideDateRange;
   };
+
+  console.log('Check in map', checkInMap);
+  console.log('Check out map', checkOutMap);
 
   useEffect(() => {
     setDateOut(getDatesOutsideDateRange(dateRangeDefaultContext));
@@ -142,12 +234,12 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     }
   }, [propertyId, roomId]);
 
-  console.log('Check date Range context', dateRangeContext);
+  console.log('Check date Range context', dateOut);
 
   return (
     <div className="lg:mx-1 xl:mx-16 py-20">
       <div className="flex flex-col">
-        <ApartmentDetailHeader apartment={apartment} />
+        <ApartmentDetailHeader apartment={apartment} rating={rating} />
       </div>
 
       <div className="flex flex-col md:grid md:grid-cols-12 md:gap-16 md:pb-14 xl:py-10 border-b border-gray-500">
@@ -161,17 +253,19 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
             handleChangeDateRange={handleChangeDateRange}
           />
         </div>
-        <div className="col-span-4 sticky top-0 h-full">
-          <ApartmentBooking
-            currentUser={currentUser}
-            apartment={apartment}
-            dateOut={dateOut}
-            dateRange={dateRange}
-            dateRangeDefault={dateRangeDefault}
-            handleChangeDateRange={handleChangeDateRange}
-            apartmentAllowGuest={apartmentAllowGuest}
-          />
-        </div>
+        {dateRangeContext && (
+          <div className="col-span-4 sticky top-0 h-full">
+            <ApartmentBooking
+              currentUser={currentUser}
+              apartment={apartment}
+              dateOut={dateOut}
+              dateRange={dateRange}
+              dateRangeDefault={dateRangeDefault}
+              handleChangeDateRange={handleChangeDateRange}
+              apartmentAllowGuest={apartmentAllowGuest}
+            />
+          </div>
+        )}
       </div>
 
       <div className="py-20 border-b border-gray-500">

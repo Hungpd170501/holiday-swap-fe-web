@@ -5,7 +5,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import InputComponent from '../input/Input';
 import { toast } from 'react-hot-toast';
-import { Select, Textarea, Label, FileInput } from 'flowbite-react';
+import { Select, Textarea, Label, FileInput, Modal, Button } from 'flowbite-react';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
@@ -35,7 +35,7 @@ export default function ModalCreateOwnership() {
   const currentUser = createOwnershipModal.currentUser;
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState<any[]>([]);
-  const [resortId, setResortId] = useState();
+  const [resortId, setResortId] = useState<any>();
   const [properties, setProperties] = useState<any[]>([]);
   const [propertyValue, setPropertyValue] = useState();
   const [typeValue, setTypeValue] = useState<any>(type[0].type);
@@ -44,6 +44,7 @@ export default function ModalCreateOwnership() {
   const [endYear, setEndYear] = useState(new Date());
   const [weekNumberValue, setWeekNumberValue] = useState<any>([]);
   const [weekNumberSingle, setWeekNumberSingle] = useState<any>();
+  const [openModal, setOpenModal] = useState(false);
   const axiosAuthClient = useAxiosAuthClient();
   const [previewImages, setPreviewImages] = useState<{ src: string; index: number }[]>([]);
 
@@ -130,6 +131,12 @@ export default function ModalCreateOwnership() {
   };
 
   useEffect(() => {
+    if (dataResort) {
+      setResortId(dataResort[0].id);
+    }
+  }, [dataResort]);
+
+  useEffect(() => {
     const fetchProperty = async () => {
       if (resortId) {
         const data = await axios.get(
@@ -176,11 +183,14 @@ export default function ModalCreateOwnership() {
       .post('https://holiday-swap.click/api/co-owners', formData)
       .then(() => {
         toast.success('Create ownership success!');
+        setOpenModal(false);
+        createOwnershipModal.onSuccess();
         createOwnershipModal.onClose();
         reset();
       })
       .catch((response) => {
         toast.error(response.response.data.message);
+        setOpenModal(false);
       })
       .finally(() => {
         setIsLoading(false);
@@ -330,6 +340,26 @@ export default function ModalCreateOwnership() {
           ))}
         </div>
       </div>
+
+      <Modal show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal.Header>Are you sure create ownership?</Modal.Header>
+        <Modal.Body>
+          <div className="space-y-6">
+            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+              You will not be able to change information such as contract photos, time of ownership
+              and apartment information after creation, please check carefully before creating!
+            </p>
+          </div>
+        </Modal.Body>
+        <Modal.Footer className="flex justify-end">
+          <Button color="blue" className="font-bold text-lg" onClick={handleSubmit(onSubmit)}>
+            Submit
+          </Button>
+          <Button color="gray" className="text-lg" onClick={() => setOpenModal(false)}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 
@@ -340,7 +370,7 @@ export default function ModalCreateOwnership() {
       title="Create Ownership"
       actionLabel="Submit"
       onClose={createOwnershipModal.onClose}
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={() => setOpenModal(true)}
       body={bodyContent}
     />
   );

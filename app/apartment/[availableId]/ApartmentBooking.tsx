@@ -9,6 +9,7 @@ import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import useLoginModal from '@/app/hooks/useLoginModal';
 import { useDateRange } from '../DateRangeContext';
 import toast from 'react-hot-toast';
+import { useGuest } from '../GuestContext';
 
 interface ApartmentBookingProps {
   dateRange: any;
@@ -41,6 +42,23 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
   const [childrenGuest, setChildrenGuest] = useState(0);
   const [totalGuest, setTotalGuest] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
+  const {
+    adultGuestContext,
+    childrenGuestContext,
+    totalGuestContext,
+    allowTotalGuestContext,
+    setAdultGuestContext,
+    setChildrenGuestContext,
+    setTotalGuestContext,
+    setAllowTotalGuestContext,
+  } = useGuest();
+
+  useEffect(() => {
+    if (apartmentAllowGuest) {
+      setAllowTotalGuestContext(apartmentAllowGuest);
+    } 
+  }, [apartmentAllowGuest]);
+
   const loginModal = useLoginModal();
   const router = useRouter();
   const {
@@ -55,17 +73,17 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
       return 1;
     }
 
-    setAdultsGuest(value - 1);
-    setTotalGuest(totalGuest - 1);
+    setAdultGuestContext(value - 1);
+    setTotalGuestContext(totalGuestContext - 1);
   };
 
   const handleInscreaseAdultGuest = (value: number) => {
-    if (value >= apartmentAllowGuest || value + childrenGuest >= apartmentAllowGuest) {
+    if (value >= allowTotalGuestContext || value + childrenGuestContext >= allowTotalGuestContext) {
       return value;
     }
 
-    setAdultsGuest(value + 1);
-    setTotalGuest(totalGuest + 1);
+    setAdultGuestContext(value + 1);
+    setTotalGuestContext(totalGuestContext + 1);
   };
 
   const handldeDescreaseChildrenGuest = (value: number) => {
@@ -73,17 +91,17 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
       return 0;
     }
 
-    setChildrenGuest(value - 1);
-    setTotalGuest(totalGuest - 1);
+    setChildrenGuestContext(value - 1);
+    setTotalGuestContext(totalGuestContext - 1);
   };
 
   const handleInscreaseChildrenGuest = (value: number) => {
-    if (value >= apartmentAllowGuest || value + adultsGuest >= apartmentAllowGuest) {
+    if (value >= allowTotalGuestContext || value + adultGuestContext >= allowTotalGuestContext) {
       return value;
     }
 
-    setChildrenGuest(value + 1);
-    setTotalGuest(totalGuest + 1);
+    setChildrenGuestContext(value + 1);
+    setTotalGuestContext(totalGuestContext + 1);
   };
 
   const calculateNightDifference = (startDate: any, endDate: any) => {
@@ -245,7 +263,9 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
               <div className="flex flex-col">
                 <div className="text-xs">GUEST</div>
                 <div className="text-gray-800 text-base">
-                  {totalGuest === 1 ? `${totalGuest} guest` : `${totalGuest} guests`}
+                  {totalGuestContext === 1
+                    ? `${totalGuestContext} guest`
+                    : `${totalGuestContext} guests`}
                 </div>
               </div>
 
@@ -259,20 +279,26 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
                     <div className="text-xs text-gray-700">Age 18+</div>
                   </div>
                   <div className="flex flex-row items-center gap-3">
-                    <button onClick={() => handleDescreaseAdultGuest(adultsGuest)} type="button">
+                    <button
+                      onClick={() => handleDescreaseAdultGuest(adultGuestContext)}
+                      type="button"
+                    >
                       <MinusCircleOutlined
                         style={{
                           fontSize: 30,
-                          color: `${adultsGuest <= 1 ? 'gray' : ''}`,
+                          color: `${adultGuestContext <= 1 ? 'gray' : ''}`,
                         }}
                       />
                     </button>
-                    <div className="w-5 text-center">{adultsGuest}</div>
-                    <button onClick={() => handleInscreaseAdultGuest(adultsGuest)} type="button">
+                    <div className="w-5 text-center">{adultGuestContext}</div>
+                    <button
+                      onClick={() => handleInscreaseAdultGuest(adultGuestContext)}
+                      type="button"
+                    >
                       <PlusCircleOutlined
                         style={{
                           fontSize: 30,
-                          color: `${totalGuest >= apartmentAllowGuest ? 'gray' : ''}`,
+                          color: `${totalGuestContext >= allowTotalGuestContext ? 'gray' : ''}`,
                         }}
                       />
                     </button>
@@ -286,25 +312,25 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
                   </div>
                   <div className="flex flex-row items-center gap-3">
                     <button
-                      onClick={() => handldeDescreaseChildrenGuest(childrenGuest)}
+                      onClick={() => handldeDescreaseChildrenGuest(childrenGuestContext)}
                       type="button"
                     >
                       <MinusCircleOutlined
                         style={{
                           fontSize: 30,
-                          color: `${childrenGuest <= 0 ? 'gray' : ''}`,
+                          color: `${childrenGuestContext <= 0 ? 'gray' : ''}`,
                         }}
                       />
                     </button>
-                    <div className="w-5 text-center">{childrenGuest}</div>
+                    <div className="w-5 text-center">{childrenGuestContext}</div>
                     <button
-                      onClick={() => handleInscreaseChildrenGuest(childrenGuest)}
+                      onClick={() => handleInscreaseChildrenGuest(childrenGuestContext)}
                       type="button"
                     >
                       <PlusCircleOutlined
                         style={{
                           fontSize: 30,
-                          color: `${totalGuest >= apartmentAllowGuest ? 'gray' : ''}`,
+                          color: `${totalGuest >= allowTotalGuestContext ? 'gray' : ''}`,
                         }}
                       />
                     </button>
@@ -362,8 +388,8 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
             <div className="text-white text-[15px]">
               {new Date(dateRange.startDate).getTime() === new Date(dateRange.endDate).getTime()
                 ? 'Add your travel dates for exact pricing'
-                : `${format(new Date(dateRange.startDate), 'dd MMM yyyy')} - ${format(
-                    new Date(dateRange.endDate),
+                : `${format(new Date(dateRangeContext?.startDate), 'dd MMM yyyy')} - ${format(
+                    new Date(dateRangeContext?.endDate),
                     'dd MMM yyyy'
                   )}`}
             </div>

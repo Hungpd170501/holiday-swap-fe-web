@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 interface IParams {
   availableId?: string;
@@ -7,9 +7,9 @@ interface IParams {
 export default async function GetApartmentById(params: IParams) {
   try {
     const { availableId } = params;
-    const apartment = await axios.get(
-      `${process.env.API_URL}/apartment-for-rent/${availableId}`
-    );
+    const apartment = await axios.get(`${process.env.API_URL}/apartment-for-rent/${availableId}`);
+
+    console.log('Check apartment', apartment.data);
 
     if (!apartment) {
       return null;

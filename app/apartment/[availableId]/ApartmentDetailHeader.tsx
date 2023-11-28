@@ -9,9 +9,10 @@ import { PiSquaresFourLight } from 'react-icons/pi';
 
 interface ApartmentDetailHeaderProps {
   apartment?: any;
+  rating?: any;
 }
 
-const ApartmentDetailHeader: React.FC<ApartmentDetailHeaderProps> = ({ apartment }) => {
+const ApartmentDetailHeader: React.FC<ApartmentDetailHeaderProps> = ({ apartment, rating }) => {
   const [open, setOpen] = useState(false);
   const [placement, setPlacement] = useState<DrawerProps['placement']>('bottom');
 
@@ -30,9 +31,12 @@ const ApartmentDetailHeader: React.FC<ApartmentDetailHeaderProps> = ({ apartment
       </div>
       <div className="w-full py-3">
         <div className="font-normal text-base text-black flex flex-row gap-4">
-          <div className="flex flex-row items-center">
-            <AiFillStar size={18} /> 4.84 · 54 reviews
-          </div>
+          {apartment.property.rating && (
+            <div className="flex flex-row items-center">
+              <AiFillStar size={18} /> {apartment.property.rating} ·{' '}
+              {rating ? `${rating?.content.length} reviews` : ''}
+            </div>
+          )}
           <div>·</div>
           <div>{apartment.resort.resortName}</div>
         </div>

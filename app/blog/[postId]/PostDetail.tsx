@@ -32,7 +32,6 @@ const PostDetail: React.FC<PostDetailProps> = ({ postDetail, currentUser }) => {
           config
         )
         .then(async () => {
-          toast.success('Like post success');
           const userId = currentUser.userId
           const params = { postId, userId }; // Wrap postId in an object
           const newData = await GetPostById(params);
@@ -58,7 +57,6 @@ const PostDetail: React.FC<PostDetailProps> = ({ postDetail, currentUser }) => {
           config
         )
         .then(async () => {
-          toast.success('Dislike post success');
           const userId = currentUser.userId;
           const params = { postId, userId }; // Wrap postId in an object
           const newData = await GetPostById(params);

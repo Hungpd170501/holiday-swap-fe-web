@@ -24,6 +24,7 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
   const [listResort, setListResort] = useState(resort);
   const router = useRouter();
   const createOwnershipModal = useCreateOwnershipModal();
+  const isSuccess = createOwnershipModal.isSuccess;
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState<number>(0);
@@ -71,7 +72,12 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
 
   useEffect(() => {
     fetchData();
-  }, [searchTerm, currentPage]);
+
+    if (isSuccess === true) {
+      fetchData();
+      createOwnershipModal.onSuccessReset();
+    }
+  }, [searchTerm, currentPage, isSuccess]);
 
   return (
     <Fragment>
@@ -136,7 +142,7 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
                     )}
                   </Table.Cell>
                   <Table.Cell>
-      {item.status === 'ACCEPTED' && (
+                    {item.status === 'ACCEPTED' && (
                       <div
                         onClick={() =>
                           handleRouter(
@@ -151,7 +157,6 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
                         <p>Detail</p>
                       </div>
                     )}
-
                   </Table.Cell>
                 </Table.Row>
               ))}

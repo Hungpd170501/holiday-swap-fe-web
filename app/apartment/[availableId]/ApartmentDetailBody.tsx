@@ -237,10 +237,16 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
             </div>
           </div>
           <div className="mt-3">
-            <div className="flex flex-row items-center gap-2">
-              <AiFillStar size={20} color="orange" />
-              <div className="text-gray-700">{rating?.content?.length} Reviews</div>
-            </div>
+            {rating?.content.length !== 0 && (
+              <div className="flex flex-row items-center gap-2">
+                <AiFillStar size={20} color="orange" />
+                <div className="text-gray-700">
+                  {rating?.content?.length === 1
+                    ? `${rating?.content?.length} Review`
+                    : `${rating?.content?.length} Reviews`}
+                </div>
+              </div>
+            )}
             <div className="flex flex-row items-center gap-2">
               <BsShieldFillCheck size={20} color="green" />
               <div className="text-gray-700">Email verified</div>
