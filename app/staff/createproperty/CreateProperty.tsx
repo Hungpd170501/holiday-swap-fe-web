@@ -243,6 +243,7 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
             register={register}
             errors={errors}
             type="number"
+            min={10}
             id="roomSize"
             label="Size*"
             placeholder="30"

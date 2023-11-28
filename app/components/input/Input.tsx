@@ -17,6 +17,7 @@ interface InputProps {
   placeholder?: string;
   disabled?: boolean;
   formatPrice?: boolean;
+  min?: number;
   required?: boolean;
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors;
@@ -33,6 +34,7 @@ const InputComponent: React.FC<InputProps> = ({
   formatPrice,
   value,
   required,
+  min,
   register,
   onChange,
   errors,
@@ -60,6 +62,7 @@ const InputComponent: React.FC<InputProps> = ({
         placeholder={placeholder}
         name={id}
         type={type}
+        min={min}
         value={value}
         onChange={onChange}
         className={`peer p-4 pt-6 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed focus:ring-0
