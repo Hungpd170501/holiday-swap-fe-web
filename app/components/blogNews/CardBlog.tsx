@@ -9,6 +9,8 @@ import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import GetPostUser from '@/app/actions/getPostUser';
 
 interface CardBlogProps {
   post: any;
@@ -16,23 +18,24 @@ interface CardBlogProps {
 }
 
 const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
-  const [postList, setPostList] = useState<any>();
+  const [postList, setPostList] = useState<any>(post);
   const axiosAuthClient = useAxiosAuthClient();
   const { data: session } = useSession();
   const router = useRouter();
 
-  useEffect(() => {
-    if (post) {
-      setPostList(post);
-    }
-  }, [post]);
-
   const handleLikePost = (postId: any) => {
     if (postId && currentUser) {
-      axiosAuthClient
-        .put(`https://holiday-swap.click/api/post/react?postId=${postId}&reaction=like`)
-        .then(() => {
+      const config = { headers: { Authorization: `Bearer ${session?.user.access_token}` } };
+      axios
+        .put(
+          `https://holiday-swap.click/api/post/react?postId=${postId}&reaction=like`,
+          null,
+          config
+        )
+        .then(async () => {
           toast.success('Like post success');
+          const newData = await GetPostUser(currentUser.userId);
+          setPostList(newData);
         })
         .catch((response) => {
           toast.error(response.response.data.message);
@@ -44,10 +47,17 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
 
   const handleDislikePost = (postId: any) => {
     if (postId && currentUser) {
-      axiosAuthClient
-        .put(`https://holiday-swap.click/api/post/react?postId=${postId}&reaction=dislike`)
-        .then(() => {
-          toast.success('Like post success');
+      const config = { headers: { Authorization: `Bearer ${session?.user.access_token}` } };
+      axios
+        .put(
+          `https://holiday-swap.click/api/post/react?postId=${postId}&reaction=dislike`,
+          null,
+          config
+        )
+        .then(async () => {
+          toast.success('Dislike post success');
+          const newData = await GetPostUser(currentUser.userId);
+          setPostList(newData);
         })
         .catch((response) => {
           toast.error(response.response.data.message);
@@ -88,6 +98,7 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
                     color={item.liked === true ? 'blue' : 'gray'}
                   />
                   <div className="text-lg font-thin ml-1 text-common">{item.likes}</div>
+                  <div>{item.liked}</div>
                 </div>
 
                 <div className="flex flex-row items-center">

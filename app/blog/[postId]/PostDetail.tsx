@@ -3,7 +3,9 @@
 import GetPostById from '@/app/actions/getPostById';
 import Container from '@/app/components/Container';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
+import axios from 'axios';
 import { format } from 'date-fns';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -18,14 +20,21 @@ interface PostDetailProps {
 const PostDetail: React.FC<PostDetailProps> = ({ postDetail, currentUser }) => {
   const axiosAuthClient = useAxiosAuthClient();
   const [postDetailValue, setPostDetailValue] = useState<any>(postDetail);
+  const { data: session } = useSession();
 
   const handleLikePost = (postId: any) => {
     if (postId && currentUser) {
-      axiosAuthClient
-        .put(`https://holiday-swap.click/api/post/react?postId=${postId}&reaction=like`)
+      const config = { headers: { Authorization: `Bearer ${session?.user.access_token}` } };
+      axios
+        .put(
+          `https://holiday-swap.click/api/post/react?postId=${postId}&reaction=like`,
+          null,
+          config
+        )
         .then(async () => {
           toast.success('Like post success');
-          const params = { postId }; // Wrap postId in an object
+          const userId = currentUser.userId
+          const params = { postId, userId }; // Wrap postId in an object
           const newData = await GetPostById(params);
           if (newData) {
             setPostDetailValue(newData);
@@ -41,11 +50,17 @@ const PostDetail: React.FC<PostDetailProps> = ({ postDetail, currentUser }) => {
 
   const handleDislikePost = (postId: any) => {
     if (postId && currentUser) {
-      axiosAuthClient
-        .put(`https://holiday-swap.click/api/post/react?postId=${postId}&reaction=dislike`)
+      const config = { headers: { Authorization: `Bearer ${session?.user.access_token}` } };
+      axios
+        .put(
+          `https://holiday-swap.click/api/post/react?postId=${postId}&reaction=dislike`,
+          null,
+          config
+        )
         .then(async () => {
           toast.success('Dislike post success');
-          const params = { postId }; // Wrap postId in an object
+          const userId = currentUser.userId;
+          const params = { postId, userId }; // Wrap postId in an object
           const newData = await GetPostById(params);
           if (newData) {
             setPostDetailValue(newData);

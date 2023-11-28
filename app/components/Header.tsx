@@ -72,9 +72,16 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
           <div className="flex flex-col">
             <div className="flex flex-row justify-between items-center gap-3">
               <Logo />
-              <div className="ml-36">
-                <LinkHeader />
-              </div>
+              {currentUser ? (
+                <div className="ml-36">
+                  <LinkHeader />
+                </div>
+              ) : (
+                <div className="mr-7">
+                  <LinkHeader />
+                </div>
+              )}
+
               {currentUser ? (
                 <UserMenu currentUser={currentUser} />
               ) : (
