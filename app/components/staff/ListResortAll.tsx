@@ -131,7 +131,7 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell className="!bg-white !text-black !text-[17px] !font-semibold">
+              <StyledTableCell className="!bg-white !text-black !text-[17px] !font-semibold w-[200px]">
                 Resort Name{' '}
               </StyledTableCell>
               <StyledTableCell

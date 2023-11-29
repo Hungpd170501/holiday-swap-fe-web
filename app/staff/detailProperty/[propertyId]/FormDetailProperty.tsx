@@ -34,16 +34,16 @@ const FormDetailProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) =
   }, []);
   return (
     <div>
-      <div className="flex flex-row justify-end items-center">
-        <div className="text-[8px] font-bold text-common">{'Status:'}</div>
-        <div className="text-[8px] font-bold text-common">{propertyDetail?.status}</div>
-      </div>
       <div className="grid grid-cols-4 gap-4 ">
         <div className="flex flex-col mr-10 text-gray-400 ">
           <div className="mb-5">Property Name</div>
+          <div className="">Status</div>
         </div>
         <div className="flex flex-col mr-16 text-gray-600 ">
           <div className="mb-5"> {propertyDetail?.propertyName}</div>
+          <div className="flex flex-row items-center">
+            <div className=" font-bold text-green-500">{propertyDetail?.status}</div>
+          </div>
         </div>
         <div className="flex flex-col mr-10 text-gray-400 ">
           <div className="mb-5">Property Description</div>

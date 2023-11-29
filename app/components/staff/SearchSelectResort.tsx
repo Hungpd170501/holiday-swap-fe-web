@@ -109,7 +109,7 @@ const SearchSelectResort: React.FC<SearchSelectResortProps> = ({ setTableParams,
   return (
     <Space style={{ width: '100%' }} align="end">
       <div style={{ width: '300px' }}>
-        <p>Filter by resort</p>
+        <p className="mb-2">Filter by resort</p>
         <DebounceSelect
           mode="multiple"
           allowClear

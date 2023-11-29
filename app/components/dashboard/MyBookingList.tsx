@@ -41,7 +41,7 @@ const MyBookingList: React.FC<MyBookingListProps> = ({ historyBooking }) => {
                       src={item.propertyImage}
                       fill
                       alt="image"
-                      className="w-full object-cover rounded-lg"
+                      className="w-full object-cover rounded-tl-md rounded-bl-md"
                     />
                   </div>
                   <div className="col-span-6 flex flex-col">

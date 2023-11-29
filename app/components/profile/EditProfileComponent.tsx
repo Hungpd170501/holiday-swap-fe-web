@@ -1,19 +1,15 @@
-import React from "react";
+import React from 'react';
 
 export default function EditProfileComponent() {
   return (
     <div className="border-l border-gray-300 px-10 h-full">
       <div className="text-gray-500">
-        Dashboard {">"} <span className="text-common">Edit Profile</span>
+        Dashboard {'>'} <span className="text-common">Edit Profile</span>
       </div>
       <div className=" flex flex-col ">
         <div className="flex flex-row">
           <div>
-            <img
-              className="rounded-full w-16 h-16 mr-10"
-              src="./images/resort1.jpg"
-              alt=""
-            />
+            <img className="rounded-full w-16 h-16 mr-10" src="./images/resort1.jpg" alt="" />
           </div>
           <div>
             <button className="bg-[#5C98F2] py-3 px-2 rounded-lg text-white ">

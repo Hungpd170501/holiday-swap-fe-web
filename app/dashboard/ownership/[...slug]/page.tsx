@@ -16,7 +16,7 @@ export default async function EditApartment({ params }: { params: IParams }) {
 
   return requireAuth(
     <div>
-      <div>
+      <div className="mt-7">
         Dashboard {'>'} <span>Ownership</span> {'>'}{' '}
         <span className="text-common">Detail Apartment Owner</span>
       </div>

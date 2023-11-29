@@ -105,8 +105,8 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
         pageCurrentRouter="/staff/listPropertyType"
       />
 
-      <div className="py-10">
-        <div className="py-4">
+      <div className="">
+        <div className="pb-6 pt-4">
           <form onSubmit={(e) => handleSearchNameSubmit(e)}>
             <Label
               htmlFor="searchName"
@@ -122,7 +122,7 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
         <Table>
           <Table.Head>
             <Table.HeadCell>No</Table.HeadCell>
-            <Table.HeadCell>Property View Name</Table.HeadCell>
+            <Table.HeadCell className="w-[200px]">Property View Name</Table.HeadCell>
             <Table.HeadCell>Property View Description</Table.HeadCell>
             <Table.HeadCell>
               <span className="sr-only">Edit</span>
