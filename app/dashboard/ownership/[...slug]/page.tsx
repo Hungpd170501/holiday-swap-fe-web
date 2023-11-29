@@ -13,13 +13,14 @@ export default async function EditApartment({ params }: { params: IParams }) {
 
   const detailCoOwner = await GetApproveOwnershipById(params);
   const propertyDetail = await GetPropertyDetail(propertyId);
+
   return requireAuth(
     <div>
       <div>
         Dashboard {'>'} <span>Ownership</span> {'>'}{' '}
-        <span className="text-common">Edit apartment</span>
+        <span className="text-common">Detail Apartment Owner</span>
       </div>
-      <ManageApartment detailCoOwner={detailCoOwner} propertyDetail={propertyDetail} />
+      <ManageApartment detailCoOwner={detailCoOwner} propertyDetail={propertyDetail} slug={slug} />
     </div>,
     [2, 4]
   );

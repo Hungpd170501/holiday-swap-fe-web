@@ -11,13 +11,23 @@ import useEditApartmentModal from '@/app/hooks/useEditApartmentModal';
 import { lastIndexOf } from 'lodash';
 import { format } from 'date-fns';
 import { RiArrowDownSFill, RiArrowUpSFill } from 'react-icons/ri';
+import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
+import GetApproveOwnershipById from '@/app/actions/getApproveOwnershipById';
+import toast from 'react-hot-toast';
+import { FaTrashAlt } from 'react-icons/fa';
+import { Tooltip } from 'flowbite-react';
 
 interface ManageApartmentProps {
   detailCoOwner: any;
   propertyDetail: any;
+  slug: any;
 }
 
-const ManageApartment: React.FC<ManageApartmentProps> = ({ detailCoOwner, propertyDetail }) => {
+const ManageApartment: React.FC<ManageApartmentProps> = ({
+  detailCoOwner,
+  propertyDetail,
+  slug,
+}) => {
   const imagesData = [
     {
       src: '/images/resort1.jpg',
@@ -43,14 +53,9 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({ detailCoOwner, proper
   const [detail, setDetail] = useState(detailCoOwner);
   const [images, setImages] = useState(imagesData);
   const [isOpenTimePublic, setIsOpenTimePublic] = useState(false);
-  const imageInputRef = useRef(null);
+  const [switchActive, setSwitchActive] = useState(true);
   const createModalPublicTime = useCreatePublicTimeModal();
-  const EditApartmentModal = useEditApartmentModal();
-  const handleDeleteImage = (index: any) => {
-    const updatedImages = [...images];
-    updatedImages.splice(index, 1);
-    setImages(updatedImages);
-  };
+  const axiosAuthClient = useAxiosAuthClient();
 
   const [isOpenTimePublicArr, setIsOpenTimePublicArr] = useState(
     new Array(detailCoOwner.timeFrames.length).fill(false)
@@ -74,7 +79,22 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({ detailCoOwner, proper
     }
   };
 
-  console.log('Check is open array', isOpenTimePublicArr);
+  const handleDeleteAvailableTime = (id: string) => {
+    if (id) {
+      axiosAuthClient
+        .delete(`available-times/${id}`)
+        .then(async () => {
+          toast.success('Delete public time successfully!');
+          const newDetail = await GetApproveOwnershipById(slug);
+          if (newDetail) {
+            setDetail(newDetail);
+          }
+        })
+        .catch((response) => {
+          toast.error(response.response.data.message);
+        });
+    }
+  };
 
   return (
     <div>
@@ -110,7 +130,6 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({ detailCoOwner, proper
                     ))}
                   </Fragment>
                 )}
-                {}
               </div>
 
               <div className="w-full py-5">
@@ -138,31 +157,48 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({ detailCoOwner, proper
                           </div>
                         </div>
 
+                        {item.availableTimes.map((available: any, innerIndex: number) => {
+                          if (available.deleted && available.deleted === true) {
+                            return (
+                              <Fragment key={innerIndex}>
+                                {isOpenTimePublicArr[index] && (
+                                  <div className="flex flex-row  ml-10 justify-between p-3 border border-slate-300 rounded-md w-10/12 mb-4">
+                                    <div className="flex flex-col justify-center gap-2 ">
+                                      <div className="w-full">
+                                        Time public:{' '}
+                                        <span className="text-common">
+                                          {format(new Date(available.startTime), 'dd/MM/yyyy')} -{' '}
+                                          {format(new Date(available.endTime), 'dd/MM/yyyy')}
+                                        </span>
+                                      </div>
 
-                        {item.availableTimes.map((available: any, innerIndex: number) => (
-                          <Fragment key={innerIndex}>
-                            {isOpenTimePublicArr[index] && (
-                              <div className="flex flex-col justify-center gap-2 ml-10 w-full">
-                                <div className="w-full">
-                                  Time public:{' '}
-                                  <span className="text-common">
-                                    {format(new Date(available.startTime), 'dd/MM/yyyy')} -{' '}
-                                    {format(new Date(available.endTime), 'dd/MM/yyyy')}
-                                  </span>
-                                </div>
+                                      <div className="w-full">
+                                        Status:{' '}
+                                        <span className="text-common">{available.status}</span>
+                                      </div>
 
-                                <div className="w-full">
-                                  Status: <span className="text-common">{available.status}</span>
-                                </div>
+                                      <div className="w-full">
+                                        Price/night:{' '}
+                                        <span className="text-common">
+                                          {available.pricePerNight}
+                                        </span>
+                                      </div>
+                                    </div>
 
-                                <div className="w-full">
-                                  Price/night:{' '}
-                                  <span className="text-common">{available.pricePerNight}</span>
-                                </div>
-                              </div>
-                            )}
-                          </Fragment>
-                        ))}
+                                    <Tooltip content="Delete time public">
+                                      <FaTrashAlt
+                                        onClick={() => handleDeleteAvailableTime(available.id)}
+                                        color="red"
+                                        size={25}
+                                        className="hover:cursor-pointer"
+                                      />
+                                    </Tooltip>
+                                  </div>
+                                )}
+                              </Fragment>
+                            );
+                          }
+                        })}
                       </div>
                     ))}
                   </div>
