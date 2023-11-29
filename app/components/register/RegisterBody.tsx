@@ -399,7 +399,11 @@ export const allergies = [
   },
 ];
 
-const RegisterBody = () => {
+interface RegisterBodyProps {
+  listResort: any;
+}
+
+const RegisterBody: React.FC<RegisterBodyProps> = ({ listResort }) => {
   const [step, setStep] = useState(STEPS.INFO);
   const [isLoading, setIsLoading] = useState(false);
   const [date, setDate] = useState(new Date());
@@ -588,7 +592,7 @@ const RegisterBody = () => {
   if (step === STEPS.REGISTERAPARTMENT) {
     bodyContent = (
       <>
-        <StepCreateApartmentRegister />
+        <StepCreateApartmentRegister listResort={listResort} />
       </>
     );
   }
