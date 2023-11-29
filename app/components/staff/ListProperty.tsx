@@ -402,7 +402,7 @@ export default function ListProperty() {
 
   return (
     <div>
-      <div className="mt-8 mb-10">
+      <div className="mb-10">
         <HeadingDashboard
           routerDashboard="/staff"
           pageCurrentContent="List property"

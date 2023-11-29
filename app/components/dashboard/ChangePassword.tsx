@@ -32,9 +32,13 @@ export default function ChangePassword() {
             <option value="/dashboard/myBooking">My Booking</option>
           </select>
         </div>
-        <HeadingDashboard routerDashboard='/dashboard' pageCurrentContent='Change password' pageCurrentRouter='/dashboard/changePassword' />
+        <HeadingDashboard
+          routerDashboard="/dashboard"
+          pageCurrentContent="Change password"
+          pageCurrentRouter="/dashboard/changePassword"
+        />
 
-        <div>
+        <div className="mt-10">
           <div className=" flex flex-col mb-10  md:flex md:flex-row md:mb-14">
             <div className="w-[277px] text-gray-700">Old Password*</div>
             <input

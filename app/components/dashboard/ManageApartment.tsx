@@ -102,7 +102,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
         <div className="py-3">
           <div className="flex flex-row gap-3 w-full">
             <div className="w-[60%]">
-              <div className="grid grid-cols-3 gap-3">
+              <div className="flex flex-row gap-3">
                 {detail.contractImages.length === 1 ? (
                   <Fragment>
                     {detail.contractImages.map((item: any, index: number) => (

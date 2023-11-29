@@ -17,19 +17,18 @@ interface DashboardAdminProps {
 }
 
 const DashBoardAdmin: React.FC<DashboardAdminProps> = ({ listUser }) => {
-  const router = useRouter()
+  const router = useRouter();
   return (
     <div>
       <SelectRouterAdmin />
-       <div className="flex flex-row gap-1 items-center py-5">
-      <span
-        onClick={() => router.push('/admin')}
-        className="hover:underline hover:cursor-pointer"
-      >
-        Dashboard
-      </span>{' '}
-    
-    </div>
+      <div className="flex flex-row gap-1 items-center py-5">
+        <span
+          onClick={() => router.push('/admin')}
+          className="hover:underline hover:cursor-pointer text-[20px] text-common font-bold"
+        >
+          Dashboard
+        </span>{' '}
+      </div>
       <div className="bg-gray-200 w-auto h-auto rounded-lg px-20 pt-14">
         <div className="grid grid-cols-1 md:grid-cols-1">
           <ChartUser listUser={listUser} />
