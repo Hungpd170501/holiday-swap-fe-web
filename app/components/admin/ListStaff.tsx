@@ -193,7 +193,7 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
                             ))}
                           </>
                         );
-                      } else if (item.status === 'PENDING') {
+                      } else if (item.status === 'BLOCKED') {
                         return (
                           <>
                             {statusList.slice(0, 1).map((status: any, index: number) => (

@@ -40,41 +40,14 @@ const Apartment = [
       </div>
     ),
   },
+
   {
     title: 'Second',
     content: () => (
       <div>
-        <div className="grid grid-cols-2 bg-white pt-10 px-10 mt-10">
-          <div>
-            <div className="text-[30px] font-bold text-common">Step 2</div>
-            <div className="py-3 text-[40px] font-bold">
-              Please tell us the name of your apartment
-            </div>
-            <div className="text-gray-500">
-              In this step, please provide us with the name of your apartment. For example: Beach
-              apartment, Luxury apartment...
-            </div>
-            <div className="mt-10">
-              <div className="font-bold mb-2">
-                Apartment name <span className="text-red-500">*</span>
-              </div>
-              <input className="w-full rounded-md px-2" type="text" />
-            </div>
-          </div>
-          <div className="flex flex-row justify-end w-full">
-            <img className="w-[80%] h-[90%] shadow-md " src="/images/apartmentstep2.jpg" alt="" />
-          </div>
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: 'Third',
-    content: () => (
-      <div>
         <div className="grid grid-cols-2 bg-white pt-10 py-10 px-10 mt-10">
           <div>
-            <div className="text-[30px] font-bold text-common">Step 3</div>
+            <div className="text-[30px] font-bold text-common">Step 2</div>
             <div className="py-3 text-[40px] font-bold">
               Please let us know which resort and property type your apartment belongs to
             </div>
@@ -117,7 +90,7 @@ const Apartment = [
     ),
   },
   {
-    title: 'Fourth',
+    title: 'Third',
     content: () => (
       <div>
         {/* <div className="grid grid-cols-2 bg-white pt-10 px-10 mt-10">
@@ -145,12 +118,12 @@ const Apartment = [
     ),
   },
   {
-    title: 'Fifth',
+    title: 'Fouth',
     content: () => (
       <div>
         <div className="grid grid-cols-2 bg-white pt-10 px-10 mt-10">
           <div>
-            <div className="text-[30px] font-bold text-common">Step 5</div>
+            <div className="text-[30px] font-bold text-common">Step 4</div>
             <div className="py-3 text-[40px] font-bold">Prove that you are the apartment owner</div>
             <div className="text-gray-500">
               In this step, you need to prove that you are the owner of the apartment through sales
@@ -209,7 +182,7 @@ const StepCreateApartmentRegister: React.FC = () => {
           {current === 3 && (
             <div className="grid grid-cols-2 gap-20">
               <div>
-                <div className="text-[30px] font-bold text-common">Step 4</div>
+                <div className="text-[30px] font-bold text-common">Step 3</div>
                 <div className="py-3 text-[40px] font-bold">
                   Let us know what type of apartment owner you are
                 </div>
