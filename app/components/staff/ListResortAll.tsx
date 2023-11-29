@@ -82,7 +82,7 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
 
   const onPageChange = async (newPage: any) => {
     try {
-      var pageNoParam = newPage - 1;
+      let pageNoParam = newPage - 1;
       const newResortsData = await GetListResort(pageNoParam.toString());
 
       setResorts({ content: newResortsData.content, totalElements: newResortsData.totalElements });
