@@ -241,7 +241,6 @@ const Sidebar = () => {
           </div>
           </div> */}
 
-
           <div className="flex h-16 shrink-0 items-center">
             <h1 className="text-3xl font-bold text-gray-700">Messages</h1>
           </div>

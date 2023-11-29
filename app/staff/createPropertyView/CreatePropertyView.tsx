@@ -4,6 +4,7 @@ import Button from '@/app/components/Button';
 import HeadingDashboard from '@/app/components/HeadingDashboard';
 import Input from '@/app/components/input/Input';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
@@ -54,26 +55,36 @@ const CreatePropertyView = () => {
         pageCurrentRouter="/staff/createPropertyView"
       />
 
-      <div className="py-10 w-6/12">
-        <div className="py-4">
-          <Input
-            id="propertyViewName"
-            label="Property View Name"
-            register={register}
-            errors={errors}
-          />
-        </div>
-        <div className="py-4">
-          <Input
-            id="propertyViewDescription"
-            label="Property View Description"
-            register={register}
-            errors={errors}
-          />
-        </div>
-
+      <div className="pb-10 grid grid-cols-2">
         <div>
-          <Button label="Create" onClick={handleSubmit(onSubmit)} disabled={isLoading} />
+          <div className="py-4">
+            <Input
+              id="propertyViewName"
+              label="Property View Name"
+              register={register}
+              errors={errors}
+            />
+          </div>
+          <div className="py-4">
+            <Input
+              id="propertyViewDescription"
+              label="Property View Description"
+              register={register}
+              errors={errors}
+            />
+          </div>
+          <div>
+            <Button label="Create" onClick={handleSubmit(onSubmit)} disabled={isLoading} />
+          </div>
+        </div>
+        <div>
+          <Image
+            className="hidden md:block"
+            src="/images/size.png"
+            alt="Home"
+            width={600}
+            height={720}
+          />
         </div>
       </div>
     </div>

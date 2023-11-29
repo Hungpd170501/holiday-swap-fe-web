@@ -80,7 +80,7 @@ const ListPropertyView: React.FC<ListPropertyViewProps> = () => {
       .delete(`https://holiday-swap.click/api/v1/property-view/${id}`)
       .then(() => {
         setOpenModal(false);
-        setIsDeleted(true)
+        setIsDeleted(true);
         toast.success('Delete property success');
       })
       .catch((response) => {
@@ -94,7 +94,6 @@ const ListPropertyView: React.FC<ListPropertyViewProps> = () => {
     setSeachName(e.currentTarget.searchName.value);
   };
 
-
   return (
     <Fragment>
       <HeadingDashboard
@@ -103,8 +102,8 @@ const ListPropertyView: React.FC<ListPropertyViewProps> = () => {
         pageCurrentRouter="/staff/listPropertyView"
       />
 
-      <div className="py-10">
-        <div className="py-4">
+      <div className="">
+        <div className="pb-5 pt-3">
           <form onSubmit={(e) => handleSearchNameSubmit(e)}>
             <Label
               htmlFor="searchName"
@@ -137,7 +136,7 @@ const ListPropertyView: React.FC<ListPropertyViewProps> = () => {
                 <Table.Cell className="flex flex-row gap-3">
                   <div
                     onClick={() => editPropertyViewModal.onOpen(item)}
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
                   >
                     Edit
                   </div>
@@ -156,16 +155,14 @@ const ListPropertyView: React.FC<ListPropertyViewProps> = () => {
           </Table.Body>
         </Table>
 
-
-          <div className="flex overflow-x-auto sm:justify-center py-3">
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={onPageChange}
-              showIcons
-            />
-          </div>
-    
+        <div className="flex overflow-x-auto sm:justify-center py-3">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={onPageChange}
+            showIcons
+          />
+        </div>
 
         <Modal show={openModal} onClose={() => setOpenModal(false)}>
           <Modal.Header>Delete property view</Modal.Header>
@@ -176,7 +173,7 @@ const ListPropertyView: React.FC<ListPropertyViewProps> = () => {
               </p>
             </div>
           </Modal.Body>
-          <Modal.Footer className='flex justify-end'>
+          <Modal.Footer className="flex justify-end">
             <Button
               color="red"
               className="font-bold"

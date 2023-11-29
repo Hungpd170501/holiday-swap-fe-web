@@ -12,7 +12,7 @@ interface IParams {
 const EditProperty = ({ params }: { params: IParams }) => {
   return requireAuth(
     <div>
-      <div className="bg-gray-200 w-auto h-auto rounded-lg px-20 pt-14">
+      <div className="bg-gray-200 w-auto h-auto rounded-lg px-20 pt-10">
         <div>
           <div className="flex flex-row justify-between items-center pb-10">
             <div className="text-[20px] font-bold text-common">Detail Property</div>

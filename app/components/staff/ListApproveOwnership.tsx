@@ -113,25 +113,23 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
     <div>
       <div className=" mb-10">
         <HeadingDashboard
-        routerDashboard="/staff"
-        pageCurrentContent="List approve ownership"
-        pageCurrentRouter="/staff/listapproveOwnership"
-      />
+          routerDashboard="/staff"
+          pageCurrentContent="List approve ownership"
+          pageCurrentRouter="/staff/listapproveOwnership"
+        />
         <SelectRouterStaff />
       </div>
       <Fragment>
         <Table>
           <Table.Head>
-            <Table.HeadCell>Property ID</Table.HeadCell>
-            <Table.HeadCell>Room ID</Table.HeadCell>
-            <Table.HeadCell>User ID</Table.HeadCell>
+            <Table.HeadCell className="w-[130px]">Property ID</Table.HeadCell>
+            <Table.HeadCell className="w-[100px]">Room ID</Table.HeadCell>
+            <Table.HeadCell className="w-[100px]">User ID</Table.HeadCell>
             <Table.HeadCell>Start date</Table.HeadCell>
             <Table.HeadCell>End date</Table.HeadCell>
             <Table.HeadCell>Type</Table.HeadCell>
             <Table.HeadCell>Status</Table.HeadCell>
-            <Table.HeadCell>
-              <span className="sr-only">Edit</span>
-            </Table.HeadCell>
+            <Table.HeadCell>Action</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
             {ownershipUserList?.content.map((item: any, index: number) => {
@@ -175,7 +173,6 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
                         );
                       }
                     })()}
-                  
                   </Table.Cell>
                   <Table.Cell>
                     <span
@@ -184,7 +181,7 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
                           `/staff/listapproveOwnership/${item.id.propertyId}/${item.id.userId}/${item.id.roomId}`
                         )
                       }
-                      className="text-sky-500 hover:underline cursor-pointer"
+                      className="text-sky-500 hover:underline cursor-pointer "
                     >
                       View detail
                     </span>
