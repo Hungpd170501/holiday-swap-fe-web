@@ -1,3 +1,4 @@
+import GetListMembership from '@/app/actions/getListMembership';
 import GetListUser from '@/app/actions/getListUser';
 import ListMembershipAll from '@/app/components/staff/ListMembershipAll';
 import requireAuth from '@/app/libs/requireAuth';
@@ -8,7 +9,7 @@ export const metadata = {
 };
 
 export default async function ListMember() {
-  const users = await GetListUser();
+  const users = await GetListMembership();
   return requireAuth(
     <div>
       <ListMembershipAll users={users} />

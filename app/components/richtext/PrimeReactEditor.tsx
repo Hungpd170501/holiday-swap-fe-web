@@ -62,6 +62,7 @@ const PrimeReactEditor = () => {
       .post(`https://holiday-swap.click/api/post/create`, dataSubmit, config)
       .then(() => {
         toast.success('Create post success');
+        writeBlogModal.onSuccess();
         writeBlogModal.onClose();
       })
       .catch((response) => {
@@ -119,7 +120,7 @@ const PrimeReactEditor = () => {
           className="w-full peer p-4 pt-6 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed focus:ring-0"
           required
           id="title"
-          placeholder="Leave a comment..."
+          placeholder="Your title"
         />
       </div>
       <Editor

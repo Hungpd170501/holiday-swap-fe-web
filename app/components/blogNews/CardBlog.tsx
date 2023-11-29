@@ -11,6 +11,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import GetPostUser from '@/app/actions/getPostUser';
+import useWriteBlogModal from '@/app/hooks/useWriteBlogModal';
 
 interface CardBlogProps {
   post: any;
@@ -22,6 +23,8 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
   const axiosAuthClient = useAxiosAuthClient();
   const { data: session } = useSession();
   const router = useRouter();
+  const writeBlogModal = useWriteBlogModal();
+  const isSuccess = writeBlogModal.isSuccess;
 
   const handleLikePost = (postId: any) => {
     if (postId && currentUser) {
@@ -64,6 +67,17 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
       toast.error('You must be login to dislike post!');
     }
   };
+
+  useEffect(() => {
+    if (isSuccess === true) {
+      const getNewData = async () => {
+        const newData = await GetPostUser(currentUser.userId);
+        setPostList(newData);
+        writeBlogModal.onSuccessReset();
+      };
+      getNewData();
+    }
+  }, [isSuccess, currentUser]);
 
   return (
     <div className="bg-white w-full h-auto ">

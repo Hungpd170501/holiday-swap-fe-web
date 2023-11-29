@@ -1,5 +1,5 @@
 'use client';
-import * as React from 'react';
+import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -12,9 +12,15 @@ import Link from 'next/link';
 import { format } from 'date-fns';
 import DropDownBanMember from './DropDownBanMember';
 import Image from 'next/image';
-import { Pagination } from 'flowbite-react';
+import { Dropdown, Pagination } from 'flowbite-react';
 import SelectRouterStaff from './SelectRouterStaff';
 import HeadingDashboard from '../HeadingDashboard';
+import { useRouter } from 'next/navigation';
+import { BsCheck2Circle } from 'react-icons/bs';
+import { BiBlock } from 'react-icons/bi';
+import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
+import toast from 'react-hot-toast';
+import axios from 'axios';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -110,11 +116,27 @@ interface ListMembershipAllProps {
   users?: any;
 }
 
-const ListMembershipAll: React.FC<ListMembershipAllProps> = ({ users }) => {
-  const [currentPage, setCurrentPage] = React.useState(1);
-  const itemsPerPage = 7;
+const statusList = [
+  {
+    status: 'ACTIVE',
+    icon: BsCheck2Circle,
+    color: '#2fde26',
+  },
+  {
+    status: 'BLOCKED',
+    icon: BiBlock,
+    color: '#e62538',
+  },
+];
 
-  const pageCount = Math.floor(users?.content?.length / itemsPerPage);
+const ListMembershipAll: React.FC<ListMembershipAllProps> = ({ users }) => {
+  const router = useRouter();
+  const itemsPerPage = 7;
+  const [userList, setUserList] = useState(users);
+
+  const axiosAuthClient = useAxiosAuthClient();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageCount, setPageCount] = useState(users.totalPages);
 
   const handlePageChange = (selectedPage: { selected: number }) => {
     setCurrentPage(selectedPage.selected);
@@ -125,6 +147,47 @@ const ListMembershipAll: React.FC<ListMembershipAllProps> = ({ users }) => {
     (currentPage + 1) * itemsPerPage
   );
   const onPageChange = (page: number) => setCurrentPage(page);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `https://holiday-swap.click/api/v1/users/search?status=ACTIVE&status=BLOCKED&roleIds=2&limit=10&offset=${
+            currentPage - 1
+          }&sortProps=id&sortDirection=desc`
+        );
+        setUserList(response.data);
+        setPageCount(response.data.totalPages);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [currentPage]);
+
+  const handleOnChangeStatus = (id: any, value: any) => {
+    const body = value;
+    const config = {
+      headers: { 'Content-type': 'application/json' },
+    };
+
+    axiosAuthClient
+      .put(`/users/${id}/status`, body, config)
+      .then(async () => {
+        toast.success('Update status success');
+        const newList = await axios.get(
+          `https://holiday-swap.click/api/v1/users/search?roleIds=2&limit=10&offset=${
+            currentPage - 1
+          }&sortProps=id&sortDirection=desc`
+        );
+        setUserList(newList?.data);
+        setPageCount(newList.data.totalPages);
+      })
+      .catch((response) => {
+        toast.error(response);
+      });
+  };
 
   return (
     <>
@@ -183,7 +246,7 @@ const ListMembershipAll: React.FC<ListMembershipAllProps> = ({ users }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {displayedItems.map((row: any) => (
+            {userList.content.map((row: any) => (
               <StyledTableRow key={row.userId}>
                 <StyledTableCell className="!py-5 !text-common" component="th" scope="row">
                   <div className="flex flex-row items-center ">
@@ -194,9 +257,12 @@ const ListMembershipAll: React.FC<ListMembershipAllProps> = ({ users }) => {
                       src={row.avatar || '/images/placeholder.jpg'}
                       alt=""
                     />
-                    <Link href="/staff/editmembership" className="hover:underline">
+                    <div
+                      onClick={() => router.push(`/staff/editmembership/${row.userId}`)}
+                      className="hover:underline"
+                    >
                       {row.username}
-                    </Link>
+                    </div>
                   </div>
                 </StyledTableCell>
                 <StyledTableCell className="!py-5 !text-common" align="right">
@@ -215,7 +281,51 @@ const ListMembershipAll: React.FC<ListMembershipAllProps> = ({ users }) => {
                   {format(new Date(row.dob), 'yyyy-MM-dd')}
                 </StyledTableCell>
                 <StyledTableCell className="!py-5" align="right">
-                  <DropDownBanMember />
+                  <Dropdown
+                    label=""
+                    dismissOnClick={false}
+                    renderTrigger={() => (
+                      <span className="text-sky-500 hover:underline cursor-pointer">Edit</span>
+                    )}
+                  >
+                    {(() => {
+                      if (row.status === 'ACTIVE') {
+                        return (
+                          <>
+                            {statusList.slice(1, 2).map((status: any, index: number) => (
+                              <Dropdown.Item
+                                key={index}
+                                value={status.status}
+                                className="flex items-center gap-2"
+                                onClick={() => handleOnChangeStatus(row.userId, status.status)}
+                              >
+                                <status.icon size={18} color={status.color} />
+
+                                <span className={`text-[${status.color}]`}>{status.status}</span>
+                              </Dropdown.Item>
+                            ))}
+                          </>
+                        );
+                      } else if (row.status === 'BLOCKED') {
+                        return (
+                          <>
+                            {statusList.slice(0, 1).map((status: any, index: number) => (
+                              <Dropdown.Item
+                                key={index}
+                                value={status.status}
+                                className="flex items-center gap-2"
+                                onClick={() => handleOnChangeStatus(row.userId, status.status)}
+                              >
+                                <status.icon size={18} color={status.color} />
+
+                                <span className={`text-[${status.color}]`}>{status.status}</span>
+                              </Dropdown.Item>
+                            ))}
+                          </>
+                        );
+                      }
+                    })()}
+                  </Dropdown>
                 </StyledTableCell>
               </StyledTableRow>
             ))}
