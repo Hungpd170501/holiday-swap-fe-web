@@ -150,6 +150,7 @@ export default function ModalCreatePublicTime() {
       .post(`https://holiday-swap.click/api/v1/available-times/${timeFramesId}`, body, config)
       .then(() => {
         toast.success('Create public success');
+        createPublicTime.onCreated();
         reset();
         createPublicTime.onClose();
       })
@@ -183,6 +184,15 @@ export default function ModalCreatePublicTime() {
         <InputComponent
           id="yearCreate"
           label="Year to create"
+          type="number"
+          min={new Date(detailCoOwner?.startTime).getFullYear()}
+          max={new Date(detailCoOwner?.endTime).getFullYear()}
+          maxLength={4}
+          onKeyUp={(e: ChangeEvent<HTMLInputElement>) => {
+            if (Number(e.target.value) === 0) {
+              return 1;
+            }
+          }}
           value={yearCreate}
           register={register}
           onChange={(e: ChangeEvent<HTMLInputElement>) => setYearCreate(Number(e.target.value))}
@@ -223,6 +233,8 @@ export default function ModalCreatePublicTime() {
         <InputComponent
           id="pricePerNight"
           label="Price/Night"
+          type="number"
+          min={1}
           register={register}
           errors={errors}
           required

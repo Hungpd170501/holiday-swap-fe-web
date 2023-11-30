@@ -120,8 +120,8 @@ export default function EditProfileComponent() {
         {!loading ? (
           <form onSubmit={onSubmit}>
             <div className="p-4 flex flex-col-reverse flex-shrink-0 md:flex-row md:mt-8">
-              <div className="md:basis-2/3">
-                <div className="flex flex-col mb-6 md:max-w-[650px]">
+              <div className="md:basis-1/3">
+                <div className="flex flex-col mb-6 md:max-w-[300px]">
                   <label htmlFor="Email" className="pb-2 text-sm text-gray-800 dark:text-gray-100">
                     Email*:
                   </label>
@@ -177,7 +177,7 @@ export default function EditProfileComponent() {
                   </div>
                 </div>
 
-                <div className="flex flex-col mb-6 md:max-w-[650px]">
+                <div className="flex flex-col mb-6 md:max-w-[300px]">
                   <label
                     htmlFor="FullName"
                     className="pb-2 text-sm text-gray-800 dark:text-gray-100"
@@ -195,7 +195,7 @@ export default function EditProfileComponent() {
                   </div>
                 </div>
 
-                <div className="flex flex-col mb-6 md:max-w-[650px]">
+                <div className="flex flex-col mb-6 md:max-w-[300px]">
                   <label htmlFor="Gender" className="pb-2 text-sm text-gray-800 dark:text-gray-100">
                     Gender*:
                   </label>
@@ -235,7 +235,7 @@ export default function EditProfileComponent() {
                   </LocalizationProvider>
                 </div>
 
-                <div className="flex flex-col mb-6 md:max-w-[650px]">
+                <div className="flex flex-col mb-6 md:max-w-[300px]">
                   <label htmlFor="Phone" className="pb-2 text-sm text-gray-800 dark:text-gray-100">
                     Phone*:
                   </label>

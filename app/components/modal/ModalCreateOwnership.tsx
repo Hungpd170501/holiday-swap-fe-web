@@ -137,10 +137,10 @@ export default function ModalCreateOwnership() {
     const fetchProperty = async () => {
       if (resortId) {
         const data = await axios.get(
-          `https://holiday-swap.click/api/v1/properties?resortId=${resortId}&numberGuest=0&pageNo=0&pageSize=10&sortBy=id`
+          `https://holiday-swap.click/api/v1/properties/getListPropertyActive?resortId=${resortId}`
         );
-        setProperties(data.data.content);
-        setPropertyValue(data.data.content[0].id);
+        setProperties(data?.data);
+        setPropertyValue(data?.data[0]?.id);
       }
     };
     fetchProperty();

@@ -122,7 +122,7 @@ const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({
                   Property: <span className="text-slate-600">{propertyDetail?.propertyName}</span>
                 </div>
                 <div className="text-black">
-                  User<span className="text-slate-600">{userDetail?.username}</span>
+                  User: <span className="text-slate-600">{userDetail?.fullName}</span>
                 </div>
                 <div className="text-black">
                   Apartment ID: <span className="text-slate-600">{detail.id.roomId}</span>
@@ -165,9 +165,18 @@ const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({
                 <div className="text-black">
                   Number of weeks in a year:{' '}
                   <span className="text-slate-600">
-                    {detail.timeFrames.map((item: any, index: number) => (
-                      <span key={item.id}>{item.weekNumber}</span>
-                    ))}
+                    {detail.timeFrames.length === 0 ? (
+                      <Fragment>
+                        {detail.timeFrames.map((item: any, index: number) => (
+                          <Fragment key={index}>
+                            {item.weekNumber}
+                            {index !== detail.timeFrames.length - 1 && ', '}
+                          </Fragment>
+                        ))}
+                      </Fragment>
+                    ) : (
+                      <span>Not have week ownership</span>
+                    )}
                   </span>
                 </div>
               </div>
