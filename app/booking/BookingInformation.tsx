@@ -117,7 +117,10 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
       <div className="flex flex-col w-full">
         <div className="flex flex-row items-center">
           <div
-            onClick={() => router.back()}
+            onClick={() => {
+              newDateRange.setBack();
+              router.back();
+            }}
             className="p-3 rounded-full bg-transparent hover:bg-gray-300 cursor-pointer"
           >
             <FiChevronLeft size={20} />
