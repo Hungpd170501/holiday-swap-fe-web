@@ -15,6 +15,7 @@ import { useDateRange } from '../apartment/DateRangeContext';
 import { useGuest } from '../apartment/GuestContext';
 import { Button, Modal } from 'flowbite-react';
 import useNewDateRange from '../hooks/useNewDateRange';
+import InputPhone from '../components/input/InputPhone';
 
 interface BookingInformationProps {
   totalGuest?: any;
@@ -219,7 +220,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
                 />
               </div>
               <div className="grid grid-cols-1">
-                <InputComponent
+                <InputPhone
                   type="text"
                   label={`Phone Number`}
                   id={`phoneNumber${index}`}
