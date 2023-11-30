@@ -32,7 +32,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ postDetail, currentUser }) => {
           config
         )
         .then(async () => {
-          const userId = currentUser.userId
+          const userId = currentUser.userId;
           const params = { postId, userId }; // Wrap postId in an object
           const newData = await GetPostById(params);
           if (newData) {
@@ -124,7 +124,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ postDetail, currentUser }) => {
         </div>
       </div>
 
-      <div className="text-xl pt-3 pb-5 font-bold px-36 mt-5">{postDetailValue?.title}</div>
+      <div className="text-[40px] font-bold px-36 mt-5">{postDetailValue?.title}</div>
       <div
         className="px-5 md:px-36 py-10"
         dangerouslySetInnerHTML={{ __html: postDetailValue?.content }}
