@@ -48,7 +48,7 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
           <div className="flex flex-col">
             <div>{memberBooking?.content[0].fullName}</div>
             <div className="text-slate-500">
-              {ownerResort?.content[0].addressLine
+              {ownerResort?.content[0]?.addressLine
                 .split(',')
                 .map((part: any) => part.trim())
                 .slice(-2)
