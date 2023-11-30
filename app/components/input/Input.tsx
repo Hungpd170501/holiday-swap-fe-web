@@ -1,8 +1,8 @@
 'use client';
 
 import { Tooltip } from 'flowbite-react';
-import React from 'react';
-import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
+import React, { useEffect } from 'react';
+import { FieldErrors, FieldValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { BiHelpCircle } from 'react-icons/bi';
 
@@ -20,13 +20,18 @@ interface InputProps {
   min?: number;
   required?: boolean;
   register: UseFormRegister<FieldValues>;
+  setValue?: UseFormSetValue<FieldValues>;
   errors: FieldErrors;
+}
+
+interface FormInputs {
+  multipleErrorInput: string;
 }
 
 const InputComponent: React.FC<InputProps> = ({
   id,
   label,
-  type = 'text',
+  type,
   placeholder = '',
   valueRegister,
   disabled,
@@ -36,9 +41,16 @@ const InputComponent: React.FC<InputProps> = ({
   required,
   min,
   register,
+  setValue,
   onChange,
   errors,
 }) => {
+  const emailPattern =
+    id === 'email'
+      ? new RegExp(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        )
+      : /^.*$/;
   return (
     <div className="w-full flex-col flex">
       {/* {formatPrice && (
@@ -58,7 +70,13 @@ const InputComponent: React.FC<InputProps> = ({
       <input
         id={id}
         disabled={disabled}
-        {...register(id, { required })}
+        {...register(id, {
+          required: `${id} is required`,
+          pattern: {
+            value: emailPattern,
+            message: id === 'email' ? 'Invalid email format' : '',
+          },
+        })}
         placeholder={placeholder}
         name={id}
         type={type}
@@ -70,13 +88,14 @@ const InputComponent: React.FC<InputProps> = ({
           errors[id] ? 'focus:border-red-400' : 'focus:border-black'
         }`}
       />
-      <ErrorMessage errors={errors} name={id} />
 
-      <ErrorMessage
-        errors={errors}
-        name={id}
-        render={({ message }) => <p className="text-sm text-rose-500">{message}</p>}
-      />
+      <div className="pt-1">
+        <ErrorMessage
+          errors={errors}
+          name={id}
+          render={({ message }) => <p className="text-sm text-rose-500">{message}</p>}
+        />
+      </div>
     </div>
   );
 };

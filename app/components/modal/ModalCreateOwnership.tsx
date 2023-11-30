@@ -50,18 +50,6 @@ export default function ModalCreateOwnership() {
 
   const [weekNumbers, setWeekNumbers] = useState([{ id: 1 }]);
 
-  // Thêm một tuần mới
-  const addWeekNumber = () => {
-    const newWeekNumbers = [...weekNumbers];
-    newWeekNumbers.push({ id: newWeekNumbers.length + 1 });
-    setWeekNumbers(newWeekNumbers);
-  };
-
-  const removeWeekNumber = (index: number) => {
-    const newWeekNumbers = weekNumbers.filter((_, i) => i !== index);
-    setWeekNumbers(newWeekNumbers);
-  };
-
   const handleDeleteImage = (index: number) => {
     setFile((prevFiles) => prevFiles.filter((_, i) => i !== index));
     setPreviewImages((prevImages) => prevImages.filter((image) => image.index !== index));
@@ -95,9 +83,14 @@ export default function ModalCreateOwnership() {
     setValue,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm<FieldValues>({
+    defaultValues: {
+      propertyId: '',
+      roomId: '',
+    },
+  });
 
-  const setCustomeValue = (id: string, value: any) => {
+  const setCustomeValue = (id: any, value: any) => {
     setValue(id, value, {
       shouldDirty: true,
       shouldTouch: true,
@@ -126,15 +119,19 @@ export default function ModalCreateOwnership() {
       const newArray = value.split(',');
       setWeekNumberValue(newArray);
     } else {
-      setWeekNumberValue((prev: any) => [...prev, value]);
+      setWeekNumberValue([value]);
     }
   };
 
+  // useEffect(() => {
+  //   if (dataResort) {
+  //     setResortId(dataResort[0].id);
+  //   }
+  // }, [dataResort]);
+
   useEffect(() => {
-    if (dataResort) {
-      setResortId(dataResort[0].id);
-    }
-  }, [dataResort]);
+    setCustomeValue('propertyId', propertyValue);
+  }, [propertyValue]);
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -143,18 +140,18 @@ export default function ModalCreateOwnership() {
           `https://holiday-swap.click/api/v1/properties?resortId=${resortId}&numberGuest=0&pageNo=0&pageSize=10&sortBy=id`
         );
         setProperties(data.data.content);
+        setPropertyValue(data.data.content[0].id);
       }
     };
     fetchProperty();
   }, [resortId]);
 
-  useEffect(() => {
-    setCustomeValue('propertyId', propertyValue);
-  }, [propertyValue, file]);
-
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
     const formData = new FormData();
+
+    if (data.weekNumber) {
+    }
 
     const coOwnerId = {
       propertyId: data.propertyId as number,
@@ -179,25 +176,42 @@ export default function ModalCreateOwnership() {
       formData.append('contractImages', element);
     });
 
-    axiosAuthClient
-      .post('https://holiday-swap.click/api/co-owners', formData)
-      .then(() => {
-        toast.success('Create ownership success!');
-        setOpenModal(false);
-        createOwnershipModal.onSuccess();
-        createOwnershipModal.onClose();
-        reset();
-      })
-      .catch((response) => {
-        toast.error(response.response.data.message);
-        setOpenModal(false);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
+    const weekNumberRegex = /^(([1-9]|[1-4][0-9]|5[0-2])(,(?!,))?)+$/;
 
-  console.log('Check length', weekNumberValue.length);
+    if (!weekNumberRegex.test(data.weekNumber.trim().split(' ').join(''))) {
+      setWeekNumberValue([]);
+      setValue('weekNumber', '');
+      toast.error('Invalid week number format. Please enter a valid format (e.g., 1, 2, 3).');
+      console.log('Check data', data.weekNumber.split(' ').join(''));
+      console.log('Regex Test Result:', weekNumberRegex.test(data.weekNumber.trim()));
+      setIsLoading(false);
+      setOpenModal(false);
+    } else {
+      axiosAuthClient
+        .post('https://holiday-swap.click/api/co-owners', formData)
+        .then(() => {
+          toast.success('Create ownership success!');
+          setOpenModal(false);
+          setTypeValue(null);
+          setWeekNumberValue(null);
+          setFile([]);
+          reset();
+          createOwnershipModal.onSuccess();
+          createOwnershipModal.onClose();
+        })
+        .catch((response) => {
+          toast.error(response.response.data.message);
+          setOpenModal(false);
+          setTypeValue(null);
+          setWeekNumberValue(null);
+          setFile([]);
+          reset();
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  };
 
   const bodyContent = (
     <div className="flex flex-col gap-4 ">
@@ -297,6 +311,7 @@ export default function ModalCreateOwnership() {
             handleChangeWeekNumberValue(e.target.value)
           }
           errors={errors}
+          setValue={setValue}
           required
           tooltipContent="This is the week you own in the year, for example if you own the 6th week in 2023, you enter 6. You can enter multiple weeks by separating the weeks with a comma. For example: 6, 10, 11"
         />
@@ -306,6 +321,7 @@ export default function ModalCreateOwnership() {
           disabled={isLoading}
           register={register}
           errors={errors}
+          setValue={setValue}
           required
         />
       </div>
