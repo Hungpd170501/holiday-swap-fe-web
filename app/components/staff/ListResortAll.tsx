@@ -74,7 +74,7 @@ interface ListResortAllProps {
 }
 const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }) => {
   const [resorts, setResorts] = React.useState<any>(initialResorts);
-  const [currentPage, setCurrentPage] = React.useState<number>(1);
+  const [currentPage, setCurrentPage] = React.useState<number>(0);
   const pageSize = 10;
   const totalPages = Math.ceil(resorts?.totalElements / pageSize);
   const axiosAuthClient = useAxiosAuthClient();

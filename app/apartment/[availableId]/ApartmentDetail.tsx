@@ -94,14 +94,6 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
   } = useGuest();
 
   useEffect(() => {
-    if (window.performance) {
-      if (performance.navigation.type == 1) {
-        newDateRange.setNew();
-      }
-    }
-  }, []);
-
-  useEffect(() => {
     if (initialDateRangeValue) {
       setDateRangeDefaultContext(initialDateRangeValue);
     }
@@ -118,6 +110,23 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
       setDateRangeContext(dateRangeContext);
     }
   }, [dateRangeDefaultContext, dateRangeContext, initialDateRangeValue, isNew]);
+
+  useEffect(() => {
+    if (isNew === true && JSON.stringify(dateRangeContext) === JSON.stringify(initialDateRange)) {
+      newDateRange.setNewReset();
+    }
+  }, [isNew, dateRangeContext, initialDateRange, newDateRange]);
+
+  // useEffect(() => {
+    
+  //   // Check if the page is reloaded (F5)
+  //   if (performance.navigation.type === 1) {
+  //     newDateRange.setNew();
+  //   }
+
+   
+  // }, []);
+
 
   useEffect(() => {
     if (JSON.stringify(dateRangeContext) === JSON.stringify(initialDateRangeValue)) {
