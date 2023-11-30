@@ -128,7 +128,6 @@ const Money = [
             </div>
           </div>
           <div className="flex flex-row items-center mt-5 gap-1">
-           
             <Checkbox
               id="accept"
               checked={accept}
@@ -199,19 +198,19 @@ const TransferMoney: React.FC<TransferMoneyProps> = ({ currentUser, memberships 
       return;
     } else {
       axios
-      .post('https://holiday-swap.click/api/v1/transfer', data, config)
-      .then(() => {
-        toast.success('Transfer point success!');
-        setTimeout(() => {
-          router.push('/dashboard/wallet');
-        }, 1000);
-      })
-      .catch((error) => {
-        toast.error(error.response.data.message);
-      })
-      .finally(() => {
-        setCurrent(0);
-      });
+        .post('https://holiday-swap.click/api/v1/transfer', data, config)
+        .then(() => {
+          toast.success('Transfer point success!');
+          setTimeout(() => {
+            router.push('/dashboard/wallet');
+          }, 1000);
+        })
+        .catch((error) => {
+          toast.error(error.response.data.message);
+        })
+        .finally(() => {
+          setCurrent(0);
+        });
     }
   };
 
@@ -244,11 +243,13 @@ const TransferMoney: React.FC<TransferMoneyProps> = ({ currentUser, memberships 
 
   return (
     <>
-      <HeadingDashboard
-        routerDashboard="/dashboard"
-        pageCurrentContent="Tranfer point"
-        pageCurrentRouter="/dashboard/transfer"
-      />
+      <div className="mt-6">
+        <HeadingDashboard
+          routerDashboard="/dashboard"
+          pageCurrentContent="Tranfer point"
+          pageCurrentRouter="/dashboard/transfer"
+        />
+      </div>
       <Steps className="mt-5" current={current} items={items} />
       <div>
         {Money[current].content({
@@ -263,7 +264,7 @@ const TransferMoney: React.FC<TransferMoneyProps> = ({ currentUser, memberships 
           handleChangeAccept,
         })}
       </div>
-      <div style={{ marginTop: 24 }} className='flex flex-row gap-3'>
+      <div style={{ marginTop: 24 }} className="flex flex-row gap-3">
         {current < Money.length - 1 && (
           <button className="bg-common px-5 py-2 rounded-md text-white" onClick={() => next()}>
             Next
