@@ -61,6 +61,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<FieldValues>();
 
@@ -205,6 +206,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
                   register={register}
                   required
                   errors={errors}
+                  setValue={setValue}
                 />
                 <InputComponent
                   type="text"
@@ -213,6 +215,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
                   register={register}
                   required
                   errors={errors}
+                  setValue={setValue}
                 />
               </div>
               <div className="grid grid-cols-1">
@@ -223,6 +226,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
                   register={register}
                   required
                   errors={errors}
+                  setValue={setValue}
                 />
               </div>
             </div>

@@ -114,7 +114,7 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
 
             <div className="flex flex-row justify-between items-center text-slate-500">
               <div>HolidaySwap service fee</div>
-              <div>{(ownerBookingDetail?.price * (10 / 100)).toFixed(1)}</div>
+              <div className='text-rose-500'>- {(ownerBookingDetail?.price * (10 / 100)).toFixed(1)}</div>
             </div>
           </div>
         </div>
