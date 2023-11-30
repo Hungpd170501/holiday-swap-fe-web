@@ -76,12 +76,12 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
           <div className="flex flex-col text-lg text-slate-500">
             <div>{format(new Date(ownerBookingDetail?.dateCheckIn), 'E')}, </div>
             <div>{format(new Date(ownerBookingDetail?.dateCheckIn), 'MMM dd, yyyy')}</div>
-            <div>Check-in After 3PM</div>
+            <div>Check-in After 2PM</div>
           </div>
           <div className="flex flex-col text-lg text-slate-500">
             <div>{format(new Date(ownerBookingDetail?.dateCheckOut), 'E')}, </div>
             <div>{format(new Date(ownerBookingDetail?.dateCheckOut), 'MMM dd, yyyy')}</div>
-            <div>Check-in After 3PM</div>
+            <div>Check-out Before 12PM</div>
           </div>
         </div>
 
