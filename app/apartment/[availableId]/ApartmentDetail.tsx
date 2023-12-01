@@ -16,6 +16,7 @@ import moment from 'moment-timezone';
 import { useDateRange } from '../DateRangeContext';
 import useNewDateRange from '@/app/hooks/useNewDateRange';
 import { useGuest } from '../GuestContext';
+import { elements } from 'chart.js';
 
 interface ApartmentDetailProps {
   apartment?: any;
@@ -187,14 +188,14 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
         const checkInDate = new Date(booking.checkIn);
         const checkOutDate = new Date(booking.checkOut);
 
-        console.log('Check difference', differenceInDays(checkOutDate, checkInDate));
+        // console.log('Check difference', differenceInDays(checkOutDate, checkInDate));
 
         if (differenceInDays(checkOutDate, checkInDate) < 2) {
           checkInMap.forEach((checkInDate) => {
             if (checkOutMap.has(format(checkInDate, 'yyyy-MM-dd'))) {
               datesOutsideDateRange.push(new Date(checkInDate));
             } else {
-              console.log('Ko có');
+              // console.log('Ko có');
             }
           });
 
@@ -220,7 +221,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
               if (checkOutMap.has(format(checkInDate, 'yyyy-MM-dd'))) {
                 datesOutsideDateRange.push(new Date(checkInDate));
               } else {
-                console.log('Ko có');
+                // console.log('Ko có');
               }
             });
 
@@ -244,8 +245,8 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     return datesOutsideDateRange;
   };
 
-  console.log('Check in map', checkInMap);
-  console.log('Check out map', checkOutMap);
+  // console.log('Check in map', checkInMap);
+  // console.log('Check out map', checkOutMap);
 
   useEffect(() => {
     setDateOut(getDatesOutsideDateRange(dateRangeDefaultContext));
@@ -253,6 +254,25 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
 
   const handleChangeDateRange = (value: any) => {
     setDateRange(value.selection);
+    handleOnChangeDateRangePicker(value);
+  };
+  const handleOnChangeDateRangePicker = (value: any) => {
+    let timeBooked = apartment.timeHasBooked;
+    let startDate = value.selection.startDate;
+    startDate.setHours(7, 0, 0, 0);
+    let endDate = value.selection.endDate;
+    startDate.setHours(7, 0, 0, 0);
+    timeBooked.forEach((element: { checkIn: Date; checkOut: Date }) => {
+      let checkIn = new Date(element.checkIn);
+      let checkOut = new Date(element.checkOut);
+      if (startDate > checkIn) {
+        const result = dateOut.filter((date) => date.getTime() != checkOut.getTime());
+        setDateOut([...result, ...[checkIn]]);
+      } else if (startDate < checkIn) {
+        const result = dateOut.filter((date) => date.getTime() != checkIn.getTime());
+        setDateOut([...result, ...[checkOut]]);
+      }
+    });
   };
 
   useEffect(() => {
@@ -267,7 +287,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     }
   }, [propertyId, roomId]);
 
-  console.log('Check date Range context', dateOut);
+  // console.log('Check date Range context', dateOut);
 
   return (
     <div className="lg:mx-1 xl:mx-16 py-20">
