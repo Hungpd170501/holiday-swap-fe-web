@@ -73,6 +73,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
       userId: userId,
       checkInDate: format(dateRangeContext.startDate, 'yyyy-MM-dd'),
       checkOutDate: format(dateRangeContext.endDate, 'yyyy-MM-dd'),
+      numberOfGuest: totalGuestContext,
       userOfBookingRequests: guests.map((item, index) => ({
         email: data[`email${index}`], // Use the indexed email field
         fullName: data[`fullName${index}`], // Use the indexed full name field

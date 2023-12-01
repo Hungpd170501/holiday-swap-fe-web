@@ -46,15 +46,14 @@ const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({
 
   const handleOnChangeStatus = (propertyId: any, userId: any, roomId: any, value: any) => {
     const body = value;
-    const config = {
-      headers: { 'Content-type': 'application/json' },
-    };
+    // const config = {
+    //   headers: { 'Content-type': 'application/json' },
+    // };
 
     axiosAuthClient
       .put(
         `https://holiday-swap.click/api/co-owners/status?propertyId=${propertyId}&userId=${userId}&roomId=${roomId}&coOwnerStatus=${value}`,
-        body,
-        config
+        body
       )
       .then(async () => {
         toast.success('Update status success');
@@ -67,7 +66,7 @@ const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({
         }
 
         // Redirect to /staff/listapproveOwnership after successful update
-        router.push('/staff/listapproveOwnership');
+        // router.push('/staff/listapproveOwnership');
       })
       .catch((response) => {
         toast.error(response.response.data.message);

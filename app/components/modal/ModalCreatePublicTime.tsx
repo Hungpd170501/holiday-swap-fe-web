@@ -18,6 +18,7 @@ import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import weekday from 'dayjs/plugin/weekday';
 import ModalCreate from './ModalCreate';
+import InputYear from '../input/InputYear';
 
 dayjs.extend(isoWeek);
 
@@ -99,7 +100,8 @@ export default function ModalCreatePublicTime() {
   };
 
   useEffect(() => {
-    if (timeFramesWeekNumber) {
+    const yearRegex = new RegExp(`^2\\d{3}$`);
+    if (timeFramesWeekNumber && !yearRegex.test(format(new Date(yearCreate), 'yyyy').trim())) {
       console.log('Check week', timeFramesWeekNumber);
       getWeekDates(timeFramesWeekNumber, yearCreate);
     }
@@ -177,12 +179,20 @@ export default function ModalCreatePublicTime() {
   const bodyContent = (
     <div className="flex flex-col gap-4 overflow-x-hidden overflow-y-auto no-scrollbar h-[100%]">
       <div className="grid grid-cols-1">
-        <InputComponent
+        <InputYear
           id="yearCreate"
           label="Year to create"
           type="number"
-          min={new Date(detailCoOwner?.startTime).getFullYear()}
-          max={new Date(detailCoOwner?.endTime).getFullYear()}
+          min={
+            detailCoOwner?.startTime
+              ? new Date(detailCoOwner?.startTime).getFullYear()
+              : new Date().getFullYear()
+          }
+          max={
+            detailCoOwner?.endTime
+              ? new Date(detailCoOwner?.endTime).getFullYear()
+              : new Date().getFullYear() + 49
+          }
           maxLength={4}
           onKeyUp={(e: ChangeEvent<HTMLInputElement>) => {
             if (Number(e.target.value) === 0) {
