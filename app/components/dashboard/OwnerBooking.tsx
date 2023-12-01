@@ -43,7 +43,7 @@ const OwnerBooking: React.FC<OwnerBookingProps> = ({ historyOwnerBooking }) => {
                       src={item?.propertyImage}
                       fill
                       alt="image"
-                      className="w-full object-cover rounded-lg"
+                      className="w-full object-cover rounded-bl-lg rounded-tl-lg"
                     />
                   </div>
                   <div className="col-span-6 flex flex-col">
