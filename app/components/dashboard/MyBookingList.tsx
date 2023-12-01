@@ -49,18 +49,20 @@ const MyBookingList: React.FC<MyBookingListProps> = ({ historyBooking }) => {
 
   return (
     <Fragment>
-      <HeadingDashboard
-        routerDashboard="/dashboard"
-        pageCurrentContent="My booking"
-        pageCurrentRouter="/dashboard/myBooking"
-      />
+      <div className="mt-12">
+        <HeadingDashboard
+          routerDashboard="/dashboard"
+          pageCurrentContent="My booking"
+          pageCurrentRouter="/dashboard/myBooking"
+        />
+      </div>
       <div className="py-6">
         {displayedItems?.length > 0 ? (
           displayedItems.reverse().map((item: any) => (
             <div
               onClick={() => router.push(`/dashboard/myBooking/${item.bookingId}`)}
               key={item.bookingId}
-              className="grid grid-cols-12 h-[150px] bg-white rounded-lg shadow-lg justify-between hover:cursor-pointer my-5"
+              className="grid grid-cols-12 h-[150px] bg-white rounded-lg shadow-lg justify-between hover:cursor-pointer mb-5"
             >
               <div className="col-span-9">
                 <div className="grid grid-cols-9 h-full gap-5">

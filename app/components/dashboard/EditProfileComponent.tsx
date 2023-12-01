@@ -116,7 +116,13 @@ export default function EditProfileComponent() {
             <option value="/dashboard/chat">Chat</option>
           </select>
         </div>
-        <HeadingDashboard routerDashboard='/dashboard' pageCurrentContent='Edit profile' pageCurrentRouter='/dashboard/editProfile' />
+        <div className="mt-7">
+          <HeadingDashboard
+            routerDashboard="/dashboard"
+            pageCurrentContent="Edit profile"
+            pageCurrentRouter="/dashboard/editProfile"
+          />
+        </div>
         {!loading ? (
           <form onSubmit={onSubmit}>
             <div className="p-4 flex flex-col-reverse flex-shrink-0 md:flex-row md:mt-8">

@@ -95,17 +95,6 @@ const OwnerBooking: React.FC<OwnerBookingProps> = ({ historyOwnerBooking }) => {
               <div className="col-span-3 flex flex-row justify-center items-center">
                 <div className="text-lg text-green-600">{item.status}</div>
               </div>
-
-              {historyOwnerBooking?.length > itemsPerPage && (
-                <div className="flex justify-center py-3">
-                  <Pagination
-                    currentPage={currentPage}
-                    totalPages={pageCount}
-                    onPageChange={onPageChange}
-                    showIcons
-                  />
-                </div>
-              )}
             </div>
           ))
         ) : (
