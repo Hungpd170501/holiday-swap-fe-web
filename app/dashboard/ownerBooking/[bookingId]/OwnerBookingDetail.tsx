@@ -54,7 +54,7 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
                 .slice(-2)
                 .join(', ')}
             </div>
-            <div className="text-slate-500">On HolidaySwap since 2015</div>
+            {/* <div className="text-slate-500">On HolidaySwap since 2015</div> */}
           </div>
         </div>
 
@@ -114,7 +114,9 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
 
             <div className="flex flex-row justify-between items-center text-slate-500">
               <div>HolidaySwap service fee</div>
-              <div className='text-rose-500'>- {(ownerBookingDetail?.price * (10 / 100)).toFixed(1)}</div>
+              <div className="text-rose-500">
+                - {(ownerBookingDetail?.price * (10 / 100)).toFixed(1)}
+              </div>
             </div>
           </div>
         </div>

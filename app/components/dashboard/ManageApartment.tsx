@@ -61,7 +61,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
   useEffect(() => {
     if (isCreated === true) {
       const getData = async () => {
-        const detailCoOwner = await GetApproveOwnershipById({slug});
+        const detailCoOwner = await GetApproveOwnershipById({ slug });
         if (detailCoOwner) {
           setDetail(detailCoOwner);
           createModalPublicTime.onCreatedReset();
@@ -99,7 +99,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
         .delete(`available-times/${id}`)
         .then(async () => {
           toast.success('Delete public time successfully!');
-          const detailCoOwner = await GetApproveOwnershipById({slug});
+          const detailCoOwner = await GetApproveOwnershipById({ slug });
           if (detailCoOwner) {
             setDetail(detailCoOwner);
           }
@@ -233,7 +233,8 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                   </div>
                   <div className="flex flex-row items-center w-full justify-between py-4">
                     <div>
-                      Resort: <span className="text-common">Phu Quoc Resort VIP</span>
+                      Resort:{' '}
+                      <span className="text-common">{detail.property.resort.resortName}</span>
                     </div>
                   </div>
                   <div className="flex flex-row items-center w-full justify-between py-4">

@@ -57,7 +57,7 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
                 .slice(-2)
                 .join(', ')}
             </div>
-            <div className="text-slate-500">On HolidaySwap since 2015</div>
+            {/* <div className="text-slate-500">On HolidaySwap since 2015</div> */}
           </div>
         </div>
 
@@ -107,7 +107,7 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
           <div className="flex flex-col text-lg text-slate-500">
             <div>{format(new Date(bookingDetail?.dateCheckOut), 'E')}, </div>
             <div>{format(new Date(bookingDetail?.dateCheckOut), 'MMM dd, yyyy')}</div>
-            <div>Check-in After 3PM</div>
+            <div>Check-out Before 12PM</div>
           </div>
         </div>
 
