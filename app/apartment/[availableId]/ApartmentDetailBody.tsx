@@ -180,18 +180,18 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
             {calculateNightDifference(dateRange.startDate, dateRange.endDate) === 0
               ? 'Select checkout date'
               : `${
-                  calculateNightDifference(dateRange.startDate, dateRange.endDate) === 1
-                    ? `${calculateNightDifference(dateRange.startDate, dateRange.endDate)} night`
-                    : `${calculateNightDifference(dateRange.startDate, dateRange.endDate)} nights`
-                }`}
+                calculateNightDifference(dateRange.startDate, dateRange.endDate) === 1
+                  ? `${calculateNightDifference(dateRange.startDate, dateRange.endDate)} night`
+                  : `${calculateNightDifference(dateRange.startDate, dateRange.endDate)} nights`
+              }`}
           </div>
           <div className="text-gray-500">
             {new Date(dateRange.startDate).getTime() === new Date(dateRange.endDate).getTime()
               ? 'Add your travel dates for exact pricing'
               : `${format(new Date(dateRange.startDate), 'dd MMM yyyy')} - ${format(
-                  new Date(dateRange.endDate),
-                  'dd MMM yyyy'
-                )}`}
+                new Date(dateRange.endDate),
+                'dd MMM yyyy'
+              )}`}
           </div>
         </div>
         <div className="hidden md:block lg:block xl:block">

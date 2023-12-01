@@ -3,6 +3,7 @@
 import ReactSelect, { StylesConfig } from 'react-select';
 import Image from 'next/image';
 
+
 type Props = {
   label: string;
   value?: Record<string, any>;
@@ -10,6 +11,13 @@ type Props = {
   options?: Record<string, any>[];
   disabled?: boolean;
   avatar?: string;
+};
+
+const filterOptions = (
+  option: { label: string; value: string; data: any },
+  input: string
+) => {
+  return option?.data?.label.toLowerCase().includes(input.toLowerCase());
 };
 
 function MemberSelect({ label, value, options, disabled, onChange }: Props) {
@@ -41,6 +49,8 @@ function MemberSelect({ label, value, options, disabled, onChange }: Props) {
           options={options}
           menuPortalTarget={document.body}
           styles={colorStyles}
+          isSearchable={true}
+          filterOption={filterOptions}
           classNames={{
             control: () => 'text-sm',
           }}
