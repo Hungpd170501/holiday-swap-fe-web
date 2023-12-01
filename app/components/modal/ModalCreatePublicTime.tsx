@@ -64,14 +64,10 @@ export default function ModalCreatePublicTime() {
     // const endDate = new Date(startDate);
     // endDate.setDate(startDate.getDate() + 6); // A week is 7 days
 
+    const startDate = dayjs().year(year).isoWeek(weekNumber).startOf('isoWeek');
+    const endDate = dayjs().year(year).isoWeek(weekNumber).endOf('isoWeek');
 
-
-    const startDate = dayjs().year(year).isoWeek(weekNumber).startOf("isoWeek");
-    const endDate = dayjs().year(year).isoWeek(weekNumber).endOf("isoWeek");
-
-   
-
-     setDateRange({ ...dateRange, startDate: startDate.toDate(), endDate: endDate.toDate() });
+    setDateRange({ ...dateRange, startDate: startDate.toDate(), endDate: endDate.toDate() });
     setPublicDateRange({
       ...publicDateRange,
       startDate: startDate.toDate(),
@@ -179,7 +175,7 @@ export default function ModalCreatePublicTime() {
   }, [timeFramesId]);
 
   const bodyContent = (
-    <div className="flex flex-col gap-4 overflow-x-hidden overflow-y-auto no-scrollbar h-[90%]">
+    <div className="flex flex-col gap-4 overflow-x-hidden overflow-y-auto no-scrollbar h-[100%]">
       <div className="grid grid-cols-1">
         <InputComponent
           id="yearCreate"
