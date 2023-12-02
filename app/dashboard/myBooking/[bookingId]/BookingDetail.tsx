@@ -14,6 +14,7 @@ interface BookingDetailProps {
   ownerUser: any;
   ownerResort: any;
   currentUser: any;
+  bookingId: number;
 }
 
 const BookingDetail: React.FC<BookingDetailProps> = ({
@@ -21,6 +22,7 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
   ownerUser,
   ownerResort,
   currentUser,
+  bookingId,
 }) => {
   const calculateNightDifference = (startDate: any, endDate: any) => {
     const start = new Date(startDate);
@@ -89,7 +91,7 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
                 createReviewModal.onOpen(
                   bookingDetail?.availableTimeId,
                   currentUser?.userId,
-                  bookingDetail?.id
+                  bookingId
                 )
               }
               type="button"
