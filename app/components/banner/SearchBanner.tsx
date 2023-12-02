@@ -2,6 +2,7 @@
 
 import CalendarAparment from '@/app/apartment/CalendarAparment';
 import { format } from 'date-fns';
+import { Reorder } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import React, { Fragment, useState } from 'react';
 import { AiFillCalendar, AiFillCaretDown, AiOutlinePlusCircle } from 'react-icons/ai';
@@ -10,7 +11,7 @@ import { GrSubtractCircle } from 'react-icons/gr';
 
 const initialDateRange = {
   startDate: new Date(),
-  endDate: new Date(),
+  endDate: new Date().getTime() + 24 * 60 * 60 * 1000,
   key: 'selection',
 };
 
@@ -21,7 +22,7 @@ interface SearchBannerProps {
 const SearchBanner: React.FC<SearchBannerProps> = ({ listResort }) => {
   const [visibleCalendar, setVisibleCalendar] = useState(false);
   const [visibleGuest, setVisibleGuest] = useState(false);
-  const [dateRange, setDateRange] = useState(initialDateRange);
+  const [dateRange, setDateRange] = useState<any>(initialDateRange);
   const [resortId, setResortId] = useState<string>('');
   const [adultsGuest, setAdultsGuest] = useState<number>(1);
   const [chidrenGuest, setChildrenGuest] = useState<number>(0);
@@ -79,12 +80,37 @@ const SearchBanner: React.FC<SearchBannerProps> = ({ listResort }) => {
   };
 
   const handleSubmitSearchApartment = () => {
-    router.push(
-      `/apartment?resortId=${resortId}&dateRange=${JSON.stringify(
-        dateRange
-      )}&numberOfGuest=${totalGuest}`
-    );
+    let link = `/apartment`;
+
+    if (resortId) {
+      if (!link.includes('/apartment?')) {
+        link += `?resortId=${resortId}`;
+      } else {
+        link += `&resortId=${resortId}`;
+      }
+    }
+
+    if (dateRange !== undefined && JSON.stringify(dateRange) !== JSON.stringify(initialDateRange)) {
+      if (!link.includes('/apartment?')) {
+        link += `?dateRange=${JSON.stringify(dateRange)}`;
+      } else {
+        link += `&dateRange=${JSON.stringify(dateRange)}`;
+      }
+    } else {
+      link += ``;
+    }
+
+    if (totalGuest) {
+      if (!link.includes('/apartment?')) {
+        link += `?numberOfGuest=${totalGuest}`;
+      } else {
+        link += `&numberOfGuest=${totalGuest}`;
+      }
+    }
+
+    router.push(link);
   };
+
   return (
     <Fragment>
       <div className="bg-white rounded-3xl w-full relative flex-row z-20 grid mt-10 md:mt-10 md:w-full lg:grid-cols-4 lg:w-auto lg:mx-5 xl:grid-cols-4 xl:w-[1200px] lg:mt-10 xl:mt-10 ">
@@ -95,6 +121,7 @@ const SearchBanner: React.FC<SearchBannerProps> = ({ listResort }) => {
             onChange={(e) => handleChangeResortId(e.target.value)}
             className="py-3 w-full outline-none border-0 border-transparent focus:ring-0 rounded-b-lg"
           >
+            <option value="">Any</option>
             {listResort?.content.map((item: any, index: number) => (
               <option key={item.id} value={item.id}>
                 {item.resortName}
@@ -109,8 +136,16 @@ const SearchBanner: React.FC<SearchBannerProps> = ({ listResort }) => {
             <div className="flex flex-row  items-center">
               <AiFillCalendar size={20} />
               <div>
-                {format(new Date(dateRange.startDate), 'EEE, dd MMM')} -{' '}
-                {format(new Date(dateRange.endDate), 'EEE, dd MMM')}
+                {JSON.stringify(dateRange) !== JSON.stringify(initialDateRange) ? (
+                  <Fragment>
+                    {format(new Date(dateRange.startDate), 'EEE, dd MMM')} -{' '}
+                    {format(new Date(dateRange.endDate), 'EEE, dd MMM')}
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <div>Select check in - Select check out</div>
+                  </Fragment>
+                )}
               </div>
             </div>
 
@@ -121,9 +156,7 @@ const SearchBanner: React.FC<SearchBannerProps> = ({ listResort }) => {
         <div onClick={handleVisibleGuest} className="flex flex-col  xl:p-6 px-3 py-3">
           <p>Guests</p>
           <div className="py-3 flex flex-row items-center justify-between">
-            <div className="">
-              {adultsGuest} alduts, {chidrenGuest} children
-            </div>
+            <div className="">{adultsGuest} guest</div>
             <AiFillCaretDown size={20} />
           </div>
         </div>
@@ -156,8 +189,7 @@ const SearchBanner: React.FC<SearchBannerProps> = ({ listResort }) => {
         <div className="w-[300px] flex flex-col  absolute top-[400px] mx-2 z-30 p-5 rounded-md bg-white border border-gray-500 xl:w-[300px] xl:left-[48rem] xl:top-[755px] lg:top-[350px] lg:left-[40rem]">
           <div className="flex flex-row items-center justify-between py-3">
             <div className="flex flex-col">
-              <div className="font-bold">Adults</div>
-              <div className="text-xs text-gray-700">18+ yrs</div>
+              <div className="font-bold">Guest</div>
             </div>
             <div className="flex flex-row gap-3">
               <button onClick={() => handleDescreaseAdultGuest(adultsGuest)} type="button">
@@ -165,22 +197,6 @@ const SearchBanner: React.FC<SearchBannerProps> = ({ listResort }) => {
               </button>
               <div>{adultsGuest}</div>
               <button onClick={() => handleInscreaseAdultGuest(adultsGuest)} type="button">
-                <AiOutlinePlusCircle size={20} />
-              </button>
-            </div>
-          </div>
-
-          <div className="flex flex-row items-center justify-between py-3">
-            <div className="flex flex-col">
-              <div className="font-bold">Children</div>
-              <div className="text-xs text-gray-700">2 - 17 yrs</div>
-            </div>
-            <div className="flex flex-row gap-3">
-              <button onClick={() => handldeDescreaseChildrenGuest(chidrenGuest)} type="button">
-                <GrSubtractCircle size={20} />
-              </button>
-              <div>{chidrenGuest}</div>
-              <button onClick={() => handleInscreaseChildrenGuest(chidrenGuest)} type="button">
                 <AiOutlinePlusCircle size={20} />
               </button>
             </div>

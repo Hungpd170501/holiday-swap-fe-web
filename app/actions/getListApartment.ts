@@ -12,7 +12,7 @@ export default async function GetListApartment() {
 
     if (currentUser) {
       const listApartment = await axios.get(
-        `${process.env.API_URL}/apartment-for-rent?guest=1&numberBedsRoom=1&numberBathRoom=1&pageNo=0&pageSize=9&sortBy=id&sortDirection=asc`,
+        `${process.env.API_URL}/apartment-for-rent?pageNo=0&pageSize=12&sortDirection=desc`,
         config
       );
 
@@ -23,7 +23,7 @@ export default async function GetListApartment() {
       return listApartment.data;
     } else {
       const listApartment = await axios.get(
-        `${process.env.API_URL}/apartment-for-rent?guest=1&numberBedsRoom=1&numberBathRoom=1&pageNo=0&pageSize=9&sortBy=id&sortDirection=asc`
+        `${process.env.API_URL}/apartment-for-rent?pageNo=0&pageSize=12&sortDirection=desc`
       );
 
       if (!listApartment) {

@@ -31,18 +31,17 @@ const ListAparment: React.FC<ListApartmentProps> = ({ listApartment, listResort,
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const handleSubmitSearchApartment = (resortId: string, dateRange: any, numberOfGuest: number) => {
-    setResortId(resortId);
-    setDateRange(dateRange);
-    setNumberOfGuest(numberOfGuest);
-    router.replace('/apartment', undefined);
-  };
+  // const handleSubmitSearchApartment = (resortId: string, dateRange: any, numberOfGuest: number) => {
+  //   setResortId(resortId);
+  //   setDateRange(dateRange);
+  //   setNumberOfGuest(numberOfGuest);
+  //   router.replace('/apartment', undefined);
+  // };
 
   return (
     <Fragment>
       <SearchBarResort
         listResort={listResort}
-        handleSubmitSearchApartment={handleSubmitSearchApartment}
       />
 
       <Container className="gap-5">
