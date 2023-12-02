@@ -101,12 +101,10 @@ const EditResort: React.FC<EditResortProps> = ({
     newImages.forEach((element) => {
       formData.append('resortImage', element);
     });
-    const config = {
-      headers: { Authorization: `Bearer ${session?.user.access_token}` },
-    };
+
     console.log(mapPlaceToLocation(location as Place));
     axios
-      .put(`https://holiday-swap.click/api/v1/resorts/${resortDetail.id}`, formData, config)
+      .put(`https://holiday-swap.click/api/v1/resorts/${resortDetail.id}`, formData)
       .then(() => {
         toast.success('Update resort success');
         reset();

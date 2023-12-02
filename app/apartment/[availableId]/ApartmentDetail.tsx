@@ -17,6 +17,7 @@ import { useDateRange } from '../DateRangeContext';
 import useNewDateRange from '@/app/hooks/useNewDateRange';
 import { useGuest } from '../GuestContext';
 import { elements } from 'chart.js';
+import useEditDateBookingModal from '@/app/hooks/useEditDateBookingModal';
 
 interface ApartmentDetailProps {
   apartment?: any;
@@ -37,6 +38,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
   const isNew = newDateRange.isNew;
   const isReload = newDateRange.isReload;
   const isBack = newDateRange.isBack;
+  const editDateBookingModal = useEditDateBookingModal();
 
   const [dateRange, setDateRange] = useState(initialDateRange);
   const [initialDateRangeValue, setInitialDateRangeValue] = useState(initialDateRange);
@@ -255,7 +257,9 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
   const handleChangeDateRange = (value: any) => {
     setDateRange(value.selection);
     handleOnChangeDateRangePicker(value);
+    editDateBookingModal.onHandleDateRangePicker(handleOnChangeDateRangePicker);
   };
+
   const handleOnChangeDateRangePicker = (value: any) => {
     let timeBooked = apartment.timeHasBooked;
     let startDate = value.selection.startDate;

@@ -138,8 +138,12 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
             <div className="flex flex-col gap-2">
               <div className="text-base text-black font-semibold">Dates</div>
               <div className="text-gray-600">
-                {format(dateRangeContext.startDate, 'd MMM')} -{' '}
-                {format(dateRangeContext.endDate, 'd MMM yyyy')}
+                {dateRangeContext && (
+                  <Fragment>
+                    {format(dateRangeContext?.startDate, 'd MMM')} -{' '}
+                    {format(dateRangeContext?.endDate, 'd MMM yyyy')}
+                  </Fragment>
+                )}
               </div>
             </div>
             <div

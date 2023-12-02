@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Container from '../components/Container';
 import Calendar from '../components/input/Calendar';
 import SearchBooking from './SearchBooking';
@@ -9,6 +9,7 @@ import BookingPriceCard from './BookingPriceCard';
 import BookingInformation from './BookingInformation';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useParams } from 'next/navigation';
+import useNewDateRange from '../hooks/useNewDateRange';
 
 interface BookingProps {
   currentUser?: any;
@@ -32,6 +33,15 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
   const fullName = searchParams?.get('fullName');
   const rating = searchParams?.get('rating');
   const resortName = searchParams?.get('resortName');
+
+  const newDateRange = useNewDateRange();
+
+  useEffect(() => {
+    // Check if the page is reloaded (F5)
+    if (performance.navigation.type === 1) {
+      newDateRange.setNew();
+    }
+  }, []);
 
   return (
     <Container className="bg-white">

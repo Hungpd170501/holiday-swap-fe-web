@@ -16,12 +16,16 @@ import { addDays, addMonths, format, subDays } from 'date-fns';
 import CalendarAparment from '@/app/apartment/CalendarAparment';
 import useEditDateBookingModal from '@/app/hooks/useEditDateBookingModal';
 import { useDateRange } from '@/app/apartment/DateRangeContext';
+import useNewDateRange from '@/app/hooks/useNewDateRange';
 
 export default function ModalEditDateBooking() {
   const [isLoading, setIsLoading] = useState(false);
 
   const editDateBookingModal = useEditDateBookingModal();
+  const newDateRange = useNewDateRange();
+  const isNew = newDateRange.isNew;
   const isSave = editDateBookingModal.isSave;
+  const handleDatePicker = editDateBookingModal.handleDateRangePicker;
   const dateRangeProp = JSON.parse(editDateBookingModal.dateRange);
   const [dateRange, setDateRange] = useState({
     startDate: addDays(new Date(dateRangeProp?.startDate?.split('T', 1)[0] as string), 1),
@@ -38,12 +42,21 @@ export default function ModalEditDateBooking() {
     setDateOut,
   } = useDateRange();
 
+  useEffect(() => {
+    if (isNew === true) {
+      setDateRangeContext(dateRangeContext);
+      setDateRangeDefaultContext(dateRangeDefaultContext);
+      newDateRange.setNewReset();
+    }
+  }, [isNew, dateRangeContext, dateRangeDefaultContext]);
+
   const bodyContent = (
     <div className="h-full w-full">
       <CalendarAparment
         value={dateRangeContext}
         onChange={(value: any) => {
           setDateRangeContext(value.selection);
+          handleDatePicker(value);
         }}
         minDate={dateRangeDefaultContext?.startDate}
         disabledDates={dateOut}
