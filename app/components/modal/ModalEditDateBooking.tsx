@@ -42,14 +42,6 @@ export default function ModalEditDateBooking() {
     setDateOut,
   } = useDateRange();
 
-  useEffect(() => {
-    if (isNew === true) {
-      setDateRangeContext(dateRangeContext);
-      setDateRangeDefaultContext(dateRangeDefaultContext);
-      newDateRange.setNewReset();
-    }
-  }, [isNew, dateRangeContext, dateRangeDefaultContext]);
-
   const bodyContent = (
     <div className="h-full w-full">
       <CalendarAparment

@@ -83,23 +83,21 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
         </div>
 
         <div className="flex flex-row gap-3">
-          {bookingDetail?.rating === true && (
-            <div className="py-3">
-              <button
-                onClick={() =>
-                  createReviewModal.onOpen(
-                    bookingDetail?.availableTimeId,
-                    currentUser?.userId,
-                    bookingDetail?.id
-                  )
-                }
-                type="button"
-                className="p-3 rounded-md bg-common hover:bg-hover text-white text-lg"
-              >
-                Review
-              </button>
-            </div>
-          )}
+          <div className="py-3">
+            <button
+              onClick={() =>
+                createReviewModal.onOpen(
+                  bookingDetail?.availableTimeId,
+                  currentUser?.userId,
+                  bookingDetail?.id
+                )
+              }
+              type="button"
+              className="p-3 rounded-md bg-common hover:bg-hover text-white text-lg"
+            >
+              Review
+            </button>
+          </div>
         </div>
       </div>
 

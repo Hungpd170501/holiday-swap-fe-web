@@ -34,14 +34,7 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
   const rating = searchParams?.get('rating');
   const resortName = searchParams?.get('resortName');
 
-  const newDateRange = useNewDateRange();
-
-  useEffect(() => {
-    // Check if the page is reloaded (F5)
-    if (performance.navigation.type === 1) {
-      newDateRange.setNew();
-    }
-  }, []);
+ 
 
   return (
     <Container className="bg-white">

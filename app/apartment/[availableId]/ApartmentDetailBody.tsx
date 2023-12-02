@@ -94,17 +94,22 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
       <div className="flex flex-row  gap-5 border-b border-gray-400 pb-8 pt-8 ">
         <div className="px-1 py-3 gap-2 border border-gray-500 rounded-lg flex flex-col items-center justify-center  md:px-3 md:py-5 md:gap-2 md:border md:border-gray-500 md:rounded-lg md:flex md:flex-row md:items-center md:justify-center  lg:p-6 lg:gap-2 lg:border lg:border-gray-500 lg:rounded-lg lg:flex lg:flex-row lg:items-center lg:justify-center  xl:p-6 xl:gap-2 xl:border xl:border-gray-500 xl:rounded-lg xl:flex xl:flex-row xl:items-center xl:justify-center">
           <Image src="/images/icons/bed-room.png" alt="icon" width={25} height={25} />
-          <div className="text-center">Single bed</div>
+          <div className="text-center">
+            {apartment.property.numberKingBeds +
+              apartment.property.numberQueenBeds +
+              apartment.property.numberSingleBeds +
+              apartment.property.numberDoubleBeds +
+              apartment.property.numberTwinBeds +
+              apartment.property.numberFullBeds +
+              apartment.property.numberSofaBeds +
+              apartment.property.numberMurphyBeds}{' '}
+            beds
+          </div>
         </div>
 
         <div className="px-1 py-3 gap-2 border border-gray-500 rounded-lg flex flex-col items-center justify-center  md:px-3 md:py-5 md:gap-2 md:border md:border-gray-500 md:rounded-lg md:flex md:flex-row md:items-center md:justify-center  lg:p-6 lg:gap-2 lg:border lg:border-gray-500 lg:rounded-lg lg:flex lg:flex-row lg:items-center lg:justify-center  xl:p-6 xl:gap-2 xl:border xl:border-gray-500 xl:rounded-lg xl:flex xl:flex-row xl:items-center xl:justify-center">
           <Image src="/images/icons/bath-room.png" alt="icon" width={25} height={25} />
           <div className="text-center">Private bath room</div>
-        </div>
-
-        <div className="px-1 py-3 gap-2 border border-gray-500 rounded-lg flex flex-col items-center justify-center  md:px-3 md:py-5 md:gap-2 md:border md:border-gray-500 md:rounded-lg md:flex md:flex-row md:items-center md:justify-center  lg:p-6 lg:gap-2 lg:border lg:border-gray-500 lg:rounded-lg lg:flex lg:flex-row lg:items-center lg:justify-center  xl:p-6 xl:gap-2 xl:border xl:border-gray-500 xl:rounded-lg xl:flex xl:flex-row xl:items-center xl:justify-center">
-          <Image src="/images/icons/bed-room.png" alt="icon" width={25} height={25} />
-          <div className="text-center">Single bed</div>
         </div>
       </div>
 
@@ -150,7 +155,17 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
 
           <div className="">
             <div className="font-bold text-center">Bedroom</div>
-            <div className="text-center">{apartment.property.numberKingBeds} king bed</div>
+            <div className="text-center">
+              {apartment.property.numberKingBeds +
+                apartment.property.numberQueenBeds +
+                apartment.property.numberSingleBeds +
+                apartment.property.numberDoubleBeds +
+                apartment.property.numberTwinBeds +
+                apartment.property.numberFullBeds +
+                apartment.property.numberSofaBeds +
+                apartment.property.numberMurphyBeds}{' '}
+              beds
+            </div>
           </div>
         </div>
       </div>

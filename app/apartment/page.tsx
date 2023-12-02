@@ -5,6 +5,7 @@ import GetListApartment from '../actions/getListApartment';
 import GetListResort from '../actions/getListResort';
 import { AiFillAccountBook } from 'react-icons/ai';
 import GetCurrentUser from '../actions/getCurrentUser';
+import GetListResortForCreateOwner from '@/app/actions/getListResortForCreateOwner';
 
 export const metadata = {
   title: 'Apartments',
@@ -12,7 +13,7 @@ export const metadata = {
 
 export default async function listResortPage() {
   const listApartment = await GetListApartment();
-  const listResort = await GetListResort('0');
+  const listResort = await GetListResortForCreateOwner('0');
   const currentUser = await GetCurrentUser();
   return (
     <ClientOnly>
