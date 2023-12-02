@@ -27,6 +27,7 @@ export default async function BookingDetailPage({ params }: { params: IParams })
           ownerUser={ownerUser}
           ownerResort={ownerResort}
           currentUser={currentUser}
+          bookingId={params.bookingId}
         />
       </div>
     </div>,

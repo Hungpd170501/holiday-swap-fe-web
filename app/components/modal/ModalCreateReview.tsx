@@ -64,7 +64,7 @@ export default function ModalCreateReview() {
     const config = { headers: { 'Content-type': 'application/json' } };
 
     axiosAuthClient
-      .post(`/rating/property/${availableId}/user/${userId}`, ratingData, config)
+      .post(`/rating/property/${bookingId}/user/${userId}`, ratingData, config)
       .then(() => {
         toast.success('Review success!');
         createReviewModal.onClose();
