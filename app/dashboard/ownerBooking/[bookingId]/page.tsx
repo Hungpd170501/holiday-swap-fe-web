@@ -15,6 +15,7 @@ export default async function OwnerBookingDetailPage({ params }: { params: IPara
 
   return (
     <OwnerBookingDetail
+    ownerBookingDetailId={params}
       ownerBookingDetail={ownerBookingDetail}
       memberBooking={memberBooking}
       ownerResort={ownerResort}

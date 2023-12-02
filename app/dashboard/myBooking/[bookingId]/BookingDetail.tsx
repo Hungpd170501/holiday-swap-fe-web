@@ -5,6 +5,9 @@ import Image from 'next/image';
 import React from 'react';
 import { Card } from 'flowbite-react';
 import useCreateReviewModal from '@/app/hooks/useCreateReviewModal';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 
 interface BookingDetailProps {
   bookingDetail: any;
@@ -79,23 +82,25 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
           <div className="text-slate-400">Description</div>
         </div>
 
-        {bookingDetail?.rating === true && (
-          <div className="py-3">
-            <button
-              onClick={() =>
-                createReviewModal.onOpen(
-                  bookingDetail?.availableTimeId,
-                  currentUser?.userId,
-                  bookingDetail?.id
-                )
-              }
-              type="button"
-              className="p-3 rounded-md bg-common hover:bg-hover text-white text-lg"
-            >
-              Review
-            </button>
-          </div>
-        )}
+        <div className="flex flex-row gap-3">
+          {bookingDetail?.rating === true && (
+            <div className="py-3">
+              <button
+                onClick={() =>
+                  createReviewModal.onOpen(
+                    bookingDetail?.availableTimeId,
+                    currentUser?.userId,
+                    bookingDetail?.id
+                  )
+                }
+                type="button"
+                className="p-3 rounded-md bg-common hover:bg-hover text-white text-lg"
+              >
+                Review
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="w-full h-full py-5">

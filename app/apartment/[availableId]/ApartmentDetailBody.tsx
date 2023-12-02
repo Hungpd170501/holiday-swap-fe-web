@@ -2,7 +2,7 @@
 
 import useAparmentAmenitiesModal from '@/app/hooks/useApartmentAmenitiesModal';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import CalendarAparment from '../CalendarAparment';
 import { differenceInDays, format } from 'date-fns';
 import GoogleMapReact from 'google-map-react-concurrent';
@@ -36,6 +36,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
   rating,
 }) => {
   const apartmentAmenitiesModal = useAparmentAmenitiesModal();
+  const [totalPrice, setTotalPrice] = useState(0);
   const {
     dateRangeContext,
     setDateRangeContext,
@@ -57,6 +58,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
     const nightDifference = differenceInDays(end, start);
     return nightDifference;
   };
+
   const handleContactOwner = (ownerId: string) => {
     ConversationApis.getContactWithOwner(ownerId)
       .then((res) => {
@@ -177,21 +179,42 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
         <div className="py-8">
           <div className="text-2xl font-bold">
             {' '}
-            {calculateNightDifference(dateRange.startDate, dateRange.endDate) === 0
-              ? 'Select checkout date'
-              : `${
-                calculateNightDifference(dateRange.startDate, dateRange.endDate) === 1
-                  ? `${calculateNightDifference(dateRange.startDate, dateRange.endDate)} night`
-                  : `${calculateNightDifference(dateRange.startDate, dateRange.endDate)} nights`
-              }`}
+            {dateRangeContext && (
+              <Fragment>
+                {calculateNightDifference(
+                  dateRangeContext?.startDate,
+                  dateRangeContext?.endDate
+                ) === 0
+                  ? 'Select checkout date'
+                  : `${
+                      calculateNightDifference(
+                        dateRangeContext?.startDate,
+                        dateRangeContext?.endDate
+                      ) === 1
+                        ? `${calculateNightDifference(
+                            dateRangeContext?.startDate,
+                            dateRangeContext?.endDate
+                          )} night`
+                        : `${calculateNightDifference(
+                            dateRangeContext?.startDate,
+                            dateRangeContext?.endDate
+                          )} nights`
+                    }`}
+              </Fragment>
+            )}
           </div>
           <div className="text-gray-500">
-            {new Date(dateRange.startDate).getTime() === new Date(dateRange.endDate).getTime()
-              ? 'Add your travel dates for exact pricing'
-              : `${format(new Date(dateRange.startDate), 'dd MMM yyyy')} - ${format(
-                new Date(dateRange.endDate),
-                'dd MMM yyyy'
-              )}`}
+            {dateRangeContext && (
+              <Fragment>
+                {new Date(dateRangeContext?.startDate).getTime() ===
+                new Date(dateRangeContext?.endDate).getTime()
+                  ? 'Add your travel dates for exact pricing'
+                  : `${format(new Date(dateRangeContext?.startDate), 'dd MMM yyyy')} - ${format(
+                      new Date(dateRangeContext?.endDate),
+                      'dd MMM yyyy'
+                    )}`}
+              </Fragment>
+            )}
           </div>
         </div>
         <div className="hidden md:block lg:block xl:block">

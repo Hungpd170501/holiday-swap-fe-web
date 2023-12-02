@@ -56,7 +56,7 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
   useEffect(() => {
     if (apartmentAllowGuest) {
       setAllowTotalGuestContext(apartmentAllowGuest);
-    } 
+    }
   }, [apartmentAllowGuest]);
 
   const loginModal = useLoginModal();
@@ -107,6 +107,8 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
   const calculateNightDifference = (startDate: any, endDate: any) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
+    console.log('startDate', start);
+    console.log('end date', end);
     const nightDifference = differenceInDays(end, start);
     return nightDifference;
   };
@@ -166,7 +168,10 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
 
   useEffect(() => {
     // Calculate the number of nights
-    const nightDifference = calculateNightDifference(dateRange.startDate, dateRange.endDate);
+    const nightDifference = calculateNightDifference(
+      dateRangeContext.startDate,
+      dateRangeContext.endDate
+    );
 
     // Calculate the price for the nights
     const nightsPrice = nightDifference * apartment.availableTime.pricePerNight;
@@ -176,7 +181,7 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
 
     // Update the total price in the state
     setTotalPrice(total);
-  }, [dateRange, apartment]);
+  }, [dateRangeContext, apartment]);
 
   return (
     <Fragment>
@@ -357,14 +362,33 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
             <div className="flex flex-row justify-between items-center text-base text-gray-800">
               <div className="">
                 {apartment.availableTime.pricePerNight} point x{' '}
-                {calculateNightDifference(dateRange.startDate, dateRange.endDate) === 1
-                  ? `${calculateNightDifference(dateRange.startDate, dateRange.endDate)} night`
-                  : `${calculateNightDifference(dateRange.startDate, dateRange.endDate)} nights`}
+                {dateRangeContext && (
+                  <Fragment>
+                    {calculateNightDifference(
+                      dateRangeContext?.startDate,
+                      dateRangeContext?.endDate
+                    ) === 1
+                      ? `${calculateNightDifference(
+                          dateRangeContext?.startDate,
+                          dateRangeContext?.endDate
+                        )} night`
+                      : `${calculateNightDifference(
+                          dateRangeContext?.startDate,
+                          dateRangeContext?.endDate
+                        )} nights`}
+                  </Fragment>
+                )}
               </div>
 
               <div>
-                {calculateNightDifference(dateRange.startDate, dateRange.endDate) *
-                  apartment.availableTime.pricePerNight}{' '}
+                {dateRangeContext && (
+                  <Fragment>
+                    {calculateNightDifference(
+                      dateRangeContext?.startDate,
+                      dateRangeContext?.endDate
+                    ) * apartment.availableTime.pricePerNight}
+                  </Fragment>
+                )}{' '}
                 point
               </div>
             </div>

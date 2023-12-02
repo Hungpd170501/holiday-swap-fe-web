@@ -1,26 +1,46 @@
 'use client';
 
+import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import { differenceInDays, format } from 'date-fns';
 import { Card } from 'flowbite-react';
 import Image from 'next/image';
 import React from 'react';
+import toast from 'react-hot-toast';
 
 interface OwnerBookingDetailProps {
   ownerBookingDetail: any;
   memberBooking: any;
   ownerResort: any;
+  ownerBookingDetailId: any;
 }
 
 const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
   ownerBookingDetail,
   memberBooking,
   ownerResort,
+  ownerBookingDetailId,
 }) => {
   const calculateNightDifference = (startDate: any, endDate: any) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
     const nightDifference = differenceInDays(end, start);
     return nightDifference;
+  };
+
+  const axiosAuthClient = useAxiosAuthClient();
+
+  const { bookingId } = ownerBookingDetailId;
+
+  const handleCancelBooking = () => {
+    axiosAuthClient
+      .put(`https://holiday-swap.click/api/booking/cancel/${bookingId}`)
+      .then((response) => {
+        console.log('Check response', response);
+        toast.success('Cancel booking successfully!');
+      })
+      .catch((response) => {
+        toast.error(response?.response?.data?.message ?? 'Something went wrong');
+      });
   };
 
   return (
@@ -73,6 +93,20 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
           <div className="text-xl">{ownerBookingDetail?.propertyName}</div>
           <div className="text-slate-400">Description</div>
         </div>
+
+        {ownerBookingDetail?.canCancel === true ? (
+          <div className="py-3">
+            <button
+              onClick={handleCancelBooking}
+              type="button"
+              className="p-3 rounded-md bg-orange-500 hover:bg-orange-600 text-white text-lg"
+            >
+              Cancel booking
+            </button>
+          </div>
+        ) : (
+          ''
+        )}
       </div>
 
       <div className="w-full h-full py-5">
@@ -118,7 +152,12 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
             </div>
 
             <div className="flex flex-row justify-between items-center text-slate-500">
-              <div><span className='text-black'>Holiday<span className='text-common'>Swap</span></span> service fee</div>
+              <div>
+                <span className="text-black">
+                  Holiday<span className="text-common">Swap</span>
+                </span>{' '}
+                service fee
+              </div>
               <div className="text-rose-500">
                 - {(ownerBookingDetail?.price * (10 / 100)).toFixed(1)}
               </div>
