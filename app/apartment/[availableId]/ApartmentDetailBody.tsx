@@ -71,7 +71,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
             router.push(`/chat/${res.conversationId}`);
           })
           .catch((err) => {
-            loginModal.onOpen()
+            loginModal.onOpen();
             console.log(err);
           });
       });
@@ -244,7 +244,6 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
               }}
               className="w-[100%] !text-[1em]"
               minDate={dateRangeDefaultContext?.startDate}
-              maxDate={dateRangeDefaultContext?.endDate}
               disabledDates={dateOut}
             />
           ) : (
@@ -261,7 +260,6 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
               }}
               className="w-[100%] !text-[1em]"
               minDate={dateRangeDefaultContext?.startDate}
-              maxDate={dateRangeDefaultContext?.endDate}
               disabledDates={dateOut}
             />
           ) : (

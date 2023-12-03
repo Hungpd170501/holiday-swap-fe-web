@@ -12,7 +12,7 @@ interface CalendarApartmentProps {
   disabledDates?: Date[];
   className?: string;
   minDate: Date;
-  maxDate: Date;
+  maxDate?: Date;
 }
 
 const CalendarAparment: React.FC<CalendarApartmentProps> = ({
@@ -21,7 +21,6 @@ const CalendarAparment: React.FC<CalendarApartmentProps> = ({
   disabledDates,
   className,
   minDate,
-  maxDate,
 }) => {
   return (
     <DateRange
@@ -34,7 +33,6 @@ const CalendarAparment: React.FC<CalendarApartmentProps> = ({
       months={2}
       direction="horizontal"
       minDate={minDate}
-      maxDate={maxDate}
       disabledDates={disabledDates}
       className={`${className}`}
     />
