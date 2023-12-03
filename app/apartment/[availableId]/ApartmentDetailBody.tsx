@@ -15,6 +15,7 @@ import { BsShieldFillCheck } from 'react-icons/bs';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import ConversationApis from '@/app/actions/ConversationApis';
+import useLoginModal from '@/app/hooks/useLoginModal';
 
 const { Text } = Typography;
 
@@ -58,7 +59,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
     const nightDifference = differenceInDays(end, start);
     return nightDifference;
   };
-
+  const loginModal = useLoginModal();
   const handleContactOwner = (ownerId: string) => {
     ConversationApis.getContactWithOwner(ownerId)
       .then((res) => {
@@ -70,6 +71,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
             router.push(`/chat/${res.conversationId}`);
           })
           .catch((err) => {
+            loginModal.onOpen()
             console.log(err);
           });
       });
@@ -242,6 +244,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
               }}
               className="w-[100%] !text-[1em]"
               minDate={dateRangeDefaultContext?.startDate}
+              maxDate={dateRangeDefaultContext?.endDate}
               disabledDates={dateOut}
             />
           ) : (
@@ -258,6 +261,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
               }}
               className="w-[100%] !text-[1em]"
               minDate={dateRangeDefaultContext?.startDate}
+              maxDate={dateRangeDefaultContext?.endDate}
               disabledDates={dateOut}
             />
           ) : (

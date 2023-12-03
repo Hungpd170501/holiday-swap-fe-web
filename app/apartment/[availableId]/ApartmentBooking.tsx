@@ -253,6 +253,7 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
                 className="w-auto xl:w-[700px] xl:absolute xl:top-36 xl:-left-[352px] xl:z-30 xl:!text-[1em]"
                 disabledDates={dateOut}
                 minDate={dateRangeDefaultContext?.startDate}
+                maxDate={dateRangeDefaultContext?.endDate}
               />
             ) : (
               ''
