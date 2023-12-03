@@ -49,12 +49,14 @@ const OwnerBooking: React.FC<OwnerBookingProps> = ({ historyOwnerBooking }) => {
   const onPageChange = (page: number) => setCurrentPage(page);
   return (
     <Fragment>
-      <HeadingDashboard
-        routerDashboard="/dashboard"
-        pageCurrentContent="Owner booking"
-        pageCurrentRouter="/dashboard/ownerBooking"
-      />
-      <div className="py-6">
+      <div className="mt-7">
+        <HeadingDashboard
+          routerDashboard="/dashboard"
+          pageCurrentContent="Owner booking"
+          pageCurrentRouter="/dashboard/ownerBooking"
+        />
+      </div>
+      <div className="pb-6 pt-3">
         {displayedItems?.length > 0 ? (
           displayedItems.reverse().map((item: any) => (
             <div
@@ -66,7 +68,7 @@ const OwnerBooking: React.FC<OwnerBookingProps> = ({ historyOwnerBooking }) => {
                 <div className="grid grid-cols-9 h-full gap-5">
                   <div className="col-span-3 w-full h-full relative rounded-lg">
                     <Image
-                      src="/images/resort1.jpg"
+                      src={item.propertyImage}
                       fill
                       alt="image"
                       className="w-full object-cover rounded-lg"
@@ -93,7 +95,13 @@ const OwnerBooking: React.FC<OwnerBookingProps> = ({ historyOwnerBooking }) => {
               </div>
 
               <div className="col-span-3 flex flex-row justify-center items-center">
-                <div className="text-lg text-green-600">{item.status}</div>
+                <div
+                  className={`text-lg ${
+                    item.status === 'CANCELLED' ? 'text-red-600' : 'text-green-600'
+                  }`}
+                >
+                  {item.status}
+                </div>{' '}
               </div>
             </div>
           ))
