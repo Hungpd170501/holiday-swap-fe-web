@@ -60,9 +60,9 @@ const CardListResort: React.FC<CardListResortProps> = ({ data }) => {
             {new Date(data?.availableTime.startTime).getMonth() ===
             new Date(data?.availableTime.endTime).getMonth()
               ? `${format(new Date(data?.availableTime.startTime), 'd ')} -
-          ${format(new Date(data?.availableTime.endTime), 'd MMM')}`
+          ${format(new Date(data?.availableTime.endTime), 'd MMM yyyy')}`
               : `${format(new Date(data?.availableTime.startTime), 'd MMM')} -
-          ${format(new Date(data?.availableTime.endTime), 'd MMM')}`}
+          ${format(new Date(data?.availableTime.endTime), 'd MMM yyyy')}`}
           </div>
           <div className="py-2 text-base">
             <div>

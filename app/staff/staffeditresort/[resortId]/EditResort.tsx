@@ -118,53 +118,53 @@ const EditResort: React.FC<EditResortProps> = ({
       });
   };
 
-  useEffect(() => {
-    setMapLoaded(false);
-    const mapboxglMap = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v12',
-      center: [106.660172, 10.762622],
-      zoom: 14,
-    });
+  // useEffect(() => {
+  //   setMapLoaded(false);
+  //   const mapboxglMap = new mapboxgl.Map({
+  //     container: 'map',
+  //     style: 'mapbox://styles/mapbox/streets-v12',
+  //     center: [106.660172, 10.762622],
+  //     zoom: 14,
+  //   });
 
-    resortDetail?.longitude &&
-      resortDetail?.latitude &&
-      mapboxglMap.setCenter([resortDetail?.longitude, resortDetail?.latitude]);
-    const marker = new mapboxgl.Marker({ draggable: true, color: 'orange' });
+  //   resortDetail?.longitude &&
+  //     resortDetail?.latitude &&
+  //     mapboxglMap.setCenter([resortDetail?.longitude, resortDetail?.latitude]);
+  //   const marker = new mapboxgl.Marker({ draggable: true, color: 'orange' });
 
-    const geocoder = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
-      mapboxgl: mapboxgl,
-      reverseGeocode: true,
-      marker: false,
-    });
-    marker &&
-      resortDetail?.longitude &&
-      resortDetail?.latitude &&
-      marker.setLngLat([resortDetail?.longitude, resortDetail?.latitude]).addTo(mapboxglMap);
-    mapboxglMap.addControl(geocoder, 'top-left');
-    geocoder.setCountries('VN'); //ISO 3166-1 alpha-2 country codes, separated by commas
-    geocoder.on('result', (e: any) => {
-      setLocation(e.result as Place);
-      setLocationContextLength(e.result.context.length);
-      marker.setLngLat(e.result.geometry.coordinates).addTo(mapboxglMap);
-    });
-    setLocation(fetchLocation);
-    setLocationContextLength(fetchLocation?.context?.length ?? 3);
-    marker.on('dragend', () => {
-      const lngLat = marker.getLngLat();
-      setLocation((prev) => {
-        return {
-          ...prev,
-          geometry: {
-            ...prev?.geometry,
-            coordinates: [lngLat.lng, lngLat.lat],
-          },
-        } as Place;
-      });
-    });
-    setMapLoaded(true);
-  }, []);
+  //   const geocoder = new MapboxGeocoder({
+  //     accessToken: mapboxgl.accessToken,
+  //     mapboxgl: mapboxgl,
+  //     reverseGeocode: true,
+  //     marker: false,
+  //   });
+  //   marker &&
+  //     resortDetail?.longitude &&
+  //     resortDetail?.latitude &&
+  //     marker.setLngLat([resortDetail?.longitude, resortDetail?.latitude]).addTo(mapboxglMap);
+  //   mapboxglMap.addControl(geocoder, 'top-left');
+  //   geocoder.setCountries('VN'); //ISO 3166-1 alpha-2 country codes, separated by commas
+  //   geocoder.on('result', (e: any) => {
+  //     setLocation(e.result as Place);
+  //     setLocationContextLength(e.result.context.length);
+  //     marker.setLngLat(e.result.geometry.coordinates).addTo(mapboxglMap);
+  //   });
+  //   setLocation(fetchLocation);
+  //   setLocationContextLength(fetchLocation?.context?.length ?? 3);
+  //   marker.on('dragend', () => {
+  //     const lngLat = marker.getLngLat();
+  //     setLocation((prev) => {
+  //       return {
+  //         ...prev,
+  //         geometry: {
+  //           ...prev?.geometry,
+  //           coordinates: [lngLat.lng, lngLat.lat],
+  //         },
+  //       } as Place;
+  //     });
+  //   });
+  //   setMapLoaded(true);
+  // }, []);
 
   const setCustomeValue = (id: string, value: any[]) => {
     setValue(id, value, {
@@ -232,7 +232,7 @@ const EditResort: React.FC<EditResortProps> = ({
         />
       </div>
       <div className="w-[700px]">
-        <div className=" flex flex-row mb-14">
+        {/* <div className=" flex flex-row mb-14">
           <div className="w-[277px] text-gray-700">Address*</div>
           <div id="map" className="w-full h-96"></div>
         </div>
@@ -351,7 +351,7 @@ const EditResort: React.FC<EditResortProps> = ({
               </span>
             )}
           </span>
-        </div>
+        </div> */}
 
         <div className="flex flex-row items-center mb-10">
           <InputAmenitiesType

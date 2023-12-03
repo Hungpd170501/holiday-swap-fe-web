@@ -67,6 +67,7 @@ export default function ModalCreateReview() {
       .post(`/rating/property/${bookingId}/user/${userId}`, ratingData, config)
       .then(() => {
         toast.success('Review success!');
+        createReviewModal.onCreated();
         createReviewModal.onClose();
       })
       .catch((response) => {

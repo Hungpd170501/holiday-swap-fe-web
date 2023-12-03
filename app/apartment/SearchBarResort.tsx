@@ -130,9 +130,9 @@ const SearchBarResort: React.FC<SearchBarResortProps> = ({ listResort }) => {
       }
     } else if (dateRangeNew && JSON.stringify(dateRangeNew) === dateRangeParamsSearch) {
       if (!link.includes('/apartment?')) {
-        link += `?dateRange=${JSON.stringify(dateRangeParamsSearch)}`;
+        link += `?dateRange=${dateRangeParamsSearch}`;
       } else {
-        link += `&dateRange=${JSON.stringify(dateRangeParamsSearch)}`;
+        link += `&dateRange=${dateRangeParamsSearch}`;
       }
     } else {
       link += ``;

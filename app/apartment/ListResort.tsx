@@ -30,12 +30,12 @@ const ListResort: React.FC<ListResortProps> = ({
   currentUser,
 }) => {
   const [page, setPage] = useState<number>(1);
-  const [listResort, setListResort] = useState<any>(listApartment);
+  const [listResort, setListResort] = useState<any>();
   const [resortIdValue, setResortIdValue] = useState<any>();
   const [numberOfGuestValue, setNumberOfGuestValue] = useState<number>(0);
   const [initialDate, setInitialDate] = useState(initialDateRange);
-  const [dateRangeNew, setDateRangeNew] = useState<any>(listApartment?.totalPages);
-  const [totalPages, setTotalPages] = useState<any>(0);
+  const [dateRangeNew, setDateRangeNew] = useState<any>(initialDateRange);
+  const [totalPages, setTotalPages] = useState<any>();
   const { data: session } = useSession();
 
   const searchParams = useSearchParams();
@@ -70,7 +70,7 @@ const ListResort: React.FC<ListResortProps> = ({
     if (numberOfGuestParams) {
       setNumberOfGuestValue(Number(numberOfGuestParams));
     }
-  }, [resortIdParams, dateRangeParams, numberOfGuestParams]);
+  }, [resortIdParams, dateRangeParamsSearch, numberOfGuestParams]);
 
   // useEffect(() => {
   //   const getList = async () => {
@@ -138,7 +138,17 @@ const ListResort: React.FC<ListResortProps> = ({
 
   const config = { headers: { Authorization: `Bearer ${session?.user.access_token}` } };
 
-  // ... other code ...
+  useEffect(() => {
+    if (
+      numberOfGuestValue === 0 &&
+      JSON.stringify(dateRangeNew) === JSON.stringify(initialDateRange) &&
+      resortIdValue === undefined
+    ) {
+      console.log('Chay vao day ko');
+      setListResort(listApartment);
+      setTotalPages(listApartment?.totalPages);
+    }
+  }, [numberOfGuestValue, dateRangeNew, resortIdValue, listApartment]);
 
   useEffect(() => {
     const getListResort = async () => {
@@ -146,14 +156,28 @@ const ListResort: React.FC<ListResortProps> = ({
         page - 1
       }&pageSize=12&sortDirection=desc`;
 
-      if (numberOfGuestValue || dateRangeNew || resortIdValue) {
+      if (
+        numberOfGuestValue === 0 &&
+        JSON.stringify(dateRangeNew) === JSON.stringify(initialDateRange) &&
+        resortIdValue === undefined
+      ) {
+        let list;
+        if (currentUser) {
+          list = await axios.get(url, config);
+        } else {
+          list = await axios.get(url);
+        }
+
+        setListResort(list?.data);
+        setTotalPages(list?.data?.totalPages);
+      } else {
         if (resortIdValue) {
           url += `&resortId=${resortIdValue}`;
         }
 
         if (
           dateRangeNew !== undefined &&
-          JSON.stringify(dateRangeNew) !== JSON.stringify(dateRangeParamsSearch)
+          JSON.stringify(dateRangeNew) !== JSON.stringify(initialDateRange)
         ) {
           if (dateRangeNew) {
             url += `&checkIn=${format(
@@ -177,21 +201,25 @@ const ListResort: React.FC<ListResortProps> = ({
         if (numberOfGuestValue > 0) {
           url += `&guest=${numberOfGuestValue}`;
         }
-      }
 
-      let list;
-      if (currentUser) {
-        list = await axios.get(url, config);
-      } else {
-        list = await axios.get(url);
-      }
+        let list;
+        if (currentUser) {
+          list = await axios.get(url, config);
+        } else {
+          list = await axios.get(url);
+        }
 
-      setListResort(list?.data);
-      setTotalPages(list?.data?.totalPages);
+        setListResort(list?.data);
+        setTotalPages(list?.data?.totalPages);
+      }
     };
 
     getListResort();
   }, [page, currentUser, dateRangeNew, numberOfGuestValue, resortIdValue]);
+
+  console.log('Check new date range', dateRangeNew);
+  console.log('Check resortId', resortIdValue);
+  console.log('check guest', numberOfGuestValue);
 
   return (
     <Fragment>
@@ -209,7 +237,7 @@ const ListResort: React.FC<ListResortProps> = ({
         </div>
       </div>
       <div className="w-full flex justify-center mb-7">
-        {listResort && listResort.totalElements > listResort.content.length ? (
+        {listResort && listResort.totalElements > listResort.pageable.pageSize ? (
           <Pagination
             currentPage={page}
             onPageChange={(page: number) => {

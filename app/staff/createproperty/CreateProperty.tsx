@@ -146,6 +146,8 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
     }
     setIsLoading(true);
     const formData = new FormData();
+
+    console.log('Check data', data.inRoomAmenities);
     const property = {
       propertyName: data.propertyName,
       propertyDescription: data.propertyDescription,
