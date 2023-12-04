@@ -62,9 +62,9 @@ const Wallet: React.FC<WalletProps> = ({ userWallet, transfer, historyTransactio
                   </div>
                   <div className="flex flex-col">
                     <div>Number of top-up</div>
-                    <div className="text-gray-500">
+                    {/* <div className="text-gray-500">
                       Total: <span>200k</span>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -77,13 +77,13 @@ const Wallet: React.FC<WalletProps> = ({ userWallet, transfer, historyTransactio
                   </div>
                   <div className="flex flex-col">
                     <div>Number of payments</div>
-                    <div className="text-gray-500 flex flex-row items-center">
+                    {/* <div className="text-gray-500 flex flex-row items-center">
                       <div>Total: </div>
                       <span className="flex flex-row items-center ml-1">
                         <img className="w-[15px] h-[15px]" src="/images/coin.png" alt="" />
                         400
                       </span>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

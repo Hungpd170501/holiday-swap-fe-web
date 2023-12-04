@@ -49,12 +49,14 @@ const OwnerBooking: React.FC<OwnerBookingProps> = ({ historyOwnerBooking }) => {
   const onPageChange = (page: number) => setCurrentPage(page);
   return (
     <Fragment>
-      <HeadingDashboard
-        routerDashboard="/dashboard"
-        pageCurrentContent="Owner booking"
-        pageCurrentRouter="/dashboard/ownerBooking"
-      />
-      <div className="py-6">
+      <div className="mt-7">
+        <HeadingDashboard
+          routerDashboard="/dashboard"
+          pageCurrentContent="Owner booking"
+          pageCurrentRouter="/dashboard/ownerBooking"
+        />
+      </div>
+      <div className="pb-6 pt-3">
         {displayedItems?.length > 0 ? (
           <Fragment>
             {displayedItems.reverse().map((item: any) => (

@@ -119,11 +119,13 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
   };
   return (
     <>
-      <HeadingDashboard
-        routerDashboard="/staff"
-        pageCurrentContent="List resort"
-        pageCurrentRouter="/staff/listresort"
-      />
+      <div className="mt-2">
+        <HeadingDashboard
+          routerDashboard="/staff"
+          pageCurrentContent="List resort"
+          pageCurrentRouter="/staff/listresort"
+        />
+      </div>
       <SelectRouterStaff />
       <div className="text-common text-[20px] font-bold py-5 ">List Resort</div>
       <TableContainer component={Paper}>
