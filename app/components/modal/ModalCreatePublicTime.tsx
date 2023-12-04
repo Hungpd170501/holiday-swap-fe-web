@@ -97,7 +97,7 @@ export default function ModalCreatePublicTime() {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `http://localhost:8080/api/v1/available-times/getAvailableTimeCreated?timeFrameId=${availableId}&year=${year}`,
+      url: `https://holiday-swap.click/api/v1/available-times/getAvailableTimeCreated?timeFrameId=${availableId}&year=${year}`,
       headers: {},
     };
 
