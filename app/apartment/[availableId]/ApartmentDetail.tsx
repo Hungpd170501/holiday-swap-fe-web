@@ -123,16 +123,6 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     } else {
       setDateRangeContext(dateRangeContext);
     }
-
-    // if (isReload === true) {
-    //   setDateRangeContext(initialDateRangeValue);
-    //   setAdultGuestContext(1);
-    //   setTotalGuestContext(1);
-    //   setChildrenGuestContext(0);
-    //   setAllowTotalGuestContext(apartmentAllowGuest);
-    // } else {
-    //   setDateRangeContext(dateRangeContext);
-    // }
   }, [dateRangeDefaultContext, dateRangeContext, initialDateRangeValue, isNew, isReload, isBack]);
 
   useEffect(() => {
@@ -164,6 +154,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
   const [rating, setRating] = useState<any>();
 
   const [dateRangeDefault, setDateRangeDefault] = useState(initialDateRange);
+  const [smallestDay, setSmallestDay] = useState<any>(null);
 
   const getDatesOutsideDateRange = (dateRange: any) => {
     const startDate = dateRange?.startDate;
@@ -193,11 +184,9 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
         // console.log('Check difference', differenceInDays(checkOutDate, checkInDate));
 
         if (differenceInDays(checkOutDate, checkInDate) < 2) {
-          checkInMap.forEach((checkInDate) => {
+          checkInMap.forEach((checkInDate, key) => {
             if (checkOutMap.has(format(checkInDate, 'yyyy-MM-dd'))) {
               datesOutsideDateRange.push(new Date(checkInDate));
-            } else {
-              // console.log('Ko có');
             }
           });
 
@@ -205,14 +194,30 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
           if (startDate) {
             if (checkInMap.has(format(startDate, 'yyyy-MM-dd'))) {
               datesOutsideDateRange.push(new Date(startDate));
+              // setDateRangeContext({
+              //   ...dateRangeContext,
+              //   startDate: new Date(startDate).getTime() + 24 * 60 * 60 * 1000,
+              // });
             }
           }
 
           if (endDate) {
             if (checkOutMap.has(format(endDate, 'yyyy-MM-dd'))) {
               datesOutsideDateRange.push(new Date(endDate));
+              // setDateRangeContext({
+              //   ...dateRangeContext,
+              //   endDate: new Date(endDate).getTime() - 24 * 60 * 60 * 1000,
+              // });
             }
           }
+
+          // for (
+          //   let i = checkInDate.getTime();
+          //   i <= checkOutDate.getTime();
+          //   i += 24 * 60 * 60 * 1000
+          // ) {
+          //   datesOutsideDateRange.push(new Date(i));
+          // }
         } else {
           for (
             let i = checkInDate.getTime() + 24 * 60 * 60 * 1000;
@@ -238,6 +243,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
                 datesOutsideDateRange.push(new Date(endDate));
               }
             }
+
             datesOutsideDateRange.push(new Date(i));
           }
         }
@@ -247,8 +253,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     return datesOutsideDateRange;
   };
 
-  // console.log('Check in map', checkInMap);
-  // console.log('Check out map', checkOutMap);
+  console.log('Check smallest day', checkInMap);
 
   useEffect(() => {
     setDateOut(getDatesOutsideDateRange(dateRangeDefaultContext));
@@ -269,12 +274,24 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     timeBooked.forEach((element: { checkIn: Date; checkOut: Date }) => {
       let checkIn = new Date(element.checkIn);
       let checkOut = new Date(element.checkOut);
-      if (startDate > checkIn) {
-        const result = dateOut.filter((date) => date.getTime() != checkOut.getTime());
-        setDateOut([...result, ...[checkIn]]);
-      } else if (startDate < checkIn) {
-        const result = dateOut.filter((date) => date.getTime() != checkIn.getTime());
-        setDateOut([...result, ...[checkOut]]);
+      // if (startDate > checkIn) {
+      //   const result = dateOut.filter((date) => date.getTime() != checkOut.getTime());
+      //   setDateOut([...result, ...[checkIn]]);
+      // } else if (startDate < checkIn) {
+      //   const result = dateOut.filter((date) => date.getTime() != checkIn.getTime());
+      //   setDateOut([...result, ...[checkOut]]);
+      // }
+
+      if (
+        startDate <= checkIn &&
+        endDate >= checkIn
+        // (startDate <= checkOut && endDate >= checkOut) ||
+        // (startDate >= checkIn && endDate <= checkOut)
+      ) {
+        const result = dateOut.filter(
+          (date) => date.getTime() !== checkIn.getTime() && date.getTime() !== checkOut.getTime()
+        );
+        setDateOut([...result, checkIn, checkOut]);
       }
     });
   };
@@ -291,7 +308,34 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     }
   }, [propertyId, roomId]);
 
-  console.log('Check date Range context', dateRangeContext);
+  useEffect(() => {
+    if (checkInMap && dateRangeDefaultContext) {
+      checkInMap.forEach((checkIn, key) => {
+        console.log(
+          'Check true false',
+          key < smallestDay && checkIn !== dateRangeDefaultContext.startDate
+        );
+        if (
+          !smallestDay ||
+          (key < smallestDay && new Date(smallestDay) !== dateRangeDefaultContext?.startDate)
+        ) {
+          setSmallestDay(key);
+        }
+      });
+    }
+
+    if (smallestDay) {
+      const newDate = {
+        startDate: dateRangeContext.startDate,
+        endDate: new Date(smallestDay),
+        key: 'selection',
+      };
+      setDateRangeContext(newDate);
+    }
+  }, [checkInMap, smallestDay, dateRangeDefaultContext]);
+
+  console.log('Check small date', smallestDay);
+  console.log('check date context', dateRangeDefaultContext?.startDate);
 
   return (
     <div className="lg:mx-1 xl:mx-16 py-20">

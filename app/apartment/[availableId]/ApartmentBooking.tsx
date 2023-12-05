@@ -131,8 +131,8 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
     }
   };
 
-  const startDateISOString = dateRange.startDate.toISOString();
-  const endDateISOString = dateRange.endDate.toISOString();
+  const startDateISOString = dateRange?.startDate?.toISOString();
+  const endDateISOString = dateRange?.endDate?.toISOString();
 
   const fixedDateRange = {
     startDate: startDateISOString,
