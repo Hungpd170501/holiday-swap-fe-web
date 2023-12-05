@@ -44,7 +44,7 @@ export default function ModalCreatePublicTime() {
 
   const [dateRange, setDateRange] = useState(initialDateRange);
   const [publicDateRange, setPublicDateRange] = useState(dateRange);
-  const [timeFramesId, setTimeFramesId] = useState(1);
+  const [timeFramesId, setTimeFramesId] = useState<any>();
   const [timeFramesWeekNumber, setTimeFramesWeekNumber] = useState();
   const [yearCreate, setYearCreate] = useState<number>(new Date().getFullYear() + 1);
   const [dateOut, setDateOut] = useState<any>();
@@ -121,10 +121,14 @@ export default function ModalCreatePublicTime() {
   };
   useEffect(() => {
     setDateOut([]);
-    fetchtimeHasBooked(timeFramesId, yearCreate);
-    fetchAvailableTimeCreated(timeFramesId, yearCreate);
+
+    if (timeFramesId) {
+      fetchtimeHasBooked(timeFramesId, yearCreate);
+      fetchAvailableTimeCreated(timeFramesId, yearCreate);
+    }
     setTimeHasBooked([...timeHasBooked, ...availableTimeCreated]);
   }, [timeFramesId, yearCreate, createPublicTime.isOpen]);
+
   useEffect(() => {
     setArrayTimeDisAble([...timeHasBooked, ...availableTimeCreated]);
   }, [timeHasBooked, availableTimeCreated]);
@@ -146,6 +150,7 @@ export default function ModalCreatePublicTime() {
         console.log(error);
       });
   };
+
   useEffect(() => {
     var checkDateInBoundary: Date[] = checkDateIsInBoundary(arrayTimeDisAble);
     var dateDiffGreaterTwo = dateDiffIsGreaterTwo(arrayTimeDisAble);
@@ -169,6 +174,7 @@ export default function ModalCreatePublicTime() {
     });
     return arr;
   };
+
   const dateDiffIsGreaterTwo = (array: IDate[]) => {
     var arr: Date[] = [];
     array.forEach((element) => {
@@ -188,6 +194,7 @@ export default function ModalCreatePublicTime() {
     });
     return arr;
   };
+
   const dateIsConsecutive = (array: IDate[]) => {
     var arr: Date[] = [];
     array.forEach((element) => {
@@ -205,6 +212,7 @@ export default function ModalCreatePublicTime() {
     });
     return arr;
   };
+
   const func4 = (ranges: any, array: IDate[]) => {
     console.log(dateOut);
     const { selection } = ranges;
@@ -227,6 +235,7 @@ export default function ModalCreatePublicTime() {
       }
     });
   };
+
   useEffect(() => {
     const yearRegex = new RegExp(`^2\\d{3}$`);
     if (timeFramesWeekNumber && !yearRegex.test(format(new Date(yearCreate), 'yyyy').trim())) {
