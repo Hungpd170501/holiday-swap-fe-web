@@ -20,6 +20,8 @@ import { MdOutlinePending } from 'react-icons/md';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import useDeactiveResortModal from '@/app/hooks/useDeactiveResortModal';
+import useMaintanceResortModal from '@/app/hooks/useMaintanceResortModal';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -76,6 +78,8 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
   const [resorts, setResorts] = React.useState<any>(initialResorts);
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [totalPages, setTotalPages] = React.useState<number>(resorts?.totalPages);
+  const deactiveResortModal = useDeactiveResortModal();
+  const maintanceResortModal = useMaintanceResortModal();
   const [isChangeStatus, setIsChangeStatus] = React.useState(false);
   const pageSize = 10;
   // const totalPages = Math.ceil(resorts?.totalElements / pageSize);
@@ -188,8 +192,8 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                       statusText = 'ACTIVE';
                     } else if (row.status === 'DEACTIVATE') {
                       statusText = 'DEACTIVATE';
-                    } else if (row.status === 'NO_LONGER_IN_BUSINESS') {
-                      statusText = 'LONGER BUSINESS';
+                    } else if (row.status === 'MAINTANCE') {
+                      statusText = 'MAINTANCE';
                     }
 
                     return (
@@ -223,7 +227,13 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                                 key={index}
                                 value={status.status}
                                 className="flex items-center gap-2"
-                                onClick={() => handleOnChangeStatus(row.id, status.status)}
+                                onClick={() => {
+                                  if (status.status === 'DEACTIVATE') {
+                                    deactiveResortModal.onOpen();
+                                  } else if (status.status === 'MAINTANCE') {
+                                    maintanceResortModal.onOpen();
+                                  }
+                                }}
                               >
                                 <status.icon size={18} color={status.color} />
 

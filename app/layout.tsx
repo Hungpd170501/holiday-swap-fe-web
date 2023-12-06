@@ -29,6 +29,8 @@ import ModalEditPropertyView from './components/modal/ModalEditPropertyView';
 import ModalDeletePropertyType from './components/modal/ModalDeletePropertyType';
 import ModalEditApartment from './components/modal/ModalEditApartment';
 import { GuestProvider } from './apartment/GuestContext';
+import ModalDeactiveResort from './components/modal/ModalDeactiveResort';
+import ModalMaintanceResort from './components/modal/ModalMaintanceResort';
 
 const font = Poppins({
   subsets: ['latin'],
@@ -72,6 +74,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                     <ModalEditPropertyView />
                     <ModalDeletePropertyType />
                     <ModalEditApartment />
+                    <ModalDeactiveResort />
+                    <ModalMaintanceResort />
                     <ToasterProvider />
                   </ClientOnly>
 
