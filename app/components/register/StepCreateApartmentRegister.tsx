@@ -29,7 +29,24 @@ export const type = [
 const Apartment = [
   {
     title: 'First',
-    content: (handleRouter: () => void) => (
+    content: (
+      handleRouter: () => void,
+      listResort: any,
+      resortId: any,
+      handleChangeResortId: (value: any) => void,
+      properties: any,
+      propertyValue: any,
+      handleChangePropertyValue: (value: any) => void,
+      register: UseFormRegister<FieldValues>,
+      errors: any,
+      typeValue: any,
+      handleChangeTypeValue: (value: any) => void,
+      startYear: any,
+      handleChangeStartYear: (value: any) => void,
+      endYear: any,
+      handleChangeEndYear: (value: any) => void,
+      handleChangeWeekNumberValue: (value: any) => void
+    ) => (
       <div className="grid grid-cols-2 bg-white pt-10 px-10 mt-10">
         <div>
           <div className="text-[30px] font-bold text-common">Step 1</div>
@@ -73,7 +90,14 @@ const Apartment = [
       propertyValue: any,
       handleChangePropertyValue: (value: any) => void,
       register: UseFormRegister<FieldValues>,
-      errors: any
+      errors: any,
+      typeValue: any,
+      handleChangeTypeValue: (value: any) => void,
+      startYear: any,
+      handleChangeStartYear: (value: any) => void,
+      endYear: any,
+      handleChangeEndYear: (value: any) => void,
+      handleChangeWeekNumberValue: (value: any) => void
     ) => (
       <div>
         <div className="grid grid-cols-2 bg-white pt-10 py-10 px-10 mt-10">
@@ -154,7 +178,9 @@ const Apartment = [
       startYear: any,
       handleChangeStartYear: (value: any) => void,
       endYear: any,
-      handleChangeEndYear: (value: any) => void
+      handleChangeEndYear: (value: any) => void,
+      handeChangeNewImages: (value: any) => void,
+      handleChangeWeekNumberValue: (value: any) => void
     ) => (
       <div>
         <div className="grid grid-cols-2 gap-20">
@@ -220,6 +246,17 @@ const Apartment = [
                   </div>
                 </div>
               )}
+              <InputComponent
+                id="weekNumber"
+                label="Week number"
+                register={register}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  handleChangeWeekNumberValue(e.target.value)
+                }
+                errors={errors}
+                required
+                tooltipContent="This is the week you own in the year, for example if you own the 6th week in 2023, you enter 6. You can enter multiple weeks by separating the weeks with a comma. For example: 6, 10, 11"
+              />
             </div>
           </div>
           <img className="w-[100%] h-[100%] shadow-md " src="/images/apartmentstep4.jpg" alt="" />
@@ -245,7 +282,8 @@ const Apartment = [
       handleChangeStartYear: (value: any) => void,
       endYear: any,
       handleChangeEndYear: (value: any) => void,
-      handeChangeNewImages: (value: any) => void
+      handeChangeNewImages: (value: any) => void,
+      handleChangeWeekNumberValue: (value: any) => void
     ) => (
       <div>
         <div className="grid grid-cols-2 bg-white pt-10 px-10 mt-10">
@@ -286,7 +324,7 @@ const StepCreateApartmentRegister: React.FC<StepCreateApartmentRegisterProps> = 
   const [file, setFile] = useState<any[]>([]);
   const [resortId, setResortId] = useState<any>();
   const [properties, setProperties] = useState<any[]>([]);
-  const [propertyValue, setPropertyValue] = useState();
+  const [propertyValue, setPropertyValue] = useState<any>();
   const [typeValue, setTypeValue] = useState<any>(type[0].type);
   const [visibleCalendar, setVisibleCalendar] = useState(false);
   const [startYear, setStartYear] = useState(new Date());
@@ -360,7 +398,7 @@ const StepCreateApartmentRegister: React.FC<StepCreateApartmentRegisterProps> = 
       const newArray = value.split(',');
       setWeekNumberValue(newArray);
     } else {
-      setWeekNumberValue((prev: any) => [...prev, value]);
+      setWeekNumberValue([value]);
     }
   };
 
@@ -393,9 +431,12 @@ const StepCreateApartmentRegister: React.FC<StepCreateApartmentRegisterProps> = 
       setIsLoading(true);
       const formData = new FormData();
 
+      if (data.weekNumber) {
+      }
+
       const coOwnerId = {
         propertyId: data.propertyId as number,
-        userId: user.userId,
+        userId: user.userId as number,
         roomId: data.roomId,
       };
       const coOwner = {
@@ -416,20 +457,37 @@ const StepCreateApartmentRegister: React.FC<StepCreateApartmentRegisterProps> = 
         formData.append('contractImages', element);
       });
 
-      axiosAuthClient
-        .post('https://holiday-swap.click/api/co-owners', formData)
-        .then(() => {
-          toast.success('Create ownership success!');
-          setOpenModal(false);
-          reset();
-        })
-        .catch((response) => {
-          toast.error(response.response.data.message);
-          setOpenModal(false);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+      const weekNumberRegex = /^(([1-9]|[1-4][0-9]|5[0-2])(,(?!,))?)+$/;
+
+      if (!weekNumberRegex.test(data.weekNumber.trim().split(' ').join(''))) {
+        setWeekNumberValue([]);
+        setValue('weekNumber', '');
+        toast.error('Invalid week number format. Please enter a valid format (e.g., 1, 2, 3).');
+        console.log('Check data', data.weekNumber.split(' ').join(''));
+        console.log('Regex Test Result:', weekNumberRegex.test(data.weekNumber.trim()));
+        setIsLoading(false);
+        setOpenModal(false);
+      } else {
+        axiosAuthClient
+          .post('https://holiday-swap.click/api/co-owners', formData)
+          .then(() => {
+            toast.success('Create ownership success!');
+            setOpenModal(false);
+            setTypeValue(type[0].type);
+            setResortId(listResort[0]?.id);
+            setPropertyValue(null);
+            setWeekNumberValue(null);
+            setFile([]);
+            reset();
+            router.push('/');
+          })
+          .catch((response) => {
+            toast.error(response.response.data.message);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+      }
     }
   };
 
@@ -478,7 +536,8 @@ const StepCreateApartmentRegister: React.FC<StepCreateApartmentRegisterProps> = 
           handleChangeStartYear,
           endYear,
           handleChangeEndYear,
-          handeChangeNewImages
+          handeChangeNewImages,
+          handleChangeWeekNumberValue
         )}
       </div>
       <div className="mt-10">
@@ -535,7 +594,7 @@ const StepCreateApartmentRegister: React.FC<StepCreateApartmentRegisterProps> = 
           )} */}
         </div>
       </div>
-      <div className="-mt-10">
+      <div className="-mt-10 flex flex-row gap-3">
         {current < Apartment.length - 1 && (
           <button
             className="bg-common hover:bg-hover px-5 py-2 rounded-md text-white"
@@ -545,13 +604,12 @@ const StepCreateApartmentRegister: React.FC<StepCreateApartmentRegisterProps> = 
           </button>
         )}
         {current === Apartment.length - 1 && (
-          <Link
-            href="./dashboard/ownership"
+          <div
             className="bg-common hover:bg-hover px-5 py-2 rounded-md text-white"
-            onClick={() => message.success('Processing complete!', handleDone)}
+            onClick={handleSubmit(onSubmit)}
           >
             Done
-          </Link>
+          </div>
         )}
         {current > 0 && (
           <button

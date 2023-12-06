@@ -297,6 +297,10 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
   };
 
   useEffect(() => {
+    editDateBookingModal.onHandleDateRangePicker(handleOnChangeDateRangePicker);
+  }, []);
+
+  useEffect(() => {
     if (propertyId && roomId) {
       const fetchRating = async () => {
         const rating = await axios.get(

@@ -28,10 +28,10 @@ import useLoginModal from '@/app/hooks/useLoginModal';
 import { useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
 import { DatePicker } from 'antd';
-import StepCreateApartmentRegister from './StepCreateApartmentRegister';
 import useCreateApartmentRegister from '@/app/hooks/useCreateApartmentRegister';
 import InputPhone from '../input/InputPhone';
 import { Checkbox, Label } from 'flowbite-react';
+import StepCreateApartmentRegister from './StepCreateApartmentRegister';
 
 enum STEPS {
   INFO = 0,
