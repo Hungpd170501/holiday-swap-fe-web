@@ -48,7 +48,9 @@ export default function ModalEditDateBooking() {
         value={dateRangeContext}
         onChange={(value: any) => {
           setDateRangeContext(value.selection);
-          handleDatePicker(value);
+          // if (handleDatePicker) {
+          //   handleDatePicker(value);
+          // }
         }}
         minDate={dateRangeDefaultContext?.startDate}
         disabledDates={dateOut}
