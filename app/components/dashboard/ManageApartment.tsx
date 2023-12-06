@@ -15,7 +15,7 @@ import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import GetApproveOwnershipById from '@/app/actions/getApproveOwnershipById';
 import toast from 'react-hot-toast';
 import { FaTrashAlt } from 'react-icons/fa';
-import { Tooltip } from 'flowbite-react';
+import { Button, Modal, Tooltip } from 'flowbite-react';
 
 interface ManageApartmentProps {
   detailCoOwner: any;
@@ -53,6 +53,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
   const [detail, setDetail] = useState(detailCoOwner);
   const [images, setImages] = useState(imagesData);
   const [isOpenTimePublic, setIsOpenTimePublic] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const [switchActive, setSwitchActive] = useState(true);
   const createModalPublicTime = useCreatePublicTimeModal();
   const isCreated = createModalPublicTime.isCreated;
@@ -103,10 +104,14 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
           if (detailCoOwner) {
             setDetail(detailCoOwner);
           }
+          setOpenModal(false);
         })
         .catch((response) => {
           toast.error(response.response.data.message);
-        });
+        })
+        .finally(() => {
+          setOpenModal(false)
+        })
     }
   };
 
@@ -201,12 +206,39 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
 
                                     <Tooltip content="Delete time public">
                                       <FaTrashAlt
-                                        onClick={() => handleDeleteAvailableTime(available.id)}
+                                        onClick={() => setOpenModal(true)}
                                         color="red"
                                         size={25}
                                         className="hover:cursor-pointer"
                                       />
                                     </Tooltip>
+
+                                    <Modal show={openModal} onClose={() => setOpenModal(false)}>
+                                      <Modal.Header>Delete public time</Modal.Header>
+                                      <Modal.Body>
+                                        <div className="space-y-6">
+                                          <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                            Are you want to delete this public time?
+                                          </p>
+                                        </div>
+                                      </Modal.Body>
+                                      <Modal.Footer className="flex justify-end">
+                                        <Button
+                                          color="red"
+                                          className="font-bold text-lg"
+                                          onClick={() => handleDeleteAvailableTime(available.id)}
+                                        >
+                                          Delete
+                                        </Button>
+                                        <Button
+                                          color="gray"
+                                          className="text-lg"
+                                          onClick={() => setOpenModal(false)}
+                                        >
+                                          Cancel
+                                        </Button>
+                                      </Modal.Footer>
+                                    </Modal>
                                   </div>
                                 )}
                               </Fragment>
