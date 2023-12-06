@@ -274,25 +274,25 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     timeBooked.forEach((element: { checkIn: Date; checkOut: Date }) => {
       let checkIn = new Date(element.checkIn);
       let checkOut = new Date(element.checkOut);
-      // if (startDate > checkIn) {
-      //   const result = dateOut.filter((date) => date.getTime() != checkOut.getTime());
-      //   setDateOut([...result, ...[checkIn]]);
-      // } else if (startDate < checkIn) {
-      //   const result = dateOut.filter((date) => date.getTime() != checkIn.getTime());
-      //   setDateOut([...result, ...[checkOut]]);
-      // }
-
-      if (
-        startDate <= checkIn &&
-        endDate >= checkIn
-        // (startDate <= checkOut && endDate >= checkOut) ||
-        // (startDate >= checkIn && endDate <= checkOut)
-      ) {
-        const result = dateOut.filter(
-          (date) => date.getTime() !== checkIn.getTime() && date.getTime() !== checkOut.getTime()
-        );
-        setDateOut([...result, checkIn, checkOut]);
+      if (startDate > checkIn) {
+        const result = dateOut.filter((date) => date.getTime() != checkOut.getTime());
+        setDateOut([...result, checkIn]);
+      } else if (startDate < checkIn) {
+        const result = dateOut.filter((date) => date.getTime() != checkIn.getTime());
+        setDateOut([...result, checkOut]);
       }
+
+      // if (
+      //   startDate <= checkIn &&
+      //   endDate <= checkOut
+      //   // (startDate <= checkOut && endDate >= checkOut) ||
+      //   // (startDate >= checkIn && endDate <= checkOut)
+      // ) {
+      //   const result = dateOut.filter(
+      //     (date) => date.getTime() !== checkIn.getTime() && date.getTime() !== checkOut.getTime()
+      //   );
+      //   setDateOut([...result, checkIn, checkOut]);
+      // }
     });
   };
 

@@ -94,15 +94,9 @@ export default function ModalCreatePublicTime() {
     return datesOutsideDateRange;
   };
   const fetchAvailableTimeCreated = (availableId: number, year: number) => {
-    let config = {
-      method: 'get',
-      maxBodyLength: Infinity,
-      url: `https://holiday-swap.click/api/v1/available-times/getAvailableTimeCreated?timeFrameId=${availableId}&year=${year}`,
-      headers: {},
-    };
-
+    
     axios
-      .request(config)
+      .get(`https://holiday-swap.click/api/v1/available-times/getAvailableTimeCreated?timeFrameId=${availableId}&year=${year}`)
       .then((response) => {
         const rs = response.data.map((element: any) => {
           const startDate = element.startTime;
@@ -134,15 +128,9 @@ export default function ModalCreatePublicTime() {
   }, [timeHasBooked, availableTimeCreated]);
   //getTimeHasBookedInTimeFrame and year
   const fetchtimeHasBooked = (timeFrameId: number, year: number) => {
-    let config = {
-      method: 'get',
-      maxBodyLength: Infinity,
-      url: `https://holiday-swap.click/api/booking/timeHasBooked?timeFrameId=${timeFrameId}&year=${year}`,
-      headers: {},
-    };
-
+    
     axios
-      .request(config)
+      .get(`https://holiday-swap.click/api/booking/timeHasBooked?timeFrameId=${timeFrameId}&year=${year}`)
       .then((response) => {
         setTimeHasBooked(response.data);
       })
