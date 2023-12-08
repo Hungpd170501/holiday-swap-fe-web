@@ -56,7 +56,15 @@ const FormDetailProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) =
           <div>
             <Image.PreviewGroup>
               {propertyDetail?.propertyImage.map((e, index) => (
-                <Image key={index} src={e.link} width={75} alt={e.link} />
+                <Image
+                  className=" p-1 border border-gray-400 rounded-md"
+                  key={index}
+                  style={{ marginRight: 2 }}
+                  src={e.link}
+                  width={75}
+                  height={60}
+                  alt={e.link}
+                />
               ))}
             </Image.PreviewGroup>
           </div>
@@ -196,10 +204,10 @@ const FormDetailProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) =
           <div className="mb-5">
             {propertyDetail?.inRoomAmenityType.map((e) => (
               <ul key={e.id} className="">
-                <li>{e.inRoomAmenityTypeName}</li>
-                <div className="grid grid-cols-2 pl-10  gap-2">
+                <li className="mb-3">{e.inRoomAmenityTypeName}</li>
+                <div className="">
                   {e.inRoomAmenities.map((e) => (
-                    <div key={e.id} className="text-xs">
+                    <div key={e.id} className="">
                       {e.inRoomAmenityName}
                     </div>
                   ))}
