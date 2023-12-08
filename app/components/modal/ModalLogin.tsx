@@ -9,6 +9,7 @@ import Modal from './Modal';
 import { signIn } from 'next-auth/react';
 import { toast } from 'react-hot-toast';
 import { BiArrowBack } from 'react-icons/bi';
+import axios from 'axios';
 
 export default function ModalLogin() {
   const router = useRouter();
@@ -30,6 +31,22 @@ export default function ModalLogin() {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
     if (isForgotPasswordModalOpen) {
+      axios
+        .post(`https://holiday-swap.click/api/v1/auth/forgot-password?email=${data.emailForgot}`)
+        .then(() => {
+          toast.success('Email has been sent to your mail. Please check and verify!');
+          loginModal.onClose();
+        })
+        .catch((response) => {
+          if (response && response.response.data) {
+            toast.error(response.response.data.message);
+          } else {
+            toast.error('Something went wrong!');
+          }
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     } else {
       signIn('credentials', { ...data, redirect: false }).then(async (callback) => {
         setIsLoading(false);
@@ -84,7 +101,7 @@ export default function ModalLogin() {
       {isForgotPasswordModalOpen ? (
         <div className="grid grid-cols-1 gap-4">
           <InputComponent
-            id="email"
+            id="emailForgot"
             label="Email"
             disabled={isLoading}
             register={register}

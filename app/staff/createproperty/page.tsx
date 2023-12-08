@@ -4,6 +4,7 @@ import GetPropertyView from '@/app/actions/getPropertyView';
 import GetInRoomAmenities from '@/app/actions/getInRoomAmenities';
 import requireAuth from '@/app/libs/requireAuth';
 import GetListResort from '@/app/actions/getListResortForCreate';
+import GetListResortForCreateOwner from '@/app/actions/getListResortForCreateOwner';
 
 export const metadata = {
   title: 'Create Property',
@@ -13,7 +14,7 @@ export default async function CreatePropertyPage() {
   const propertyTypes = await GetPropertyType();
   const propertyViews = await GetPropertyView();
   const inRoomAmenities = await GetInRoomAmenities();
-  const listResort = await GetListResort('0');
+  const listResort = await GetListResortForCreateOwner('0');
 
   return requireAuth(
     <CreateProperty
