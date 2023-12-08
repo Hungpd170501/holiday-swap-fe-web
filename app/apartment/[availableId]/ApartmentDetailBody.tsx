@@ -308,7 +308,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
               <div className="text-gray-700">Email verified</div>
             </div>
           </div>
-          <div className="mt-5">
+          {/* <div className="mt-5">
             <div className="font-bold">Hi!</div>
             <div className="text-gray-700">
               I&apos;m {apartment.user.fullName}, I&apos;m very passionate about traveling
@@ -316,7 +316,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
               young children, we don&apos;t have time to travel much anymore, so I host on
               HolidaySwap to meet people. I hope everyone will support me Sincerely thank
             </div>
-          </div>
+          </div> */}
 
           <div className="mt-5">
             <div className="font-bold">Support:</div>

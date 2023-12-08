@@ -182,7 +182,7 @@ const SearchBarResort: React.FC<SearchBarResortProps> = ({ listResort }) => {
                     </Fragment>
                   ) : (
                     <Fragment>
-                      <div>Select check in - Select check out</div>
+                      <div className="w-[300px]">Select check in - Select check out</div>
                     </Fragment>
                   )}
                 </div>

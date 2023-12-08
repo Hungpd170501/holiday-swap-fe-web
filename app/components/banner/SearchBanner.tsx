@@ -130,7 +130,7 @@ const SearchBanner: React.FC<SearchBannerProps> = ({ listResort }) => {
           </select>
         </div>
 
-        <div onClick={handleVisibleCalendar} className="flex flex-col gap-2 p-6">
+        <div onClick={handleVisibleCalendar} className="-ml-3 flex flex-col gap-2 p-6">
           <p>Check-in / Check-out</p>
           <div className="flex w-full flex-row items-center justify-between py-1">
             <div className="flex flex-row  items-center">
@@ -143,7 +143,7 @@ const SearchBanner: React.FC<SearchBannerProps> = ({ listResort }) => {
                   </Fragment>
                 ) : (
                   <Fragment>
-                    <div>Select check in - Select check out</div>
+                    <div className="w-[300px]">Select check in - Select check out</div>
                   </Fragment>
                 )}
               </div>

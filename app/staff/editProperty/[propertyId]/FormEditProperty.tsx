@@ -283,7 +283,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
                 name="propertyName"
                 rules={[{ required: true, message: 'Please input your property name!' }]}
               >
-                <Input />
+                <Input className="rounded-md" />
               </Form.Item>
             </Col>
             <Col className="gutter-row" span={24}>
@@ -292,7 +292,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
                 name="propertyDescription"
                 rules={[{ required: true, message: 'Please input your property description!' }]}
               >
-                <Input />
+                <Input className="rounded-md" />
               </Form.Item>
             </Col>
             <Col className="gutter-row" span={24}>
@@ -347,7 +347,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
                   },
                 ]}
               >
-                <InputNumber min={0} />
+                <InputNumber className="w-[40%]" min={0} />
               </Form.Item>
             </Col>
             <Col className="gutter-row" span={12}>
@@ -368,7 +368,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
                   },
                 ]}
               >
-                <InputNumber min={0} />
+                <InputNumber className="w-[40%]" min={0} />
               </Form.Item>
             </Col>
             <Col className="gutter-row" span={12}>
@@ -389,7 +389,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
                   },
                 ]}
               >
-                <InputNumber min={0} />
+                <InputNumber className="w-[38%]" min={0} />
               </Form.Item>
             </Col>
             <Col className="gutter-row" span={12}>
@@ -410,7 +410,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
                   },
                 ]}
               >
-                <InputNumber min={0} />
+                <InputNumber className="w-[39%]" min={0} />
               </Form.Item>
             </Col>{' '}
             <Col className="gutter-row" span={12}>
@@ -431,7 +431,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
                   },
                 ]}
               >
-                <InputNumber min={0} />
+                <InputNumber className="w-[40%]" min={0} />
               </Form.Item>
             </Col>
             <Col className="gutter-row" span={12}>
@@ -452,7 +452,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
                   },
                 ]}
               >
-                <InputNumber min={0} />
+                <InputNumber className="w-[38%]" min={0} />
               </Form.Item>
             </Col>
             <Col className="gutter-row" span={12}>
@@ -473,7 +473,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
                   },
                 ]}
               >
-                <InputNumber min={0} />
+                <InputNumber className="w-[41%]" min={0} />
               </Form.Item>
             </Col>
             <Col className="gutter-row" span={12}>
@@ -494,7 +494,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
                   },
                 ]}
               >
-                <InputNumber min={0} />
+                <InputNumber className="w-[42%]" min={0} />
               </Form.Item>
             </Col>
             <Col className="gutter-row" span={12}>
@@ -514,7 +514,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
                   },
                 ]}
               >
-                <InputNumber min={1} />
+                <InputNumber className="w-[36%]" min={1} />
               </Form.Item>
             </Col>
             <Col className="gutter-row" span={12}>
@@ -534,7 +534,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
                   },
                 ]}
               >
-                <InputNumber min={0} />
+                <InputNumber className="w-[38%]" min={0} />
               </Form.Item>
             </Col>
             <Col className="gutter-row" span={12}>
@@ -548,7 +548,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
                   },
                 ]}
               >
-                <InputNumber min={10} />
+                <InputNumber className="w-[43%]" min={10} />
               </Form.Item>
             </Col>
           </Row>
