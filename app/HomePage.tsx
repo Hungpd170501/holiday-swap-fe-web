@@ -9,9 +9,10 @@ import TopApartment from './components/TopApartment';
 
 interface HomePageProps {
   listResort: any;
+  apartment: any;
 }
 
-const HomePage: React.FC<HomePageProps> = ({ listResort }) => {
+const HomePage: React.FC<HomePageProps> = ({ listResort, apartment }) => {
   const [notification, setNotification] = useState({ title: '', body: '' });
   const [isTokenFound, setTokenFound] = useState(false);
   const [currentToken, setCurrentToken] = useState<any>();
@@ -24,7 +25,7 @@ const HomePage: React.FC<HomePageProps> = ({ listResort }) => {
             <Banner listResort={listResort} />
           </div>
           <TopDestination listResort={listResort} />
-          <TopApartment />
+          <TopApartment apartment={apartment} />
         </div>
       </Container>
     </ClientOnly>

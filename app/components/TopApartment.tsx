@@ -3,7 +3,11 @@
 import React, { useState } from 'react';
 import Carousel from './Carousel';
 
-export const TopApartment = () => {
+interface TopApartmentProps {
+  apartment: any;
+}
+
+const TopApartment: React.FC<TopApartmentProps> = ({ apartment }) => {
   const items = [
     'https://ak-d.tripcdn.com/images/0223412000araigzyE744_R_960_660_R5_D.jpg',
     'https://cf.bstatic.com/xdata/images/hotel/max1024x768/487029186.jpg?k=b1758cc14fda25f1ab205c6be7b5476a3c247acf0c31edab52ac4ebaa6362406&o=&hp=1',
@@ -23,7 +27,7 @@ export const TopApartment = () => {
       </div>
 
       <div className="pt-20 w-auto">
-        <Carousel slices={items} />
+        <Carousel slices={apartment.content} />
       </div>
     </div>
   );

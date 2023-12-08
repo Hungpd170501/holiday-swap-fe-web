@@ -11,6 +11,9 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import SwiperButton from './apartment/SwiperButton';
+import { differenceInDays } from 'date-fns';
+import useNewDateRange from '../hooks/useNewDateRange';
+import { useRouter } from 'next/navigation';
 
 interface CarouselProps {
   slices: string[];
@@ -19,6 +22,21 @@ interface CarouselProps {
 const Carousel: React.FC<CarouselProps> = ({ slices }) => {
   const [hoveredIndex, setHoveredIndex] = useState(-1);
   const [slidesPerView, setSlidesPerView] = useState(3);
+  const router = useRouter();
+
+  const calculateNightDifference = (startDate: any, endDate: any) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const nightDifference = differenceInDays(end, start);
+    return nightDifference;
+  };
+
+  const newDateRange = useNewDateRange();
+
+  const handleRedirectApartmentDetail = (url: string) => {
+    newDateRange.setNew();
+    router.push(url);
+  };
 
   const handleMouseEnter = (index: any) => {
     setHoveredIndex(index);
@@ -64,16 +82,25 @@ const Carousel: React.FC<CarouselProps> = ({ slices }) => {
             <FaArrowLeft size={30} />
           </SwiperButton>
 
-          {slices?.map((s: any, index: any) => (
-            <SwiperSlide key={index}>
+          {slices?.slice(0, 9).map((s: any, index: any) => (
+            <SwiperSlide
+              onClick={() =>
+                handleRedirectApartmentDetail(
+                  `/apartment/${s.availableTime.id}?propertyId=${s.coOwnerId.propertyId}&roomId=${s.coOwnerId.roomId}`
+                )
+              }
+              key={index}
+              
+            >
               <div
-                className="flex flex-col items-center justify-end  "
+                className="flex flex-col items-center justify-end hover:cursor-pointer"
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={handleMouseLeave}
+                
               >
                 <div className={hoveredIndex === index ? 'opacity-90' : ''}>
                   <img
-                    src={s}
+                    src={s.property.propertyImage[0].link}
                     alt="destination"
                     height={700}
                     width="100%"
@@ -91,10 +118,19 @@ const Carousel: React.FC<CarouselProps> = ({ slices }) => {
                 >
                   {hoveredIndex === index ? (
                     <>
-                      <span>Vung Tau</span>
+                      <span>{s.property.propertyName}</span>
                       <div className="text-base font-light text-white flex flex-col justify-center items-center">
                         <span className="flex justify-center md:w-[200px] flex-col lg:w-[250px] xl:w-[300px]">
-                          2 day, 1 night
+                          {calculateNightDifference(
+                            s.availableTime.startTime,
+                            s.availableTime.endTime
+                          )}{' '}
+                          {calculateNightDifference(
+                            s.availableTime.startTime,
+                            s.availableTime.endTime
+                          ) === 1
+                            ? 'night'
+                            : 'nights'}
                           <span className="flex justify-between">
                             <div className="flex">
                               <AiFillStar size={20} color="yellow" />
@@ -103,13 +139,15 @@ const Carousel: React.FC<CarouselProps> = ({ slices }) => {
                               <AiFillStar size={20} color="yellow" />
                             </div>
 
-                            <div className="text-white text-base">155 points</div>
+                            <div className="text-white text-base">
+                              {s.availableTime.pricePerNight} point
+                            </div>
                           </span>
                         </span>
                       </div>
                     </>
                   ) : (
-                    <span className="pb-8 w-[200px] text-center">Vung Tau</span>
+                    <span className="pb-8 w-[200px] text-center">{s.property.propertyName}</span>
                   )}
                 </div>
               </div>
