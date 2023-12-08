@@ -16,6 +16,7 @@ interface InputProps {
   onKeyUp?: (value: any) => void;
   type?: string;
   placeholder?: string;
+  readonly?: boolean;
   disabled?: boolean;
   formatPrice?: boolean;
   min?: number;
@@ -45,6 +46,7 @@ const InputComponent: React.FC<InputProps> = ({
   min,
   max,
   maxLength,
+  readonly,
   register,
   setValue,
   onChange,
@@ -91,6 +93,7 @@ const InputComponent: React.FC<InputProps> = ({
         min={min}
         max={max}
         maxLength={maxLength}
+        readOnly={readonly}
         value={value}
         onKeyUp={onKeyUp}
         onChange={onChange}

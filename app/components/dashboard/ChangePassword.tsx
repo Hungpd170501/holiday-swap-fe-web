@@ -1,8 +1,24 @@
 'use client';
 import React, { useState } from 'react';
 import HeadingDashboard from '../HeadingDashboard';
-export default function ChangePassword() {
+import InputComponent from '../input/Input';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import axios from 'axios';
+import { signOut, useSession } from 'next-auth/react';
+import toast from 'react-hot-toast';
+import useLoginModal from '@/app/hooks/useLoginModal';
+import { Button, Modal } from 'flowbite-react';
+
+interface ChangePasswordProps {
+  currentUser: any;
+}
+
+const ChangePassword: React.FC<ChangePasswordProps> = ({ currentUser }) => {
   const [selectedOption, setSelectedOption] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const { data: session } = useSession();
+  const loginModal = useLoginModal();
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value;
@@ -12,6 +28,45 @@ export default function ChangePassword() {
       window.location.href = selectedValue;
     }
   };
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FieldValues>({
+    defaultValues: {
+      email: currentUser.email,
+      password: '',
+    },
+  });
+
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    if (currentUser) {
+      setIsLoading(true);
+      const body = {
+        token: session?.user.access_token,
+        email: currentUser.email,
+        password: data.password,
+      };
+      const config = { headers: { 'Content-type': 'application/json' } };
+      axios
+        .put(`https://holiday-swap.click/api/v1/auth/reset-password`, body, config)
+        .then(() => {
+          signOut();
+          setOpenModal(false);
+          toast.success('Change password successfully!');
+          reset();
+        })
+        .catch((response) => {
+          toast.error(response.response.data.message);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  };
+
   return (
     <div className="px-10">
       <div className="w-full lg:w-[600px] xl:w-[600px]">
@@ -42,32 +97,60 @@ export default function ChangePassword() {
 
         <div className="mt-10">
           <div className=" flex flex-col mb-10  md:flex md:flex-row md:mb-14">
-            <div className="w-[277px] text-gray-700">Old Password*</div>
+            {/* <div className="w-[277px] text-gray-700">Old Password*</div>
             <input
               type="email"
               className=" text-gray-800 px-1 w-full bg-[#F8F8F8] border-b border-gray-500 focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent rounded-md"
+            /> */}
+            <InputComponent
+              readonly={true}
+              value={currentUser.email}
+              register={register}
+              id="email"
+              label="Email"
+              errors={errors}
             />
           </div>
           <div className=" flex flex-col mb-10  md:flex md:flex-row md:mb-14">
-            <div className="w-[277px] text-gray-700">New Password*</div>
-            <input
-              type="email"
-              className=" text-gray-800 px-1 w-full bg-[#F8F8F8] border-b border-gray-500 focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent rounded-md"
+            <InputComponent
+              register={register}
+              type="password"
+              id="password"
+              label="New Password"
+              errors={errors}
+              required={true}
             />
           </div>{' '}
-          <div className=" flex flex-col mb-10  md:flex md:flex-row md:mb-14">
-            <div className="w-[277px] text-gray-700">Confirm Password*</div>
-            <input
-              type="email"
-              className=" text-gray-800 px-1 w-full bg-[#F8F8F8] border-b border-gray-500 focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent rounded-md"
-            />
-          </div>
-          <button className=" text-[15px] bg-common px-4 py-2 rounded-md text-white md:bg-[#5C98F2] md:px-4 md:py-3 md:text-white md:rounded-md md:ml-56">
+          <button
+            disabled={isLoading}
+            onClick={() => setOpenModal(true)}
+            className=" text-[15px] bg-common px-4 py-2 rounded-md text-white md:bg-[#5C98F2] md:px-4 md:py-3 md:text-white md:rounded-md md:ml-56"
+          >
             Update Password
           </button>
         </div>
       </div>
-      ,
+
+      <Modal show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal.Header>Change password</Modal.Header>
+        <Modal.Body>
+          <div className="space-y-6">
+            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+              Are you want to change password?
+            </p>
+          </div>
+        </Modal.Body>
+        <Modal.Footer className="flex justify-end">
+          <Button color="green" className="font-bold text-lg" onClick={handleSubmit(onSubmit)}>
+            Update password
+          </Button>
+          <Button color="gray" className="text-lg" onClick={() => setOpenModal(false)}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
-}
+};
+
+export default ChangePassword;
