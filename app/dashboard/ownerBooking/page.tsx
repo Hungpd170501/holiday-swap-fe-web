@@ -7,12 +7,9 @@ export default async function OwnerBookingPage() {
   const historyOwnerBooking = await GetOwnerHistoryBooking();
 
   return requireAuth(
-    <div>
-      
-      <div>
-        <OwnerBooking historyOwnerBooking={historyOwnerBooking} />
-      </div>
-    </div>,
+
+        <OwnerBooking historyOwnerBooking={historyOwnerBooking} />,
+     
     [2]
   );
 }
