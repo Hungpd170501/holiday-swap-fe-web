@@ -183,34 +183,36 @@ const TransferMoney: React.FC<TransferMoneyProps> = ({ currentUser, memberships 
   }));
 
   const handleDone = () => {
-    const data = {
-      from: currentUser?.userId,
-      to: userTo,
-      amount: moneyTransfer,
-    };
+    if (currentUser) {
+      const data = {
+        from: currentUser?.userId,
+        to: userTo,
+        amount: moneyTransfer,
+      };
 
-    const config = {
-      headers: { Authorization: `Bearer ${session?.user.access_token}` },
-    };
+      // const config = {
+      //   headers: { Authorization: `Bearer ${session?.user.access_token}` },
+      // };
 
-    if (!accept) {
-      toast.error('Your must be accept term to tranfer');
-      return;
-    } else {
-      axios
-        .post('https://holiday-swap.click/api/v1/transfer', data, config)
-        .then(() => {
-          toast.success('Transfer point success!');
-          setTimeout(() => {
-            router.push('/dashboard/wallet');
-          }, 1000);
-        })
-        .catch((error) => {
-          toast.error(error.response.data.message);
-        })
-        .finally(() => {
-          setCurrent(0);
-        });
+      if (!accept) {
+        toast.error('Your must be accept term to tranfer');
+        return;
+      } else {
+        axios
+          .post('https://holiday-swap.click/api/v1/transfer', data)
+          .then(() => {
+            toast.success('Transfer point success!');
+            setTimeout(() => {
+              router.push('/dashboard/wallet');
+            }, 1000);
+          })
+          .catch((error) => {
+            toast.error(error.response.data.message);
+          })
+          .finally(() => {
+            setCurrent(0);
+          });
+      }
     }
   };
 
