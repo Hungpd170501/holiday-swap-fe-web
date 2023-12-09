@@ -55,8 +55,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <Provider>
             <DateRangeProvider>
               <GuestProvider>
+                <Header currentUser={currentUser} />
                 <Suspense fallback={<Loading />}>
-                  <Header currentUser={currentUser} />
                   <ClientOnly>
                     <ModalDetailProperty />
                     <ModalLogin />
@@ -80,8 +80,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   </ClientOnly>
 
                   {children}
-                  <Footer />
                 </Suspense>
+                <Footer />
               </GuestProvider>
             </DateRangeProvider>
           </Provider>

@@ -4,6 +4,7 @@ import ApartmentDetail from './ApartmentDetail';
 import GetApartmentById from '@/app/actions/getAparmetById';
 import GetCurrentUser from '@/app/actions/getCurrentUser';
 import GetApartmentRating from '@/app/actions/getApartmentRating';
+import dynamic from 'next/dynamic';
 
 interface IParams {
   availableId?: string;

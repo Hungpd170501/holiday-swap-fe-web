@@ -124,14 +124,14 @@ const InputPassword: React.FC<InputProps> = ({
             {isShowPassword ? (
               <div
                 onClick={handleShowPassword}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 hover:cursor-pointer hover:opacity-90"
+                className="absolute inset-y-0 z-50 right-0 pr-3 flex items-center text-sm leading-5 hover:cursor-pointer hover:opacity-90"
               >
                 <FaRegEyeSlash size={24} />
               </div>
             ) : (
               <div
                 onClick={handleShowPassword}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 hover:cursor-pointer hover:opacity-90"
+                className="absolute inset-y-0 z-50 right-0 pr-3 flex items-center text-sm leading-5 hover:cursor-pointer hover:opacity-90"
               >
                 <FaRegEye size={24} />
               </div>
