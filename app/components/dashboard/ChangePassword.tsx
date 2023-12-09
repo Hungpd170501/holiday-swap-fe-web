@@ -8,6 +8,7 @@ import { signOut, useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import useLoginModal from '@/app/hooks/useLoginModal';
 import { Button, Modal } from 'flowbite-react';
+import InputPassword from '../input/InputPassword';
 
 interface ChangePasswordProps {
   currentUser: any;
@@ -45,13 +46,18 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ currentUser }) => {
     if (currentUser) {
       setIsLoading(true);
       const body = {
-        token: session?.user.access_token,
-        email: currentUser.email,
-        password: data.password,
+        currentPassword: data.currentPassword,
+        newPassword: data.newPassword,
+        confirmPassword: data.confirmPassword,
       };
-      const config = { headers: { 'Content-type': 'application/json' } };
+      const config = {
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${session?.user.access_token}`,
+        },
+      };
       axios
-        .put(`https://holiday-swap.click/api/v1/auth/reset-password`, body, config)
+        .patch(`https://holiday-swap.click/api/v1/users/change-password`, body, config)
         .then(() => {
           signOut();
           setOpenModal(false);
@@ -60,6 +66,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ currentUser }) => {
         })
         .catch((response) => {
           toast.error(response.response.data.message);
+          setOpenModal(false);
         })
         .finally(() => {
           setIsLoading(false);
@@ -102,25 +109,35 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ currentUser }) => {
               type="email"
               className=" text-gray-800 px-1 w-full bg-[#F8F8F8] border-b border-gray-500 focus:outline-none focus:border-t-transparent focus:border-l-transparent focus:border-r-transparent rounded-md"
             /> */}
-            <InputComponent
-              readonly={true}
-              value={currentUser.email}
+            <InputPassword
               register={register}
-              id="email"
-              label="Email"
+              id="currentPassword"
+              label="Current Password"
               errors={errors}
+              type="password"
+              required={true}
             />
           </div>
           <div className=" flex flex-col mb-10  md:flex md:flex-row md:mb-14">
-            <InputComponent
+            <InputPassword
               register={register}
               type="password"
-              id="password"
+              id="newPassword"
               label="New Password"
               errors={errors}
               required={true}
             />
-          </div>{' '}
+          </div>
+          <div className=" flex flex-col mb-10  md:flex md:flex-row md:mb-14">
+            <InputPassword
+              register={register}
+              type="password"
+              id="confirmPassword"
+              label="Confirm New Password"
+              errors={errors}
+              required={true}
+            />
+          </div>
           <button
             disabled={isLoading}
             onClick={() => setOpenModal(true)}

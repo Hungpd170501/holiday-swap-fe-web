@@ -10,6 +10,7 @@ import { signIn } from 'next-auth/react';
 import { toast } from 'react-hot-toast';
 import { BiArrowBack } from 'react-icons/bi';
 import axios from 'axios';
+import InputPassword from '../input/InputPassword';
 
 export default function ModalLogin() {
   const router = useRouter();
@@ -121,7 +122,7 @@ export default function ModalLogin() {
             errors={errors}
             required
           />
-          <InputComponent
+          <InputPassword
             id="password"
             label="Password"
             type="password"

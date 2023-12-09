@@ -33,10 +33,10 @@ interface FormInputs {
   multipleErrorInput: string;
 }
 
-const InputComponent: React.FC<InputProps> = ({
+const InputPassword: React.FC<InputProps> = ({
   id,
   label,
-  type = 'text',
+  type,
   placeholder = '',
   valueRegister,
   disabled,
@@ -60,6 +60,21 @@ const InputComponent: React.FC<InputProps> = ({
       )
     : /^.*$/;
 
+  const [isShowPassword, setIsShowPassword] = useState(false);
+  const [typeInput, setTypeInput] = useState(type);
+
+  const handleShowPassword = () => {
+    setIsShowPassword(!isShowPassword);
+  };
+
+  useEffect(() => {
+    if (isShowPassword) {
+      setTypeInput('text');
+    } else {
+      setTypeInput('password');
+    }
+  }, [isShowPassword]);
+
   return (
     <div className="w-full flex-col flex">
       {/* {formatPrice && (
@@ -78,33 +93,54 @@ const InputComponent: React.FC<InputProps> = ({
           </Tooltip>
         )}
       </div>
-
-      <input
-        id={id}
-        disabled={disabled}
-        {...register(id, {
-          required: `${label} is required`,
-          pattern: {
-            value: emailPattern,
-            message: id.includes('email') ? 'Invalid email format' : 'Invalid phone number',
-          },
-        })}
-        placeholder={placeholder}
-        name={id}
-        type={type}
-        min={min}
-        max={max}
-        maxLength={maxLength}
-        readOnly={readonly}
-        value={value}
-        onKeyUp={onKeyUp}
-        onChange={onChange}
-        className={`peer w-full p-4 pt-6 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed focus:ring-0
+      <div className="relative">
+        <input
+          id={id}
+          disabled={disabled}
+          {...register(id, {
+            required: `${label} is required`,
+            pattern: {
+              value: emailPattern,
+              message: id.includes('email') ? 'Invalid email format' : 'Invalid phone number',
+            },
+          })}
+          placeholder={placeholder}
+          name={id}
+          type={typeInput}
+          min={min}
+          max={max}
+          maxLength={maxLength}
+          readOnly={readonly}
+          value={value}
+          onKeyUp={onKeyUp}
+          onChange={onChange}
+          className={`peer w-full p-4 pt-6 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed focus:ring-0
         ${errors[id] ? 'border-red-400' : 'border-gray-400'} ${
-          errors[id] ? 'focus:border-red-400' : 'focus:border-black'
-        }`}
-      />
-
+            errors[id] ? 'focus:border-red-400' : 'focus:border-black'
+          }`}
+        />
+        {type === 'password' ? (
+          <Fragment>
+            {isShowPassword ? (
+              <div
+                onClick={handleShowPassword}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 hover:cursor-pointer hover:opacity-90"
+              >
+                <FaRegEyeSlash size={24} />
+              </div>
+            ) : (
+              <div
+                onClick={handleShowPassword}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 hover:cursor-pointer hover:opacity-90"
+              >
+                <FaRegEye size={24} />
+              </div>
+            )}
+          </Fragment>
+        ) : (
+          ''
+        )}
+      </div>
       <div className="pt-1">
         <ErrorMessage
           errors={errors}
@@ -116,4 +152,4 @@ const InputComponent: React.FC<InputProps> = ({
   );
 };
 
-export default InputComponent;
+export default InputPassword;
