@@ -9,7 +9,7 @@ interface IParams {
 export default async function GetOwnerHistoryBookingById(params: IParams) {
   try {
     const { bookingId } = params;
-
+    console.log("Check bookingId", params);
     const session = await getServerSession(authOptions);
     const accessToken = session?.user?.access_token;
     const config = { headers: { Authorization: `Bearer ${accessToken}` } };

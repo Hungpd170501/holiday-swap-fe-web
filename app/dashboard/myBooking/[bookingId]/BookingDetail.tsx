@@ -205,7 +205,11 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
         <div className="flex flex-col py-6">
           <div className="flex flex-row items-center gap-2">
             <Image
-              src={ratingValue?.ratingType === "PUBLIC" ? ratingValue?.user?.avatar || '/images/placeholder.jpg' : '/images/placeholder.jpg'}
+              src={
+                ratingValue?.ratingType === 'PUBLIC'
+                  ? ratingValue?.user?.avatar || '/images/placeholder.jpg'
+                  : '/images/placeholder.jpg'
+              }
               width={50}
               height={50}
               alt="Avatar"
@@ -213,7 +217,9 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
             />
             <div className="flex flex-col">
               <p className="text-black text-base">
-                {ratingValue?.ratingType === 'PRIVATE' ? 'Anonymous users' : ratingValue?.user?.fullName}
+                {ratingValue?.ratingType === 'PRIVATE'
+                  ? 'Anonymous users'
+                  : ratingValue?.user?.fullName}
               </p>
               {/* <p className="text-slate-400 text-base">6 years on HolidaySwap</p> */}
             </div>
@@ -223,7 +229,9 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
             <ReactStars count={5} size={15} color2="orange" value={ratingValue?.rating} />
             <div>·</div>
             {ratingValue && ratingValue.createDate && (
-              <div className="text-sm text-black">{format(new Date(ratingValue?.createDate), "dd/MM/yyyy 'at' h:mm a")}</div>
+              <div className="text-sm text-black">
+                {format(new Date(ratingValue?.createDate), "dd/MM/yyyy 'at' h:mm a")}
+              </div>
             )}
           </div>
 

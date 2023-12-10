@@ -2,8 +2,10 @@
 
 import GetOwnerHistoryBookingById from '@/app/actions/getOwnerHistoryBookingById';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
+import axios from 'axios';
 import { differenceInDays, format } from 'date-fns';
-import { Card } from 'flowbite-react';
+import { Button, Card, Modal } from 'flowbite-react';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -33,23 +35,30 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
   };
 
   const axiosAuthClient = useAxiosAuthClient();
+  const [openModal, setOpenModal] = useState(false);
+  const { data: session } = useSession();
 
   const { bookingId } = ownerBookingDetailId;
 
   const handleCancelBooking = () => {
+    const accessToken = session?.user?.access_token;
+    const config = { headers: { Authorization: `Bearer ${accessToken}` } };
     axiosAuthClient
       .put(`https://holiday-swap.click/api/booking/cancel/${bookingId}`)
       .then(async (response) => {
-        const bookingId = ownerBookingDetailId;
-        const params = { bookingId };
-        const newDetail = await GetOwnerHistoryBookingById(params);
+        const newDetail = await axios.get(
+          `https://holiday-swap.click/api/booking/ownerhistorybooking/${bookingId}`,
+          config
+        );
         if (newDetail) {
-          setDetail(newDetail);
+          setDetail(newDetail.data);
         }
         toast.success('Cancel booking successfully!');
+        setOpenModal(false);
       })
       .catch((response) => {
         toast.error(response?.response?.data?.message ?? 'Something went wrong');
+        setOpenModal(false);
       });
   };
 
@@ -63,7 +72,9 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
             <div className="text-lg text-slate-500">
               You are going to <span className="font-bold"> {detail?.resortName} </span>
             </div>
-            <div className="text-sm text-slate-500 mt-2">{format(new Date(detail?.createdDate), "dd/MM/yyyy 'at' h:mm a")}</div>
+            <div className="text-sm text-slate-500 mt-2">
+              {format(new Date(detail?.createdDate), "dd/MM/yyyy 'at' h:mm a")}
+            </div>
           </div>
 
           {/* Information ownership */}
@@ -104,7 +115,7 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
           {detail?.canCancel === true ? (
             <div className="py-3">
               <button
-                onClick={handleCancelBooking}
+                onClick={() => setOpenModal(true)}
                 type="button"
                 className="p-3 rounded-md bg-orange-500 hover:bg-orange-600 text-white text-lg"
               >
@@ -191,7 +202,11 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
         <div className="flex flex-col py-6">
           <div className="flex flex-row items-center gap-2">
             <Image
-              src={rating?.user?.avatar || '/images/placeholder.jpg'}
+              src={
+                rating?.ratingType === 'PUBLIC'
+                  ? rating?.user?.avatar || '/images/placeholder.jpg'
+                  : '/images/placeholder.jpg'
+              }
               width={50}
               height={50}
               alt="Avatar"
@@ -214,6 +229,25 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
           <div className="text-base font-normal line-clamp-3">{rating?.comment}</div>
         </div>
       )}
+
+      <Modal show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal.Header>Cancel Booking</Modal.Header>
+        <Modal.Body>
+          <div className="space-y-6">
+            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+              Are you want to cancel booking
+            </p>
+          </div>
+        </Modal.Body>
+        <Modal.Footer className="flex justify-end">
+          <Button color="red" className="font-bold text-lg" onClick={handleCancelBooking}>
+            Continue
+          </Button>
+          <Button color="gray" className="text-lg" onClick={() => setOpenModal(false)}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

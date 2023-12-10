@@ -96,7 +96,13 @@ const OwnerBooking: React.FC<OwnerBookingProps> = ({ historyOwnerBooking }) => {
                 </div>
 
                 <div className="col-span-3 flex flex-row justify-center items-center">
-                  <div className="text-lg text-green-600">{item.status}</div>
+                  <div
+                    className={`text-lg ${
+                      item.status === 'SUCCESS' ? 'text-green-600' : 'text-orange-600'
+                    }`}
+                  >
+                    {item.status}
+                  </div>
                 </div>
               </div>
             ))}
