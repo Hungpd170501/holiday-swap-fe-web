@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useAxiosAuthClient from '../hooks/useAxiosAuthClient';
 import useLoginModal from '../hooks/useLoginModal';
 import toast from 'react-hot-toast';
@@ -42,6 +42,8 @@ const BookingPriceCard: React.FC<BookingPriceCardProps> = ({
     key: 'selection',
   });
 
+  const [total, setTotal] = useState(totalPrice);
+
   const calculateNightDifference = (startDate: any, endDate: any) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -50,6 +52,14 @@ const BookingPriceCard: React.FC<BookingPriceCardProps> = ({
   };
 
   const { dateRangeContext } = useDateRange();
+
+  useEffect(() => {
+    if (dateRangeContext) {
+      setTotal(
+        calculateNightDifference(dateRangeContext.startDate, dateRangeContext.endDate) * priceNight
+      );
+    }
+  }, [dateRangeContext, priceNight]);
 
   console.log('Check date range booking in booking price', dateRangeValue);
   return (
@@ -111,7 +121,7 @@ const BookingPriceCard: React.FC<BookingPriceCardProps> = ({
       {/* Total */}
       <div className="flex flex-row justify-between py-8 text-base font-bold">
         <div>Total</div>
-        <div>{totalPrice} point</div>
+        <div>{total} point</div>
       </div>
     </div>
   );
