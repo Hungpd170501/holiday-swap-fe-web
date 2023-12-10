@@ -10,6 +10,8 @@ import toast from 'react-hot-toast';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import ReactStars from 'react-stars';
 import GetBookingHistoryById from '@/app/actions/getBookingHistoryById';
+import { useSession } from 'next-auth/react';
+import GetRatingByBookingId from '@/app/actions/getRatingByBookingId';
 
 interface BookingDetailProps {
   bookingDetail: any;
@@ -29,6 +31,7 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
   rating,
 }) => {
   const [detail, setDetail] = useState(bookingDetail);
+  const [ratingValue, setRatingValue] = useState(rating);
   const calculateNightDifference = (startDate: any, endDate: any) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -38,20 +41,25 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
 
   const createReviewModal = useCreateReviewModal();
   const isCreated = createReviewModal.isCreated;
+  const { data: session } = useSession();
 
   useEffect(() => {
     const getData = async () => {
+      const accessToken = session?.user?.access_token;
+      const config = { headers: { Authorization: `Bearer ${accessToken}` } };
       if (isCreated === true) {
         const params = { bookingId };
-        const newDetail = await GetBookingHistoryById(params);
-        if (newDetail) {
-          setDetail(newDetail);
+        const newReview = await GetRatingByBookingId(params);
+        if (newReview) {
+          setRatingValue(newReview);
           createReviewModal.onCreatedReset();
         }
       }
     };
     getData();
   }, [isCreated]);
+
+  console.log('check isCreated', isCreated);
 
   return (
     <div className="flex flex-col ">
@@ -103,7 +111,7 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
             <div className="text-slate-400">Description</div>
           </div>
 
-          {!rating && (
+          {!ratingValue && (
             <div className="flex flex-row gap-3">
               <div className="py-3">
                 <button
@@ -193,11 +201,11 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
           </div>
         </div>
       </div>
-      {rating && (
+      {ratingValue && (
         <div className="flex flex-col py-6">
           <div className="flex flex-row items-center gap-2">
             <Image
-              src={rating?.user?.avatar || '/images/placeholder.jpg'}
+              src={ratingValue?.ratingType === "PUBLIC" ? ratingValue?.user?.avatar || '/images/placeholder.jpg' : '/images/placeholder.jpg'}
               width={50}
               height={50}
               alt="Avatar"
@@ -205,19 +213,21 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
             />
             <div className="flex flex-col">
               <p className="text-black text-base">
-                {rating?.ratingType === 'PRIVATE' ? 'Anonymous users' : rating?.user?.fullName}
+                {ratingValue?.ratingType === 'PRIVATE' ? 'Anonymous users' : ratingValue?.user?.fullName}
               </p>
-              <p className="text-slate-400 text-base">6 years on HolidaySwap</p>
+              {/* <p className="text-slate-400 text-base">6 years on HolidaySwap</p> */}
             </div>
           </div>
 
           <div className="flex flex-row items-center gap-2">
-            <ReactStars count={5} size={15} color2="orange" value={rating?.rating} />
+            <ReactStars count={5} size={15} color2="orange" value={ratingValue?.rating} />
             <div>·</div>
-            <div className="text-sm text-black">3 weeks ago</div>
+            {ratingValue && ratingValue.createDate && (
+              <div className="text-sm text-black">{format(new Date(ratingValue?.createDate), "dd/MM/yyyy 'at' h:mm a")}</div>
+            )}
           </div>
 
-          <div className="text-base font-normal line-clamp-3">{rating?.comment}</div>
+          <div className="text-base font-normal line-clamp-3">{ratingValue?.comment}</div>
         </div>
       )}
     </div>

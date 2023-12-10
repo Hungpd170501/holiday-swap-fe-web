@@ -37,7 +37,11 @@ export default function ModalCreateReview() {
     setValue,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm<FieldValues>({
+    defaultValues: {
+      comment: '',
+    },
+  });
 
   const setCustomeValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -67,8 +71,11 @@ export default function ModalCreateReview() {
       .post(`/rating/property/${bookingId}/user/${userId}`, ratingData, config)
       .then(() => {
         toast.success('Review success!');
-        createReviewModal.onCreated();
+        reset();
+        setStarValue(5);
+        setRatingTypeValue(ratingType[0].value);
         createReviewModal.onClose();
+        createReviewModal.onCreated();
       })
       .catch((response) => {
         toast.error(response.response.data.message);
