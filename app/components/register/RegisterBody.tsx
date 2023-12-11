@@ -32,6 +32,7 @@ import useCreateApartmentRegister from '@/app/hooks/useCreateApartmentRegister';
 import InputPhone from '../input/InputPhone';
 import { Checkbox, Label } from 'flowbite-react';
 import StepCreateApartmentRegister from './StepCreateApartmentRegister';
+import InputPassword from '../input/InputPassword';
 
 enum STEPS {
   INFO = 0,
@@ -431,6 +432,7 @@ const RegisterBody: React.FC<RegisterBodyProps> = ({ listResort }) => {
     defaultValues: {
       username: '',
       password: '',
+      fullName: '',
       email: '',
       phone: '',
       gender: '',
@@ -465,25 +467,25 @@ const RegisterBody: React.FC<RegisterBodyProps> = ({ listResort }) => {
     if (step !== STEPS.REGISTERAPARTMENT) {
       setIsLoading(true);
       if (!accept) {
-        toast.error("You need to accept the terms before registering for an account")
+        toast.error('You need to accept the terms before registering for an account');
       } else if (data.password !== data.confirmPassword) {
-        toast.error("Password not match confirm password")
+        toast.error('Password not match confirm password');
       } else {
         axios
-        .post('https://holiday-swap.click/api/v1/auth/register', data)
-        .then((response) => {
-          toast.success('Register Success');
-          createApartmentRegister.onSetUser(response.data);
-          onNext();
+          .post('https://holiday-swap.click/api/v1/auth/register', data)
+          .then((response) => {
+            toast.success('Register Success');
+            createApartmentRegister.onSetUser(response.data);
+            onNext();
 
-          // loginModal.onOpen();
-        })
-        .catch((response) => {
-          toast.error(response.response.data.message);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+            // loginModal.onOpen();
+          })
+          .catch((response) => {
+            toast.error(response.response.data.message);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
       }
     }
   };
@@ -515,7 +517,7 @@ const RegisterBody: React.FC<RegisterBodyProps> = ({ listResort }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <InputComponent
+          <InputPassword
             register={register}
             errors={errors}
             type="password"
@@ -524,7 +526,7 @@ const RegisterBody: React.FC<RegisterBodyProps> = ({ listResort }) => {
             placeholder="Password"
             required={true}
           />
-          <InputComponent
+          <InputPassword
             register={register}
             errors={errors}
             type="password"
@@ -537,16 +539,18 @@ const RegisterBody: React.FC<RegisterBodyProps> = ({ listResort }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="w-full flex flex-col">
-            <div className="py-3">Birth Date<span className='text-rose-500'>*</span></div>
+            <div className="py-3">
+              Birth Date<span className="text-rose-500">*</span>
+            </div>
 
             {/* <DateTimePicker
               id="dob"
               date={date}
               onChange={(value: any) => handleChangeDate(value)}
             /> */}
-            <div>
+            <div className="w-full">
               <DatePicker
-                className="p-4 border-2 border-gray-400"
+                className="p-5 border-2 border-gray-400 w-full"
                 id="dob"
                 onChange={(value: any) => {
                   handleChangeDate(value);
@@ -559,7 +563,9 @@ const RegisterBody: React.FC<RegisterBodyProps> = ({ listResort }) => {
           </div>
 
           <div className="w-full flex flex-col">
-            <label className="py-3">Gender<span className='text-rose-500'>*</span></label>
+            <label className="py-3">
+              Gender<span className="text-rose-500">*</span>
+            </label>
             <select
               onChange={(e) => setCustomValue('gender', e.target.value)}
               className="peer  p-4 pt-6 font-light bg-white border rounded-md outline-none transition disabled:opacity-70"
@@ -581,12 +587,15 @@ const RegisterBody: React.FC<RegisterBodyProps> = ({ listResort }) => {
             placeholder="Phone"
             required={true}
           />
-          {/* <InputComponent
+          <InputComponent
             type="text"
-            id="lastName"
-            label="Last Name"
-            placeholder="Last Name"
-          /> */}
+            id="fullName"
+            label="Full Name"
+            required={true}
+            register={register}
+            errors={errors}
+            placeholder="Full Name"
+          />
         </div>
         <div className="flex flex-row w-full items-center justify-center pt-10 pb-4    ">
           {/* <input type="checkbox" />
@@ -601,9 +610,12 @@ const RegisterBody: React.FC<RegisterBodyProps> = ({ listResort }) => {
               onChange={(e: ChangeEvent<HTMLInputElement>) => setAccept(e.target.checked)}
             />
             <Label htmlFor="accept" className="flex text-lg">
-              Creating an account means you&apos;re okay with our <span><a href="#" className="text-cyan-600 hover:underline dark:text-cyan-500">
-                 Terms of Service and Privacy Statement.
-               </a></span>
+              Creating an account means you&apos;re okay with our{' '}
+              <span>
+                <a href="#" className="text-cyan-600 hover:underline dark:text-cyan-500">
+                  Terms of Service and Privacy Statement.
+                </a>
+              </span>
             </Label>
           </div>
         </div>
