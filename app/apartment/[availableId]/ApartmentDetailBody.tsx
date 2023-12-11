@@ -90,7 +90,9 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
           height={50}
           className="rounded-full object-cover"
         />
-        <div className="text-bold text-lg text-black">Owner by {apartment.user.fullName}</div>
+        <div className="text-bold text-lg text-black">
+          Owner by {apartment.user.fullName ? apartment.user.fullName : apartment.user.username}
+        </div>
       </div>
       {/* Room host by */}
       <div className="flex flex-row  gap-5 border-b border-gray-400 pb-8 pt-8 ">
@@ -287,7 +289,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
             </div>
             <div>
               <div className="text-[20px] font-bold hover:underline cursor-pointer">
-                Owner {apartment.user.fullName}
+                Owner {apartment.user.fullName ? apartment.user.fullName : apartment.user.username}
               </div>
               <div>Joins November 10, 2023</div>
             </div>
