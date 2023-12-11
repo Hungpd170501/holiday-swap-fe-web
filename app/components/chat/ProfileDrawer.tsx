@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { Dialog, Transition } from "@headlessui/react";
-import { format } from "date-fns";
-import React, { Fragment, useMemo, useState } from "react";
-import { IoClose, IoExitOutline, IoRemoveCircle } from "react-icons/io5";
+import { Dialog, Transition } from '@headlessui/react';
+import { format } from 'date-fns';
+import React, { Fragment, useMemo, useState } from 'react';
+import { IoClose, IoExitOutline, IoRemoveCircle } from 'react-icons/io5';
 
-import ConfirmLeaveModal from "./ConfirmLeaveModal";
+import ConfirmLeaveModal from './ConfirmLeaveModal';
 import AvatarGroup from '@/app/components/chat/AvatarGroup';
 import Image from 'next/image';
 import { Conversation } from '@/app/actions/ConversationApis';
@@ -19,26 +19,28 @@ type Props = {
 };
 
 function ProfileDrawer({ isOpen, onClose, data, currentUser }: Props) {
-  const otherUser = data?.participants?.filter(user => user?.user?.userId !== currentUser?.userId);
+  const otherUser = data?.participants?.filter(
+    (user) => user?.user?.userId !== currentUser?.userId
+  );
   const members = data?.participants;
   const isActive = true;
   const [confirmLeaveOpen, setConfirmLeaveOpen] = useState(false);
   const [confirmBlockOpen, setConfirmBlockOpen] = useState(false);
 
   const joinDate = useMemo(() => {
-    return format(new Date(data?.creationDate), "PP");
+    return format(new Date(data?.creationDate), 'PP');
   }, [data?.creationDate]);
 
   const title = useMemo(() => {
-    return data?.conversationName || otherUser[0]?.user?.username;
+    return data?.conversationName || otherUser[0]?.user?.fullName;
   }, [data?.conversationName, otherUser]);
 
   const statusText = useMemo(() => {
-    if (data?.participants?.length>2) {
+    if (data?.participants?.length > 2) {
       return `${data?.participants?.length} Members`;
     }
 
-    return isActive ? "" : "Offline";
+    return isActive ? '' : 'Offline';
   }, [data, isActive]);
 
   return (
@@ -101,12 +103,22 @@ function ProfileDrawer({ isOpen, onClose, data, currentUser }: Props) {
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
                         <div className="flex flex-col items-center">
                           <div className="mb-2">
-                            {data?.participants?.length>2 ? (
-                              <AvatarGroup name={data?.conversationName || otherUser[0]?.user?.username} />
+                            {data?.participants?.length > 2 ? (
+                              <AvatarGroup
+                                name={data?.conversationName || otherUser[0]?.user?.username}
+                              />
                             ) : (
                               <div className="relative">
                                 <div className="relative inline-block rounded-full overflow-hidden h-9 w-9 md:h-11 md:w-11">
-                                  <Image alt="Avatar" src={`${data?.participants?.find(user => user?.user?.userId !== currentUser?.userId)?.user?.avatar??"/images/placeholder.jpg"}`} fill/>
+                                  <Image
+                                    alt="Avatar"
+                                    src={`${
+                                      data?.participants?.find(
+                                        (user) => user?.user?.userId !== currentUser?.userId
+                                      )?.user?.avatar ?? '/images/placeholder.jpg'
+                                    }`}
+                                    fill
+                                  />
                                 </div>
                               </div>
                             )}
@@ -130,23 +142,25 @@ function ProfileDrawer({ isOpen, onClose, data, currentUser }: Props) {
                               </div>
                             </div>
 
-                            {data?.participants?.length<=2 && <div className="flex gap-10 my-8">
-                              <div
-                                onClick={() => setConfirmBlockOpen(true)}
-                                className="flex flex-col gap-2 items-center cursor-pointer hover:opacity-75"
-                              >
-                                <div className="w-10 h-10 bg-neutral-100 dark:bg-neutral-900 rounded-full flex items-center justify-center">
-                                  <IoRemoveCircle size={20} />
-                                </div>
-                                <div className="text-sm font-light text-neutral-600 dark:text-neutral-300">
-                                  Block
+                            {data?.participants?.length <= 2 && (
+                              <div className="flex gap-10 my-8">
+                                <div
+                                  onClick={() => setConfirmBlockOpen(true)}
+                                  className="flex flex-col gap-2 items-center cursor-pointer hover:opacity-75"
+                                >
+                                  <div className="w-10 h-10 bg-neutral-100 dark:bg-neutral-900 rounded-full flex items-center justify-center">
+                                    <IoRemoveCircle size={20} />
+                                  </div>
+                                  <div className="text-sm font-light text-neutral-600 dark:text-neutral-300">
+                                    Block
+                                  </div>
                                 </div>
                               </div>
-                            </div>}
+                            )}
                           </div>
                           <div className="w-full pb-5 pt-5 sm:px-0 sm:pt-0">
                             <dl className="space-y-8 px-4 sm:space-y-6 sm:px-6">
-                              {data?.participants?.length>2 && (
+                              {data?.participants?.length > 2 && (
                                 <div>
                                   <dt className="text-sm font-medium text-gray-500 dark:text-gray-300 sm:w-40 sm:flex-shrink-0">
                                     Members:
@@ -157,17 +171,29 @@ function ProfileDrawer({ isOpen, onClose, data, currentUser }: Props) {
                                   {/*    .join(", ")}*/}
                                   {/*</dd>*/}
                                   <dd className="mt-1 text-sm text-gray-900 dark:text-gray-100 sm:col-span-2">
-                                    {data?.participants
-                                      .map((user) => (<div key={`${user?.user?.userId}`} style={{ display: 'flex', alignItems: 'center' }}>
-                                        <div className='relative inline-block rounded-full overflow-hidden h-8 w-8 md:h-10 md:w-10 mb-2'>
-                                          <Image alt='Avatar' src={`${user?.user?.avatar ?? '/images/placeholder.jpg'}`} fill />
+                                    {data?.participants.map((user) => (
+                                      <div
+                                        key={`${user?.user?.userId}`}
+                                        style={{ display: 'flex', alignItems: 'center' }}
+                                      >
+                                        <div className="relative inline-block rounded-full overflow-hidden h-8 w-8 md:h-10 md:w-10 mb-2">
+                                          <Image
+                                            alt="Avatar"
+                                            src={`${
+                                              user?.user?.avatar ?? '/images/placeholder.jpg'
+                                            }`}
+                                            fill
+                                          />
                                         </div>
-                                        <span style={{ marginLeft: 8 }}>{user?.user?.username}</span>
-                                      </div>))}
+                                        <span style={{ marginLeft: 8 }}>
+                                          {user?.user?.username}
+                                        </span>
+                                      </div>
+                                    ))}
                                   </dd>
                                 </div>
                               )}
-                              {!(data?.participants?.length>2) && (
+                              {!(data?.participants?.length > 2) && (
                                 <div>
                                   <dt className="text-sm font-medium text-gray-500 dark:text-gray-300 sm:w-40 sm:flex-shrink-0">
                                     Email
@@ -177,7 +203,7 @@ function ProfileDrawer({ isOpen, onClose, data, currentUser }: Props) {
                                   </dd>
                                 </div>
                               )}
-                              {!(data?.participants?.length>2) && (
+                              {!(data?.participants?.length > 2) && (
                                 <>
                                   <hr />
                                   <div>
@@ -185,9 +211,7 @@ function ProfileDrawer({ isOpen, onClose, data, currentUser }: Props) {
                                       Joined
                                     </dt>
                                     <dd className="mt-1 text-sm text-gray-900 dark:text-gray-100 sm:col-span-2">
-                                      <time dateTime={joinDate}>
-                                        {joinDate}
-                                      </time>
+                                      <time dateTime={joinDate}>{joinDate}</time>
                                     </dd>
                                   </div>
                                 </>

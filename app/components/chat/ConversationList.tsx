@@ -106,7 +106,7 @@ const ConversationList: React.FC<ConversationListProps> = ({ initialItems, curre
         onClose={() => {
           setIsModelOpen(false);
         }}
-        onSuccess={()=>{
+        onSuccess={() => {
           fetchConversationData();
         }}
         users={users}
@@ -174,7 +174,7 @@ const ConversationList: React.FC<ConversationListProps> = ({ initialItems, curre
               </div>
             </div>
           </form>
-          <div className="max-height-conversation-list overflow-y-auto h-[540px]">
+          <div className="max-height-conversation-list overflow-y-auto h-[495px]">
             {conversationList?.map((item: Conversation) => (
               <ConversationBox
                 key={item.conversationId}

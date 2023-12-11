@@ -144,18 +144,18 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                 d="M15.585 15.5H5.415A1.65 1.65 0 0 1 4 13a10.526 10.526 0 0 0 1.5-5.415V6.5a4 4 0 0 1 4-4h2a4 4 0 0 1 4 4v1.085c0 1.907.518 3.78 1.5 5.415a1.65 1.65 0 0 1-1.415 2.5zm1.915-11c-.267-.934-.6-1.6-1-2s-1.066-.733-2-1m-10.912 3c.209-.934.512-1.6.912-2s1.096-.733 2.088-1M13 17c-.667 1-1.5 1.5-2.5 1.5S8.667 18 8 17"
               />
             </svg>
-            {notificationsList && (
+            {notificationsList &&
               (() => {
-                const readNotificationsCount = notificationsList.filter((item:NotificationResponse) => !item.isRead).length;
+                const readNotificationsCount = notificationsList.filter(
+                  (item: NotificationResponse) => !item.isRead
+                ).length;
                 return readNotificationsCount > 0 ? (
                   <div className="px-1 neutral-100 rounded-full text-center text-gray text-sm absolute -top-3 -end-2">
                     {readNotificationsCount}
                     <div className="absolute top-0 start-0 rounded-full -z-10 animate-ping bg-gray-200 w-full h-full"></div>
                   </div>
                 ) : null;
-              })()
-            )}
-
+              })()}
           </div>
           <svg
             className="-mr-1 h-5 w-5 text-gray-400 ml-1.5"
@@ -178,7 +178,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             height={50}
             className="rounded-full"
           />
-          <div className="text-gray-400">{currentUser?.fullName}</div>
+          <div className="text-gray-400">
+            {currentUser?.fullName ? currentUser.fullName : currentUser.username}
+          </div>
         </div>
       </div>
 
@@ -207,7 +209,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
       )}
 
       {isOpen ? (
-        <div onBlurCapture={() => setIsOpen(false)} className="absolute rounded-xl shadow-md w-[40vw] md:w-52 border border-gray-300 bg-white overflow-hidden right-20 top-[78px] text-sm">
+        <div
+          onBlurCapture={() => setIsOpen(false)}
+          className="absolute rounded-xl shadow-md w-[40vw] md:w-52 border border-gray-300 bg-white overflow-hidden right-20 top-[78px] text-sm"
+        >
           <div className="flex flex-col cursor-pointer">
             <Fragment>
               {(() => {

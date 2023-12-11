@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import clsx from "clsx";
+import clsx from 'clsx';
 import { format, formatRelative } from 'date-fns';
-import { motion } from "framer-motion";
-import { useSession } from "next-auth/react";
-import Image from "next/image";
-import React, { useState } from "react";
-import ImageModal from "./ImageModal";
+import { motion } from 'framer-motion';
+import { useSession } from 'next-auth/react';
+import Image from 'next/image';
+import React, { useState } from 'react';
+import ImageModal from './ImageModal';
 import { FullMessageType } from '@/app/components/chat/Body';
 import { User } from '@/app/actions/UserApis';
 
@@ -20,7 +20,7 @@ type Props = {
 function MessageBox({ data, isLast, users, currentUser }: Props) {
   const session = useSession();
   const [imageModalOpen, setImageModalOpen] = useState(false);
-  const user = users?.find((user)=> user?.userId.toString() === data.authorId.toString());
+  const user = users?.find((user) => user?.userId.toString() === data.authorId.toString());
 
   const isOwn = data?.authorId.toString() === currentUser?.userId.toString();
   // const seenList = (data.seen || [])
@@ -28,13 +28,13 @@ function MessageBox({ data, isLast, users, currentUser }: Props) {
   //   .map((user) => user.username)
   //   .join(", ");
 
-  const container = clsx(`flex gap-3 p-4`, isOwn && "justify-end");
-  const avatar = clsx(isOwn && "order-2");
-  const body = clsx(`flex flex-col gap-2`, isOwn && "items-end");
+  const container = clsx(`flex gap-3 p-4`, isOwn && 'justify-end');
+  const avatar = clsx(isOwn && 'order-2');
+  const body = clsx(`flex flex-col gap-2`, isOwn && 'items-end');
   const message = clsx(
-    "text-sm w-fit overflow-hidden",
-    isOwn ? "bg-sky-500 text-white" : "bg-gray-200 dark:bg-gray-900",
-    "rounded-xl py-1.5 px-2"
+    'text-sm w-fit overflow-hidden',
+    isOwn ? 'bg-sky-500 text-white' : 'bg-gray-200 dark:bg-gray-900',
+    'rounded-xl py-1.5 px-2'
   );
 
   return (
@@ -51,14 +51,14 @@ function MessageBox({ data, isLast, users, currentUser }: Props) {
       <div className={avatar}>
         <div className="relative">
           <div className="relative inline-block rounded-full overflow-hidden h-9 w-9 md:h-11 md:w-11">
-            <Image alt="Avatar" src={`${user?.avatar??"/images/placeholder.jpg"}`} fill/>
+            <Image alt="Avatar" src={`${user?.avatar ?? '/images/placeholder.jpg'}`} fill />
           </div>
         </div>
       </div>
       <div className={body}>
         <div className="flex items-center gap-1">
           <div className="text-sm text-gray-500 dark:text-gray-400">
-            {user?.username===currentUser?.username ? "You" : user?.username}
+            {user?.username === currentUser?.username ? 'You' : user?.fullName}
           </div>
           <div className="text-xs text-blue-600 dark:text-blue-500">
             {formatRelative(new Date(data.createdOn), new Date())}
@@ -82,9 +82,7 @@ function MessageBox({ data, isLast, users, currentUser }: Props) {
           )}
         </div>
         <div className={message}>
-          {data.text && (
-            <div className="max-w-[350px]">{data.text}</div>
-          )}
+          {data.text && <div className="max-w-[350px]">{data.text}</div>}
         </div>
         {/*{isLast && isOwn && seenList.length > 0 && (*/}
         {/*  <div className="text-xs font-light text-gray-500 dark:text-gray-400">*/}
