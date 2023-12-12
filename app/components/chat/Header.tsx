@@ -66,7 +66,11 @@ function Header({ conversation, currentUser }: Props) {
             </div>
           )}
           <div className="flex flex-col">
-            <div>{conversation?.conversationName || otherUser[0]?.user?.fullName}</div>
+            <div>
+              {conversation?.conversationName || otherUser[0]?.user?.fullName
+                ? otherUser[0]?.user?.fullName
+                : otherUser[0]?.user?.username}
+            </div>
             <div className="text-sm font-light text-neutral-500 dark:text-neutral-300">
               {statusText}
             </div>

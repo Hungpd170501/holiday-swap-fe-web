@@ -69,7 +69,11 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({ data, selected, curre
               {data?.participants?.length > 2
                 ? data.conversationName
                 : data.participants.find((user) => user.user.userId !== currentUser?.userId)?.user
-                    ?.fullName}
+                    ?.fullName
+                ? data.participants.find((user) => user.user.userId !== currentUser?.userId)?.user
+                    ?.fullName
+                : data.participants.find((user) => user.user.userId !== currentUser?.userId)?.user
+                    ?.username}
             </p>
             {data?.message?.createdOn && (
               <p className="basis-1/3 text-xs text-blue-600 dark:text-blue-500">
