@@ -216,14 +216,17 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
               <p className="text-black text-base">
                 {rating?.ratingType === 'PRIVATE' ? 'Anonymous users' : rating?.user?.fullName}
               </p>
-              <p className="text-slate-400 text-base">6 years on HolidaySwap</p>
             </div>
           </div>
 
           <div className="flex flex-row items-center gap-2">
-            <ReactStars count={5} size={15} color2="orange" value={rating?.rating} />
+            <ReactStars edit={false} count={5} size={15} color2="orange" value={rating?.rating} />
             <div>·</div>
-            <div className="text-sm text-black">3 weeks ago</div>
+            {rating && rating.createDate && (
+              <div className="text-sm text-black">
+                {format(new Date(rating?.createDate), "dd/MM/yyyy 'at' h:mm a")}
+              </div>
+            )}
           </div>
 
           <div className="text-base font-normal line-clamp-3">{rating?.comment}</div>

@@ -154,7 +154,7 @@ const ListResort: React.FC<ListResortProps> = ({
     const getListResort = async () => {
       let url = `https://holiday-swap.click/api/v1/apartment-for-rent?pageNo=${
         page - 1
-      }&pageSize=12&sortDirection=desc`;
+      }&pageSize=12&sortDirection=startTime`;
 
       if (
         numberOfGuestValue === 0 &&

@@ -226,7 +226,13 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
           </div>
 
           <div className="flex flex-row items-center gap-2">
-            <ReactStars count={5} size={15} color2="orange" value={ratingValue?.rating} />
+            <ReactStars
+              edit={false}
+              count={5}
+              size={15}
+              color2="orange"
+              value={ratingValue?.rating}
+            />
             <div>·</div>
             {ratingValue && ratingValue.createDate && (
               <div className="text-sm text-black">
