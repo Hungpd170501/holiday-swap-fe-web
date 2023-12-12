@@ -27,7 +27,7 @@ const TopApartment: React.FC<TopApartmentProps> = ({ apartment }) => {
       </div>
 
       <div className="pt-20 w-auto">
-        <Carousel slices={apartment.content} />
+        <Carousel slices={apartment?.content} />
       </div>
     </div>
   );

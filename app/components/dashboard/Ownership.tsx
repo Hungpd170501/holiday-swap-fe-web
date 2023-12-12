@@ -11,7 +11,16 @@ import { Pagination } from 'flowbite-react';
 import axios from 'axios';
 import HeadingDashboard from '../HeadingDashboard';
 
-const TABLE_HEAD = ['Property ID', 'Room ID', 'Start date', 'End date', 'Type', 'Status', ''];
+const TABLE_HEAD = [
+  'Resort',
+  'Property',
+  'Room ID',
+  'Start date',
+  'End date',
+  'Type',
+  'Status',
+  '',
+];
 
 interface OwnershipProps {
   ownershipUser?: any;
@@ -88,17 +97,27 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
           pageCurrentRouter="/dashboard/ownership"
         />
       </div>
-      <div className="py-6 flex flex-row w-full justify-between">
-        <div className="flex flex-row items-center gap-2">
-          <div>Search by room ID</div>
-          <input
-            className="rounded-md"
-            type="text"
-            id="search"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
+      <div
+        className={`py-6 flex flex-row w-full ${
+          ownershipUserList && ownershipUserList?.content && ownershipUserList?.content.length > 0
+            ? 'justify-between'
+            : 'justify-end'
+        }`}
+      >
+        {ownershipUserList &&
+          ownershipUserList?.content &&
+          ownershipUserList?.content.length > 0 && (
+            <div className="flex flex-row items-center gap-2">
+              <div>Search by room ID</div>
+              <input
+                className="rounded-md"
+                type="text"
+                id="search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+          )}
         <button
           onClick={() => createOwnershipModal.onOpen(listResort?.content, currentUser)}
           className="bg-common py-3 px-5 rounded-lg shadow-md text-white text-lg hover:bg-hover"
@@ -109,70 +128,88 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
       {loading ? (
         <p className="text-center">Loading...</p>
       ) : (
-        <Table>
-          <Table.Head>
-            {TABLE_HEAD.map((header, index) => (
-              <Table.HeadCell key={index}>{header}</Table.HeadCell>
-            ))}
-          </Table.Head>
-          <Table.Body className="divide-y">
-            {(ownershipUserList?.content || [])
-              .slice()
-              .reverse()
-              .map((item: any, index: number) => (
-                <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell>{item.id.propertyId}</Table.Cell>
-                  <Table.Cell>{item.id.roomId}</Table.Cell>
-                  <Table.Cell>
-                    {item.startTime !== null ? format(new Date(item.startTime), 'yyyy') : 'Forever'}
-                  </Table.Cell>
-                  <Table.Cell>
-                    {item.endTime !== null ? format(new Date(item.endTime), 'yyyy') : 'Forever'}
-                  </Table.Cell>
-                  <Table.Cell>
-                    {item.type === 'DEEDED' ? 'Owner forever' : 'Owner for a period of time'}
-                  </Table.Cell>
-                  <Table.Cell>
-                    {item.status === 'ACCEPTED' ? (
-                      <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
-                        ACCEPTED
-                      </div>
-                    ) : (
-                      <div className="py-2 px-1 text-center text-sm bg-slate-200 rounded-md text-orange-500">
-                        PENDING
-                      </div>
-                    )}
-                  </Table.Cell>
-                  <Table.Cell>
-                    {item.status === 'ACCEPTED' && (
-                      <div
-                        onClick={() =>
-                          handleRouter(
-                            item.id.propertyId,
-                            item.id.userId,
-                            item.id.roomId,
-                            item.status
-                          )
-                        }
-                        className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 hover:cursor-pointer"
-                      >
-                        <p>Detail</p>
-                      </div>
-                    )}
-                  </Table.Cell>
-                </Table.Row>
-              ))}
-          </Table.Body>
-        </Table>
+        <Fragment>
+          {ownershipUserList &&
+          ownershipUserList?.content &&
+          ownershipUserList?.content.length > 0 ? (
+            <Table>
+              <Table.Head>
+                {TABLE_HEAD.map((header, index) => (
+                  <Table.HeadCell key={index}>{header}</Table.HeadCell>
+                ))}
+              </Table.Head>
+              <Table.Body className="divide-y">
+                {(ownershipUserList?.content || [])
+                  .slice()
+                  .reverse()
+                  .map((item: any, index: number) => (
+                    <Table.Row
+                      key={index}
+                      className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                    >
+                      <Table.Cell>{item?.resort?.resortName}</Table.Cell>
+                      <Table.Cell>{item.property.propertyName}</Table.Cell>
+                      <Table.Cell>{item.id.roomId}</Table.Cell>
+                      <Table.Cell>
+                        {item.startTime !== null
+                          ? format(new Date(item.startTime), 'yyyy')
+                          : 'Forever'}
+                      </Table.Cell>
+                      <Table.Cell>
+                        {item.endTime !== null ? format(new Date(item.endTime), 'yyyy') : 'Forever'}
+                      </Table.Cell>
+                      <Table.Cell>
+                        {item.type === 'DEEDED' ? 'Owner forever' : 'Owner for a period of time'}
+                      </Table.Cell>
+                      <Table.Cell>
+                        {item.status === 'ACCEPTED' ? (
+                          <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
+                            ACCEPTED
+                          </div>
+                        ) : (
+                          <div className="py-2 px-1 text-center text-sm bg-slate-200 rounded-md text-orange-500">
+                            PENDING
+                          </div>
+                        )}
+                      </Table.Cell>
+                      <Table.Cell>
+                        {item.status === 'ACCEPTED' && (
+                          <div
+                            onClick={() =>
+                              handleRouter(
+                                item.id.propertyId,
+                                item.id.userId,
+                                item.id.roomId,
+                                item.status
+                              )
+                            }
+                            className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 hover:cursor-pointer"
+                          >
+                            <p>Detail</p>
+                          </div>
+                        )}
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
+              </Table.Body>
+            </Table>
+          ) : (
+            <div className="flex flex-row justify-center pt-20 text-xl font-bold">
+              Not have ownership
+            </div>
+          )}
+        </Fragment>
       )}
-      <div className="flex py-5 overflow-x-auto sm:justify-center">
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={onPageChange}
-          showIcons
-        />
-      </div>
+      {ownershipUserList && ownershipUserList?.content && ownershipUserList?.content.length > 0 && (
+        <div className="flex py-5 overflow-x-auto sm:justify-center">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={onPageChange}
+            showIcons
+          />
+        </div>
+      )}
     </Fragment>
   );
 };

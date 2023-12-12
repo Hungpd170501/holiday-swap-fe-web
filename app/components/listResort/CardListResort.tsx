@@ -55,7 +55,9 @@ const CardListResort: React.FC<CardListResortProps> = ({ data }) => {
         >
           <div className="text-base font-bold">{data?.property.propertyName}</div>
           <div className="text-gray-600 text-base ">{data?.resort.resortName}</div>
-          <div className="text-gray-600 text-base">Owner by: {data?.user.username}</div>
+          <div className="text-gray-600 text-base">
+            Owner by: {data?.user.fullName ? data?.user.fullName : data?.user.username}
+          </div>
           <div className="text-gray-600 text-base">
             {new Date(data?.availableTime.startTime).getMonth() ===
             new Date(data?.availableTime.endTime).getMonth()
@@ -75,7 +77,7 @@ const CardListResort: React.FC<CardListResortProps> = ({ data }) => {
           <div className="">
             <div className="flex flex-row items-center gap-1">
               <AiFillStar color="orange" />
-              <div>{data?.property.rating}</div>
+              <div>{Number(data?.property.rating).toFixed(2)}</div>
             </div>
           </div>
         )}

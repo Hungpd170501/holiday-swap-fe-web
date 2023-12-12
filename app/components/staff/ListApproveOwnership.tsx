@@ -132,9 +132,10 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
         </div>
         <Table>
           <Table.Head>
-            <Table.HeadCell className="w-[130px]">Property ID</Table.HeadCell>
-            <Table.HeadCell className="w-[100px]">Room ID</Table.HeadCell>
-            <Table.HeadCell className="w-[100px]">User ID</Table.HeadCell>
+            <Table.HeadCell className="w-[130px]">Resort</Table.HeadCell>
+            <Table.HeadCell className="w-[130px]">Property</Table.HeadCell>
+            <Table.HeadCell className="w-[100px]">Apartment ID</Table.HeadCell>
+            <Table.HeadCell className="w-[100px]">User</Table.HeadCell>
             <Table.HeadCell>Start date</Table.HeadCell>
             <Table.HeadCell>End date</Table.HeadCell>
             <Table.HeadCell>Type</Table.HeadCell>
@@ -145,7 +146,8 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
             {ownershipUserList?.content.map((item: any, index: number) => {
               return (
                 <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell>{item.id.propertyId}</Table.Cell>
+                  <Table.Cell>{item?.property.resort?.resortName}</Table.Cell>
+                  <Table.Cell>{item.property.propertyName}</Table.Cell>
                   <Table.Cell>{item.id.roomId}</Table.Cell>
                   <Table.Cell>{item.id.userId}</Table.Cell>
                   <Table.Cell>

@@ -23,7 +23,7 @@ export default async function GetListApartment() {
       return listApartment.data;
     } else {
       const listApartment = await axios.get(
-        `${process.env.API_URL}/apartment-for-rent?pageNo=0&pageSize=12&sortDirection=startTime`
+        `${process.env.API_URL}/apartment-for-rent?pageNo=0&pageSize=12&sortBy=startTime&sortDirection=desc`
       );
 
       if (!listApartment) {

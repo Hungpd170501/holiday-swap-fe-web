@@ -116,12 +116,19 @@ const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({
           </div>
           <div className="w-full sticky">
             <div className="flex flex-col gap-5 sticky top-36 w-full p-6 rounded-lg bg-gray-300">
-              <div className="grid grid-cols-2 ">
+              <div className="grid grid-cols-2">
+                <div className="text-black mb-5">
+                  Resort:{' '}
+                  <span className="text-slate-600">{approveDetail?.resort?.resortName}</span>
+                </div>
                 <div className="text-black mb-5">
                   Property: <span className="text-slate-600">{propertyDetail?.propertyName}</span>
                 </div>
                 <div className="text-black">
-                  User: <span className="text-slate-600">{userDetail?.fullName}</span>
+                  User:{' '}
+                  <span className="text-slate-600">
+                    {userDetail?.fullName ? userDetail?.fullName : userDetail?.username}
+                  </span>
                 </div>
                 <div className="text-black">
                   Apartment ID: <span className="text-slate-600">{detail.id.roomId}</span>
@@ -164,7 +171,7 @@ const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({
                 <div className="text-black">
                   Number of weeks in a year:{' '}
                   <span className="text-slate-600">
-                    {detail.timeFrames.length === 0 ? (
+                    {detail.timeFrames ? (
                       <Fragment>
                         {detail.timeFrames.map((item: any, index: number) => (
                           <Fragment key={index}>

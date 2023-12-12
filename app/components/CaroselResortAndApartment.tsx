@@ -16,7 +16,7 @@ const Money = [
       const resort1Id = listResort.content[0].id;
 
       const data = await axios.get(
-        `https://holiday-swap.click/api/v1/apartment-for-rent?resortId=${resort1Id}&guest=1&pageNo=0&pageSize=10&sortBy=id&sortDirection=startTime`
+        `https://holiday-swap.click/api/v1/apartment-for-rent?resortId=${resort1Id}&guest=1&pageNo=0&pageSize=10&sortBy=startTime&sortDirection=desc`
       );
 
       return (

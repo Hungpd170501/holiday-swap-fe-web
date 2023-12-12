@@ -179,7 +179,9 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                     {row.resortName}
                   </Link>
                 </StyledTableCell>
-                <StyledTableCell>{row.addressLine}</StyledTableCell>
+                <StyledTableCell>
+                  <div className="line-clamp-1">{row.addressLine}</div>
+                </StyledTableCell>
                 <StyledTableCell className="!py-5 " align="left">
                   {row.propertyTypes.map((item: any, index: number) => (
                     <div key={index}>{item.propertyTypeName}</div>
