@@ -106,9 +106,9 @@ const CaroselResortAndApartment: React.FC = ({}) => {
     var rsFetchListResort = await getListResortForRent(pageable);
     setListResort(rsFetchListResort.content);
   };
-  const fetchListApartment = async (resortId: number, index: number, pageNo?: number) => {
+  const fetchListApartment = async (resortId: number, index: number, pageNo: number) => {
     var rsFetchListApartment = await getListApartmentForRent(resortId, {
-      pageNo: pageNo ? pageNo - 1 : 0,
+      pageNo: pageNo,
       pageSize: 4,
       sortBy: '',
       sortDirection: 'asc',
@@ -162,7 +162,7 @@ const CaroselResortAndApartment: React.FC = ({}) => {
     var rsFetchListResort = await getListResortForRent(pageable);
     setListResort(rsFetchListResort.content);
     rsFetchListResort.content.forEach((element: any, index: any) => {
-      fetchListApartment(element.resort.id, index);
+      fetchListApartment(element.resort.id, index, 0);
     });
   };
 
@@ -252,8 +252,15 @@ const CaroselResortAndApartment: React.FC = ({}) => {
                       {/* <div className="text-common">exploration {'>'}</div> */}
                     </div>
                   </Link>
-                  <div className="relative border border-gray-300 rounded-md cursor-pointer">
-                    {'<'}
+                  {/* {if(pageabble.totalPages)} */}
+                  <div
+                    className="relative border border-gray-300 rounded-md cursor-pointer"
+                    onClick={() => {
+                      var page = pageable.pageNo - 1;
+                      fetchListApartment(element.resort.id, index, page);
+                    }}
+                  >
+                    <LeftOutlined />
                   </div>
                   {listApartment?.map((element: any, index: number) => {
                     const startTime = new Date(element.availableTime.startTime);
@@ -312,7 +319,16 @@ const CaroselResortAndApartment: React.FC = ({}) => {
                       </Link>
                     );
                   })}
-                  <div className="relative border border-gray-300 rounded-md cursor-pointer"></div>
+                  <div
+                    className="relative border border-gray-300 rounded-md cursor-pointer"
+                    onClick={() => {
+                      var page = pageable.pageNo + 1;
+
+                      fetchListApartment(element.resort.id, index, page);
+                    }}
+                  >
+                    <RightOutlined />
+                  </div>
                 </Fragment>
               </div>
               <div className="flex justify-center">
