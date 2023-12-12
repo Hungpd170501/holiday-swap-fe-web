@@ -140,15 +140,10 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
                     let endYear = new Date(item.endTime).getFullYear();
                     let currentWeekIso = dayjs().isoWeek();
                     let flagTimeFramesCheck = false;
-                    if (item.status === 'ACCEPTED') {
-                      // Deeded always true
-                      if (item.type === 'DEEDED') flagTimeFramesCheck = true;
-                      else if (endYear > new Date().getFullYear()) flagTimeFramesCheck = true;
-                      else if ((endYear = new Date().getFullYear()))
-                        item.timeFrames.forEach((element: any) => {
-                          if (element.weekNumber > currentWeekIso) flagTimeFramesCheck = true;
-                        });
-                    }
+                    item.timeFrames.forEach((element: any) => {
+                      if (element.weekNumber > currentWeekIso) flagTimeFramesCheck = true;
+                    });
+
                     return (
                       <>
                         <Table.Row
@@ -163,9 +158,7 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
                               ? format(new Date(item.startTime), 'yyyy')
                               : '-'}
                           </Table.Cell>
-                          <Table.Cell>
-                            {item.endTime !== null ? format(new Date(item.endTime), 'yyyy') : '-'}
-                          </Table.Cell>
+                          <Table.Cell>{item.endTime !== null ? endYear : '-'}</Table.Cell>
                           <Table.Cell>
                             {item.type === 'DEEDED'
                               ? 'Owner forever'
@@ -184,7 +177,11 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
                           </Table.Cell>
                           <Table.Cell>
                             {(() => {
-                              if (flagTimeFramesCheck) {
+                              if (
+                                item.status === 'ACCEPTED' &&
+                                item.property.resort.status == 'ACTIVE' &&
+                                (item.endTime == null || new Date(item.endTime) > new Date())
+                              ) {
                                 return (
                                   <div
                                     onClick={() =>
@@ -200,16 +197,29 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
                                     <p>Detail</p>
                                   </div>
                                 );
-                              } else if (
-                                item.property.resort.status === 'DEACTIVATE' ||
-                                item.property.status === 'DEACTIVATE'
-                              ) {
+                              } else if (item.property.resort.status === 'DEACTIVATE') {
                                 return (
                                   <div className="font-medium text-red-600">
                                     <p>Resort is Deactive</p>
                                   </div>
                                 );
-                              } else {
+                              }
+                              if (
+                                item.status === 'ACCEPTED' &&
+                                item.type === 'RIGHT_TO_USE' &&
+                                endYear < new Date().getFullYear()
+                              ) {
+                                return (
+                                  <div className="font-medium text-red-600">
+                                    <p>Is expired</p>
+                                  </div>
+                                );
+                              } else if (
+                                item.status === 'ACCEPTED' &&
+                                item.type === 'RIGHT_TO_USE' &&
+                                endYear == new Date().getFullYear() &&
+                                !flagTimeFramesCheck
+                              ) {
                                 return (
                                   <div className="font-medium text-red-600">
                                     <p>Is expired</p>
