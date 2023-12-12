@@ -268,31 +268,20 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
   const handleOnChangeDateRangePicker = (value: any) => {
     let timeBooked = apartment.timeHasBooked;
     let startDate = value.selection.startDate;
-    // startDate.setHours(7, 0, 0, 0);
+
     let endDate = value.selection.endDate;
-    // startDate.setHours(7, 0, 0, 0);
+
+    let result: Date[] = [];
     timeBooked.forEach((element: { checkIn: Date; checkOut: Date }) => {
       let checkIn = new Date(element.checkIn);
       let checkOut = new Date(element.checkOut);
-      if (startDate > checkIn) {
-        const result = dateOut.filter((date) => date.getTime() != checkOut.getTime());
-        setDateOut([...result, checkIn]);
-      } else if (startDate < checkIn) {
-        const result = dateOut.filter((date) => date.getTime() != checkIn.getTime());
-        setDateOut([...result, checkOut]);
+      if (startDate <= checkIn) {
+        result.push(checkOut);
+        setDateOut(result);
+      } else if (startDate >= checkIn) {
+        result.push(checkIn);
+        setDateOut(result);
       }
-
-      // if (
-      //   startDate <= checkIn &&
-      //   endDate <= checkOut
-      //   // (startDate <= checkOut && endDate >= checkOut) ||
-      //   // (startDate >= checkIn && endDate <= checkOut)
-      // ) {
-      //   const result = dateOut.filter(
-      //     (date) => date.getTime() !== checkIn.getTime() && date.getTime() !== checkOut.getTime()
-      //   );
-      //   setDateOut([...result, checkIn, checkOut]);
-      // }
     });
   };
 

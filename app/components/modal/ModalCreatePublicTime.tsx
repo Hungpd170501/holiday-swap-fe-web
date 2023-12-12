@@ -13,7 +13,7 @@ import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import useCreatePublicTimeModal from '@/app/hooks/useCreatePublicTimeModal';
 import CalendarAparment from '@/app/apartment/CalendarAparment';
-import { startOfWeek, endOfWeek, format, addDays, addMonths, subDays } from 'date-fns';
+import { startOfWeek, endOfWeek, format, addDays, addMonths, subDays, setDate } from 'date-fns';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import weekday from 'dayjs/plugin/weekday';
@@ -94,9 +94,10 @@ export default function ModalCreatePublicTime() {
     return datesOutsideDateRange;
   };
   const fetchAvailableTimeCreated = (availableId: number, year: number) => {
-    
     axios
-      .get(`https://holiday-swap.click/api/v1/available-times/getAvailableTimeCreated?timeFrameId=${availableId}&year=${year}`)
+      .get(
+        `https://holiday-swap.click/api/v1/available-times/getAvailableTimeCreated?timeFrameId=${availableId}&year=${year}`
+      )
       .then((response) => {
         const rs = response.data.map((element: any) => {
           const startDate = element.startTime;
@@ -128,9 +129,10 @@ export default function ModalCreatePublicTime() {
   }, [timeHasBooked, availableTimeCreated]);
   //getTimeHasBookedInTimeFrame and year
   const fetchtimeHasBooked = (timeFrameId: number, year: number) => {
-    
     axios
-      .get(`https://holiday-swap.click/api/booking/timeHasBooked?timeFrameId=${timeFrameId}&year=${year}`)
+      .get(
+        `https://holiday-swap.click/api/booking/timeHasBooked?timeFrameId=${timeFrameId}&year=${year}`
+      )
       .then((response) => {
         setTimeHasBooked(response.data);
       })
@@ -202,26 +204,26 @@ export default function ModalCreatePublicTime() {
   };
 
   const func4 = (ranges: any, array: IDate[]) => {
-    console.log(dateOut);
     const { selection } = ranges;
     const startDate = selection.startDate;
 
     const endDate = selection.endDate;
+    let result: Date[] = [];
     array.forEach((element) => {
       var checkIn = new Date(element.checkIn);
       checkIn.setHours(0, 0, 0, 0);
       var checkOut = new Date(element.checkOut);
       checkOut.setHours(0, 0, 0, 0);
-      if (startDate.getTime() < checkIn.getTime()) {
-        const result = dateOut.filter((date: any) => date.getTime() != checkIn.getTime());
-        setDateOut([...result, ...[checkOut]]);
-        // arr.push(checkOut);
-      } else if (startDate.getTime() > checkIn.getTime()) {
-        const result = dateOut.filter((date: any) => date.getTime() != checkOut.getTime());
-        setDateOut([...result, ...[checkIn]]);
-        // arr.push(checkIn);
+
+      if (startDate.getTime() <= checkIn.getTime()) {
+        result.push(checkOut);
+        setDateOut(result);
+      } else if (startDate.getTime() >= checkIn.getTime()) {
+        result.push(checkIn);
+        setDateOut(result);
       }
     });
+    console.log(result);
   };
 
   useEffect(() => {

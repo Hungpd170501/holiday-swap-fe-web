@@ -246,6 +246,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
               }}
               className="w-[100%] !text-[1em]"
               minDate={dateRangeDefaultContext?.startDate}
+              maxDate={dateRangeDefaultContext?.endDate}
               disabledDates={dateOut}
             />
           ) : (
@@ -262,6 +263,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
               }}
               className="w-[100%] !text-[1em]"
               minDate={dateRangeDefaultContext?.startDate}
+              maxDate={dateRangeDefaultContext?.endDate}
               disabledDates={dateOut}
             />
           ) : (
