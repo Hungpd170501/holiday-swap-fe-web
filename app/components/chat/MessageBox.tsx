@@ -58,7 +58,11 @@ function MessageBox({ data, isLast, users, currentUser }: Props) {
       <div className={body}>
         <div className="flex items-center gap-1">
           <div className="text-sm text-gray-500 dark:text-gray-400">
-            {user?.username === currentUser?.username ? 'You' : user?.fullName}
+            {user?.username === currentUser?.username
+              ? 'You'
+              : user?.fullName
+              ? user?.fullName
+              : user?.username}
           </div>
           <div className="text-xs text-blue-600 dark:text-blue-500">
             {formatRelative(new Date(data.createdOn), new Date())}
