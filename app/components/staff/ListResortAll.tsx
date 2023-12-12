@@ -54,11 +54,6 @@ const statusList = [
     icon: BiBlock,
     color: '#e62538',
   },
-  {
-    status: 'MAINTANCE',
-    icon: MdOutlinePending,
-    color: '#f0b12e',
-  },
 ];
 
 function createData(
@@ -229,33 +224,6 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                                 key={index}
                                 value={status.status}
                                 className="flex items-center gap-2"
-                                onClick={() => {
-                                  if (status.status === 'DEACTIVATE') {
-                                    deactiveResortModal.onOpen();
-                                  } else if (status.status === 'MAINTANCE') {
-                                    maintanceResortModal.onOpen();
-                                  }
-                                }}
-                              >
-                                <status.icon size={18} color={status.color} />
-
-                                <span className={`text-[${status.color}]`}>{status.status}</span>
-                              </Dropdown.Item>
-                            ))}
-                          </>
-                        );
-                      } else if (row.status === 'DEACTIVATE') {
-                        const newArray = statusList.filter(
-                          (itemStatus) =>
-                            itemStatus.status === 'ACTIVE' || itemStatus.status === 'MAINTANCE'
-                        );
-                        return (
-                          <>
-                            {newArray.slice(1, 2).map((status: any, index: number) => (
-                              <Dropdown.Item
-                                key={index}
-                                value={status.status}
-                                className="flex items-center gap-2"
                                 onClick={() => handleOnChangeStatus(row.id, status.status)}
                               >
                                 <status.icon size={18} color={status.color} />
@@ -265,10 +233,10 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                             ))}
                           </>
                         );
-                      } else if (row.status === 'MAINTANCE') {
+                      } else if (row.status === 'DEACTIVATE') {
                         return (
                           <>
-                            {statusList.slice(0, 2).map((status: any, index: number) => (
+                            {statusList.slice(0, 1).map((status: any, index: number) => (
                               <Dropdown.Item
                                 key={index}
                                 value={status.status}

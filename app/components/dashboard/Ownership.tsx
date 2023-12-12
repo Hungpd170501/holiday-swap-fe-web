@@ -97,27 +97,18 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
           pageCurrentRouter="/dashboard/ownership"
         />
       </div>
-      <div
-        className={`py-6 flex flex-row w-full ${
-          ownershipUserList && ownershipUserList?.content && ownershipUserList?.content.length > 0
-            ? 'justify-between'
-            : 'justify-end'
-        }`}
-      >
-        {ownershipUserList &&
-          ownershipUserList?.content &&
-          ownershipUserList?.content.length > 0 && (
-            <div className="flex flex-row items-center gap-2">
-              <div>Search by room ID</div>
-              <input
-                className="rounded-md"
-                type="text"
-                id="search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-          )}
+      <div className={`py-6 flex flex-row w-full justify-between`}>
+        <div className="flex flex-row items-center gap-2">
+          <div>Search by room ID</div>
+          <input
+            className="rounded-md"
+            type="text"
+            id="search"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
         <button
           onClick={() => createOwnershipModal.onOpen(listResort?.content, currentUser)}
           className="bg-common py-3 px-5 rounded-lg shadow-md text-white text-lg hover:bg-hover"
