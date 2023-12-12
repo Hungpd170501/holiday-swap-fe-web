@@ -33,12 +33,14 @@ interface UploadImageCreateOwnershipProps {
   handeChangeNewImages: (image: any) => void;
   handleDeleteImage: (image: any) => void;
   isClearImage: boolean;
+  mutiple: boolean;
 }
 
 const UploadImageCreateOwnership: React.FC<UploadImageCreateOwnershipProps> = ({
   handeChangeNewImages,
   handleDeleteImage,
-  isClearImage
+  isClearImage,
+  mutiple
 }) => {
   const [newImages, setNewImages] = useState<any[]>([]);
   const [previewImage, setPreviewImage] = useState<any[]>([]);
@@ -107,7 +109,7 @@ const UploadImageCreateOwnership: React.FC<UploadImageCreateOwnershipProps> = ({
             id="avatar"
             className="hidden"
             accept="image/*"
-            multiple
+            multiple={mutiple}
           />
         </div>
       </div>

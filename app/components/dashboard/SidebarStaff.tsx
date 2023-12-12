@@ -83,6 +83,18 @@ const SidebarStaff = () => {
       icon: MdOutlineCreateNewFolder,
       current: pathName?.includes('/staff/createPropertyType') ? true : false,
     },
+    {
+      name: 'List Resort Amenities',
+      href: '/staff/listResortAmenities',
+      icon: PiFolders,
+      current: pathName?.includes('/staff/listResortAmenities') ? true : false,
+    },
+    {
+      name: 'Create Resort Amenities',
+      href: '/staff/createResortAmenities',
+      icon: MdOutlineCreateNewFolder,
+      current: pathName?.includes('/staff/createResortAmenities') ? true : false,
+    },
   ];
   const sidebarMember = [
     {

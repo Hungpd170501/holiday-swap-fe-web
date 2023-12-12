@@ -324,6 +324,7 @@ export default function ModalCreateOwnership() {
             handeChangeNewImages={handeChangeNewImages}
             handleDeleteImage={handleDeleteImage}
             isClearImage={isClearImage}
+            mutiple={true}
           />
         </div>
       </div>

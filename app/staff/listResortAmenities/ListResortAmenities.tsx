@@ -1,19 +1,10 @@
 'use client';
-
-import { Button, Label, Modal, Table, TextInput } from 'flowbite-react';
-import { useRouter } from 'next/navigation';
-import React, { Fragment, useEffect, useState } from 'react';
-import { Pagination } from 'flowbite-react';
-import axios from 'axios';
-import useEditPropertyViewModal from '@/app/hooks/useEditPropertyViewModal';
-import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
-import toast from 'react-hot-toast';
-import GetPropertyViewStaff from '@/app/actions/getPropertyViewStaff';
 import HeadingDashboard from '@/app/components/HeadingDashboard';
-
-interface ListPropertyViewProps {
-  propertyViews?: any;
-}
+import { Button, Label, Pagination, Table, TextInput, Modal } from 'flowbite-react';
+import React, { Fragment, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
+import GetResortAmenityStaff from '@/app/actions/getResortAmenityStaff';
 
 interface Pageable {
   pageNo: number;
@@ -22,11 +13,9 @@ interface Pageable {
   sortBy: string;
 }
 
-const ListPropertyView: React.FC<ListPropertyViewProps> = () => {
+const ListResortAmenities = () => {
   const router = useRouter();
-  const [propertyViewList, setPropertyViewList] = useState<any[]>([]);
-  const editPropertyViewModal = useEditPropertyViewModal();
-  const isSuccess = editPropertyViewModal.isSuccess;
+  const [amenitiesList, setAmenitiesList] = useState<any[]>([]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -49,59 +38,48 @@ const ListPropertyView: React.FC<ListPropertyViewProps> = () => {
 
   const [searchName, setSeachName] = useState<string>('');
   const fetchPropertyView = async (id?: number) => {
-    const responsePropertyView = await GetPropertyViewStaff({
+    const response = await GetResortAmenityStaff({
       searchName: searchName,
       pageable: pageable,
     });
     {
-      const result = responsePropertyView.content.filter((element: any) => element.id != id);
-      const theFilterOut = responsePropertyView.content.filter((element: any) => element.id == id);
-      result.splice(0, 0, ...theFilterOut);
-      setPropertyViewList(result);
+      const result = response.content.filter((element: any) => element.id != id);
+      const theFilterOut = response.content.filter((element: any) => element.id == id);
+      result.slice(0, 0, ...theFilterOut);
+      setAmenitiesList(result);
     }
-    setTotalPages(responsePropertyView.totalPages);
+    setTotalPages(response.totalPages);
   };
 
   useEffect(() => {
     fetchPropertyView();
+  }, [JSON.stringify(pageable), JSON.stringify(searchName)]);
 
-    if (isSuccess === true) {
-      fetchPropertyView();
-      editPropertyViewModal.onEditReset();
-    }
-
-    if (isDeleted === true) {
-      fetchPropertyView();
-      setIsDeleted(false);
-    }
-  }, [JSON.stringify(pageable), JSON.stringify(searchName), isSuccess, isDeleted]);
-
-  const handleDeleteProperty = (id: any) => {
-    axiosAuthClient
-      .delete(`https://holiday-swap.click/api/v1/property-view/${id}`)
-      .then(() => {
-        setOpenModal(false);
-        setIsDeleted(true);
-        toast.success('Delete property success');
-      })
-      .catch((response) => {
-        setOpenModal(false);
-        toast.error(response.response.data.message);
-      });
-  };
+  //   const handleDeleteProperty = (id: any) => {
+  //     axiosAuthClient
+  //       .delete(`https://holiday-swap.click/api/v1/property-view/${id}`)
+  //       .then(() => {
+  //         setOpenModal(false);
+  //         setIsDeleted(true);
+  //         toast.success('Delete property success');
+  //       })
+  //       .catch((response) => {
+  //         setOpenModal(false);
+  //         toast.error(response.response.data.message);
+  //       });
+  //   };
 
   const handleSearchNameSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setSeachName(e.currentTarget.searchName.value);
   };
-
   return (
     <Fragment>
       <div className="mt-2">
         <HeadingDashboard
           routerDashboard="/staff"
-          pageCurrentContent="List property view"
-          pageCurrentRouter="/staff/listPropertyView"
+          pageCurrentContent="List Resort Amenities"
+          pageCurrentRouter="/staff/listResortAmenities"
         />
       </div>
 
@@ -122,25 +100,24 @@ const ListPropertyView: React.FC<ListPropertyViewProps> = () => {
         <Table>
           <Table.Head>
             <Table.HeadCell>ID</Table.HeadCell>
-            <Table.HeadCell>Property View Name</Table.HeadCell>
-            <Table.HeadCell>Property View Description</Table.HeadCell>
+            <Table.HeadCell>Resort Amenity Name</Table.HeadCell>
+            <Table.HeadCell>Resort Amenity Description</Table.HeadCell>
+            <Table.HeadCell>Resort Amenity Type Id</Table.HeadCell>
             <Table.HeadCell>
               <span className="sr-only">Edit</span>
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {propertyViewList?.map((item: any, index: any) => (
+            {amenitiesList?.map((item: any, index: any) => (
               <Table.Row key={item.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {item.id}
                 </Table.Cell>
-                <Table.Cell>{item.propertyViewName}</Table.Cell>
-                <Table.Cell>{item.propertyViewDescription}</Table.Cell>
+                <Table.Cell>{item.resortAmenityName}</Table.Cell>
+                <Table.Cell>{item.resortAmenityDescription}</Table.Cell>
+                <Table.Cell>{item.resortAmenityTypeId}</Table.Cell>
                 <Table.Cell className="flex flex-row gap-3">
-                  <div
-                    onClick={() => editPropertyViewModal.onOpen(item)}
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
-                  >
+                  <div className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer">
                     Edit
                   </div>
                   <div
@@ -177,11 +154,7 @@ const ListPropertyView: React.FC<ListPropertyViewProps> = () => {
             </div>
           </Modal.Body>
           <Modal.Footer className="flex justify-end">
-            <Button
-              color="red"
-              className="font-bold"
-              onClick={() => handleDeleteProperty(idDelete)}
-            >
+            <Button color="red" className="font-bold">
               Delete
             </Button>
             <Button color="gray" onClick={() => setOpenModal(false)}>
@@ -194,4 +167,4 @@ const ListPropertyView: React.FC<ListPropertyViewProps> = () => {
   );
 };
 
-export default ListPropertyView;
+export default ListResortAmenities;
