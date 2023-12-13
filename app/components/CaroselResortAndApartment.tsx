@@ -202,7 +202,7 @@ const CaroselResortAndApartment: React.FC = ({}) => {
         }
         return (
           <div key={index}>
-            <div>
+            {/* <div>
               <div className="w-full flex flex-row justify-end content-end p-4">
                 <div className="mt-6 items-center">
                   <div className="h-4"></div>
@@ -231,10 +231,10 @@ const CaroselResortAndApartment: React.FC = ({}) => {
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="mb-8">
+            </div> */}
+            <div className="mb-8 mt-8">
               <div>{/* <DateRangePicker /> */}</div>
-              <div className="grid grid-cols-2 md:grid-cols-12 gap-3 h-[400px] p-4" key={index}>
+              <div className="grid grid-cols-2 md:grid-cols-12  h-[400px] p-4 gap-5" key={index}>
                 <Fragment>
                   <Link
                     href="#"
@@ -253,14 +253,16 @@ const CaroselResortAndApartment: React.FC = ({}) => {
                     </div>
                   </Link>
                   {/* {if(pageabble.totalPages)} */}
-                  <div
-                    className="relative border border-gray-300 rounded-md cursor-pointer"
-                    onClick={() => {
-                      var page = pageable.pageNo - 1;
-                      fetchListApartment(element.resort.id, index, page);
-                    }}
-                  >
-                    <LeftOutlined />
+                  <div className="flex flex-col items-center justify-center">
+                    <div
+                      className="relative border border-gray-300 p-4 rounded-full cursor-pointer items-center"
+                      onClick={() => {
+                        var page = pageable.pageNo - 1;
+                        fetchListApartment(element.resort.id, index, page);
+                      }}
+                    >
+                      <LeftOutlined className="flex flex-row items-center justify-center" />
+                    </div>
                   </div>
                   {listApartment?.map((element: any, index: number) => {
                     const startTime = new Date(element.availableTime.startTime);
@@ -268,7 +270,7 @@ const CaroselResortAndApartment: React.FC = ({}) => {
                     return (
                       <Link
                         key={index}
-                        className=" relative border border-gray-300 rounded-md cursor-pointer hover:-translate-y-4 hover:duration-500 translate-y-0 duration-500 col-span-2 w-[250px]"
+                        className=" relative border border-gray-300 rounded-md cursor-pointer hover:-translate-y-4 hover:duration-500 translate-y-0 duration-500 col-span-2 w-[200px]"
                         href={`/apartment/${element.availableTime.id}?propertyId=${element.coOwnerId.propertyId}&roomId=${element.coOwnerId.roomId}`}
                       >
                         <div>
@@ -319,15 +321,17 @@ const CaroselResortAndApartment: React.FC = ({}) => {
                       </Link>
                     );
                   })}
-                  <div
-                    className="relative border border-gray-300 rounded-md cursor-pointer"
-                    onClick={() => {
-                      var page = pageable.pageNo + 1;
+                  <div className="flex flex-col items-center justify-center">
+                    <div
+                      className="relative border border-gray-300 rounded-full ml-10 p-4  cursor-pointer"
+                      onClick={() => {
+                        var page = pageable.pageNo + 1;
 
-                      fetchListApartment(element.resort.id, index, page);
-                    }}
-                  >
-                    <RightOutlined />
+                        fetchListApartment(element.resort.id, index, page);
+                      }}
+                    >
+                      <RightOutlined className="flex flex-row items-center justify-center" />
+                    </div>
                   </div>
                 </Fragment>
               </div>
