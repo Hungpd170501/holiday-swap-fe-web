@@ -64,6 +64,8 @@ const ForgotPassword = () => {
       .then(() => {
         toast.success('Reset password success. Please login again!');
         router.push('/');
+        reset();
+        setToken(null);
         loginModal.onOpen();
       })
       .catch((response) => {
