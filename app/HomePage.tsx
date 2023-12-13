@@ -8,11 +8,10 @@ import TopDestination from './components/TopDestination';
 import TopApartment from './components/TopApartment';
 
 interface HomePageProps {
-  listResort: any;
-  apartment: any;
+  listResort?: any;
 }
 
-const HomePage: React.FC<HomePageProps> = ({ listResort, apartment }) => {
+const HomePage: React.FC<HomePageProps> = ({ listResort }) => {
   const [notification, setNotification] = useState({ title: '', body: '' });
   const [isTokenFound, setTokenFound] = useState(false);
   const [currentToken, setCurrentToken] = useState<any>();
@@ -24,8 +23,8 @@ const HomePage: React.FC<HomePageProps> = ({ listResort, apartment }) => {
           <div className="grid md:grid-cols-2 grid-cols-1">
             <Banner listResort={listResort} />
           </div>
-          <TopDestination listResort={listResort} />
-          <TopApartment apartment={apartment} />
+          <TopDestination />
+          {/* <TopApartment /> */}
         </div>
       </Container>
     </ClientOnly>

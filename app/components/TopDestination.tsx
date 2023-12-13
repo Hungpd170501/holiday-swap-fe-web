@@ -5,7 +5,7 @@ import { FaArrowRight } from 'react-icons/fa6';
 import CaroselResortAndApartment from './CaroselResortAndApartment';
 
 interface TopDestinationProps {
-  listResort: any;
+  listResort?: any;
 }
 
 const TopDestination: React.FC<TopDestinationProps> = ({ listResort }) => {
@@ -21,7 +21,7 @@ const TopDestination: React.FC<TopDestinationProps> = ({ listResort }) => {
       </div> */}
 
       {/* Carosel resort & apartment */}
-      {/* <CaroselResortAndApartment listResort={listResort} /> */}
+      <CaroselResortAndApartment/>
       <div className="flex gap-4 items-center my-10 p-2 border-b-2 border-slate-600 hover:border-[#5C98F2] cursor-pointer">
         All Destination
         <FaArrowRight size={15} />
