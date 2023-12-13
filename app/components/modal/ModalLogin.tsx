@@ -1,6 +1,6 @@
 'use client';
 import useLoginModal from '@/app/hooks/useLoginModal';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useCallback, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import Heading from '../Heading';
@@ -17,6 +17,7 @@ export default function ModalLogin() {
   const loginModal = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
   const [isForgotPasswordModalOpen, setIsForgotPasswordModalOpen] = useState(false);
+  const searchParams = useSearchParams();
 
   const {
     register,
@@ -26,6 +27,7 @@ export default function ModalLogin() {
     defaultValues: {
       email: '',
       password: '',
+      emailForgot: '',
     },
   });
 
@@ -80,6 +82,21 @@ export default function ModalLogin() {
     router.push('/register');
   }, []);
 
+  const onForgotPassword: SubmitHandler<FieldValues> = (data) => {
+    setIsLoading(false);
+    axios
+      .post(`https://holiday-swap.click/api/v1/auth/forgot-password?email=${data.emailForgot}`)
+      .then(() => {
+        toast.success(
+          'An email has been sent to your email, please verify to recover your password'
+        );
+        loginModal.onClose();
+      })
+      .catch((response) => {
+        toast.error(response.response.data.message);
+      });
+  };
+
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <div className="flex justify-center">
@@ -109,7 +126,6 @@ export default function ModalLogin() {
             errors={errors}
             required
           />
-          {errors.email && <span className="text-red-500"></span>}
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-4">
@@ -191,7 +207,7 @@ export default function ModalLogin() {
       title={isForgotPasswordModalOpen ? 'Forgot Password' : 'Login'}
       actionLabel={isForgotPasswordModalOpen ? 'Reset Password' : 'Continue'}
       onClose={loginModal.onClose}
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={isForgotPasswordModalOpen ? handleSubmit(onForgotPassword) : handleSubmit(onSubmit)}
       body={bodyContent}
       footer={renderFooterContent()}
     />
