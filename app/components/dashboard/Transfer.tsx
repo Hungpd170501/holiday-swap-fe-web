@@ -202,9 +202,8 @@ const TransferMoney: React.FC<TransferMoneyProps> = ({ currentUser, memberships 
           .post('https://holiday-swap.click/api/v1/transfer', data)
           .then(() => {
             toast.success('Transfer point success!');
-            setTimeout(() => {
-              router.push('/dashboard/wallet');
-            }, 1000);
+            router.push('/dashboard/wallet');
+            router.refresh();
           })
           .catch((error) => {
             toast.error(error.response.data.message);
