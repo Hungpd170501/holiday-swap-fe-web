@@ -43,11 +43,7 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail }) => {
                 <div>
                   {resortDetail.propertyTypes.map((row: any, index: any) => (
                     <React.Fragment key={index}>
-                      <span className="inline-block">
-                        {row.resortAmenities.map((item: any, index: number) => (
-                          <div key={index}>{item.resortAmenityName}</div>
-                        ))}
-                      </span>
+                      <span className="inline-block">{row.propertyTypeName}</span>
                       {index < resortDetail.propertyTypes.length - 1 && <span>, </span>}
                     </React.Fragment>
                   ))}
@@ -58,8 +54,13 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail }) => {
                 <div>
                   {resortDetail.resortAmenityTypes.map((row: any, index: any) => (
                     <React.Fragment key={index}>
-                      <span className="inline-block">{row.resortAmenityTypeName}</span>
-                      {index < resortDetail.propertyTypes.length - 1 && <span>, </span>}
+                      {row?.resortAmenities?.map((item: any, index: number) => (
+                        <span key={index} className="inline-block">
+                          {item.resortAmenityName}
+                          {index < row.resortAmenities.length - 1 && <span>, </span>}{" "}
+                        </span>
+                      ))}
+                     
                     </React.Fragment>
                   ))}
                 </div>

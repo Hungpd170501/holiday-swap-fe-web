@@ -232,6 +232,7 @@ const CreateResort: React.FC<CreateResortProps> = ({ amenitiesArray, propertyTyp
         toast.success('Create resort success');
         reset();
         router.push('/staff/listresort');
+        router.refresh();
       })
       .catch((response) => {
         toast.error(response.response.data.message);
