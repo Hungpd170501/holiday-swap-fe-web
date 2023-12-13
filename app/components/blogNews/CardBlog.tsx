@@ -125,10 +125,7 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
               </div>
             </div>
             <div className="text-[25px] pt-3 pb-5">{item.title}</div>
-            <div
-              className="text-[13px] text-gray-500 line-clamp-3"
-              dangerouslySetInnerHTML={{ __html: item.content }}
-            ></div>
+
             <div>
               <div
                 className="bg-[#5C98F2] hover:cursor-pointer hover:bg-blue-600  w-[130px] h-[51px] flex flex-row items-center justify-center rounded-md mt-5 text-white font-medium"

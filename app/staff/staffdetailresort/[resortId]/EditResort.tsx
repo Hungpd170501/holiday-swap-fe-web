@@ -43,7 +43,11 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail }) => {
                 <div>
                   {resortDetail.propertyTypes.map((row: any, index: any) => (
                     <React.Fragment key={index}>
-                      <span className="inline-block">{row.propertyTypeName}</span>
+                      <span className="inline-block">
+                        {row.resortAmenities.map((item: any, index: number) => (
+                          <div key={index}>{item.resortAmenityName}</div>
+                        ))}
+                      </span>
                       {index < resortDetail.propertyTypes.length - 1 && <span>, </span>}
                     </React.Fragment>
                   ))}

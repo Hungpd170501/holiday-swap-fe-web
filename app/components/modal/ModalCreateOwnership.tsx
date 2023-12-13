@@ -108,12 +108,6 @@ export default function ModalCreateOwnership() {
     }
   };
 
-  // useEffect(() => {
-  //   if (dataResort) {
-  //     setResortId(dataResort[0].id);
-  //   }
-  // }, [dataResort]);
-
   useEffect(() => {
     setCustomeValue('propertyId', propertyValue);
   }, [propertyValue]);
@@ -127,9 +121,17 @@ export default function ModalCreateOwnership() {
         setProperties(data?.data);
         setPropertyValue(data?.data[0]?.id);
       }
+
+      if (!propertyValue && dataResort) {
+        const data = await axios.get(
+          `https://holiday-swap.click/api/v1/properties/getListPropertyActive?resortId=${dataResort[0]?.id}`
+        );
+        setProperties(data?.data);
+        setPropertyValue(data?.data[0]?.id);
+      }
     };
     fetchProperty();
-  }, [resortId]);
+  }, [resortId, dataResort, propertyValue]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
