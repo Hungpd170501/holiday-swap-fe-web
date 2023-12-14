@@ -33,6 +33,7 @@ const ForgotPassword = () => {
     defaultValues: {
       email: '',
       password: '',
+      confirmPassword: '',
     },
   });
 
@@ -51,29 +52,34 @@ const ForgotPassword = () => {
   }, [token]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    setIsLoading(false);
+    setIsLoading(true);
     const body = {
       email: data.email,
       password: data.password,
       token: token,
     };
-    axios
-      .put(`https://holiday-swap.click/api/v1/auth/reset-password`, body, {
-        headers: { 'Content-type': 'application/json' },
-      })
-      .then(() => {
-        toast.success('Reset password success. Please login again!');
-        router.push('/');
-        reset();
-        setToken(null);
-        loginModal.onOpen();
-      })
-      .catch((response) => {
-        toast.error(response.response.data.message);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    if (data.password === data.confirmPassword) {
+      axios
+        .put(`https://holiday-swap.click/api/v1/auth/reset-password`, body, {
+          headers: { 'Content-type': 'application/json' },
+        })
+        .then(() => {
+          toast.success('Reset password success. Please login again!');
+          router.push('/');
+          reset();
+          setToken(null);
+          loginModal.onOpen();
+        })
+        .catch((response) => {
+          toast.error(response.response.data.message);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      toast.error('Confirm passowrd not match with password. Please try again!');
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -97,6 +103,14 @@ const ForgotPassword = () => {
           <InputPassword
             label="New Password"
             id="password"
+            type="password"
+            errors={errors}
+            required={true}
+            register={register}
+          />
+          <InputPassword
+            label="Confirm New Password"
+            id="confirmPassword"
             type="password"
             errors={errors}
             required={true}

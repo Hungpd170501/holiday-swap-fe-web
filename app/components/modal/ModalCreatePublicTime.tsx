@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import React, { ChangeEvent, Fragment, useCallback, useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import InputComponent from '../input/Input';
 import Modal from './Modal';
@@ -60,6 +60,15 @@ export default function ModalCreatePublicTime() {
       setTimeFramesId(detailCoOwner?.timeFrames[0]?.id);
     }
   }, [detailCoOwner]);
+
+  const [arrayYear, setArrayYear] = useState<number[]>([]);
+
+  const range = (start: any, stop: any, step: any) =>
+    Array.from({ length: (stop - start) / step + 1 }, (_, i) => start + i * step);
+
+  useEffect(() => {
+    setArrayYear(range(new Date().getFullYear(), new Date().getFullYear() + 50, +1));
+  }, []);
 
   const getWeekDates = (weekNumber: number, year: number) => {
     const startDate = dayjs().year(year).isoWeek(weekNumber).startOf('isoWeek').startOf('day');
@@ -306,35 +315,30 @@ export default function ModalCreatePublicTime() {
   const bodyContent = (
     <div className="flex flex-col gap-4 overflow-x-hidden overflow-y-auto no-scrollbar h-[100%]">
       <div className="grid grid-cols-1">
-        <InputYear
-          id="yearCreate"
-          label="Year to create"
-          type="number"
-          min={
-            detailCoOwner?.startTime
-              ? new Date(detailCoOwner?.startTime).getFullYear()
-              : new Date().getFullYear()
-          }
-          max={
-            detailCoOwner?.endTime
-              ? new Date(detailCoOwner?.endTime).getFullYear()
-              : new Date().getFullYear() + 49
-          }
-          maxLength={4}
-          onKeyUp={(e: ChangeEvent<HTMLInputElement>) => {
-            if (Number(e.target.value) === 0) {
-              return 1;
-            }
-          }}
+      
+        <div className="py-3 flex flex-row gap-1 items-center">
+          <label>
+            Year to create <span className="text-rose-500">*</span>
+          </label>
+        </div>
+        <Select
           value={yearCreate}
-          register={register}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setYearCreate(Number(e.target.value))}
-          errors={errors}
-          required
-        />
+          className='focus:ring-0 focus:border-0'
+          onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+            setYearCreate(Number(e.target.value));
+          }}
+        >
+          {arrayYear.map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
+        </Select>
       </div>
       <div className="grid grid-cols-1">
-        <Label value="Select week" />
+        <label>
+            Select week <span className="text-rose-500">*</span>
+          </label>
         <Select
           value={timeFramesId}
           onChange={(e: ChangeEvent<HTMLSelectElement>) => {

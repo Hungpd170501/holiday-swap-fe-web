@@ -132,6 +132,7 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
       const totalBeds =
         Number(data.numberKingBeds) +
         Number(data.numberQueenBeds) +
+        Number(data.numberSingleBeds) +
         Number(data.numberDoubleBeds) +
         Number(data.numberTwinBeds) +
         Number(data.numberFullBeds) +
@@ -147,7 +148,6 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
     setIsLoading(true);
     const formData = new FormData();
 
-    console.log('Check data', data.inRoomAmenities);
     const property = {
       propertyName: data.propertyName,
       propertyDescription: data.propertyDescription,

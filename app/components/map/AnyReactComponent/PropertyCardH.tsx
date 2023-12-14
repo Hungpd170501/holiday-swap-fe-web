@@ -1,10 +1,10 @@
-import React, { FC } from "react";
-import GallerySlider from "./GallerySlider";
-import StartRating from "./StartRating";
-import BtnLikeIcon from "./BtnLikeIcon";
-import SaleOffBadge from "./SaleOffBadge";
-import Badge from "@/shared/Badge";
-import Link from "next/link";
+import React, { FC } from 'react';
+import GallerySlider from './GallerySlider';
+import StartRating from './StartRating';
+import BtnLikeIcon from './BtnLikeIcon';
+import SaleOffBadge from './SaleOffBadge';
+import Badge from '@/shared/Badge';
+import Link from 'next/link';
 import { StayDataType } from '@/app/components/map/type';
 import Image from 'next/image';
 import { Coords } from 'google-map-react-concurrent';
@@ -15,11 +15,7 @@ export interface PropertyCardHProps {
   setCoordinates?: React.Dispatch<React.SetStateAction<Coords | undefined>>;
 }
 
-const PropertyCardH: FC<PropertyCardHProps> = ({
-  className = "",
-  data = {},
-                                                 setCoordinates,
-}) => {
+const PropertyCardH: FC<PropertyCardHProps> = ({ className = '', data = {}, setCoordinates }) => {
   const {
     galleryImgs,
     title,
@@ -40,22 +36,24 @@ const PropertyCardH: FC<PropertyCardHProps> = ({
     ownerName,
     ownerAvatar,
     map,
-  } = data;
+  }: any = data;
 
   const renderSliderGallery = () => {
     return (
       <div className="flex-shrink-0 p-3 w-full sm:w-64 ">
         <GallerySlider
           ratioClass="aspect-w-1 aspect-h-1"
-          galleryImgs={galleryImgs??["https://media-cdn.tripadvisor.com/media/photo-s/28/fd/37/ed/pearl-farm-beach-resort.jpg"]}
+          galleryImgs={
+            galleryImgs ?? [
+              'https://media-cdn.tripadvisor.com/media/photo-s/28/fd/37/ed/pearl-farm-beach-resort.jpg',
+            ]
+          }
           className="w-full h-full rounded-2xl overflow-hidden"
           uniqueID={`${id}`}
           href={href}
         />
 
-        {saleOff && (
-          <SaleOffBadge className="absolute left-5 top-5 !bg-orange-500" />
-        )}
+        {saleOff && <SaleOffBadge className="absolute left-5 top-5 !bg-orange-500" />}
       </div>
     );
   };
@@ -67,9 +65,7 @@ const PropertyCardH: FC<PropertyCardHProps> = ({
           <span className="hidden sm:inline-block">
             <i className="las la-bed text-lg"></i>
           </span>
-          <span className="text-xs text-neutral-500 dark:text-neutral-400">
-            {bedrooms} beds
-          </span>
+          <span className="text-xs text-neutral-500 dark:text-neutral-400">{bedrooms} beds</span>
         </div>
 
         {/* ---- */}
@@ -77,9 +73,7 @@ const PropertyCardH: FC<PropertyCardHProps> = ({
           <span className="hidden sm:inline-block">
             <i className="las la-bath text-lg"></i>
           </span>
-          <span className="text-xs text-neutral-500 dark:text-neutral-400">
-            {bathrooms} baths
-          </span>
+          <span className="text-xs text-neutral-500 dark:text-neutral-400">{bathrooms} baths</span>
         </div>
 
         {/* ---- */}
@@ -87,9 +81,7 @@ const PropertyCardH: FC<PropertyCardHProps> = ({
           <span className="hidden sm:inline-block">
             <i className="las la-expand-arrows-alt text-lg"></i>
           </span>
-          <span className="text-xs text-neutral-500 dark:text-neutral-400">
-            {roomSize} Sq. Fit
-          </span>
+          <span className="text-xs text-neutral-500 dark:text-neutral-400">{roomSize} Sq. Fit</span>
         </div>
       </div>
     );
@@ -102,13 +94,14 @@ const PropertyCardH: FC<PropertyCardHProps> = ({
           <div className="inline-flex space-x-3">
             {propertyView && (
               <Badge
-              name={
-                <div className="flex items-center">
-                  <i className="text-sm las la-share-alt"></i>
-                  <span className="ml-1">{propertyView}</span>
-                </div>
-              }
-            />)}
+                name={
+                  <div className="flex items-center">
+                    <i className="text-sm las la-share-alt"></i>
+                    <span className="ml-1">{propertyView}</span>
+                  </div>
+                }
+              />
+            )}
 
             <Badge
               name={
@@ -134,7 +127,7 @@ const PropertyCardH: FC<PropertyCardHProps> = ({
           </div>
           <div className="flex items-center space-x-2 ml-2">
             <div className="relative inline-block rounded-full overflow-hidden h-3.5 w-3.5 md:h-5 md:w-5">
-              <Image alt="Avatar" src={`${ownerAvatar??"/images/placeholder.jpg"}`} fill/>
+              <Image alt="Avatar" src={`${ownerAvatar ?? '/images/placeholder.jpg'}`} fill />
             </div>
             <p className="text-gray-600 text-sm">
               <span>Owner: {ownerName}</span>
@@ -157,11 +150,14 @@ const PropertyCardH: FC<PropertyCardHProps> = ({
       className={`nc-PropertyCardH group relative bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-700 rounded-3xl overflow-hidden ${className}`}
     >
       {/*<Link href={`${href}/${id}`} className="absolute inset-0" target='_blank'></Link>*/}
-      <div onClick={()=>{
-        if(setCoordinates){
-          setCoordinates({lat: map?.lat??10.200809, lng: map?.lng??103.96685})
-        }
-      }} className="absolute inset-0"></div>
+      <div
+        onClick={() => {
+          if (setCoordinates) {
+            setCoordinates({ lat: map?.lat ?? 10.200809, lng: map?.lng ?? 103.96685 });
+          }
+        }}
+        className="absolute inset-0"
+      ></div>
       <div className="h-full w-full flex flex-col sm:flex-row sm:items-center">
         {renderSliderGallery()}
         {renderContent()}

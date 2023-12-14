@@ -57,7 +57,6 @@ const ChartBooking = () => {
     setData(bookingArray);
   };
 
-  console.log('Check data', type);
   const ctxData1 = [20, 60, 50, 45, 50, 60, 70, 40, 45, 35, 25, 30];
   const ctxColor1 = '#506fd9';
   const ctxColor2 = '#DBDFFD';

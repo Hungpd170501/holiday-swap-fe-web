@@ -111,7 +111,7 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
             <div className="text-slate-400">Description</div>
           </div>
 
-          {!ratingValue && (
+          {!ratingValue && detail?.status === "SUCCESS" && (
             <div className="flex flex-row gap-3">
               <div className="py-3">
                 <button

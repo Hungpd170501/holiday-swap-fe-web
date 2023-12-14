@@ -14,11 +14,12 @@ import TabFilters from './AnyReactComponent/TabFilters';
 import LocationInput from './AnyReactComponent/LocationInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { Skeleton } from 'antd';
+import useNewDateRange from '@/app/hooks/useNewDateRange';
 
 function mapApartmentToStayCard(
   apartmentForRentResponse: ApartmentForRentResponse
 ): StayDataType[] {
-  return apartmentForRentResponse.content.map((apartmentForRent) => {
+  return apartmentForRentResponse.content.map((apartmentForRent, newDateRange) => {
     return {
       id: `${apartmentForRent.availableTime.id}`,
       // author: apartmentForRent.user.username,
@@ -55,7 +56,10 @@ const MainMap: React.FC<MainMapProps> = ({ data }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const params = useSelector((state: any) => state.apartmentForRent.searchParams);
-  const [coordinates, setCoordinates] = useState<Coords | undefined>({ lat: 10.200809, lng: 103.96685 });
+  const [coordinates, setCoordinates] = useState<Coords | undefined>({
+    lat: 10.200809,
+    lng: 103.96685,
+  });
   const [places, setPlaces] = useState<StayDataType[]>([]);
   const [Bounds, setBounds] = useState({ ne: { lat: 0, lng: 0 }, sw: { lat: 0, lng: 0 } });
   const [currentHoverID, setCurrentHoverID] = useState<string | number>(-1);
@@ -64,7 +68,10 @@ const MainMap: React.FC<MainMapProps> = ({ data }) => {
 
   useEffect(() => {
     fetchApartmentForRents();
+    
   }, [params]);
+
+  const newDateRange = useNewDateRange();
 
   const fetchApartmentForRents = () => {
     setLoading(true);
@@ -76,7 +83,6 @@ const MainMap: React.FC<MainMapProps> = ({ data }) => {
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
   };
-
 
   return (
     <div className="w-full flex flex-wrap-reverse md:flex-nowrap md:h-screen">
@@ -100,7 +106,7 @@ const MainMap: React.FC<MainMapProps> = ({ data }) => {
                   onMouseEnter={() => setCurrentHoverID(item.id)}
                   onMouseLeave={() => setCurrentHoverID(-1)}
                 >
-                  <PropertyCardH data={item} setCoordinates={setCoordinates}/>
+                  <PropertyCardH data={item} setCoordinates={setCoordinates} />
                 </div>
               ))}
             </div>
@@ -113,7 +119,6 @@ const MainMap: React.FC<MainMapProps> = ({ data }) => {
         ) : (
           <Skeleton />
         )}
-
       </div>
       <div className="h-[60vh] md:h-full w-full relative">
         {/* Map Header Component, with setCoordinate State passed in as props */}
@@ -129,7 +134,11 @@ const MainMap: React.FC<MainMapProps> = ({ data }) => {
                 /> */}
         {/* --- */}
         <div className="absolute bottom-5 left-3 lg:bottom-auto lg:top-2.5 py-1 px-1 bg-white shadow-xl z-10 rounded-2xl min-w-fit lg:w-[25%]">
-          <LocationInput setPlaceId={setPlaceId} setCoordinates={setCoordinates} className="text-xs xl:text-sm text-neutral-800" />
+          <LocationInput
+            setPlaceId={setPlaceId}
+            setCoordinates={setCoordinates}
+            className="text-xs xl:text-sm text-neutral-800"
+          />
         </div>
 
         <div className="absolute bottom-5 left-3 lg:bottom-auto lg:top-2.5 lg:left-1/2 transform lg:-translate-x-1/2 py-2 px-4 bg-white shadow-xl z-10 rounded-2xl min-w-max">

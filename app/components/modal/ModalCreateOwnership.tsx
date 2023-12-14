@@ -108,15 +108,24 @@ export default function ModalCreateOwnership() {
     }
   };
 
-  // useEffect(() => {
-  //   if (dataResort) {
-  //     setResortId(dataResort[0].id);
-  //   }
-  // }, [dataResort]);
-
   useEffect(() => {
     setCustomeValue('propertyId', propertyValue);
   }, [propertyValue]);
+
+  useEffect(() => {
+    const fetchDataWhenMount = async () => {
+      if (!propertyValue && dataResort && (resortId === dataResort[0]?.id || resortId === undefined)) {
+        const data = await axios.get(
+          `https://holiday-swap.click/api/v1/properties/getListPropertyActive?resortId=${dataResort[0]?.id}`
+        );
+        setProperties(data?.data);
+        setPropertyValue(data?.data[0]?.id);
+      }
+    };
+    fetchDataWhenMount();
+  }, [propertyValue, dataResort, resortId]);
+
+  console.log('Check resortId', resortId);
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -129,7 +138,7 @@ export default function ModalCreateOwnership() {
       }
     };
     fetchProperty();
-  }, [resortId]);
+  }, [resortId, dataResort]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
@@ -167,7 +176,6 @@ export default function ModalCreateOwnership() {
       setWeekNumberValue([]);
       setValue('weekNumber', '');
       toast.error('Invalid week number format. Please enter a valid format (e.g., 1, 2, 3).');
-      console.log('Check data', data.weekNumber.split(' ').join(''));
       console.log('Regex Test Result:', weekNumberRegex.test(data.weekNumber.trim()));
       setIsLoading(false);
       setOpenModal(false);
@@ -196,8 +204,6 @@ export default function ModalCreateOwnership() {
         });
     }
   };
-
-  console.log('Check file', file);
 
   const bodyContent = (
     <div className="flex flex-col gap-4 ">
