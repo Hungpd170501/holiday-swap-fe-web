@@ -114,6 +114,7 @@ export default function ModalCreateOwnership() {
 
   useEffect(() => {
     const fetchProperty = async () => {
+     
       if (resortId) {
         const data = await axios.get(
           `https://holiday-swap.click/api/v1/properties/getListPropertyActive?resortId=${resortId}`
@@ -122,7 +123,7 @@ export default function ModalCreateOwnership() {
         setPropertyValue(data?.data[0]?.id);
       }
 
-      if (!propertyValue && dataResort) {
+      if (!propertyValue && dataResort && !resortId) {
         const data = await axios.get(
           `https://holiday-swap.click/api/v1/properties/getListPropertyActive?resortId=${dataResort[0]?.id}`
         );
@@ -132,6 +133,8 @@ export default function ModalCreateOwnership() {
     };
     fetchProperty();
   }, [resortId, dataResort, propertyValue]);
+
+  console.log('check type of resort Id', typeof resortId);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
