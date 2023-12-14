@@ -40,7 +40,12 @@ const CurrentBooking: React.FC<CurrentBookingProps> = ({ historyBooking }) => {
           View All Booking
         </div>
       </div>
-      {historyBookingList &&
+      {/* {historyBookingList &&
+        historyBookingList.map((item: any, index: number) => (
+   
+        ))} */}
+
+      {historyBookingList.length > 0 ? (
         historyBookingList.map((item: any, index: number) => (
           <div
             onClick={() => router.push(`/dashboard/myBooking/${item.bookingId}`)}
@@ -78,10 +83,32 @@ const CurrentBooking: React.FC<CurrentBookingProps> = ({ historyBooking }) => {
             </div>
 
             <div className="col-span-3 flex flex-row justify-center items-center">
-              <div className={`text-lg ${item.status === "SUCCESS" ? "text-green-600" : "text-orange-600"}`}>{item.status}</div>
+              <div
+                className={`text-lg ${
+                  item.status === 'SUCCESS' ? 'text-green-600' : 'text-orange-600'
+                }`}
+              >
+                {item.status}
+              </div>
             </div>
           </div>
-        ))}
+        ))
+      ) : (
+        <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center">
+            <div className=" text-[20px]  ">No trips booked... yet!</div>
+            <div>
+              It's time to dust off your luggage and start preparing for your next adventure
+            </div>
+          </div>
+          <div
+            className="border border-gray-400 my-4 rounded-md px-5 py-3 cursor-pointer hover:bg-gray-200"
+            onClick={() => router.push('/apartment')}
+          >
+            Start searching
+          </div>
+        </div>
+      )}
     </div>
   );
 };
