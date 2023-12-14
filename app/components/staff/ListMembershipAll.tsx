@@ -273,13 +273,18 @@ const ListMembershipAll: React.FC<ListMembershipAllProps> = ({ users }) => {
                 <StyledTableCell className="!py-5 " align="right">
                   {row.email}
                 </StyledTableCell>
-                <StyledTableCell className="!py-5 !text-green-500 " align="right">
+                <StyledTableCell className="!py-5  " align="right">
                   {row.phone}
                 </StyledTableCell>
-                <StyledTableCell className="!py-5 !text-green-500 " align="right">
-                  {row.status}
+                <StyledTableCell
+                  className={`!py-5 ${
+                    row.status === 'BLOCKED' ? '!text-red-500' : '!text-green-500'
+                  }`}
+                  align="right"
+                >
+                  {row.status === 'BLOCKED' ? 'BLOCKED' : row.status}
                 </StyledTableCell>
-                <StyledTableCell className="!py-5 !text-green-500 " align="right">
+                <StyledTableCell className="!py-5 " align="right">
                   {format(new Date(row.dob), 'yyyy-MM-dd')}
                 </StyledTableCell>
                 <StyledTableCell className="!py-5" align="right">

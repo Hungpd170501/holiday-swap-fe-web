@@ -78,26 +78,33 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
           </div>
 
           {/* Information ownership */}
-          <div className="flex flex-row gap-3 py-3">
-            <div>
-              <Image
-                src="/images/placeholder.jpg"
-                alt="avatar"
-                width={80}
-                height={80}
-                className="rounded-full"
-              />
-            </div>
-            <div className="flex flex-col">
-              <div>{memberBooking?.content[0].fullName}</div>
-              <div className="text-slate-500">
-                {ownerResort?.content[0]?.addressLine
-                  .split(',')
-                  .map((part: any) => part.trim())
-                  .slice(-2)
-                  .join(', ')}
+          <div className=" flex flex-row items-center justify-between">
+            <div className="flex flex-row gap-3 py-3">
+              <div>
+                <Image
+                  src="/images/placeholder.jpg"
+                  alt="avatar"
+                  width={55}
+                  height={55}
+                  className="rounded-full"
+                />
               </div>
-              {/* <div className="text-slate-500">On HolidaySwap since 2015</div> */}
+              <div className="flex flex-col">
+                <div>{memberBooking?.content[0].username}</div>
+                <div className="text-slate-500">
+                  {ownerResort?.content[0]?.addressLine
+                    .split(',')
+                    .map((part: any) => part.trim())
+                    .slice(-2)
+                    .join(', ')}
+                </div>
+                {/* <div className="text-slate-500">On HolidaySwap since 2015</div> */}
+              </div>
+            </div>
+            <div>
+              <div className="hover:bg-hover rounded-md  cursor-pointer px-4 py-2 bg-common text-white text-center">
+                contact with renter
+              </div>
             </div>
           </div>
 

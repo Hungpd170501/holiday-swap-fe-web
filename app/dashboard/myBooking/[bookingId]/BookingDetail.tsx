@@ -77,26 +77,33 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
           </div>
 
           {/* Information ownership */}
-          <div className="flex flex-row gap-3 py-3">
-            <div>
-              <Image
-                src="/images/placeholder.jpg"
-                alt="avatar"
-                width={80}
-                height={80}
-                className="rounded-full"
-              />
-            </div>
-            <div className="flex flex-col">
-              <div>{ownerUser?.content[0]?.fullName}</div>
-              <div className="text-slate-500">
-                {ownerResort?.content[0]?.addressLine
-                  .split(',')
-                  .map((part: any) => part.trim())
-                  .slice(-2)
-                  .join(', ')}
+          <div className="flex flex-row w-full justify-between gap-3 py-3">
+            <div className="flex flex-row items-center gap-3">
+              <div>
+                <Image
+                  className="rounded-full cursor-pointer"
+                  width={55}
+                  height={55}
+                  src={ownerUser?.avatar || '/images/placeholder.jpg'}
+                  alt="avatar"
+                />
               </div>
-              {/* <div className="text-slate-500">On HolidaySwap since 2015</div> */}
+              <div className="flex flex-col">
+                <div>{ownerUser?.content[0]?.fullName}</div>
+                <div className="text-slate-500">
+                  {ownerResort?.content[0]?.addressLine
+                    .split(',')
+                    .map((part: any) => part.trim())
+                    .slice(-2)
+                    .join(', ')}
+                </div>
+                {/* <div className="text-slate-500">On HolidaySwap since 2015</div> */}
+              </div>
+            </div>
+            <div>
+              <div className="hover:bg-hover rounded-md  cursor-pointer px-4 py-2 bg-common text-white text-center">
+                contact with owner
+              </div>
             </div>
           </div>
 
@@ -111,7 +118,7 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
             <div className="text-slate-400">Description</div>
           </div>
 
-          {!ratingValue && detail?.status === "SUCCESS" && (
+          {!ratingValue && detail?.status === 'SUCCESS' && (
             <div className="flex flex-row gap-3">
               <div className="py-3">
                 <button
