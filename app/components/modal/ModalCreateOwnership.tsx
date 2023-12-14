@@ -114,7 +114,7 @@ export default function ModalCreateOwnership() {
 
   useEffect(() => {
     const fetchDataWhenMount = async () => {
-      if (!propertyValue && dataResort) {
+      if (!propertyValue && dataResort && (resortId === dataResort[0]?.id || resortId === undefined)) {
         const data = await axios.get(
           `https://holiday-swap.click/api/v1/properties/getListPropertyActive?resortId=${dataResort[0]?.id}`
         );
@@ -123,7 +123,7 @@ export default function ModalCreateOwnership() {
       }
     };
     fetchDataWhenMount();
-  }, [propertyValue, dataResort]);
+  }, [propertyValue, dataResort, resortId]);
 
   console.log('Check resortId', resortId);
 
@@ -136,14 +136,6 @@ export default function ModalCreateOwnership() {
         setProperties(data?.data);
         setPropertyValue(data?.data[0]?.id);
       }
-
-      // if (!propertyValue && dataResort && !resortId) {
-      //   const data = await axios.get(
-      //     `https://holiday-swap.click/api/v1/properties/getListPropertyActive?resortId=${dataResort[0]?.id}`
-      //   );
-      //   setProperties(data?.data);
-      //   setPropertyValue(data?.data[0]?.id);
-      // }
     };
     fetchProperty();
   }, [resortId, dataResort]);
