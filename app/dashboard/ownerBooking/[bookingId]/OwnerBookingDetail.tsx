@@ -44,7 +44,7 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
     const accessToken = session?.user?.access_token;
     const config = { headers: { Authorization: `Bearer ${accessToken}` } };
     axios
-      .put(`https://holiday-swap.click/api/booking/cancel/${bookingId}`)
+      .put(`https://holiday-swap.click/api/booking/cancel/${bookingId}`, config)
       .then(async (response) => {
         const newDetail = await axios.get(
           `https://holiday-swap.click/api/booking/ownerhistorybooking/${bookingId}`,
