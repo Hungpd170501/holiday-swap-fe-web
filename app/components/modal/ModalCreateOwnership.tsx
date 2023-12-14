@@ -113,8 +113,22 @@ export default function ModalCreateOwnership() {
   }, [propertyValue]);
 
   useEffect(() => {
+    const fetchDataWhenMount = async () => {
+      if (!propertyValue && dataResort) {
+        const data = await axios.get(
+          `https://holiday-swap.click/api/v1/properties/getListPropertyActive?resortId=${dataResort[0]?.id}`
+        );
+        setProperties(data?.data);
+        setPropertyValue(data?.data[0]?.id);
+      }
+    };
+    fetchDataWhenMount();
+  }, [propertyValue, dataResort]);
+
+  console.log('Check resortId', resortId);
+
+  useEffect(() => {
     const fetchProperty = async () => {
-     
       if (resortId) {
         const data = await axios.get(
           `https://holiday-swap.click/api/v1/properties/getListPropertyActive?resortId=${resortId}`
@@ -123,18 +137,16 @@ export default function ModalCreateOwnership() {
         setPropertyValue(data?.data[0]?.id);
       }
 
-      if (!propertyValue && dataResort && !resortId) {
-        const data = await axios.get(
-          `https://holiday-swap.click/api/v1/properties/getListPropertyActive?resortId=${dataResort[0]?.id}`
-        );
-        setProperties(data?.data);
-        setPropertyValue(data?.data[0]?.id);
-      }
+      // if (!propertyValue && dataResort && !resortId) {
+      //   const data = await axios.get(
+      //     `https://holiday-swap.click/api/v1/properties/getListPropertyActive?resortId=${dataResort[0]?.id}`
+      //   );
+      //   setProperties(data?.data);
+      //   setPropertyValue(data?.data[0]?.id);
+      // }
     };
     fetchProperty();
-  }, [resortId, dataResort, propertyValue]);
-
-  console.log('check type of resort Id', typeof resortId);
+  }, [resortId, dataResort]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
@@ -200,8 +212,6 @@ export default function ModalCreateOwnership() {
         });
     }
   };
-
-  console.log('Check file', file);
 
   const bodyContent = (
     <div className="flex flex-col gap-4 ">
