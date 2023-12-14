@@ -18,7 +18,7 @@ const InputAmenitiesType: React.FC<InputAmenitiesTypeProps> = ({
   const [amenitiesArrayValue, setAmenitiesArrayValue] = useState<any[]>(amenitiesArray);
 
   useEffect(() => {
-    setAmenitiesValue(amenitiesArray.map((item: any) => item.id.toString()));
+    setAmenitiesValue(amenitiesArrayValue.map((item: any) => item.id.toString()));
   }, []);
 
   const handleChangeAmenities = (e: ChangeEvent<HTMLInputElement>, itemValue: any) => {

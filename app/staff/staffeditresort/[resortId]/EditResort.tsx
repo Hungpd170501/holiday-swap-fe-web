@@ -59,6 +59,7 @@ const EditResort: React.FC<EditResortProps> = ({
   const [images, setImages] = useState<any>(resortDetail.resortImages);
   const [oldImages, setOldImages] = useState<any[]>(resortDetail.resortImages);
   const [amenitiesValue, setAmeniteisValue] = useState<any[]>(resortDetail.resortAmenityTypes);
+  const [amenitiesArray, setAmenitiesArray] = useState<any[]>(resortDetail.resortAmenityTypes.flatMap((item: any) => item.resortAmenities.map((i: any) => i)));
   const [propertyTypesValue, setPropertyTypesValue] = useState<any[]>(resortDetail.propertyTypes);
   const [newImages, setNewImages] = useState<any[]>([]);
   const { data: session } = useSession();
@@ -69,6 +70,13 @@ const EditResort: React.FC<EditResortProps> = ({
   const handlePostcodeChange = createContextHandler('postcode.');
   const handleDistrictChange = createContextHandlerAdministrationLevel(2);
   const handleProvinceChange = createContextHandlerAdministrationLevel(1);
+
+  // useEffect(() => {
+  //   if (amenitiesValue) {
+  //     const newArray = amenitiesValue.flatMap((item) => item.resortAmenities.map((i: any) => i));
+  //     setAmenitiesArray(newArray);
+  //   }
+  // }, [amenitiesValue]);
 
   const {
     register,
@@ -357,7 +365,7 @@ const EditResort: React.FC<EditResortProps> = ({
           <InputAmenitiesType
             amenities={amineties}
             handleAmenitiesChange={handleAmenitiesChange}
-            amenitiesArray={amenitiesValue}
+            amenitiesArray={amenitiesArray}
           />
         </div>
 
