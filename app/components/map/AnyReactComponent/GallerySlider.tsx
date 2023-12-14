@@ -1,12 +1,14 @@
-"use client";
+'use client';
 
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
-import { AnimatePresence, motion, MotionConfig } from "framer-motion";
-import Image, { StaticImageData } from "next/image";
-import { useState } from "react";
-import { useSwipeable } from "react-swipeable";
-import { variants } from "@/utils/animationVariants";
-import Link from "next/link";
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
+import Image, { StaticImageData } from 'next/image';
+import { useState } from 'react';
+import { useSwipeable } from 'react-swipeable';
+import { variants } from '@/utils/animationVariants';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import useNewDateRange from '@/app/hooks/useNewDateRange';
 // import { Route } from "@/routers/types";
 
 export interface GallerySliderProps {
@@ -21,18 +23,19 @@ export interface GallerySliderProps {
 }
 
 export default function GallerySlider({
-  className = "",
+  className = '',
   galleryImgs,
-  ratioClass = "aspect-w-4 aspect-h-3",
-  imageClass = "",
-  uniqueID = "",
-  galleryClass = "rounded-xl",
-  href = "/list-resort",
+  ratioClass = 'aspect-w-4 aspect-h-3',
+  imageClass = '',
+  uniqueID = '',
+  galleryClass = 'rounded-xl',
+  href = '/list-resort',
   navigation = true,
 }: GallerySliderProps) {
   const [loaded, setLoaded] = useState(false);
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const router = useRouter();
   const images = galleryImgs;
 
   function changePhotoId(newVal: number) {
@@ -59,24 +62,26 @@ export default function GallerySlider({
   });
 
   let currentImage = images[index];
+  const newDateRange = useNewDateRange();
+
+  const handleApartmentDetail = (string: string) => {
+    window.open(string, '_ blank');
+    newDateRange.setNew();
+  };
 
   return (
     <MotionConfig
       transition={{
-        x: { type: "spring", stiffness: 300, damping: 30 },
+        x: { type: 'spring', stiffness: 300, damping: 30 },
         opacity: { duration: 0.2 },
       }}
     >
-      <div
-        className={`relative group group/cardGallerySlider ${className}`}
-        {...handlers}
-      >
+      <div className={`relative group group/cardGallerySlider ${className}`} {...handlers}>
         {/* Main image */}
         <div className={`w-full overflow-hidden ${galleryClass}`}>
-          <Link
-            href={`${href}/${uniqueID}`}
+          <div
+            onClick={() => handleApartmentDetail(`${href}/${uniqueID}`)}
             className={`relative flex items-center justify-center ${ratioClass}`}
-            target='_blank'
           >
             <AnimatePresence initial={false} custom={direction}>
               <motion.div
@@ -89,7 +94,7 @@ export default function GallerySlider({
                 className="absolute inset-0"
               >
                 <Image
-                  src={currentImage || ""}
+                  src={currentImage || ''}
                   fill
                   alt="listing card gallery"
                   className={`object-cover ${imageClass}`}
@@ -98,7 +103,7 @@ export default function GallerySlider({
                 />
               </motion.div>
             </AnimatePresence>
-          </Link>
+          </div>
         </div>
 
         {/* Buttons + bottom nav bar */}
@@ -109,7 +114,7 @@ export default function GallerySlider({
               {index > 0 && (
                 <button
                   className="absolute w-8 h-8 left-3 top-[calc(50%-16px)] bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-6000 dark:hover:border-neutral-500 rounded-full flex items-center justify-center hover:border-neutral-300 focus:outline-none"
-                  style={{ transform: "translate3d(0, 0, 0)" }}
+                  style={{ transform: 'translate3d(0, 0, 0)' }}
                   onClick={() => changePhotoId(index - 1)}
                 >
                   <ChevronLeftIcon className="h-4 w-4" />
@@ -118,7 +123,7 @@ export default function GallerySlider({
               {index + 1 < images.length && (
                 <button
                   className="absolute w-8 h-8 right-3 top-[calc(50%-16px)] bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-6000 dark:hover:border-neutral-500 rounded-full flex items-center justify-center hover:border-neutral-300 focus:outline-none"
-                  style={{ transform: "translate3d(0, 0, 0)" }}
+                  style={{ transform: 'translate3d(0, 0, 0)' }}
                   onClick={() => changePhotoId(index + 1)}
                 >
                   <ChevronRightIcon className="h-4 w-4" />
@@ -132,9 +137,7 @@ export default function GallerySlider({
           <div className="flex items-center justify-center absolute bottom-2 left-1/2 transform -translate-x-1/2 space-x-1.5">
             {images.map((_, i) => (
               <button
-                className={`w-1.5 h-1.5 rounded-full ${
-                  i === index ? "bg-white" : "bg-white/60 "
-                }`}
+                className={`w-1.5 h-1.5 rounded-full ${i === index ? 'bg-white' : 'bg-white/60 '}`}
                 onClick={() => changePhotoId(i)}
                 key={i}
               />

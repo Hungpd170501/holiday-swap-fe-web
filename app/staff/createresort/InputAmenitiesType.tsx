@@ -32,19 +32,15 @@ const InputAmenitiesType: React.FC<InputAmenitiesTypeProps> = ({
       <div>Amenities</div>
       <div className="grid md:grid-cols-3 grid-cols-1 gap-6 p-3 border border-slate-300 rounded-md">
         {amenities.map((item: any, index: number) => (
-          <Fragment key={item.id}>
-            {item.resortAmenities.map((res: any, index: number) => (
-              <div key={res.id} className="flex flex-row items-center gap-2">
-                <Checkbox
-                  onChange={handleChangeAmenities}
-                  id="promotion"
-                  color={'#5C98F2'}
-                  value={res.id}
-                />
-                <Label htmlFor="promotion">{res.resortAmenityName}</Label>
-              </div>
-            ))}
-          </Fragment>
+          <div key={item.id} className="flex flex-row items-center gap-2">
+            <Checkbox
+              onChange={handleChangeAmenities}
+              id="promotion"
+              color={'#5C98F2'}
+              value={item.id}
+            />
+            <Label htmlFor="promotion">{item.resortAmenityName}</Label>
+          </div>
         ))}
       </div>
     </div>

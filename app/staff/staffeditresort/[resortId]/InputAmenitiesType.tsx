@@ -41,20 +41,17 @@ const InputAmenitiesType: React.FC<InputAmenitiesTypeProps> = ({
     <div className="flex flex-row gap-5">
       <div>Amenities</div>
       <div className="grid md:grid-cols-3 grid-cols-1 gap-6 p-3 border border-slate-300 rounded-md">
-        {amenities.map((item: any, index: number) => (
-          <Fragment key={item.id}>
-            {item.resortAmenities.map((res: any, index: number) => (
-              <div key={res.id} className="flex flex-row items-center gap-2">
-                <Checkbox
-                  onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeAmenities(e, item)}
-                  id="promotion"
-                  color={'#5C98F2'}
-                  value={res.id}
-                />
-                <Label htmlFor="promotion">{res.resortAmenityName}</Label>
-              </div>
-            ))}
-          </Fragment>
+         {amenities?.map((item: any, index: number) => (
+          <div key={item.id} className="flex flex-row items-center gap-2">
+            <Checkbox
+              onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeAmenities(e, item)}
+              id="promotion"
+              color={'#5C98F2'}
+              value={item.id}
+              checked={amenitiesArrayValue.some((element: any) => element.id === item.id)}
+            />
+            <Label htmlFor="promotion">{item.resortAmenityName}</Label>
+          </div>
         ))}
       </div>
     </div>
