@@ -13,8 +13,6 @@ export default async function GetApproveOwnershipById(params: IParams) {
       `https://holiday-swap.click/api/co-owners/detail?propertyId=${propertyId}&userId=${userId}&roomId=${roomId}`
     );
 
-    console.log("Check data", approveDetail.data);
-
 
     if (!approveDetail) {
       return null;

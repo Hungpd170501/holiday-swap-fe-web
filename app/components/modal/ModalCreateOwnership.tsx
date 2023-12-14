@@ -169,7 +169,6 @@ export default function ModalCreateOwnership() {
       setWeekNumberValue([]);
       setValue('weekNumber', '');
       toast.error('Invalid week number format. Please enter a valid format (e.g., 1, 2, 3).');
-      console.log('Check data', data.weekNumber.split(' ').join(''));
       console.log('Regex Test Result:', weekNumberRegex.test(data.weekNumber.trim()));
       setIsLoading(false);
       setOpenModal(false);
