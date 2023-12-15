@@ -40,14 +40,14 @@ const UploadImageCreateOwnership: React.FC<UploadImageCreateOwnershipProps> = ({
   handeChangeNewImages,
   handleDeleteImage,
   isClearImage,
-  mutiple
+  mutiple,
 }) => {
   const [newImages, setNewImages] = useState<any[]>([]);
   const [previewImage, setPreviewImage] = useState<any[]>([]);
 
   useEffect(() => {
     if (isClearImage) {
-        setPreviewImage([])
+      setPreviewImage([]);
     }
   }, [isClearImage]);
 
@@ -95,10 +95,14 @@ const UploadImageCreateOwnership: React.FC<UploadImageCreateOwnershipProps> = ({
           </div>
         ))}
 
-        <div className="py-10 md:py-0 lg:py-0 xl:py-0 ">
+        <div
+          className={`${
+            mutiple === false && previewImage.length === 1 ? 'hidden' : 'block'
+          } py-10 md:py-0 lg:py-0 xl:py-0`}
+        >
           <label
             htmlFor="avatar"
-            className="flex flex-col h-[200px] items-center justify-center border-dashed border border-gray-400 rounded-md hover:opacity-80 hover:cursor-pointer"
+            className={`flex flex-col h-[200px] items-center justify-center border-dashed border border-gray-400 rounded-md hover:opacity-80 hover:cursor-pointer`}
           >
             <GoPlus size={30} />
             <span>Upload</span>
