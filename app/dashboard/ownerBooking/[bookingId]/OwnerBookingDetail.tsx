@@ -1,12 +1,15 @@
 'use client';
 
+import ConversationApis from '@/app/actions/ConversationApis';
 import GetOwnerHistoryBookingById from '@/app/actions/getOwnerHistoryBookingById';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
+import useLoginModal from '@/app/hooks/useLoginModal';
 import axios from 'axios';
 import { differenceInDays, format } from 'date-fns';
 import { Button, Card, Modal } from 'flowbite-react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import ReactStars from 'react-stars';
@@ -27,6 +30,8 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
   rating,
 }) => {
   const [detail, setDetail] = useState(ownerBookingDetail);
+  const router = useRouter();
+  const loginModal = useLoginModal();
   const calculateNightDifference = (startDate: any, endDate: any) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -62,6 +67,23 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
       });
   };
 
+  const handleContactOwner = (ownerId: string) => {
+    ConversationApis.getContactWithOwner(ownerId)
+      .then((res) => {
+        res?.conversationId && router.push(`/chat/${res.conversationId}`);
+      })
+      .catch((err) => {
+        ConversationApis.createCurrentUserConversation(ownerId)
+          .then((res) => {
+            router.push(`/chat/${res.conversationId}`);
+          })
+          .catch((err) => {
+            loginModal.onOpen();
+            console.log(err);
+          });
+      });
+  };
+
   return (
     <div className="flex flex-col">
       <div className="grid md:grid-cols-2 py-3 gap-10 border-b border-slate-300">
@@ -82,7 +104,7 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
             <div className="flex flex-row gap-3 py-3">
               <div>
                 <Image
-                  src="/images/placeholder.jpg"
+                  src={memberBooking?.content[0]?.avatar || '/images/placeholder.jpg'}
                   alt="avatar"
                   width={55}
                   height={55}
@@ -90,7 +112,11 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
                 />
               </div>
               <div className="flex flex-col">
-                <div>{memberBooking?.content[0].username}</div>
+                <div>
+                  {memberBooking?.content[0]?.fullName
+                    ? memberBooking?.content[0]?.fullName
+                    : memberBooking?.content[0]?.username}
+                </div>
                 <div className="text-slate-500">
                   {ownerResort?.content[0]?.addressLine
                     .split(',')
@@ -102,8 +128,11 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
               </div>
             </div>
             <div>
-              <div className="hover:bg-hover rounded-md  cursor-pointer px-4 py-2 bg-common text-white text-center">
-                contact with renter
+              <div
+                onClick={() => handleContactOwner(memberBooking?.content[0]?.userId.toString())}
+                className="hover:bg-hover rounded-md  cursor-pointer px-4 py-2 bg-common text-white text-center"
+              >
+                Contact with renter
               </div>
             </div>
           </div>

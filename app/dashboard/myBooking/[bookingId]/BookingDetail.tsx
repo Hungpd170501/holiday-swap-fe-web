@@ -12,6 +12,9 @@ import ReactStars from 'react-stars';
 import GetBookingHistoryById from '@/app/actions/getBookingHistoryById';
 import { useSession } from 'next-auth/react';
 import GetRatingByBookingId from '@/app/actions/getRatingByBookingId';
+import ConversationApis from '@/app/actions/ConversationApis';
+import { useRouter } from 'next/navigation';
+import useLoginModal from '@/app/hooks/useLoginModal';
 
 interface BookingDetailProps {
   bookingDetail: any;
@@ -32,6 +35,8 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
 }) => {
   const [detail, setDetail] = useState(bookingDetail);
   const [ratingValue, setRatingValue] = useState(rating);
+  const router = useRouter();
+  const loginModal = useLoginModal();
   const calculateNightDifference = (startDate: any, endDate: any) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -59,7 +64,22 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
     getData();
   }, [isCreated]);
 
-  console.log('check isCreated', isCreated);
+  const handleContactOwner = (ownerId: string) => {
+    ConversationApis.getContactWithOwner(ownerId)
+      .then((res) => {
+        res?.conversationId && router.push(`/chat/${res.conversationId}`);
+      })
+      .catch((err) => {
+        ConversationApis.createCurrentUserConversation(ownerId)
+          .then((res) => {
+            router.push(`/chat/${res.conversationId}`);
+          })
+          .catch((err) => {
+            loginModal.onOpen();
+            console.log(err);
+          });
+      });
+  };
 
   return (
     <div className="flex flex-col ">
@@ -84,7 +104,7 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
                   className="rounded-full cursor-pointer"
                   width={55}
                   height={55}
-                  src={ownerUser?.avatar || '/images/placeholder.jpg'}
+                  src={ownerUser?.content[0]?.avatar || '/images/placeholder.jpg'}
                   alt="avatar"
                 />
               </div>
@@ -101,8 +121,11 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
               </div>
             </div>
             <div>
-              <div className="hover:bg-hover rounded-md  cursor-pointer px-4 py-2 bg-common text-white text-center">
-                contact with owner
+              <div
+                onClick={() => handleContactOwner(ownerUser?.content[0]?.userId?.toString())}
+                className="hover:bg-hover rounded-md  cursor-pointer px-4 py-2 bg-common text-white text-center"
+              >
+                Contact with owner
               </div>
             </div>
           </div>
