@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import InputComponent from '../components/input/Input';
 import { useForm, FieldValues, SubmitHandler } from 'react-hook-form';
@@ -24,6 +24,7 @@ interface BookingInformationProps {
   apartmentAllowGuest?: any;
   availableTimeId: any;
   userId: any;
+  currentUser: any;
 }
 
 const BookingInformation: React.FC<BookingInformationProps> = ({
@@ -33,6 +34,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
   apartmentAllowGuest,
   availableTimeId,
   userId,
+  currentUser,
 }) => {
   const router = useRouter();
   const [totalGuestValue, setTotalGuestValue] = useState(totalGuest);
@@ -114,6 +116,15 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
   const handleChangeDateRange = (value: any) => {
     setDateRangeValue(value.selection);
   };
+
+  useEffect(() => {
+    // Set default values for the first guest based on currentUser
+    if (currentUser) {
+      setValue('email0', currentUser.email);
+      setValue('fullName0', currentUser.fullName ? currentUser.fullName : '');
+      setValue('phoneNumber0', currentUser.phone);
+    }
+  }, [currentUser, setValue]);
 
   return (
     <div className="flex flex-row w-full">

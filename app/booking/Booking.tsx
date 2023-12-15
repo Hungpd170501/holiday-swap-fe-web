@@ -34,8 +34,6 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
   const rating = searchParams?.get('rating');
   const resortName = searchParams?.get('resortName');
 
- 
-
   return (
     <Container className="bg-white">
       <div className="grid grid-cols-2 gap-28 py-32 px-20">
@@ -47,6 +45,7 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
             dateRange={dateRange}
             availableTimeId={availableTimeId}
             userId={userId}
+            currentUser={currentUser}
           />
         </div>
         <div className="w-full sticky">
