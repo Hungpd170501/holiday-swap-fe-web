@@ -144,7 +144,6 @@ const ListResort: React.FC<ListResortProps> = ({
       JSON.stringify(dateRangeNew) === JSON.stringify(initialDateRange) &&
       resortIdValue === undefined
     ) {
-      console.log('Chay vao day ko');
       setListResort(listApartment);
       setTotalPages(listApartment?.totalPages);
     }
@@ -154,7 +153,7 @@ const ListResort: React.FC<ListResortProps> = ({
     const getListResort = async () => {
       let url = `https://holiday-swap.click/api/v1/apartment-for-rent?pageNo=${
         page - 1
-      }&pageSize=12&sortBy=startTime&sortDirection=desc`;
+      }&pageSize=12&sortBy=startTime&sortDirection=asc`;
 
       if (
         numberOfGuestValue === 0 &&
@@ -216,10 +215,6 @@ const ListResort: React.FC<ListResortProps> = ({
 
     getListResort();
   }, [page, currentUser, dateRangeNew, numberOfGuestValue, resortIdValue]);
-
-  console.log('Check new date range', dateRangeNew);
-  console.log('Check resortId', resortIdValue);
-  console.log('check guest', numberOfGuestValue);
 
   return (
     <Fragment>

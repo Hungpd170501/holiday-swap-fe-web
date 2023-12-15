@@ -127,7 +127,7 @@ const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({
                 <div className="text-black">
                   User:{' '}
                   <span className="text-slate-600">
-                    {userDetail?.fullName ? userDetail?.fullName : userDetail?.username}
+                    {detail?.fullName ? detail?.fullName : detail?.username}
                   </span>
                 </div>
                 <div className="text-black">
@@ -169,7 +169,7 @@ const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({
 
               <div className="">
                 <div className="text-black">
-                  Number of weeks in a year:{' '}
+                  Week number:{' '}
                   <span className="text-slate-600">
                     {detail.timeFrames ? (
                       <Fragment>

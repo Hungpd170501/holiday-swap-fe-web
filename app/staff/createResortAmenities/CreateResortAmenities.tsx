@@ -72,7 +72,7 @@ const CreateResortAmenities: React.FC<CreateResortAmeniteisProps> = ({ amenities
         setFile([]);
         reset();
         router.push('/staff/listResortAmenities');
-        
+        router.refresh();
       })
       .catch((response) => {
         console.log(response);

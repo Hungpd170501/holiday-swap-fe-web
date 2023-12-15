@@ -4,6 +4,6 @@ import CreateResortAmenities from './CreateResortAmenities';
 import GetResortAmenityTypeForCreate from '@/app/actions/getResortAmenityTypeForCreate';
 
 export default async function CreateResortAmenitiesPage() {
-    const amenitiesType = await GetResortAmenityTypeForCreate();
+  const amenitiesType = await GetResortAmenityTypeForCreate();
   return requireAuth(<CreateResortAmenities amenitiesType={amenitiesType} />, [3]);
 }

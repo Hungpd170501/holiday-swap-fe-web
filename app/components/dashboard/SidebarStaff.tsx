@@ -95,6 +95,12 @@ const SidebarStaff = () => {
       icon: MdOutlineCreateNewFolder,
       current: pathName?.includes('/staff/createResortAmenities') ? true : false,
     },
+    {
+      name: 'List Property Amenities',
+      href: '/staff/listPropertyAmenities',
+      icon: PiFolders,
+      current: pathName?.includes('/staff/listPropertyAmenities') ? true : false,
+    },
   ];
   const sidebarMember = [
     {

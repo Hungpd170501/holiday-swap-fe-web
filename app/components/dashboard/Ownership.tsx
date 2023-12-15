@@ -165,15 +165,30 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
                               : 'Owner for a period of time'}
                           </Table.Cell>
                           <Table.Cell>
-                            {item.status === 'ACCEPTED' ? (
-                              <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
+                           
+                            {(() => {
+                              if (
+                                item.status === 'ACCEPTED'
+                              ) {
+                                return (
+                                   <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
                                 ACCEPTED
                               </div>
-                            ) : (
-                              <div className="py-2 px-1 text-center text-sm bg-slate-200 rounded-md text-orange-500">
+                                );
+                              } else if (item.status === 'REJECTED') {
+                                return (
+                                 <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-red-500">
+                                REJECTED
+                              </div>
+                                );
+                              } else {
+                                 return (
+                                 <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-orange-500">
                                 PENDING
                               </div>
-                            )}
+                                );
+                              }
+                            })()}
                           </Table.Cell>
                           <Table.Cell>
                             {(() => {
