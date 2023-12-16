@@ -151,18 +151,18 @@ export default function ModalCreatePublicTime() {
   };
 
   useEffect(() => {
-    var checkDateInBoundary: Date[] = checkDateIsInBoundary(arrayTimeDisAble);
-    var dateDiffGreaterTwo = dateDiffIsGreaterTwo(arrayTimeDisAble);
-    var dateConsecutive = dateIsConsecutive(arrayTimeDisAble);
+    let checkDateInBoundary: Date[] = checkDateIsInBoundary(arrayTimeDisAble);
+    let dateDiffGreaterTwo = dateDiffIsGreaterTwo(arrayTimeDisAble);
+    let dateConsecutive = dateIsConsecutive(arrayTimeDisAble);
     setDateOut([...checkDateInBoundary, ...dateDiffGreaterTwo, ...dateConsecutive]);
     // console.log('useEffect timeHasBooked');
   }, [arrayTimeDisAble]);
   const checkDateIsInBoundary = (array: IDate[]) => {
-    var arr: Date[] = [];
+    let arr: Date[] = [];
     array.forEach((element) => {
-      var checkIn = new Date(element.checkIn);
+      let checkIn = new Date(element.checkIn);
       checkIn.setHours(0, 0, 0, 0);
-      var checkOut = new Date(element.checkOut);
+      let checkOut = new Date(element.checkOut);
       checkOut.setHours(0, 0, 0, 0);
       if (checkIn.getTime() == dateRange.startDate.getTime()) {
         arr.push(checkIn);
@@ -175,15 +175,15 @@ export default function ModalCreatePublicTime() {
   };
 
   const dateDiffIsGreaterTwo = (array: IDate[]) => {
-    var arr: Date[] = [];
+    let arr: Date[] = [];
     array.forEach((element) => {
-      var checkIn = new Date(element.checkIn);
-      var checkOut = new Date(element.checkOut);
+      let checkIn = new Date(element.checkIn);
+      let checkOut = new Date(element.checkOut);
       const timeDifference = checkOut.getTime() - checkIn.getTime();
       const daysDifference = timeDifference / (1000 * 3600 * 24);
 
       if (daysDifference > 1) {
-        var theDateStart = checkIn;
+        let theDateStart = checkIn;
         theDateStart = new Date(theDateStart.getTime() + 24 * 60 * 60 * 1000);
         while (theDateStart.getTime() < checkOut.getTime()) {
           arr.push(theDateStart);
@@ -195,10 +195,10 @@ export default function ModalCreatePublicTime() {
   };
 
   const dateIsConsecutive = (array: IDate[]) => {
-    var arr: Date[] = [];
+    let arr: Date[] = [];
     array.forEach((element) => {
-      var checkIn = new Date(element.checkIn);
-      var checkOut = new Date(element.checkOut);
+      let checkIn = new Date(element.checkIn);
+      let checkOut = new Date(element.checkOut);
       for (let index = 1; index < array.length; index++) {
         const nextCheckIn = new Date(array[index].checkIn);
         const nextCheckOut = new Date(array[index].checkOut);
@@ -219,9 +219,9 @@ export default function ModalCreatePublicTime() {
     const endDate = selection.endDate;
     let result: Date[] = [];
     array.forEach((element) => {
-      var checkIn = new Date(element.checkIn);
+      let checkIn = new Date(element.checkIn);
       checkIn.setHours(0, 0, 0, 0);
-      var checkOut = new Date(element.checkOut);
+      let checkOut = new Date(element.checkOut);
       checkOut.setHours(0, 0, 0, 0);
 
       if (startDate.getTime() <= checkIn.getTime()) {
@@ -232,7 +232,7 @@ export default function ModalCreatePublicTime() {
         // setDateOut(result);
       }
     });
-    var x: Date[] = dateDiffIsGreaterTwo(arrayTimeDisAble);
+    let x: Date[] = dateDiffIsGreaterTwo(arrayTimeDisAble);
 
     x.forEach((e) => {
       result.push(new Date(e));

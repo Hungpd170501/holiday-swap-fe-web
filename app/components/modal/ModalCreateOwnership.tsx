@@ -14,6 +14,7 @@ import { AiOutlineCloseCircle } from 'react-icons/ai';
 import ModalCreate from './ModalCreate';
 import ToolTipCreateOwnership from '../tooltip/ToolTipCreateOwnership';
 import UploadImageCreateOwnership from './UploadImageCreateOwnership';
+import { format } from 'date-fns';
 
 export const type = [
   {
@@ -41,14 +42,26 @@ export default function ModalCreateOwnership() {
   const [propertyValue, setPropertyValue] = useState<any>();
   const [typeValue, setTypeValue] = useState<any>(type[0].type);
   const [visibleCalendar, setVisibleCalendar] = useState(false);
-  const [startYear, setStartYear] = useState(new Date());
-  const [endYear, setEndYear] = useState(new Date());
+  const [startYear, setStartYear] = useState<any>(new Date().getFullYear());
+  const [endYear, setEndYear] = useState<any>(new Date().getFullYear() + 1);
   const [weekNumberValue, setWeekNumberValue] = useState<any>([]);
   const [weekNumberSingle, setWeekNumberSingle] = useState<any>();
   const [openModal, setOpenModal] = useState(false);
   const axiosAuthClient = useAxiosAuthClient();
   const [previewImages, setPreviewImages] = useState<{ src: string; index: number }[]>([]);
   const [isClearImage, setIsClearImage] = useState(false);
+  const [arrayYear, setArrayYear] = useState<number[]>([]);
+  const [arrayYearEnd, setArrayYearEnd] = useState<number[]>([]);
+
+  const range = (start: any, stop: any, step: any) =>
+    Array.from({ length: (stop - start) / step + 1 }, (_, i) => start + i * step);
+
+  useEffect(() => {
+    setArrayYear(range(new Date().getFullYear(), new Date().getFullYear() + 50, +1));
+    if (startYear) {
+      setArrayYearEnd(range(startYear + 1, startYear + 50, +1));
+    }
+  }, [startYear]);
 
   const [weekNumbers, setWeekNumbers] = useState([{ id: 1 }]);
 
@@ -114,7 +127,11 @@ export default function ModalCreateOwnership() {
 
   useEffect(() => {
     const fetchDataWhenMount = async () => {
-      if (!propertyValue && dataResort && (resortId === dataResort[0]?.id || resortId === undefined)) {
+      if (
+        !propertyValue &&
+        dataResort &&
+        (resortId === dataResort[0]?.id || resortId === undefined)
+      ) {
         const data = await axios.get(
           `https://holiday-swap.click/api/v1/properties/getListPropertyActive?resortId=${dataResort[0]?.id}`
         );
@@ -153,8 +170,8 @@ export default function ModalCreateOwnership() {
       roomId: data.roomId,
     };
     const coOwner = {
-      endTime: typeValue === 'DEEDED' ? null : endYear,
-      startTime: typeValue === 'DEEDED' ? null : startYear,
+      endTime: typeValue === 'DEEDED' ? null : `${endYear}-01-01`,
+      startTime: typeValue === 'DEEDED' ? null : `${startYear}-01-01`,
       type: typeValue,
       timeFrames: weekNumberValue?.map((element: any) => ({ weekNumber: element as number })),
     };
@@ -258,38 +275,40 @@ export default function ModalCreateOwnership() {
 
       {typeValue === 'RIGHT_TO_USE' && (
         <div onClick={handleVisibleCalendar} className="grid grid-cols-1 gap-4">
-          <div className={`grid grid-cols-2 rounded-lg border border-gray-600`}>
-            <div className={`p-2 border-r border-gray-600`}>
-              <div className="text-xs">Start year</div>
-              <input
-                type="number"
-                min={new Date().getFullYear()}
-                max={new Date().getFullYear() + 25}
-                maxLength={4}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  const selectedYear = parseInt(e.target.value);
-                  const newStartDate = new Date(selectedYear, 0, 1); // Month is 0-based, so 0 represents January
-                  setStartYear(newStartDate);
+          <div className={`grid grid-cols-2 `}>
+            <div className={`p-2 `}>
+              <div className="text-base">Start year</div>
+
+              <Select
+                value={startYear}
+                className="focus:ring-0 focus:border-0"
+                onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                  setStartYear(Number(e.target.value));
                 }}
-                className="border-0 text-base text-gray-600 focus:outline-none w-full focus:ring-0"
-                value={startYear.getFullYear()}
-              />
+              >
+                {arrayYear.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </Select>
             </div>
-            <div className={`p-2 border-gray-600  `}>
-              <div className="text-xs">End year</div>
-              <input
-                type="number"
-                min={new Date().getFullYear()}
-                max={new Date().getFullYear() + 25}
-                maxLength={4}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  const selectedYear = parseInt(e.target.value);
-                  const newEndDate = new Date(selectedYear, 0, 1); // Month is 0-based, so 0 represents January
-                  setEndYear(newEndDate);
+            <div className={`p-2   `}>
+              <div className="text-base">End year</div>
+
+              <Select
+                value={endYear}
+                className="focus:ring-0 focus:border-0"
+                onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                  setEndYear(Number(e.target.value));
                 }}
-                className="border-0 text-base text-gray-600 focus:outline-none w-full focus:ring-0"
-                value={endYear.getFullYear()}
-              />
+              >
+                {arrayYearEnd.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </Select>
             </div>
           </div>
         </div>
