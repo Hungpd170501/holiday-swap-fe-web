@@ -37,11 +37,15 @@ const InformationBooking: React.FC<InformationBookingProps> = ({
                 <div className="text-lg text-slate-500 mt-4">
                   You are going to <span className="font-bold">{detail?.resortName}</span>
                 </div>
+                <div className="text-base text-slate-500 mt-4">
+                  Status <span className={`font-bold ${detail?.status === "SUCCESS" ? "text-green-500" : "text-orange-500"}`}>{detail?.status}</span>
+                </div>
                 {detail?.createdDate && (
                   <div className="text-sm text-slate-500 mt-2">
                     {format(new Date(detail?.createdDate), "dd/MM/yyyy 'at' h:mm a")}
                   </div>
                 )}
+                
               </div>
 
               {/* Information ownership */}
