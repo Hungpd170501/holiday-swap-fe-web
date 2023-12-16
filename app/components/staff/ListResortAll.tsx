@@ -74,11 +74,30 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [totalPages, setTotalPages] = React.useState<number>(resorts?.totalPages);
   const deactiveResortModal = useDeactiveResortModal();
+  const [searchTerm, setSearchTerm] = React.useState<string>('');
+
   const maintanceResortModal = useMaintanceResortModal();
   const [isChangeStatus, setIsChangeStatus] = React.useState(false);
   const pageSize = 10;
   // const totalPages = Math.ceil(resorts?.totalElements / pageSize);
+  const [filteredResorts, setFilteredResorts] = React.useState<any>(initialResorts);
+
   const axiosAuthClient = useAxiosAuthClient();
+
+  const handleSearchTermChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filterResorts = () => {
+    const filtered = resorts?.content.filter((resort: any) =>
+      resort.resortName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredResorts({ content: filtered, totalElements: filtered.length });
+  };
+
+  React.useEffect(() => {
+    filterResorts();
+  }, [searchTerm, resorts]);
 
   const onPageChange = async (newPage: any) => {
     try {
@@ -131,7 +150,19 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
         />
       </div>
       <SelectRouterStaff />
-      <div className="text-common text-[20px] font-bold py-5 ">List Resort</div>
+      <div className="text-common text-[20px] font-bold pt-5 ">List Resort</div>
+      <div className="flex items-center my-4">
+        <label htmlFor="search" className="mr-2 text-sm">
+          Search by Resort Name:
+        </label>
+        <input
+          type="text"
+          id="search"
+          value={searchTerm}
+          onChange={handleSearchTermChange}
+          className="border p-2 rounded-md"
+        />
+      </div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
@@ -167,7 +198,7 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
             </TableRow>
           </TableHead>
           <TableBody>
-            {resorts?.content.map((row: any, index: number) => (
+            {filteredResorts?.content.map((row: any, index: number) => (
               <StyledTableRow key={index}>
                 <StyledTableCell className="!py-5 !text-common" component="th" scope="row">
                   <Link href={`/staff/staffdetailresort/${row.id}`} className="hover:underline">

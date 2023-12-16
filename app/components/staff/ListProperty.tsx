@@ -309,12 +309,13 @@ export default function ListProperty() {
           text: 'Deactivate',
           value: 'DEACTIVATE',
         },
-        {
-          text: 'No Longer In Business',
-          value: 'NO_LONGER_IN_BUSINESS',
-        },
       ],
+      render: (text, record) => {
+        const statusColor = record.status === 'ACTIVE' ? 'green' : 'red';
+        return <span style={{ color: statusColor }}>{text}</span>;
+      },
     },
+
     {
       title: 'Resort Name',
       dataIndex: 'resortId',
