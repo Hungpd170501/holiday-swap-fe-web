@@ -282,7 +282,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
       }
     });
 
-    var x: Date[] = dateDiffIsGreaterTwo(apartment.timeHasBooked);
+    let x: Date[] = dateDiffIsGreaterTwo(apartment.timeHasBooked);
 
     x.forEach((e) => {
       result.push(new Date(e));
@@ -291,15 +291,15 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     setDateOut(result);
   };
   const dateDiffIsGreaterTwo = (array: any[]) => {
-    var arr: Date[] = [];
+    let arr: Date[] = [];
     array.forEach((element) => {
-      var checkIn = new Date(element.checkIn);
-      var checkOut = new Date(element.checkOut);
+      let checkIn = new Date(element.checkIn);
+      let checkOut = new Date(element.checkOut);
       const timeDifference = checkOut.getTime() - checkIn.getTime();
       const daysDifference = timeDifference / (1000 * 3600 * 24);
 
       if (daysDifference > 1) {
-        var theDateStart = checkIn;
+        let theDateStart = checkIn;
         theDateStart = new Date(theDateStart.getTime() + 24 * 60 * 60 * 1000);
         while (theDateStart.getTime() < checkOut.getTime()) {
           arr.push(theDateStart);

@@ -53,6 +53,7 @@ export default function ModalEditDateBooking() {
           }
         }}
         minDate={dateRangeDefaultContext?.startDate}
+        maxDate={dateRangeDefaultContext?.endDate}
         disabledDates={dateOut}
         className="w-full"
       />
