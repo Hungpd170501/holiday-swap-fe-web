@@ -4,11 +4,11 @@ import GetOwnershipByUserId from '@/app/actions/getOwnershipByUserId';
 import GetListResort from '@/app/actions/getListResort';
 import GetCurrentUser from '@/app/actions/getCurrentUser';
 import requireAuth from '@/app/libs/requireAuth';
-import GetListResortForCreateOwner from '@/app/actions/getListResortForCreateOwner';
+import GetListResortActiveHaveProperty from '@/app/actions/getListResortActiveHaveProperty';
 
 const OwnershipPage = async () => {
   const ownershipUser = await GetOwnershipByUserId();
-  const listResort = await GetListResortForCreateOwner('0');
+  const listResort = await GetListResortActiveHaveProperty();
   const currentUser = await GetCurrentUser();
 
   return requireAuth(
