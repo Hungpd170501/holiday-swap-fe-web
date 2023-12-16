@@ -12,7 +12,6 @@ export default async function PostBlogPage() {
   let post;
   if (currentUser) {
     const userId = currentUser.userId;
-    console.log('Check userId', userId);
     post = await GetPostUser({ userId });
   } else {
     post = await GetPostUser();

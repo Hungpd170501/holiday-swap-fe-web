@@ -36,8 +36,11 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
           config
         )
         .then(async () => {
+          console.log("Check user like", currentUser.userId)
           const newData = await GetPostUser(currentUser.userId);
-          setPostList(newData);
+          if (newData) {
+            setPostList(newData);
+          }
         })
         .catch((response) => {
           toast.error(response.response.data.message);
@@ -58,7 +61,9 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
         )
         .then(async () => {
           const newData = await GetPostUser(currentUser.userId);
-          setPostList(newData);
+          if (newData) {
+            setPostList(newData);
+          }
         })
         .catch((response) => {
           toast.error(response.response.data.message);

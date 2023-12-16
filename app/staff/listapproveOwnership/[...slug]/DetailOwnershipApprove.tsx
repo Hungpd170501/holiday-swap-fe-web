@@ -13,8 +13,6 @@ import { useRouter } from 'next/navigation';
 
 interface DetailOwnershipApproveProps {
   approveDetail: any;
-  propertyDetail: any;
-  userDetail: any;
 }
 
 const statusList = [
@@ -35,11 +33,7 @@ const statusList = [
   },
 ];
 
-const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({
-  approveDetail,
-  propertyDetail,
-  userDetail,
-}) => {
+const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({ approveDetail }) => {
   const [detail, setDetail] = useState(approveDetail);
   const axiosAuthClient = useAxiosAuthClient();
   const router = useRouter();
@@ -122,12 +116,13 @@ const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({
                   <span className="text-slate-600">{approveDetail?.resort?.resortName}</span>
                 </div>
                 <div className="text-black mb-5">
-                  Property: <span className="text-slate-600">{propertyDetail?.propertyName}</span>
+                  Property:{' '}
+                  <span className="text-slate-600">{approveDetail?.property.propertyName}</span>
                 </div>
                 <div className="text-black">
                   User:{' '}
                   <span className="text-slate-600">
-                    {detail?.fullName ? detail?.fullName : detail?.username}
+                    {detail?.user.fullName ? detail?.user.fullName : detail?.user.username}
                   </span>
                 </div>
                 <div className="text-black">

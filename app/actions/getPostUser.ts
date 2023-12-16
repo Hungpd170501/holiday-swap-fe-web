@@ -9,11 +9,14 @@ interface IParams {
 export default async function GetPostUser(params: IParams = {}) {
   try {
     const { userId } = params;
+    console.log("check params", params)
     let link = `https://holiday-swap.click/api/post/get`;
 
     if (userId) {
       link += `?userId=${userId}`;
     }
+
+    console.log("Check link", link)
 
     const post = await axios.get(link);
 
