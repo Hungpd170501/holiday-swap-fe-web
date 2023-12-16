@@ -23,6 +23,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
   const pathName = usePathname();
   const router = useRouter();
   const [scroll, setScroll] = useState(false);
+  const pathname = usePathname();
 
   // const { data: session } = useSession();
   // console.log("Session: ", { session });
@@ -93,7 +94,8 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
       </Container>
       <div className=" hidden md:block md:w-full md:h-[1px] md:bg-gray-200 md:-mt-1"></div>
 
-      <Container
+      {!pathname?.includes("/informationBooking") && (
+        <Container
         className={
           scroll
             ? 'bg-white opacity-90 -translate-y-1 duration-300 shadow-md py-4 block md:hidden'
@@ -109,6 +111,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
           </div>
         </div>
       </Container>
+      )}
 
       {openMenu ? (
         <div className="md:hidden sm:block min-h-full transition-all overflow-x-hidden overflow-y-auto relative">
