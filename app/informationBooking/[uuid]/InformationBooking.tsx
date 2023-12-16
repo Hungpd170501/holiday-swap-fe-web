@@ -25,15 +25,15 @@ const InformationBooking: React.FC<InformationBookingProps> = ({
   return (
     <Container>
       <Fragment>
-        <div className="w-full py-32 flex flex-row justify-center text-2xl font-bold">
+        <div className="w-full pt-32 pb-10 flex flex-row justify-center text-3xl font-bold">
           Booking <div className="text-common">Information</div>
         </div>
         <div className="flex flex-col ">
-          <div className="grid md:grid-cols-2 pb-8 pt-4 gap-10 border-b border-slate-300">
-            <div className="w-full h-full">
+          <div className="grid md:grid-cols-2 pb-8 pt-4 border-b border-slate-300">
+            <div className="w-full px-3 h-full">
               {/* Title */}
               <div className="py-3">
-                <div className="text-3xl font-bold">Your booking is confirmed!</div>
+                <div className="text-3xl font-bold">Booking information is confirmed!</div>
                 <div className="text-lg text-slate-500 mt-4">
                   You are going to <span className="font-bold">{detail?.resortName}</span>
                 </div>
@@ -112,7 +112,7 @@ const InformationBooking: React.FC<InformationBookingProps> = ({
           )} */}
             </div>
 
-            <div className="w-full h-full py-5">
+            <div className="w-full h-full px-3 py-5">
               {/* Check-in Check-out */}
               <div className="py-3 border-b border-slate-300 flex flex-row items-center justify-between">
                 {detail?.dateCheckIn && (

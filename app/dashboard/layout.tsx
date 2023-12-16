@@ -9,7 +9,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         <div className="sticky col-span-4 top-[100px] h-full">
           <Sidebar />
         </div>
-        <main className="w-full  h-full pr-14 col-span-8 pt-3">{children}</main>
+        <main className="w-full h-full px-2  lg:pr-14 col-span-8 pt-3">{children}</main>
       </div>
     </Provider>
   );

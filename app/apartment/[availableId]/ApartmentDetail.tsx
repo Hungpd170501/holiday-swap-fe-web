@@ -277,14 +277,38 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
       let checkOut = new Date(element.checkOut);
       if (startDate <= checkIn) {
         result.push(checkOut);
-        setDateOut(result);
       } else if (startDate >= checkIn) {
         result.push(checkIn);
-        setDateOut(result);
       }
     });
-  };
 
+    let x: Date[] = dateDiffIsGreaterTwo(apartment.timeHasBooked);
+
+    x.forEach((e) => {
+      result.push(new Date(e));
+    });
+
+    setDateOut(result);
+  };
+  const dateDiffIsGreaterTwo = (array: any[]) => {
+    let arr: Date[] = [];
+    array.forEach((element) => {
+      let checkIn = new Date(element.checkIn);
+      let checkOut = new Date(element.checkOut);
+      const timeDifference = checkOut.getTime() - checkIn.getTime();
+      const daysDifference = timeDifference / (1000 * 3600 * 24);
+
+      if (daysDifference > 1) {
+        let theDateStart = checkIn;
+        theDateStart = new Date(theDateStart.getTime() + 24 * 60 * 60 * 1000);
+        while (theDateStart.getTime() < checkOut.getTime()) {
+          arr.push(theDateStart);
+          theDateStart = new Date(theDateStart.getTime() + 24 * 60 * 60 * 1000);
+        }
+      }
+    });
+    return arr;
+  };
   useEffect(() => {
     editDateBookingModal.onHandleDateRangePicker(handleOnChangeDateRangePicker);
   }, []);
@@ -304,10 +328,6 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
   useEffect(() => {
     if (checkInMap && dateRangeDefaultContext) {
       checkInMap.forEach((checkIn, key) => {
-        console.log(
-          'Check true false',
-          key < smallestDay && checkIn !== dateRangeDefaultContext.startDate
-        );
         if (
           !smallestDay ||
           (key < smallestDay && new Date(smallestDay) !== dateRangeDefaultContext?.startDate)
@@ -326,9 +346,6 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
       setDateRangeContext(newDate);
     }
   }, [checkInMap, smallestDay, dateRangeDefaultContext]);
-
-  console.log('Check small date', smallestDay);
-  console.log('check date context', dateRangeDefaultContext?.startDate);
 
   return (
     <div className="lg:mx-1 xl:mx-16 py-20">

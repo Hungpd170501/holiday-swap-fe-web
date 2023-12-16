@@ -31,6 +31,7 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
   const priceNight = searchParams?.get('priceNight');
   const avatar = searchParams?.get('avatar');
   const fullName = searchParams?.get('fullName');
+  const username = searchParams?.get('username');
   const rating = searchParams?.get('rating');
   const resortName = searchParams?.get('resortName');
 
@@ -57,6 +58,7 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
             dateRangeBooking={dateRangeBooking}
             avatar={avatar}
             fullName={fullName}
+            username={username}
             rating={rating}
             resortName={resortName}
           />
