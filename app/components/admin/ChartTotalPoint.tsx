@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -16,6 +16,7 @@ import { faker } from '@faker-js/faker';
 import axios from 'axios';
 import { Tooltip as FlowTooltip } from 'flowbite-react';
 import { IoIosArrowDropleftCircle, IoIosArrowDroprightCircle } from 'react-icons/io';
+import { format } from 'date-fns';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -85,6 +86,20 @@ const ChartTotalPoint = () => {
       <div className="font-bold text-xl text-black">Total point in week</div>
       <div className="p-4 min-w-full ">
         <Line options={options} data={data} />
+      </div>
+      <div className="flex flex-row gap-3">
+        {dataTotalPoint && (
+          <Fragment>
+            <div>{format(new Date(dataTotalPoint?.slice(7, 8)), 'MMM, dd yyyy')}</div>
+            <div>-</div>
+            <div>
+              {format(
+                new Date(new Date(dataTotalPoint?.slice(7, 8)).getTime() + 24 * 6 * 60 * 60 * 1000),
+                'MMM, dd yyyy'
+              )}
+            </div>
+          </Fragment>
+        )}
       </div>
       <div className="flex flex-row w-full justify-end gap-3">
         <FlowTooltip content="Prev week">

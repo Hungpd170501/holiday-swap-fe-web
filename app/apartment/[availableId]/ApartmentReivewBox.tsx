@@ -10,7 +10,7 @@ interface ApartmentReviewBoxProps {
 }
 
 const ApartmentReivewBox: React.FC<ApartmentReviewBoxProps> = ({ rating }) => {
-  console.log("Check user review", rating?.user)
+  console.log('Check user review', rating?.user);
   return (
     <div className="flex flex-col">
       <div className="flex flex-row items-center gap-2">

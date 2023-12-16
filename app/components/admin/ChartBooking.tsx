@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -14,6 +14,7 @@ import { Bar } from 'react-chartjs-2';
 import axios from 'axios';
 import { IoIosArrowDropleftCircle, IoIosArrowDroprightCircle } from 'react-icons/io';
 import { Tooltip as FlowTooltip } from 'flowbite-react';
+import { format } from 'date-fns';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -88,17 +89,32 @@ const ChartBooking = () => {
     scales: {
       y: {
         beginAtZero: true,
-        max: 100,
+        max: 500,
       },
     },
   };
+
+  console.log('Check data', data);
   return (
     <div className="p-5 w-full flex flex-col items-center">
       <div className="font-bold text-xl text-black">Booking in week</div>
       <div className="p-4 w-full h-[300px]">
         <Bar data={dataBar} options={optionBar} />
       </div>
-
+      <div className="flex flex-row gap-3">
+        {data && (
+          <Fragment>
+            <div>{format(new Date(data?.slice(7, 8)), 'MMM, dd yyyy')}</div>
+            <div>-</div>
+            <div>
+              {format(
+                new Date(new Date(data?.slice(7, 8)).getTime() + 24 * 6 * 60 * 60 * 1000),
+                'MMM, dd yyyy'
+              )}
+            </div>
+          </Fragment>
+        )}
+      </div>
       <div className="flex flex-row w-full justify-end gap-3">
         <FlowTooltip content="Prev week">
           <button
