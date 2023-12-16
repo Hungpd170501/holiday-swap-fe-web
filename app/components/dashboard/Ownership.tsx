@@ -113,7 +113,7 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
         </div>
 
         <button
-          onClick={() => createOwnershipModal.onOpen(listResort?.content, currentUser)}
+          onClick={() => createOwnershipModal.onOpen(listResort, currentUser)}
           className="bg-common py-3 px-5 rounded-lg shadow-md text-white text-lg hover:bg-hover"
         >
           Create ownership apartment
