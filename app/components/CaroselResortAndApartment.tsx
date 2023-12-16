@@ -24,6 +24,8 @@ interface IPageable {
   pageSize: number;
   sortBy: string;
   sortDirection: 'asc' | 'desc';
+  totalPages?: number;
+  totalElements?: number;
 }
 interface IPageableAparment {
   pageNo: number;
@@ -106,7 +108,7 @@ const CaroselResortAndApartment: React.FC = ({}) => {
 
   useEffect(() => {
     loadListResortAndApartment();
-  }, []);
+  }, [JSON.stringify(pageable)]);
   const fetchListRsForRent = async () => {
     var rsFetchListResort = await getListResortForRent(pageable);
     setListResort(rsFetchListResort.content);
@@ -166,6 +168,13 @@ const CaroselResortAndApartment: React.FC = ({}) => {
   const loadListResortAndApartment = async () => {
     var rsFetchListResort = await getListResortForRent(pageable);
     setListResort(rsFetchListResort.content);
+    setPageable({
+      ...pageable,
+      pageNo: rsFetchListResort.number,
+      totalPages: rsFetchListResort.totalPages,
+      totalElements: rsFetchListResort.totalElements,
+    });
+
     rsFetchListResort.content.forEach((element: any, index: any) => {
       fetchListApartment(element.resort.id, index, 0);
     });
@@ -357,6 +366,17 @@ const CaroselResortAndApartment: React.FC = ({}) => {
           </div>
         );
       })}
+      <Pagination
+        className="py-5"
+        simple
+        defaultCurrent={pageable.pageNo + 1}
+        total={pageable.totalElements}
+        pageSize={5}
+        onChange={(page, pageSize) => {
+          console.log(page - 1);
+          setPageable({ ...pageable, pageNo: page - 1 });
+        }}
+      />
     </>
   );
 };
