@@ -28,6 +28,7 @@ const InformationBooking: React.FC<InformationBookingProps> = ({
         <div className="w-full pt-10 pb-6 flex flex-row justify-center text-3xl font-bold">
           <div className="flex flex-row gap-1">
             <div>Booking</div> <div className="text-common">Information</div>
+            <span></span>
           </div>
         </div>
         <div className="flex flex-col ">
