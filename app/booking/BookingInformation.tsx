@@ -121,7 +121,10 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
     // Set default values for the first guest based on currentUser
     if (currentUser) {
       setValue('email0', currentUser.email);
-      setValue('fullName0', currentUser.fullName ? currentUser.fullName : '');
+      setValue(
+        'fullName0',
+        currentUser.fullName ? currentUser.fullName : currentUser.username || ''
+      );
       setValue('phoneNumber0', currentUser.phone);
     }
   }, [currentUser, setValue]);
@@ -137,7 +140,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
             }}
             className="p-3 rounded-full bg-transparent hover:bg-gray-300 cursor-pointer"
           >
-            <FiChevronLeft size={20} />
+            <FiChevronLeft size={30} />
           </div>
           <div className="text-3xl font-bold">Confirm and Pay</div>
         </div>
