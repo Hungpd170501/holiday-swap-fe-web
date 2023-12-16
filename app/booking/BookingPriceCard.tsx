@@ -19,6 +19,7 @@ interface BookingPriceCardProps {
   dateRangeBooking: any;
   avatar: any;
   fullName: any;
+  username: any;
   rating: any;
   resortName: any;
 }
@@ -31,6 +32,7 @@ const BookingPriceCard: React.FC<BookingPriceCardProps> = ({
   dateRangeBooking,
   avatar,
   fullName,
+  username,
   rating,
   resortName,
 }) => {
@@ -93,7 +95,7 @@ const BookingPriceCard: React.FC<BookingPriceCardProps> = ({
                   />
                 )}
               </div>
-              <div className="text-[12px]">Owner by {fullName}</div>
+              <div className="text-[12px]">Owner by {fullName !== 'null' ? fullName : username}</div>
             </div>
             {rating !== 'null' && (
               <div className="flex flex-row items-center">
