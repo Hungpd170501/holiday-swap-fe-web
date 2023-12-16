@@ -81,7 +81,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({ data, selected, curre
               </p>
             )}
           </div>
-          <p
+          {/* <p
             className={clsx(
               `text-sm font-medium`,
               hasSeen ? 'text-gray-800 dark:text-gray-400' : 'text-gray-500 dark:text-white'
@@ -93,7 +93,26 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({ data, selected, curre
                 ? 'You: '
                 : (data?.participants?.find(
                     (user) => user?.user?.userId === data?.message?.authorId
-                  )?.user?.username ?? '') + ': ')}
+                  )?.user?.fullName ?? '') + ': ')}
+            {data?.message?.text ?? 'Started a Conversation'}
+          </p> */}
+          <p
+            className={clsx(
+              'text-sm font-medium',
+              hasSeen ? 'text-gray-800 dark:text-gray-400' : 'text-gray-500 dark:text-white'
+            )}
+          >
+            {data?.message?.authorId &&
+              data?.participants?.length > 0 &&
+              (data?.message?.authorId === currentUser?.userId
+                ? 'You: '
+                : (data?.participants?.find(
+                    (user) => user?.user?.userId === data?.message?.authorId
+                  )?.user?.fullName ||
+                    data?.participants?.find(
+                      (user) => user?.user?.userId === data?.message?.authorId
+                    )?.user?.username ||
+                    '') + ': ')}
             {data?.message?.text ?? 'Started a Conversation'}
           </p>
         </div>
