@@ -119,6 +119,10 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
       setAllowTotalGuestContext(apartmentAllowGuest);
     } else if (isReload === true && isBack === true) {
       setDateRangeContext(dateRangeContext);
+
+      // if (!dateRangeContext) {
+      //   setDateRangeContext(initialDateRangeValue);
+      // }
       // newDateRange.setBackReset();
     } else {
       setDateRangeContext(dateRangeContext);
@@ -136,14 +140,16 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     ) {
       newDateRange.setIsReloadReset();
     }
-  }, [isNew, dateRangeContext, initialDateRange, newDateRange]);
+  }, [isNew, dateRangeContext, initialDateRange, newDateRange, isReload]);
 
   useEffect(() => {
     // Check if the page is reloaded (F5)
     if (performance.navigation.type === 1) {
       newDateRange.setIsReload();
+    } else if (performance.navigation.type === 0) {
+      newDateRange.setIsReload();
     }
-  }, []);
+  }, [performance]);
 
   useEffect(() => {
     if (JSON.stringify(dateRangeContext) === JSON.stringify(initialDateRangeValue)) {
@@ -282,7 +288,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
       }
     });
 
-    let x: Date[] = dateDiffIsGreaterTwo(apartment.timeHasBooked);
+    var x: Date[] = dateDiffIsGreaterTwo(apartment.timeHasBooked);
 
     x.forEach((e) => {
       result.push(new Date(e));
@@ -291,15 +297,15 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     setDateOut(result);
   };
   const dateDiffIsGreaterTwo = (array: any[]) => {
-    let arr: Date[] = [];
+    var arr: Date[] = [];
     array.forEach((element) => {
-      let checkIn = new Date(element.checkIn);
-      let checkOut = new Date(element.checkOut);
+      var checkIn = new Date(element.checkIn);
+      var checkOut = new Date(element.checkOut);
       const timeDifference = checkOut.getTime() - checkIn.getTime();
       const daysDifference = timeDifference / (1000 * 3600 * 24);
 
       if (daysDifference > 1) {
-        let theDateStart = checkIn;
+        var theDateStart = checkIn;
         theDateStart = new Date(theDateStart.getTime() + 24 * 60 * 60 * 1000);
         while (theDateStart.getTime() < checkOut.getTime()) {
           arr.push(theDateStart);
@@ -337,7 +343,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
       });
     }
 
-    if (smallestDay) {
+    if (smallestDay && isBack === false) {
       const newDate = {
         startDate: dateRangeContext?.startDate,
         endDate: new Date(smallestDay),
@@ -345,7 +351,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
       };
       setDateRangeContext(newDate);
     }
-  }, [checkInMap, smallestDay, dateRangeDefaultContext]);
+  }, [checkInMap, smallestDay, dateRangeDefaultContext, isBack]);
 
   return (
     <div className="lg:mx-1 xl:mx-16 py-20">
