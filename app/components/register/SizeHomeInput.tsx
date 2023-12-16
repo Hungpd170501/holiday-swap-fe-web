@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { IconType } from "react-icons/lib";
-import { AiOutlinePlusCircle } from "react-icons/ai";
-import { GrSubtractCircle } from "react-icons/gr";
-import Image from "next/image";
-import { FieldValues, UseFormRegister } from "react-hook-form";
+import React, { useState } from 'react';
+import { IconType } from 'react-icons/lib';
+import { AiOutlinePlusCircle } from 'react-icons/ai';
+import { GrSubtractCircle } from 'react-icons/gr';
+import Image from 'next/image';
+import { FieldValues, UseFormRegister } from 'react-hook-form';
 
 interface SizeHomeInputProps {
   id: string;
@@ -27,8 +27,8 @@ const SizeHomeInput: React.FC<SizeHomeInputProps> = ({
   const [number, setNumber] = useState(count);
 
   const descreaseCount = (count: number) => {
-    if (count <= 1) {
-      return count;
+    if (count < 1) {
+      return 0;
     } else {
       setNumber((value) => value - 1);
       const newCount = count - 1;

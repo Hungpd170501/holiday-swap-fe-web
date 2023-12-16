@@ -25,11 +25,13 @@ const InformationBooking: React.FC<InformationBookingProps> = ({
   return (
     <Container>
       <Fragment>
-        <div className="w-full pt-32 pb-10 flex flex-row justify-center text-3xl font-bold">
-          Booking <div className="text-common">Information</div>
+        <div className="w-full pt-10 pb-6 flex flex-row justify-center text-3xl font-bold">
+          <div className="flex flex-row gap-1">
+            <div>Booking</div> <div className="text-common">Information</div>
+          </div>
         </div>
         <div className="flex flex-col ">
-          <div className="grid md:grid-cols-2 pb-8 pt-4 border-b border-slate-300">
+          <div className="grid md:grid-cols-2 pb-8 border-b border-slate-300">
             <div className="w-full px-3 h-full">
               {/* Title */}
               <div className="py-3">
@@ -38,14 +40,20 @@ const InformationBooking: React.FC<InformationBookingProps> = ({
                   You are going to <span className="font-bold">{detail?.resortName}</span>
                 </div>
                 <div className="text-base text-slate-500 mt-4">
-                  Status <span className={`font-bold ${detail?.status === "SUCCESS" ? "text-green-500" : "text-orange-500"}`}>{detail?.status}</span>
+                  Status{' '}
+                  <span
+                    className={`font-bold ${
+                      detail?.status === 'SUCCESS' ? 'text-green-500' : 'text-orange-500'
+                    }`}
+                  >
+                    {detail?.status}
+                  </span>
                 </div>
                 {detail?.createdDate && (
                   <div className="text-sm text-slate-500 mt-2">
                     {format(new Date(detail?.createdDate), "dd/MM/yyyy 'at' h:mm a")}
                   </div>
                 )}
-                
               </div>
 
               {/* Information ownership */}
@@ -70,11 +78,6 @@ const InformationBooking: React.FC<InformationBookingProps> = ({
                         .join(', ')}
                     </div>
                     {/* <div className="text-slate-500">On HolidaySwap since 2015</div> */}
-                  </div>
-                </div>
-                <div>
-                  <div className="hover:bg-hover rounded-md  cursor-pointer px-4 py-2 bg-common text-white text-center">
-                    contact with owner
                   </div>
                 </div>
               </div>
