@@ -226,13 +226,20 @@ export default function ModalCreatePublicTime() {
 
       if (startDate.getTime() <= checkIn.getTime()) {
         result.push(checkOut);
-        setDateOut(result);
+        // setDateOut(result);
       } else if (startDate.getTime() >= checkIn.getTime()) {
         result.push(checkIn);
-        setDateOut(result);
+        // setDateOut(result);
       }
     });
-    console.log(result);
+    var x: Date[] = dateDiffIsGreaterTwo(arrayTimeDisAble);
+
+    x.forEach((e) => {
+      result.push(new Date(e));
+    });
+    result.concat(x);
+
+    setDateOut(result);
   };
 
   useEffect(() => {
@@ -315,7 +322,6 @@ export default function ModalCreatePublicTime() {
   const bodyContent = (
     <div className="flex flex-col gap-4 overflow-x-hidden overflow-y-auto no-scrollbar h-[100%]">
       <div className="grid grid-cols-1">
-      
         <div className="py-3 flex flex-row gap-1 items-center">
           <label>
             Year to create <span className="text-rose-500">*</span>
@@ -323,7 +329,7 @@ export default function ModalCreatePublicTime() {
         </div>
         <Select
           value={yearCreate}
-          className='focus:ring-0 focus:border-0'
+          className="focus:ring-0 focus:border-0"
           onChange={(e: ChangeEvent<HTMLSelectElement>) => {
             setYearCreate(Number(e.target.value));
           }}
@@ -337,8 +343,8 @@ export default function ModalCreatePublicTime() {
       </div>
       <div className="grid grid-cols-1">
         <label>
-            Select week <span className="text-rose-500">*</span>
-          </label>
+          Select week <span className="text-rose-500">*</span>
+        </label>
         <Select
           value={timeFramesId}
           onChange={(e: ChangeEvent<HTMLSelectElement>) => {

@@ -12,11 +12,11 @@ import React, { ChangeEvent, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-interface CreateResortAmeniteisProps {
+interface CreatePropertyAmenitiesProps {
   amenitiesType: any;
 }
 
-const CreateResortAmenities: React.FC<CreateResortAmeniteisProps> = ({ amenitiesType }) => {
+const CreatePropertyAmenities: React.FC<CreatePropertyAmenitiesProps> = ({ amenitiesType }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [amenityId, setAmenityId] = useState(amenitiesType?.content[0]?.id);
@@ -41,9 +41,9 @@ const CreateResortAmenities: React.FC<CreateResortAmeniteisProps> = ({ amenities
     reset,
   } = useForm<FieldValues>({
     defaultValues: {
-      resortAmenityName: '',
-      resortAmenityDescription: '',
-      resortAmenityTypeId: 0,
+      inRoomAmenityName: '',
+      inRoomAmenityDescription: '',
+      inRoomAmenityTypeId: 0,
     },
   });
 
@@ -52,26 +52,26 @@ const CreateResortAmenities: React.FC<CreateResortAmeniteisProps> = ({ amenities
 
     const formData = new FormData();
     const resortAmenity = {
-      resortAmenityName: data.resortAmenityName,
-      resortAmenityDescription: data.resortAmenityDescription,
-      resortAmenityTypeId: amenityId,
+      inRoomAmenityName: data.inRoomAmenityName,
+      inRoomAmenityDescription: data.inRoomAmenityDescription,
+      inRoomAmenityTypeId: amenityId,
     };
 
     const resortAmenityBlob = new Blob([JSON.stringify(resortAmenity)], {
       type: 'application/json',
     });
-    formData.append('resortAmenity', resortAmenityBlob);
+    formData.append('inRoomAmenity', resortAmenityBlob);
     file.forEach((element) => {
       formData.append('inRoomAmenityIcon', element);
     });
 
     axiosAuthClient
-      .post(`/resort-amenities`, formData)
+      .post(`/in-room-amenities`, formData)
       .then(() => {
         toast.success('Create Amenity success');
         setFile([]);
         reset();
-        router.push('/staff/listPropertyAmenities');
+        router.push('/staff/listResortAmenities');
         router.refresh();
       })
       .catch((response) => {
@@ -91,8 +91,8 @@ const CreateResortAmenities: React.FC<CreateResortAmeniteisProps> = ({ amenities
       <div className="mt-2">
         <HeadingDashboard
           routerDashboard="/staff"
-          pageCurrentContent="Create Resort Amenities"
-          pageCurrentRouter="/staff/createResortAmenities"
+          pageCurrentContent="Create Property Amenities"
+          pageCurrentRouter="/staff/createPropertyAmenities"
         />
       </div>
 
@@ -100,7 +100,7 @@ const CreateResortAmenities: React.FC<CreateResortAmeniteisProps> = ({ amenities
         <div>
           <div className="py-4">
             <Input
-              id="resortAmenityName"
+              id="inRoomAmenityName"
               label="Resort Amenity Name"
               register={register}
               errors={errors}
@@ -108,8 +108,8 @@ const CreateResortAmenities: React.FC<CreateResortAmeniteisProps> = ({ amenities
           </div>
           <div className="py-4">
             <Input
-              id="resortAmenityDescription"
-              label="Resort Amenity Description"
+              id="inRoomAmenityDescription"
+              label="Property Amenity Description"
               register={register}
               errors={errors}
             />
@@ -124,13 +124,13 @@ const CreateResortAmenities: React.FC<CreateResortAmeniteisProps> = ({ amenities
             >
               {amenitiesType.content.map((item: any, index: number) => (
                 <option key={item.id} value={item.id}>
-                  {item.resortAmenityTypeName}
+                  {item.inRoomAmenityTypeName}
                 </option>
               ))}
             </Select>
           </div>
           <div className="py-4">
-            <Label value="Resort Amenity Icon" />
+            <Label value="Property Amenity Icon" />
             <UploadImageCreateOwnership
               handeChangeNewImages={handeChangeNewImages}
               handleDeleteImage={handleDeleteImage}
@@ -156,4 +156,4 @@ const CreateResortAmenities: React.FC<CreateResortAmeniteisProps> = ({ amenities
   );
 };
 
-export default CreateResortAmenities;
+export default CreatePropertyAmenities;

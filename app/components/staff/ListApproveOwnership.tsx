@@ -149,7 +149,7 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
                   <Table.Cell>{item?.property.resort?.resortName}</Table.Cell>
                   <Table.Cell>{item.property.propertyName}</Table.Cell>
                   <Table.Cell>{item.id.roomId}</Table.Cell>
-                  <Table.Cell>{item.id.userId}</Table.Cell>
+                  <Table.Cell>{item.user.fullName ? item.user.fullName : item.user.username}</Table.Cell>
                   <Table.Cell>
                     {item.startTime === null
                       ? 'Owner forever'
