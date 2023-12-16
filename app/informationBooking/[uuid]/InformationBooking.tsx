@@ -25,7 +25,7 @@ const InformationBooking: React.FC<InformationBookingProps> = ({
   return (
     <Container>
       <Fragment>
-        <div className="w-full py-32 flex flex-row justify-center text-2xl font-bold">
+        <div className="w-full pt-32 pb-16 flex flex-row justify-center text-2xl font-bold">
           Booking <div className="text-common">Information</div>
         </div>
         <div className="flex flex-col ">
@@ -33,7 +33,7 @@ const InformationBooking: React.FC<InformationBookingProps> = ({
             <div className="w-full h-full">
               {/* Title */}
               <div className="py-3">
-                <div className="text-3xl font-bold">Your booking is confirmed!</div>
+                <div className="text-3xl font-bold">Booking information is confirmed!</div>
                 <div className="text-lg text-slate-500 mt-4">
                   You are going to <span className="font-bold">{detail?.resortName}</span>
                 </div>

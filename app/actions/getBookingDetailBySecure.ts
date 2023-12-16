@@ -1,14 +1,14 @@
 import axios from 'axios';
 
 interface IParams {
-  bookingId: any;
+  uuid: any;
 }
 
 export default async function GetBookingDetailBySecure(params: IParams) {
   try {
-    const { bookingId } = params;
+    const { uuid } = params;
     const bookingDetail = await axios.get(
-      `https://holiday-swap.click/api/booking/getqrcode/${bookingId}`
+      `https://holiday-swap.click/api/booking/getqrcode/${uuid}`
     );
 
     if (!bookingDetail) {

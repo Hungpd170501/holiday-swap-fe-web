@@ -6,7 +6,7 @@ import GetListResort from '@/app/actions/getListResort';
 import GetBookingDetailBySecure from '@/app/actions/getBookingDetailBySecure';
 
 interface IParams {
-  bookingId: any;
+  uuid: any;
 }
 
 export default async function InformationBookingPage({ params }: { params: IParams }) {
