@@ -369,7 +369,7 @@ const CaroselResortAndApartment: React.FC = ({}) => {
       <Pagination
         className="py-5"
         simple
-        defaultCurrent={pageable.pageNo + 1}
+        current={pageable.pageNo + 1}
         total={pageable.totalElements}
         pageSize={5}
         onChange={(page, pageSize) => {
