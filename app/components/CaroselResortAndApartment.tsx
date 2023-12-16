@@ -321,13 +321,34 @@ const CaroselResortAndApartment: React.FC = ({}) => {
                       </Link>
                     );
                   })}
-                  <div className="flex flex-col items-center justify-center">
+                  {/* <div className="flex flex-col items-center justify-center">
                     <div
                       className="relative border border-gray-300 rounded-full ml-10 p-4  cursor-pointer"
                       onClick={() => {
-                        var page = pageable.pageNo + 1;
+                        var nextPage = pageable.pageNo + 1;
 
-                        fetchListApartment(element.resort.id, index, page);
+                        if (pageable.totalPages !== undefined && nextPage < pageable.totalPages) {
+                          fetchListApartment(element.resort.id, index, nextPage);
+                        }
+                      }}
+                    >
+                      <RightOutlined className="flex flex-row items-center justify-center" />
+                    </div>
+                  </div> */}
+                  <div className="flex flex-col items-center justify-center">
+                    <div
+                      className={`relative border border-gray-300 rounded-full ml-10 p-4  cursor-pointer ${
+                        pageable.totalPages !== undefined &&
+                        pageable.pageNo + 1 >= pageable.totalPages
+                          ? 'hidden'
+                          : ''
+                      }`}
+                      onClick={() => {
+                        var nextPage = pageable.pageNo + 1;
+
+                        if (pageable.totalPages !== undefined && nextPage < pageable.totalPages) {
+                          fetchListApartment(element.resort.id, index, nextPage);
+                        }
                       }}
                     >
                       <RightOutlined className="flex flex-row items-center justify-center" />
