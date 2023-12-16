@@ -84,16 +84,18 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
   return (
     <div className="flex flex-col ">
       {/* QR code */}
-      <div className="flex flex-row w-full justify-center bg-gradient-to-r from-sky-500 to-indigo-500 rounded-md">
-        <div className='py-6 flex flex-col items-center'>
-          <div className='text-black text-lg'>Give this code to the security staff to enter the apartment</div>
+      <div className="flex my-2 flex-row w-full justify-center bg-gradient-to-r from-sky-200 to-indigo-300 rounded-md">
+        <div className="py-6 flex flex-col items-center">
+          <div className="text-black text-center text-lg">
+            Give this code to the security staff to enter the apartment
+          </div>
           <Image
-          alt="QRcode"
-          src={detail?.qrcode}
-          width={200}
-          height={200}
-          className="object-contain z-10"
-        />
+            alt="QRcode"
+            src={detail?.qrcode}
+            width={200}
+            height={200}
+            className="object-contain z-10"
+          />
         </div>
       </div>
       <div className="grid md:grid-cols-2 pb-8 pt-4 gap-10 border-b border-slate-300">
@@ -122,7 +124,7 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
                 />
               </div>
               <div className="flex flex-col">
-                <div>{ownerUser?.content[0]?.fullName || ownerUser?.content[0]?.userName}</div>
+                <div>{ownerUser?.content[0]?.fullName || ownerUser?.content[0]?.username}</div>
                 <div className="text-slate-500">
                   {ownerResort?.content[0]?.addressLine
                     .split(',')

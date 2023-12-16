@@ -33,7 +33,7 @@ const InputCreateResort: React.FC<InputCreateResortProps> = ({
         {...register(id, { required })}
         placeholder={placeholder}
         type={type}
-        className={`text-gray-800 px-1 w-full bg-[#F8F8F8] rounded-md border-2 py-3  focus:outline-none focus:border-t-transparent focus:border-b-transparent focus:border-l-transparent focus:border-r-transparent ${
+        className={`text-gray-800 px-1 w-full bg-[#F8F8F8] rounded-md border-2 py-3   ${
           errors[id] ? 'border-red-400' : 'border-gray-500'
         } ${errors[id] ? 'focus:border-red-400' : 'focus:border-black'}`}
       />

@@ -65,7 +65,6 @@ const Navbar: React.FC<NavbarProps> = ({ onClick }) => {
             >
               Dashboard
             </Link>{' '}
-            <div className="text-white py-5 border-b-[1px] border-white">Destination</div>
             <Link
               href="/apartment"
               className="text-white py-5 border-b-[1px] border-white"
