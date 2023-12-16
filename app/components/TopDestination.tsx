@@ -21,11 +21,8 @@ const TopDestination: React.FC<TopDestinationProps> = ({ listResort }) => {
       </div> */}
 
       {/* Carosel resort & apartment */}
-      <CaroselResortAndApartment/>
-      <div className="flex gap-4 items-center my-10 p-2 border-b-2 border-slate-600 hover:border-[#5C98F2] cursor-pointer">
-        All Destination
-        <FaArrowRight size={15} />
-      </div>
+      <CaroselResortAndApartment />
+      <div className="text-common md:text-5xl text-3xl font-bold my-5">News</div>
 
       <div>
         <TopDestinationCard />

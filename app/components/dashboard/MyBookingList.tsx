@@ -113,7 +113,10 @@ const MyBookingList: React.FC<MyBookingListProps> = ({ historyBooking }) => {
             <div className="py-5 text-gray-700">
               It&apos;s time to dust off your bags and start planning for your next adventure
             </div>
-            <button className="border border-gray-500 rounded-md px-10 py-3 hover:bg-gray-100">
+            <button
+              onClick={() => router.push(`/apartment`)}
+              className="border border-gray-500 rounded-md px-10 py-3 hover:bg-gray-100"
+            >
               Start searching
             </button>
           </div>
