@@ -8,9 +8,8 @@ import { useRouter } from 'next/navigation';
 // import Image from 'next/image';
 import { MdStar } from 'react-icons/md';
 import getListResortForRent from '../actions/getListResortForRent';
-import { Pagination } from 'flowbite-react';
 import getListApartmentForRent from '../actions/getListApartmentForRent';
-import { Col, Divider, Row, Carousel, Image, Card } from 'antd';
+import { Col, Divider, Row, Carousel, Image, Card, Pagination } from 'antd';
 const { Meta } = Card;
 import {
   CalendarOutlined,
@@ -212,6 +211,13 @@ const CaroselResortAndApartment: React.FC = ({}) => {
         }
         return (
           <div key={index} style={{ width: '100%' }}>
+            {pageable.totalPages <= 1 ? (
+              <div className="w-3"> </div>
+            ) : (
+              <div className="flex justify-end">
+                {pageable.pageNo + 1 + '/' + pageable.totalPages}
+              </div>
+            )}
             <div className="mb-4 mt-4">
               <Fragment>
                 <Row gutter={0} justify="space-around" align="middle">
@@ -252,16 +258,7 @@ const CaroselResortAndApartment: React.FC = ({}) => {
                         const startTime = new Date(element.availableTime.startTime);
                         const endTime = new Date(element.availableTime.endTime);
                         return (
-                          <Col
-                            className="gutter-row"
-                            span={6}
-                            key={index}
-                            onClick={() =>
-                              handleRedirectApartmentDetail(
-                                `/apartment/${element.availableTime.id}?propertyId=${element.coOwnerId.propertyId}&roomId=${element.coOwnerId.roomId}`
-                              )
-                            }
-                          >
+                          <Col className="gutter-row" span={6} key={index}>
                             <Card
                               hoverable
                               style={{ height: 380 }}
@@ -281,51 +278,59 @@ const CaroselResortAndApartment: React.FC = ({}) => {
                                 </Carousel>
                               }
                             >
-                              <b> {element.property.propertyName}</b>
-                              <Meta
-                                style={{ margin: '1px' }}
-                                avatar={
-                                  element.user.avatar ? (
-                                    <Avatar src={element.user.avatar} />
-                                  ) : (
-                                    <Avatar>{element.user.username} </Avatar>
+                              <div
+                                onClick={() =>
+                                  handleRedirectApartmentDetail(
+                                    `/apartment/${element.availableTime.id}?propertyId=${element.coOwnerId.propertyId}&roomId=${element.coOwnerId.roomId}`
                                   )
                                 }
-                                description={'Owner: ' + element.user.username}
-                              />
-                              <div className="px-3 py-2 ">
-                                <div>
-                                  <div className="flex">
-                                    <div className="text-[14px]">
-                                      {startTime.toLocaleDateString('en-GB')}
-                                    </div>
-                                    <div className="text-[14px] px-1"> - </div>
-                                    <div className="text-[14px]">
-                                      {endTime.toLocaleDateString('en-GB')}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="  bottom-0 py-3 flex justify-between">
-                                  <div className="flex flex-row items-center">
-                                    <div>{element.availableTime.pricePerNight}</div>
-                                    <img
-                                      className="w-[20px] h-[20px]"
-                                      src="/images/coin.png"
-                                      alt=""
-                                    />
-                                    <div className="text-[13px]"> /night</div>
-                                  </div>
-                                  {element.property.rating ? (
-                                    <div className="flex flex-row items-center">
-                                      <div>{element.property.rating}</div>
-
-                                      <div className="text-[13px]">
-                                        <MdStar color="orange" size={20} />
+                              >
+                                <b> {element.property.propertyName}</b>
+                                <Meta
+                                  style={{ margin: '1px' }}
+                                  avatar={
+                                    element.user.avatar ? (
+                                      <Avatar src={element.user.avatar} />
+                                    ) : (
+                                      <Avatar>{element.user.username} </Avatar>
+                                    )
+                                  }
+                                  description={'Owner: ' + element.user.username}
+                                />
+                                <div className="px-3 py-2 ">
+                                  <div>
+                                    <div className="flex">
+                                      <div className="text-[14px]">
+                                        {startTime.toLocaleDateString('en-GB')}
+                                      </div>
+                                      <div className="text-[14px] px-1"> - </div>
+                                      <div className="text-[14px]">
+                                        {endTime.toLocaleDateString('en-GB')}
                                       </div>
                                     </div>
-                                  ) : (
-                                    <></>
-                                  )}
+                                  </div>
+                                  <div className="  bottom-0 py-3 flex justify-between">
+                                    <div className="flex flex-row items-center">
+                                      <div>{element.availableTime.pricePerNight}</div>
+                                      <img
+                                        className="w-[20px] h-[20px]"
+                                        src="/images/coin.png"
+                                        alt=""
+                                      />
+                                      <div className="text-[13px]"> /night</div>
+                                    </div>
+                                    {element.property.rating ? (
+                                      <div className="flex flex-row items-center">
+                                        <div>{element.property.rating}</div>
+
+                                        <div className="text-[13px]">
+                                          <MdStar color="orange" size={20} />
+                                        </div>
+                                      </div>
+                                    ) : (
+                                      <></>
+                                    )}
+                                  </div>
                                 </div>
                               </div>
                             </Card>
