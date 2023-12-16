@@ -304,10 +304,6 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
   useEffect(() => {
     if (checkInMap && dateRangeDefaultContext) {
       checkInMap.forEach((checkIn, key) => {
-        console.log(
-          'Check true false',
-          key < smallestDay && checkIn !== dateRangeDefaultContext.startDate
-        );
         if (
           !smallestDay ||
           (key < smallestDay && new Date(smallestDay) !== dateRangeDefaultContext?.startDate)
@@ -326,9 +322,6 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
       setDateRangeContext(newDate);
     }
   }, [checkInMap, smallestDay, dateRangeDefaultContext]);
-
-  console.log('Check small date', smallestDay);
-  console.log('check date context', dateRangeDefaultContext?.startDate);
 
   return (
     <div className="lg:mx-1 xl:mx-16 py-20">
