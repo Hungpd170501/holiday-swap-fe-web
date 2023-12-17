@@ -37,7 +37,7 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
 
   return (
     <Container className="bg-white">
-      <div className="grid grid-cols-2 gap-28 py-32 px-20">
+      <div className="flex flex-col py-32 md:flex md:flex-col lg:grid lg:grid-cols-2 lg:gap-28 lg:py-32 lg:px-20">
         <div className="w-full">
           <BookingInformation
             totalGuest={totalGuest}
