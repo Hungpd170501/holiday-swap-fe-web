@@ -70,9 +70,7 @@ export default function ModalCreatePublicTime() {
     if (detailCoOwner) {
       setArrayYear(
         range(
-          detailCoOwner?.startTime
-            ? new Date(detailCoOwner?.startTime).getFullYear()
-            : new Date().getFullYear(),
+          new Date().getFullYear(),
           detailCoOwner?.endTime
             ? new Date(detailCoOwner?.endTime).getFullYear()
             : new Date().getFullYear() + 50,
