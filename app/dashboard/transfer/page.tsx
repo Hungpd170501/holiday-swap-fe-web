@@ -4,6 +4,10 @@ import GetListMembershipAll from '@/app/actions/getListMembershipAll';
 import TransferMoney from '@/app/components/dashboard/Transfer';
 import requireAuth from '@/app/libs/requireAuth';
 
+export const metadata = {
+  title: 'Transfer point',
+};
+
 const Transfer: React.FC = async () => {
   const currentUser = await GetCurrentUser();
   const memberships = await GetListMembershipAll();

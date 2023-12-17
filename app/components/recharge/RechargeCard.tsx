@@ -129,9 +129,16 @@ const RechargeCard: React.FC<RechargeCardProps> = ({ point }) => {
             </div>
             <input
               className="border border-gray-500 w-[700px] px-4 py-2 focus-visible:outline-none rounded-lg"
-              type="text"
+              type="number"
+              min="1"
               value={amountPoint}
-              onChange={(e) => setAmountPoint(e.target.value)}
+              onChange={(e) => {
+                if (Number(e.target.value) < 1) {
+                  setAmountPoint('1');
+                } else {
+                  setAmountPoint(e.target.value);
+                }
+              }}
             />
             {Number(amountPoint) > 0 && (
               <div className="text-base font-bold pt-4 pb-2">

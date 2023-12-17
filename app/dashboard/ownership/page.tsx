@@ -7,6 +7,10 @@ import requireAuth from '@/app/libs/requireAuth';
 import GetListResortActiveHaveProperty from '@/app/actions/getListResortActiveHaveProperty';
 import GetListResortForCreateOwner from '@/app/actions/getListResortForCreateOwner';
 
+export const metadata = {
+  title: 'My apartment',
+};
+
 const OwnershipPage = async () => {
   const ownershipUser = await GetOwnershipByUserId();
   const listResort = await GetListResortActiveHaveProperty();

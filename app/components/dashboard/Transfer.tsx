@@ -66,7 +66,8 @@ const Money = [
             </div>
             <Input
               className="w-[499 px] rounded-md"
-              type="text"
+              type="number"
+              min="0"
               value={moneyTransfer}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 handleChangeMoneyTransfer(e.target.value)
@@ -162,6 +163,12 @@ const TransferMoney: React.FC<TransferMoneyProps> = ({ currentUser, memberships 
   const [accept, setAccept] = useState(false);
   const router = useRouter();
 
+  const preventMinus = (e: KeyboardEvent) => {
+    if (e.code === 'Minus') {
+      e.preventDefault();
+    }
+  };
+
   const handleChangeAccept = (value: any) => {
     setAccept(value);
   };
@@ -224,7 +231,11 @@ const TransferMoney: React.FC<TransferMoneyProps> = ({ currentUser, memberships 
   };
 
   const handleChangeMoneyTransfer = (value: any) => {
-    setMoneyTransfer(value);
+    if (value < 1) {
+      setMoneyTransfer(1);
+    } else {
+      setMoneyTransfer(value);
+    }
   };
 
   useEffect(() => {
