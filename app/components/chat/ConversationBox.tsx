@@ -64,7 +64,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({ data, selected, curre
       </div>
       <div className="min-w-0 flex-1">
         <div className="focus:outline-none">
-          <div className="grid grid-cols-2 justify-between items-center ">
+          <div className="flex flex-row items-center justify-between ">
             <p className="basis-2/3 text-sm font-semibold text-gray-900 dark:text-white">
               {data?.participants?.length > 2
                 ? data.conversationName
@@ -75,11 +75,13 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({ data, selected, curre
                 : data.participants.find((user) => user.user.userId !== currentUser?.userId)?.user
                     ?.username}
             </p>
-            {data?.message?.createdOn && (
-              <p className="basis-1/3 text-xs text-blue-600 dark:text-blue-500">
-                {formatRelative(new Date(data?.message?.createdOn), new Date())}
-              </p>
-            )}
+            <div>
+              {data?.message?.createdOn && (
+                <p className="basis-1/3 text-[10px] text-blue-600 dark:text-blue-500">
+                  {formatRelative(new Date(data?.message?.createdOn), new Date())}
+                </p>
+              )}
+            </div>
           </div>
           {/* <p
             className={clsx(
@@ -98,7 +100,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({ data, selected, curre
           </p> */}
           <p
             className={clsx(
-              'text-sm font-medium',
+              'text-sm font-medium line-clamp-2',
               hasSeen ? 'text-gray-800 dark:text-gray-400' : 'text-gray-500 dark:text-white'
             )}
           >
