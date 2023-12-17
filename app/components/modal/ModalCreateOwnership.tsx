@@ -42,8 +42,8 @@ export default function ModalCreateOwnership() {
   const [propertyValue, setPropertyValue] = useState<any>();
   const [typeValue, setTypeValue] = useState<any>(type[0].type);
   const [visibleCalendar, setVisibleCalendar] = useState(false);
-  const [startYear, setStartYear] = useState<any>(new Date().getFullYear());
-  const [endYear, setEndYear] = useState<any>(new Date().getFullYear() + 1);
+  const [startYear, setStartYear] = useState<any>(new Date("2000-01-01").getFullYear());
+  const [endYear, setEndYear] = useState<any>(new Date("2000-01-01").getFullYear() + 1);
   const [weekNumberValue, setWeekNumberValue] = useState<any>([]);
   const [weekNumberSingle, setWeekNumberSingle] = useState<any>();
   const [openModal, setOpenModal] = useState(false);
@@ -57,7 +57,7 @@ export default function ModalCreateOwnership() {
     Array.from({ length: (stop - start) / step + 1 }, (_, i) => start + i * step);
 
   useEffect(() => {
-    setArrayYear(range(new Date().getFullYear(), new Date().getFullYear() + 50, +1));
+    setArrayYear(range(new Date("2000-01-01").getFullYear(), new Date("2000-01-01").getFullYear() + 50, +1));
     if (startYear) {
       setArrayYearEnd(range(startYear + 1, startYear + 50, +1));
     }

@@ -67,8 +67,16 @@ export default function ModalCreatePublicTime() {
     Array.from({ length: (stop - start) / step + 1 }, (_, i) => start + i * step);
 
   useEffect(() => {
-    setArrayYear(range(new Date().getFullYear(), new Date().getFullYear() + 50, +1));
-  }, []);
+    if (detailCoOwner) {
+      setArrayYear(
+        range(
+          new Date(detailCoOwner?.startTime).getFullYear(),
+          new Date(detailCoOwner?.endTime).getFullYear(),
+          +1
+        )
+      );
+    }
+  }, [detailCoOwner]);
 
   const getWeekDates = (weekNumber: number, year: number) => {
     const startDate = dayjs().year(year).isoWeek(weekNumber).startOf('isoWeek').startOf('day');
