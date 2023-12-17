@@ -17,8 +17,11 @@ const Banner: React.FC<BannerProps> = ({ listResort }) => {
             Find new holiday to <span className="text-common">exchange</span> and enjoy
           </div>
           <div className="text-[#8c8c8c] py-14 text-sm px-3 md:px-0 md:text-base">
-            Discover amzaing places at exclusive deals. <br /> Eat, Shop, Visit interesting places
-            around the world.
+            Exchange and explore great places. Enjoy your vacation in the most optimal and flexible
+            way possible with{' '}
+            <span>
+              Holiday<span className="text-common">Swap</span>
+            </span>
           </div>
           <SearchBanner listResort={listResort} />
         </div>

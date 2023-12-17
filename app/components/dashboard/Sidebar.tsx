@@ -39,7 +39,7 @@ const Sidebar = () => {
       current: pathName?.includes('/dashboard/changePassword') ? true : false,
     },
     {
-      name: 'Ownership',
+      name: 'My apartment',
       href: '/dashboard/ownership',
       icon: AiOutlineHome,
       current: pathName?.includes('/dashboard/ownership') ? true : false,
