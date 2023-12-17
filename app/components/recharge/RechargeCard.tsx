@@ -133,14 +133,22 @@ const RechargeCard: React.FC<RechargeCardProps> = ({ point }) => {
               value={amountPoint}
               onChange={(e) => setAmountPoint(e.target.value)}
             />
-            <div className="text-base font-bold py-4">
+            <div className="text-base font-bold pt-4 pb-2">
               The total amount you need to pay is:{' '}
               <span className="text-green-500">
                 {amountPoint} point x {point.pointPrice} VND/point = {amount} VND
               </span>
             </div>
+            {Number(amountPoint) > 0 && (
+              <div className="text-base font-bold pt-4 pb-2">
+                The total amount you need to pay is:{' '}
+                <span className="text-green-500">
+                  {amountPoint} point x {point.pointPrice} VND/point = {amount} VND
+                </span>
+              </div>
+            )}
             <button
-              className=" bg-[#5C98F2] px-4 py-4 rounded-xl text-white mt-10 hover:bg-blue-500"
+              className=" bg-[#5C98F2] px-4 mb-5 py-4 rounded-xl text-white mt-10 hover:bg-blue-500"
               type="submit"
               onClick={() => handleTopup(amount, orderInfor, returnUrl)}
             >
