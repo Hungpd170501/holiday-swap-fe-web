@@ -10,8 +10,6 @@ export default async function GetPoint() {
     const config = { headers: { Authorization: `Bearer ${accessToken}` } };
     const point = await axios.get(`${process.env.API_URL}/point`);
 
-    console.log("Check point", point.data);
-
     if (!point) {
       return null;
     }

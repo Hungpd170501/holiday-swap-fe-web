@@ -47,24 +47,26 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
 
   const handleCancelBooking = () => {
     const accessToken = session?.user?.access_token;
-    const config = { headers: { Authorization: `Bearer ${accessToken}` } };
-    axios
-      .put(`https://holiday-swap.click/api/booking/cancel/${bookingId}`, config)
-      .then(async (response) => {
-        const newDetail = await axios.get(
-          `https://holiday-swap.click/api/booking/ownerhistorybooking/${bookingId}`,
-          config
-        );
-        if (newDetail) {
-          setDetail(newDetail.data);
-        }
-        toast.success('Cancel booking successfully!');
-        setOpenModal(false);
-      })
-      .catch((response) => {
-        toast.error(response?.response?.data?.message ?? 'Something went wrong');
-        setOpenModal(false);
-      });
+    if (accessToken) {
+      const config = { headers: { Authorization: `Bearer ${accessToken}` } };
+      axios
+        .put(`https://holiday-swap.click/api/booking/cancel/${bookingId}`, config)
+        .then(async (response) => {
+          const newDetail = await axios.get(
+            `https://holiday-swap.click/api/booking/ownerhistorybooking/${bookingId}`,
+            config
+          );
+          if (newDetail) {
+            setDetail(newDetail.data);
+          }
+          toast.success('Cancel booking successfully!');
+          setOpenModal(false);
+        })
+        .catch((response) => {
+          toast.error(response?.response?.data?.message ?? 'Something went wrong');
+          setOpenModal(false);
+        });
+    }
   };
 
   const handleContactOwner = (ownerId: string) => {

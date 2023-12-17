@@ -133,12 +133,6 @@ const RechargeCard: React.FC<RechargeCardProps> = ({ point }) => {
               value={amountPoint}
               onChange={(e) => setAmountPoint(e.target.value)}
             />
-            <div className="text-base font-bold pt-4 pb-2">
-              The total amount you need to pay is:{' '}
-              <span className="text-green-500">
-                {amountPoint} point x {point.pointPrice} VND/point = {amount} VND
-              </span>
-            </div>
             {Number(amountPoint) > 0 && (
               <div className="text-base font-bold pt-4 pb-2">
                 The total amount you need to pay is:{' '}
