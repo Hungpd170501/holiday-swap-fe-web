@@ -71,7 +71,7 @@ const CreateResortAmenities: React.FC<CreateResortAmeniteisProps> = ({ amenities
         toast.success('Create Amenity success');
         setFile([]);
         reset();
-        router.push('/staff/listPropertyAmenities');
+        router.push('/staff/listResortAmenities');
         router.refresh();
       })
       .catch((response) => {
