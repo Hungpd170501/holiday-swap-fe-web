@@ -57,10 +57,9 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail }) => {
                       {row?.resortAmenities?.map((item: any, index: number) => (
                         <span key={index} className="inline-block">
                           {item.resortAmenityName}
-                          {index < row.resortAmenities.length - 1 && <span>, </span>}{" "}
+                          {index < row.resortAmenities.length - 1 && <span>, </span>}{' '}
                         </span>
                       ))}
-                     
                     </React.Fragment>
                   ))}
                 </div>
@@ -73,7 +72,7 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail }) => {
         </div>
       </div>
 
-      <div className="w-full  gap-2 py-4 md:grid md:grid-cols-2 md:h-[55vh] lg:h-[60vh] md:gap-2 md:py-4">
+      <div className="w-full  gap-2 py-4 md:grid md:grid-cols-2 md:h-[55vh] lg:h-[60vh] md:gap-2 md:py-4  ">
         <div className=" w-full h-80  relative md:w-full md:rounded-l-xl md:h-96 md:relative md:overflow-hidden lg:w-full lg:h-auto lg:rounded-l-xl lg:relative lg:overflow-hidden xl:h-auto xl:w-full xl:rounded-l-xl xl:relative xl:overflow-hidden ">
           <Image
             onClick={showDrawer}
@@ -122,7 +121,7 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail }) => {
         </div>
       </div>
 
-      <div className="w-full h-[700px] my-10 ">
+      <div className="w-full h-[700px] pt-20 pb-3 rounded-lg ">
         <MapResort
           latitude={resortDetail.latitude}
           id={resortDetail.id}

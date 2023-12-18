@@ -139,6 +139,7 @@ const InputInRoomAmenities: React.FC<InputInRoomAmenitiesProps> = ({
         {inRoomAmenities?.content.map((item: any, index: number) => (
           <div key={item.id} className="flex flex-row items-center gap-2">
             <Checkbox
+              className="w-[30px] h-[30px]"
               onChange={handleChangeAmenities}
               id="promotion"
               color={'#5C98F2'}

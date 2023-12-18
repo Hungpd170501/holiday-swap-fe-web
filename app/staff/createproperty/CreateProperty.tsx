@@ -233,113 +233,125 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
 
   if (step === STEPS.SIZE) {
     bodyContent = (
-      <div className="py-5 grid grid-cols-1 md:grid-cols-2 gap-5">
-        <div className="flex flex-col py-4">
-          <div>
-            <input
-              {...register('propertyImages', {
-                required: 'Recipe picture is required',
-              })}
-              type="file"
-              id="propertyImages"
-              multiple
-              onChange={handleChange}
-            />
-          </div>
-          <Input
-            register={register}
-            errors={errors}
-            type="text"
-            id="propertyName"
-            label="Property Name*"
-            placeholder="Property Name"
-          />
-          <Input
-            register={register}
-            errors={errors}
-            type="text"
-            id="propertyDescription"
-            label="Property Description*"
-            placeholder="Property Description"
-          />
-          <Input
-            register={register}
-            errors={errors}
-            type="number"
-            min={10}
-            id="roomSize"
-            label="Size*"
-            placeholder="30"
-          />
-
-          <div className="mt-8 mb-5 w-full">
-            <div>Select resort*</div>
-            <Select
-              className="w-full h-[44px] border-2 border-gray-400 rounded-md focus:border-transparent"
-              value={resortIdValue}
-              onChange={handelChangeResortId}
-              showSearch
-              optionFilterProp="children"
-              filterOption={(input: string, option?: { children: string }) =>
-                (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
-              }
-            >
-              {listResort.content.map((item: any, index: any) => (
-                <Select.Option value={item.id} key={item.id}>
-                  {item.resortName}
-                </Select.Option>
-              ))}
-            </Select>
-          </div>
-
-          <div className="w-full py-4 grid grid-cols-2 gap-4">
+      <div className="py-5 grid grid-cols-1  gap-5">
+        <div className="grid grid-cols-2 gap-5">
+          <div className="flex flex-col py-4">
             <div>
-              <div>Select property types*</div>
+              <input
+                {...register('propertyImages', {
+                  required: 'Recipe picture is required',
+                })}
+                type="file"
+                id="propertyImages"
+                multiple
+                onChange={handleChange}
+              />
+            </div>
+            <Input
+              register={register}
+              errors={errors}
+              type="text"
+              id="propertyName"
+              label="Property Name*"
+              placeholder="Property Name"
+            />
+            <Input
+              register={register}
+              errors={errors}
+              type="text"
+              id="propertyDescription"
+              label="Property Description*"
+              placeholder="Property Description"
+            />
+            <Input
+              register={register}
+              errors={errors}
+              type="number"
+              min={10}
+              id="roomSize"
+              label="Size*"
+              placeholder="30"
+            />
+
+            <div className="mt-8 mb-5 w-full">
+              <div>Select resort*</div>
               <Select
-                className="w-full h-[44px] border-2  border-gray-400 rounded-md "
-                value={propertyTypeValue}
-                onChange={handleChangePropertyType}
+                className="w-full h-[44px] border-2 border-gray-400 rounded-md focus:border-transparent"
+                value={resortIdValue}
+                onChange={handelChangeResortId}
                 showSearch
                 optionFilterProp="children"
                 filterOption={(input: string, option?: { children: string }) =>
                   (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
                 }
               >
-                {propertyTypesInput.map((item: any, index: any) => (
+                {listResort.content.map((item: any, index: any) => (
                   <Select.Option value={item.id} key={item.id}>
-                    {item.propertyTypeName}
+                    {item.resortName}
                   </Select.Option>
                 ))}
               </Select>
             </div>
-            <div>
-              <div>Select property view*</div>
-              <Select
-                className="w-full h-[44px] border-2 border-gray-400 rounded-md "
-                value={propertyViewValue}
-                onChange={handleChangePropertyView}
-                showSearch
-                optionFilterProp="children"
-                filterOption={(input: string, option?: { children: string }) =>
-                  (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
-                }
-              >
-                {propertyViews.map((item: any, index: any) => (
-                  <Select.Option value={item.id} key={item.id}>
-                    {item.propertyViewName}
-                  </Select.Option>
-                ))}
-              </Select>
+
+            <div className="w-full py-4 grid grid-cols-2 gap-4">
+              <div>
+                <div>Select property types*</div>
+                <Select
+                  className="w-full h-[44px] border-2  border-gray-400 rounded-md "
+                  value={propertyTypeValue}
+                  onChange={handleChangePropertyType}
+                  showSearch
+                  optionFilterProp="children"
+                  filterOption={(input: string, option?: { children: string }) =>
+                    (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                  }
+                >
+                  {propertyTypesInput.map((item: any, index: any) => (
+                    <Select.Option value={item.id} key={item.id}>
+                      {item.propertyTypeName}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </div>
+              <div>
+                <div>Select property view*</div>
+                <Select
+                  className="w-full h-[44px] border-2 border-gray-400 rounded-md "
+                  value={propertyViewValue}
+                  onChange={handleChangePropertyView}
+                  showSearch
+                  optionFilterProp="children"
+                  filterOption={(input: string, option?: { children: string }) =>
+                    (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                  }
+                >
+                  {propertyViews.map((item: any, index: any) => (
+                    <Select.Option value={item.id} key={item.id}>
+                      {item.propertyViewName}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </div>
             </div>
           </div>
-
           <div>
-            <InputInRoomAmenities
-              inRoomAmenities={inRoomAmenities}
-              handleAmenitiesChange={handleAmenitiesChange}
+            <Image
+              className="hidden md:block"
+              src="/images/size.png"
+              alt="Home"
+              width={600}
+              height={720}
             />
           </div>
-          <div className="py-14">
+        </div>
+        <div>
+          <InputInRoomAmenities
+            inRoomAmenities={inRoomAmenities}
+            handleAmenitiesChange={handleAmenitiesChange}
+          />
+        </div>
+        <div>
+          <div className="py-14 w-[500px]">
             {sizes.map((item, index) => (
               <SizeHomeInput
                 key={index}
@@ -353,7 +365,7 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
             ))}
           </div>
 
-          <div className="grid grid-cols-2">
+          <div className="flex flex-row gap-5">
             <div className="flex flex-row items-center justify-center">
               <button
                 onClick={onBack}
@@ -365,14 +377,6 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
             <ButtonRegister label="Continue" onClick={handleSubmit(onSubmit)} />
           </div>
         </div>
-
-        <Image
-          className="hidden md:block"
-          src="/images/size.png"
-          alt="Home"
-          width={600}
-          height={720}
-        />
       </div>
     );
   }
