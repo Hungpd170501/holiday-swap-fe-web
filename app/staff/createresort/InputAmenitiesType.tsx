@@ -29,7 +29,9 @@ const InputAmenitiesType: React.FC<InputAmenitiesTypeProps> = ({
 
   return (
     <div className="flex flex-row gap-2">
-      <div>Amenities</div>
+      <div>
+        Amenities<span className="text-red-500">*</span>
+      </div>
       <div className="grid md:grid-cols-3 grid-cols-1 gap-6 p-3 border border-slate-300 rounded-md">
         {amenities.map((item: any, index: number) => (
           <div key={item.id} className="flex flex-row items-center gap-2">
