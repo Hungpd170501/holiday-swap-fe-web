@@ -293,7 +293,9 @@ const CreateResort: React.FC<CreateResortProps> = ({ amenitiesArray, propertyTyp
       <SelectRouterStaff />
 
       <div className="mb-14 mt-5">
-        <div className="mb-3">Upload Image*</div>
+        <div className="mb-3">
+          Upload Image<span className="text-red-500">*</span>
+        </div>
         {/* <UploadImageResortCreate handleImageChange={handleImageChange} /> */}
         <div>
           <input
@@ -307,7 +309,7 @@ const CreateResort: React.FC<CreateResortProps> = ({ amenitiesArray, propertyTyp
           />
         </div>
       </div>
-      <div className="w-[700px]">
+      <div className="w-[900px]">
         <div className=" flex flex-row mb-14">
           <InputCreateResort
             label="Resort Name*"
@@ -321,7 +323,9 @@ const CreateResort: React.FC<CreateResortProps> = ({ amenitiesArray, propertyTyp
         </div>
 
         <div className=" flex flex-row mb-14">
-          <div className="w-[277px] text-gray-700">Description</div>
+          <div className="w-[277px] text-gray-700">
+            Description<span className="text-red-500">*</span>
+          </div>
           <textarea
             className="w-full rounded-md   border-2 border-gray-500"
             // label="Description*"
@@ -329,10 +333,13 @@ const CreateResort: React.FC<CreateResortProps> = ({ amenitiesArray, propertyTyp
             id="resortDescription"
             disabled={isLoading}
             required
+            placeholder="Resort description"
           />
         </div>
         <div className=" flex flex-row mb-14">
-          <div className="w-[277px] text-gray-700">Address*</div>
+          <div className="w-[277px] text-gray-700">
+            Address<span className="text-red-500">*</span>
+          </div>
           <div id="map" className="w-full h-96"></div>
         </div>
         <FormItem label="Country">
