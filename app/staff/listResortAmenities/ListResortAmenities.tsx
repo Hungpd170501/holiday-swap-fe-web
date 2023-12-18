@@ -28,7 +28,7 @@ const ListResortAmenities = () => {
     setCurrentPage(page);
     setPageable({ ...pageable, pageNo: page - 1 });
   };
-  
+
   const [pageable, setPageable] = useState<Pageable>({
     pageNo: 0,
     pageSize: 10,
@@ -113,21 +113,23 @@ const ListResortAmenities = () => {
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {item.id}
                 </Table.Cell>
-                <Table.Cell>{item.resortAmenityName}</Table.Cell>
+                <Table.Cell className="w-[200px]">{item.resortAmenityName}</Table.Cell>
                 <Table.Cell>{item.resortAmenityDescription}</Table.Cell>
-                <Table.Cell>{item.resortAmenityTypeId}</Table.Cell>
-                <Table.Cell className="flex flex-row gap-3">
-                  <div className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer">
-                    Edit
-                  </div>
-                  <div
-                    onClick={() => {
-                      setOpenModal(true);
-                      setIdDelete(item.id);
-                    }}
-                    className="font-medium text-rose-600 hover:underline hover:cursor-pointer dark:text-rose-500"
-                  >
-                    Delete
+                <Table.Cell className="w-[200px]">{item.resortAmenityTypeId}</Table.Cell>
+                <Table.Cell>
+                  <div className="flex flex-row gap-3">
+                    <div className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer">
+                      Edit
+                    </div>
+                    <div
+                      onClick={() => {
+                        setOpenModal(true);
+                        setIdDelete(item.id);
+                      }}
+                      className="font-medium text-rose-600 hover:underline hover:cursor-pointer dark:text-rose-500"
+                    >
+                      Delete
+                    </div>
                   </div>
                 </Table.Cell>
               </Table.Row>

@@ -117,18 +117,20 @@ const ListResortAmenities = () => {
                 <Table.Cell>{item.inRoomAmenityName}</Table.Cell>
                 <Table.Cell>{item.inRoomAmenityDescription}</Table.Cell>
                 <Table.Cell>{item.inRoomAmenityTypeId}</Table.Cell>
-                <Table.Cell className="flex flex-row gap-3">
-                  <div className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer">
-                    Edit
-                  </div>
-                  <div
-                    onClick={() => {
-                      setOpenModal(true);
-                      setIdDelete(item.id);
-                    }}
-                    className="font-medium text-rose-600 hover:underline hover:cursor-pointer dark:text-rose-500"
-                  >
-                    Delete
+                <Table.Cell>
+                  <div className="flex flex-row gap-3">
+                    <div className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer">
+                      Edit
+                    </div>
+                    <div
+                      onClick={() => {
+                        setOpenModal(true);
+                        setIdDelete(item.id);
+                      }}
+                      className="font-medium text-rose-600 hover:underline hover:cursor-pointer dark:text-rose-500"
+                    >
+                      Delete
+                    </div>
                   </div>
                 </Table.Cell>
               </Table.Row>
