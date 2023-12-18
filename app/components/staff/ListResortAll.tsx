@@ -247,51 +247,28 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                 </StyledTableCell>
 
                 <StyledTableCell className="!py-5 !text-green-500 " align="right">
-                  <Dropdown
-                    label=""
-                    dismissOnClick={false}
-                    renderTrigger={() => (
-                      <span className="text-sky-500 hover:underline cursor-pointer">Edit</span>
-                    )}
-                  >
-                    {(() => {
-                      if (row.status === 'ACTIVE') {
-                        return (
-                          <>
-                            {statusList.slice(1, 3).map((status: any, index: number) => (
-                              <Dropdown.Item
-                                key={index}
-                                value={status.status}
-                                className="flex items-center gap-2"
-                                onClick={() => handleOnChangeStatus(row.id, status.status)}
-                              >
-                                <status.icon size={18} color={status.color} />
+                  {row.status === 'ACTIVE' && (
+                    <Dropdown
+                      label=""
+                      dismissOnClick={false}
+                      renderTrigger={() => (
+                        <span className="text-sky-500 hover:underline cursor-pointer">Edit</span>
+                      )}
+                    >
+                      <>
+                        <Dropdown.Item
+                          key={index}
+                          value={'DEACTIVE'}
+                          className="flex items-center gap-2"
+                          onClick={deactiveResortModal.onOpen}
+                        >
+                          <BiBlock size={18} color={'red'} />
 
-                                <span className={`text-[${status.color}]`}>{status.status}</span>
-                              </Dropdown.Item>
-                            ))}
-                          </>
-                        );
-                      } else if (row.status === 'DEACTIVATE') {
-                        return (
-                          <>
-                            {statusList.slice(0, 1).map((status: any, index: number) => (
-                              <Dropdown.Item
-                                key={index}
-                                value={status.status}
-                                className="flex items-center gap-2"
-                                onClick={() => handleOnChangeStatus(row.id, status.status)}
-                              >
-                                <status.icon size={18} color={status.color} />
-
-                                <span className={`text-[${status.color}]`}>{status.status}</span>
-                              </Dropdown.Item>
-                            ))}
-                          </>
-                        );
-                      }
-                    })()}
-                  </Dropdown>
+                          <span className={`text-red-500`}>DEACTIVE</span>
+                        </Dropdown.Item>
+                      </>
+                    </Dropdown>
+                  )}
                 </StyledTableCell>
               </StyledTableRow>
             ))}

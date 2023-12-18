@@ -32,7 +32,7 @@ const convertBase64ToFile = function (image: any) {
 interface UploadImageCreateOwnershipProps {
   handeChangeNewImages: (image: any) => void;
   handleDeleteImage: (image: any) => void;
-  isClearImage: boolean;
+  isClearImage?: boolean;
   mutiple: boolean;
 }
 

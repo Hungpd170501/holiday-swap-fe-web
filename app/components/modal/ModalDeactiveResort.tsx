@@ -10,12 +10,14 @@ import { signIn } from 'next-auth/react';
 import { toast } from 'react-hot-toast';
 import { BiArrowBack } from 'react-icons/bi';
 import useDeactiveResortModal from '@/app/hooks/useDeactiveResortModal';
+import UploadImageCreateOwnership from './UploadImageCreateOwnership';
 
 export default function ModalDeactiveResort() {
   const router = useRouter();
   const deactiveResortModal = useDeactiveResortModal();
   const [isLoading, setIsLoading] = useState(false);
   const [isForgotPasswordModalOpen, setIsForgotPasswordModalOpen] = useState(false);
+  const [file, setFile] = useState<any[]>([])
 
   const {
     register,
@@ -51,16 +53,35 @@ export default function ModalDeactiveResort() {
     deactiveResortModal.onClose();
   }, []);
 
+  
+  const handleDeleteImage = (image: any) => {
+    setFile(file.filter((prev) => prev.size !== image.size));
+  };
+
+  const handeChangeNewImages = (image: any) => {
+    if (image) {
+      setFile((old) => [...old, image]);
+    }
+  };
+
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <div className="flex justify-center">
         <InputComponent
           register={register}
           label="Start date deactive"
+          required={true}
           id="startDateDeactive"
+          type="date"
           errors={errors}
         />
       </div>
+
+       <UploadImageCreateOwnership
+            handeChangeNewImages={handeChangeNewImages}
+            handleDeleteImage={handleDeleteImage}
+            mutiple={true}
+          />
     </div>
   );
 
