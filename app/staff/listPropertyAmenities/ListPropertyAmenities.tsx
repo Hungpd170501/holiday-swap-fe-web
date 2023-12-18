@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import GetResortAmenityStaff from '@/app/actions/getResortAmenityStaff';
 import GetPropertyAmenityStaff from '@/app/actions/getPropertyAmenityStaff';
+import Image from 'next/image';
 
 interface Pageable {
   pageNo: number;
@@ -100,10 +101,10 @@ const ListResortAmenities = () => {
         </div>
         <Table>
           <Table.Head>
-            <Table.HeadCell>ID</Table.HeadCell>
+            <Table.HeadCell>STT</Table.HeadCell>
             <Table.HeadCell>Property Amenity Name</Table.HeadCell>
             <Table.HeadCell>Property Amenity Description</Table.HeadCell>
-            <Table.HeadCell>Property Amenity Type Id</Table.HeadCell>
+            <Table.HeadCell>Property Amenity Icon</Table.HeadCell>
             <Table.HeadCell>
               <span className="sr-only">Edit</span>
             </Table.HeadCell>
@@ -112,25 +113,33 @@ const ListResortAmenities = () => {
             {amenitiesList?.map((item: any, index: any) => (
               <Table.Row key={item.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {item.id}
+                  {index + 1}
                 </Table.Cell>
                 <Table.Cell>{item.inRoomAmenityName}</Table.Cell>
                 <Table.Cell>{item.inRoomAmenityDescription}</Table.Cell>
-                <Table.Cell>{item.inRoomAmenityTypeId}</Table.Cell>
+
                 <Table.Cell>
-                  <div className="flex flex-row gap-3">
-                    <div className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer">
-                      Edit
-                    </div>
-                    <div
-                      onClick={() => {
-                        setOpenModal(true);
-                        setIdDelete(item.id);
-                      }}
-                      className="font-medium text-rose-600 hover:underline hover:cursor-pointer dark:text-rose-500"
-                    >
-                      Delete
-                    </div>
+                  <Image
+                    src={item.inRoomAmenityLinkIcon}
+                    width={30}
+                    height={30}
+                    className="object-cover"
+                    alt="icon"
+                  />
+                </Table.Cell>
+                <Table.Cell className="flex flex-row gap-3">
+                  <div className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer">
+                    Edit
+                  </div>
+                  <div
+                    onClick={() => {
+                      setOpenModal(true);
+                      setIdDelete(item.id);
+                    }}
+                    className="font-medium text-rose-600 hover:underline hover:cursor-pointer dark:text-rose-500"
+                  >
+                    Delete
+
                   </div>
                 </Table.Cell>
               </Table.Row>
