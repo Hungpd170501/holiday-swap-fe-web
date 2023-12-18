@@ -4,7 +4,9 @@ export default async function GetListResort(pageNo: string, config: any = {}) {
   try {
     const { resortName } = config;
 
-    let apiUrl = `https://holiday-swap.click/api/v1/resorts?pageNo=${pageNo}&pageSize=10`;
+    console.log('Check config', config);
+
+    let apiUrl = `https://holiday-swap.click/api/v1/resorts?pageNo=${pageNo}&pageSize=10&sortDirection=desc`;
 
     if (resortName) {
       apiUrl += `&nameResort=${resortName}`;

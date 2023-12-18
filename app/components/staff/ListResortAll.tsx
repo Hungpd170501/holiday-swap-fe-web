@@ -12,7 +12,7 @@ import Link from 'next/link';
 import SelectRouterStaff from './SelectRouterStaff';
 import DropdownStatusResort from './DropdownStatusResort';
 import GetListResort from '@/app/actions/getListResort';
-import { Dropdown, Pagination } from 'flowbite-react';
+import { Button, Dropdown, Pagination } from 'flowbite-react';
 import HeadingDashboard from '../HeadingDashboard';
 import { BsCheck2Circle } from 'react-icons/bs';
 import { BiBlock } from 'react-icons/bi';
@@ -74,7 +74,7 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [totalPages, setTotalPages] = React.useState<number>(resorts?.totalPages);
   const deactiveResortModal = useDeactiveResortModal();
-  const [searchTerm, setSearchTerm] = React.useState<string>('');
+  const [resortName, setResortName] = React.useState<string>('');
 
   const maintanceResortModal = useMaintanceResortModal();
   const [isChangeStatus, setIsChangeStatus] = React.useState(false);
@@ -85,19 +85,18 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
   const axiosAuthClient = useAxiosAuthClient();
 
   const handleSearchTermChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+    setResortName(event.target.value);
   };
 
-  const filterResorts = () => {
-    const filtered = resorts?.content.filter((resort: any) =>
-      resort.resortName.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredResorts({ content: filtered, totalElements: filtered.length });
-  };
+  const filterResorts = async () => {
+    let config = { resortName };
+    const newData = await GetListResort((currentPage - 1).toString(), config);
 
-  React.useEffect(() => {
-    filterResorts();
-  }, [searchTerm, resorts]);
+    if (newData) {
+      setFilteredResorts(newData);
+      setTotalPages(newData?.totalPages);
+    }
+  };
 
   const onPageChange = async (newPage: any) => {
     try {
@@ -151,17 +150,18 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
       </div>
       <SelectRouterStaff />
       <div className="text-common text-[20px] font-bold pt-5 ">List Resort</div>
-      <div className="flex items-center my-4">
+      <div className="flex items-center my-4 gap-2">
         <label htmlFor="search" className="mr-2 text-sm">
           Search by Resort Name:
         </label>
         <input
           type="text"
           id="search"
-          value={searchTerm}
+          value={resortName}
           onChange={handleSearchTermChange}
           className="border p-2 rounded-md"
         />
+        <Button onClick={filterResorts}>Search</Button>
       </div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
