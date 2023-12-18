@@ -5,6 +5,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import GetResortAmenityStaff from '@/app/actions/getResortAmenityStaff';
+import Image from 'next/image';
 
 interface Pageable {
   pageNo: number;
@@ -28,7 +29,7 @@ const ListResortAmenities = () => {
     setCurrentPage(page);
     setPageable({ ...pageable, pageNo: page - 1 });
   };
-  
+
   const [pageable, setPageable] = useState<Pageable>({
     pageNo: 0,
     pageSize: 10,
@@ -99,10 +100,10 @@ const ListResortAmenities = () => {
         </div>
         <Table>
           <Table.Head>
-            <Table.HeadCell>ID</Table.HeadCell>
+            <Table.HeadCell>STT</Table.HeadCell>
             <Table.HeadCell>Resort Amenity Name</Table.HeadCell>
             <Table.HeadCell>Resort Amenity Description</Table.HeadCell>
-            <Table.HeadCell>Resort Amenity Type Id</Table.HeadCell>
+            <Table.HeadCell>Resort Amenity Type Icon</Table.HeadCell>
             <Table.HeadCell>
               <span className="sr-only">Edit</span>
             </Table.HeadCell>
@@ -111,11 +112,19 @@ const ListResortAmenities = () => {
             {amenitiesList?.map((item: any, index: any) => (
               <Table.Row key={item.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {item.id}
+                  {index + 1}
                 </Table.Cell>
                 <Table.Cell>{item.resortAmenityName}</Table.Cell>
                 <Table.Cell>{item.resortAmenityDescription}</Table.Cell>
-                <Table.Cell>{item.resortAmenityTypeId}</Table.Cell>
+                <Table.Cell>
+                  <Image
+                    src={item.resortAmenityLinkIcon}
+                    width={30}
+                    height={30}
+                    className="object-cover"
+                    alt="icon"
+                  />
+                </Table.Cell>
                 <Table.Cell className="flex flex-row gap-3">
                   <div className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer">
                     Edit
