@@ -39,7 +39,7 @@ const ListPropertyView: React.FC<ListPropertyViewProps> = () => {
     setCurrentPage(page);
     setPageable({ ...pageable, pageNo: page - 1 });
   };
-  
+
   const [pageable, setPageable] = useState<Pageable>({
     pageNo: 0,
     pageSize: 10,
@@ -134,23 +134,25 @@ const ListPropertyView: React.FC<ListPropertyViewProps> = () => {
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {item.id}
                 </Table.Cell>
-                <Table.Cell>{item.propertyViewName}</Table.Cell>
+                <Table.Cell className="w-[200px]">{item.propertyViewName}</Table.Cell>
                 <Table.Cell>{item.propertyViewDescription}</Table.Cell>
-                <Table.Cell className="flex flex-row gap-3">
-                  <div
-                    onClick={() => editPropertyViewModal.onOpen(item)}
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
-                  >
-                    Edit
-                  </div>
-                  <div
-                    onClick={() => {
-                      setOpenModal(true);
-                      setIdDelete(item.id);
-                    }}
-                    className="font-medium text-rose-600 hover:underline hover:cursor-pointer dark:text-rose-500"
-                  >
-                    Delete
+                <Table.Cell>
+                  <div className="flex flex-row gap-3">
+                    <div
+                      onClick={() => editPropertyViewModal.onOpen(item)}
+                      className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                    >
+                      Edit
+                    </div>
+                    <div
+                      onClick={() => {
+                        setOpenModal(true);
+                        setIdDelete(item.id);
+                      }}
+                      className="font-medium text-rose-600 hover:underline hover:cursor-pointer dark:text-rose-500"
+                    >
+                      Delete
+                    </div>
                   </div>
                 </Table.Cell>
               </Table.Row>

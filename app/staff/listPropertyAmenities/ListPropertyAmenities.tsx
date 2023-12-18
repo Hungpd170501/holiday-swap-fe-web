@@ -117,6 +117,7 @@ const ListResortAmenities = () => {
                 </Table.Cell>
                 <Table.Cell>{item.inRoomAmenityName}</Table.Cell>
                 <Table.Cell>{item.inRoomAmenityDescription}</Table.Cell>
+
                 <Table.Cell>
                   <Image
                     src={item.inRoomAmenityLinkIcon}
@@ -138,6 +139,7 @@ const ListResortAmenities = () => {
                     className="font-medium text-rose-600 hover:underline hover:cursor-pointer dark:text-rose-500"
                   >
                     Delete
+
                   </div>
                 </Table.Cell>
               </Table.Row>

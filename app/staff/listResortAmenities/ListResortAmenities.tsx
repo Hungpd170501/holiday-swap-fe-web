@@ -114,8 +114,9 @@ const ListResortAmenities = () => {
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {index + 1}
                 </Table.Cell>
-                <Table.Cell>{item.resortAmenityName}</Table.Cell>
+                <Table.Cell className="w-[200px]">{item.resortAmenityName}</Table.Cell>
                 <Table.Cell>{item.resortAmenityDescription}</Table.Cell>
+
                 <Table.Cell>
                   <Image
                     src={item.resortAmenityLinkIcon}
@@ -137,6 +138,7 @@ const ListResortAmenities = () => {
                     className="font-medium text-rose-600 hover:underline hover:cursor-pointer dark:text-rose-500"
                   >
                     Delete
+
                   </div>
                 </Table.Cell>
               </Table.Row>
