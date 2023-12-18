@@ -101,9 +101,17 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
   const onPageChange = async (newPage: any) => {
     try {
       let pageNoParam = newPage - 1;
-      const newResortsData = await GetListResort(pageNoParam.toString());
+      let config = { resortName };
+      let newResortsData: any;
 
-      setResorts({ content: newResortsData.content, totalElements: newResortsData.totalElements });
+      if (config) {
+        newResortsData = await GetListResort(pageNoParam.toString(), config);
+      } else {
+        newResortsData = await GetListResort(pageNoParam.toString());
+      }
+
+      setFilteredResorts(newResortsData);
+      setTotalPages(newResortsData?.totalPages);
 
       setCurrentPage(newPage);
     } catch (error) {
