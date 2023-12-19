@@ -31,6 +31,7 @@ import ModalEditApartment from './components/modal/ModalEditApartment';
 import { GuestProvider } from './apartment/GuestContext';
 import ModalDeactiveResort from './components/modal/ModalDeactiveResort';
 import ModalMaintanceResort from './components/modal/ModalMaintanceResort';
+import ModalEditResortAmenities from './components/modal/ModalEditResortAmenities';
 
 const font = Poppins({
   subsets: ['latin'],
@@ -76,6 +77,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                     <ModalEditApartment />
                     <ModalDeactiveResort />
                     <ModalMaintanceResort />
+                    <ModalEditResortAmenities />
                     <ToasterProvider />
                   </ClientOnly>
 

@@ -46,7 +46,7 @@ const CurrentBooking: React.FC<CurrentBookingProps> = ({ historyBooking }) => {
         ))} */}
 
       {historyBookingList.length > 0 ? (
-        historyBookingList.map((item: any, index: number) => (
+        historyBookingList.reverse().map((item: any, index: number) => (
           <div
             onClick={() => router.push(`/dashboard/myBooking/${item.bookingId}`)}
             key={item.bookingId}

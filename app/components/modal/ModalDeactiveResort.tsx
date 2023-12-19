@@ -66,7 +66,7 @@ export default function ModalDeactiveResort() {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-center">
+      <div className="flex flex-col justify-center">
         <InputComponent
           register={register}
           label="Start date deactive"
@@ -75,13 +75,25 @@ export default function ModalDeactiveResort() {
           type="date"
           errors={errors}
         />
+        <InputComponent
+          register={register}
+          label="Script"
+          required={true}
+          id="script"
+          type="text"
+          errors={errors}
+        />
       </div>
 
-       <UploadImageCreateOwnership
+      
+      <div>
+          <label className="pb-1">Report Image</label>
+         <UploadImageCreateOwnership
             handeChangeNewImages={handeChangeNewImages}
             handleDeleteImage={handleDeleteImage}
             mutiple={true}
           />
+      </div>
     </div>
   );
 
