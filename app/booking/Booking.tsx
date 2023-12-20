@@ -10,6 +10,7 @@ import BookingInformation from './BookingInformation';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useParams } from 'next/navigation';
 import useNewDateRange from '../hooks/useNewDateRange';
+import useRecharge from '../hooks/useRecharge';
 
 interface BookingProps {
   currentUser?: any;
@@ -18,7 +19,9 @@ interface BookingProps {
 const Booking: React.FC<BookingProps> = ({ currentUser }) => {
   const [selectedRoomData, setSelectedRoomData] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
+  const recharge = useRecharge();
   const searchParams = useSearchParams();
+  const pathName = usePathname();
   const availableTimeId = searchParams?.get('availableTimeId');
   const userId = searchParams?.get('userId');
   const apartmentImage = searchParams?.get('apartmentImage');
@@ -34,6 +37,28 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
   const username = searchParams?.get('username');
   const rating = searchParams?.get('rating');
   const resortName = searchParams?.get('resortName');
+
+  useEffect(() => {
+    recharge.onBookingLink(
+      `/booking?availableTimeId=${availableTimeId}&apartmentImage=${apartmentImage}&aparmentName=${apartmentName}&priceNight=${priceNight}&userId=${userId}&totalPrice=${totalPrice}&totalGuest=${totalGuest}&dateRangeBooking=${dateRangeBooking}&dateRange=${dateRange}&apartmentAllowGuest=${apartmentAllowGuest}&avatar=${avatar}&fullName=${fullName}&rating=${rating}&resortName=${resortName}&username=${username}`
+    );
+  }, [
+    availableTimeId,
+    apartmentImage,
+    apartmentName,
+    priceNight,
+    userId,
+    totalPrice,
+    totalGuest,
+    dateRangeBooking,
+    dateRange,
+    apartmentAllowGuest,
+    avatar,
+    fullName,
+    rating,
+    resortName,
+    username,
+  ]);
 
   return (
     <Container className="bg-white">

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
+import useRecharge from '@/app/hooks/useRecharge';
 
 interface RechargeCardProps {
   point: any;
@@ -18,8 +19,12 @@ const RechargeCard: React.FC<RechargeCardProps> = ({ point }) => {
   const [orderInfor, setOrderInfor] = useState('nap_tien_vnp');
   const [returnUrl, setReturnUrl] = useState<any>();
   const axiosAuthClient = useAxiosAuthClient();
+  const recharge = useRecharge();
+  const isRecharge = recharge.isRecharge;
   const router = useRouter();
   const { data: session } = useSession();
+
+  console.log('Check is recharge', isRecharge);
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
@@ -82,10 +87,21 @@ const RechargeCard: React.FC<RechargeCardProps> = ({ point }) => {
         config
       )
       .then((response) => {
+        if (isRecharge === true) {
+          recharge.onRechargeReset();
+          recharge.onBackBooking();
+        }
+
         router.push(response.data.url);
+
+        
       })
       .catch((response) => {
         console.log('Response', response.response.data.message);
+
+        if (isRecharge === true) {
+          recharge.onRechargeReset();
+        }
         toast.error(response.response.data.message);
       });
   };
@@ -95,6 +111,8 @@ const RechargeCard: React.FC<RechargeCardProps> = ({ point }) => {
       setAmount((Number(amountPoint) * Number(point.pointPrice)).toString());
     }
   }, [point, amountPoint]);
+
+  console.log('Check booking back', recharge.bookingLink);
 
   return (
     <div className="px-20">

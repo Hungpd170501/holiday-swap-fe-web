@@ -16,6 +16,7 @@ import { useGuest } from '../apartment/GuestContext';
 import { Button, Modal } from 'flowbite-react';
 import useNewDateRange from '../hooks/useNewDateRange';
 import InputPhone from '../components/input/InputPhone';
+import useRecharge from '../hooks/useRecharge';
 
 interface BookingInformationProps {
   totalGuest?: any;
@@ -59,6 +60,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
   const editDateBookingModal = useEditDateBookingModal();
   const editGuestBookingModal = useEditGuestBookingModal();
   const newDateRange = useNewDateRange();
+  const recharge = useRecharge();
   const isNew = newDateRange.isNew;
   const isSave = editGuestBookingModal.isSave;
   const {
@@ -93,6 +95,11 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
       })
       .catch((response) => {
         toast.error(response.response.data.message);
+
+        if (response.response.data.message.includes('does not have enough balance')) {
+          router.push('/recharge');
+          recharge.onRecharge();
+        }
       })
       .finally(() => {
         setIsLoading(false);

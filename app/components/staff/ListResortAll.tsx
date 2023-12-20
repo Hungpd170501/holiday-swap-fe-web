@@ -54,6 +54,11 @@ const statusList = [
     icon: BiBlock,
     color: '#e62538',
   },
+  {
+    status: 'MAINTANCE',
+    icon: MdOutlinePending,
+    color: '#F49925',
+  },
 ];
 
 function createData(
@@ -182,7 +187,7 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                 className="!bg-white !text-black !text-[17px] !font-semibold"
                 align="left"
               >
-                Adress
+                Address
               </StyledTableCell>
               <StyledTableCell
                 className="!bg-white !text-black !text-[17px] !font-semibold"
@@ -237,7 +242,7 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                         className={`py-2 px-1 text-sm text-center  bg-slate-200 font-bold rounded-md ${
                           statusText === 'ACTIVE' ? 'text-green-500' : ''
                         } ${statusText === 'DEACTIVATE' ? 'text-rose-500' : ''} ${
-                          statusText === 'NO_LONGER_IN_BUSINESS' ? 'text-orange-500' : ''
+                          statusText === 'MAINTANCE' ? 'text-orange-500' : ''
                         }`}
                       >
                         {statusText}
@@ -247,7 +252,43 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                 </StyledTableCell>
 
                 <StyledTableCell className="!py-5 !text-green-500 " align="right">
-                  {row.status === 'ACTIVE' && (
+                   <Dropdown
+                              label=""
+                              dismissOnClick={false}
+                              renderTrigger={() => (
+                                <span className="text-sky-500 hover:underline cursor-pointer">
+                                  Edit
+                                </span>
+                              )}
+                            >
+                  {(() => {
+                    if (row.status === 'ACTIVE') {
+                      return (
+                        <React.Fragment>
+                          {statusList.slice(1, 3).map((item: any, index: number) => (
+                           
+                              <>
+                                <Dropdown.Item
+                                  key={index}
+                                  value={item.status}
+                                  className="flex items-center gap-2"
+                                  onClick={
+                                    item.status === 'DEACTIVE' ? deactiveResortModal.onOpen : maintanceResortModal.onOpen
+                                  }
+                                >
+                                  <item.icon size={18} color={'red'} />
+
+                                  <span className={`text-[${item.color}]`}>{item.status}</span>
+                                </Dropdown.Item>
+                              </>
+                            
+                          ))}
+                        </React.Fragment>
+                      );
+                    }
+                  })()}
+                  </Dropdown>
+                  {/* {row.status === 'ACTIVE' && (
                     <Dropdown
                       label=""
                       dismissOnClick={false}
@@ -268,7 +309,7 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                         </Dropdown.Item>
                       </>
                     </Dropdown>
-                  )}
+                  )} */}
                 </StyledTableCell>
               </StyledTableRow>
             ))}
