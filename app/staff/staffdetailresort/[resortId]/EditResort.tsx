@@ -118,7 +118,7 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail, params }) => {
             key={detail.resortImages[0]?.id}
             alt="image"
             fill
-            src={resortDetail?.resortImages[0]?.link}
+            src={detail?.resortImages[0]?.link}
             className="w-[100%] md:object-cover md:h-full md:cursor-pointer lg:object-cover lg:h-full lg:cursor-pointer xl:object-cover xl:h-full xl:cursor-pointer"
           />
           <Link
@@ -160,7 +160,30 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail, params }) => {
         </div>
       </div>
 
+      <div className="flex flex-col gap-2 mt-7 border border-slate-300 rounded-lg shadow-lg bg-white hover:-translate-y-3 hover:duration-500 translate-y-0 duration-500">
+        <div className="p-6">
+          <div>
+            <div className="text-lg font-bold">Maintanance time</div>
+            <ul className="list-disc px-5">
+              <li className="border-b p-2 border-slate-300">09/09/2021 - 09/10/2021</li>
+              <li className="border-b p-2 border-slate-300">09/09/2021 - 09/10/2021</li>
+              <li className="p-2">09/09/2021 - 09/10/2021</li>
+            </ul>
+          </div>
+          <div>
+            <div className="text-lg font-bold">Deactive time</div>
+            <ul className="list-disc px-5">
+              <li className="border-b p-2 border-slate-300">09/09/2021 - 09/10/2021</li>
+              <li className="border-b p-2 border-slate-300">09/09/2021 - 09/10/2021</li>
+              <li className="p-2">09/09/2021 - 09/10/2021</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col pt-4"></div>
       <div className="w-full h-[700px] pt-20 pb-3 rounded-lg ">
+        <div className="text-xl font-bold pb-3">Address</div>
         <MapResort
           latitude={detail.latitude}
           id={detail.id}

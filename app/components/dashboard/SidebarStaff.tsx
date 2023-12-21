@@ -115,6 +115,12 @@ const SidebarStaff = () => {
       icon: PiNotepadBold,
       current: pathName?.includes('/staff/listmember') ? true : false,
     },
+    {
+      name: 'List Issue Booking',
+      href: '/staff/issue',
+      icon: PiNotepadBold,
+      current: pathName?.includes('/staff/issue') ? true : false,
+    },
     // {
     //   name: 'Upgrade Member',
     //   href: '/staff/upgrademembership',

@@ -156,12 +156,7 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
       });
   };
 
-  React.useEffect(() => {
-    if (isSuccess === true) {
-      filterResorts();
-      deactiveResortModal.onSuccessReset();
-    }
-  }, [isSuccess]);
+  
 
   return (
     <>
