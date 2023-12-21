@@ -181,7 +181,7 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail, params }) => {
         </div>
       </div>
 
-      <div className="flex flex-col pt-4"></div>
+      <div className="flex flex-col"></div>
       <div className="w-full h-[700px] pt-20 pb-3 rounded-lg ">
         <div className="text-xl font-bold pb-3">Address</div>
         <MapResort
@@ -191,7 +191,7 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail, params }) => {
           longitude={detail.longitude}
         />
       </div>
-      <div className="flex flex-row items-center">
+      <div className="flex flex-row items-center mt-10">
         <div className=" w-full">
           <div className="text-[25px] py-[30px]">Detail</div>
           <div className="pr-[30px]">
