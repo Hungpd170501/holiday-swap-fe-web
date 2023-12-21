@@ -5,47 +5,64 @@ import React, { useCallback, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import Heading from '../Heading';
 import InputComponent from '../input/Input';
-import Modal from './Modal';
 import { signIn } from 'next-auth/react';
 import { toast } from 'react-hot-toast';
 import { BiArrowBack } from 'react-icons/bi';
 import useDeactiveResortModal from '@/app/hooks/useDeactiveResortModal';
 import UploadImageCreateOwnership from './UploadImageCreateOwnership';
+import { format } from 'date-fns';
+import axios from 'axios';
+import { Modal, Button } from 'flowbite-react';
+import ModalCreate from './ModalCreate';
 
 export default function ModalDeactiveResort() {
   const router = useRouter();
   const deactiveResortModal = useDeactiveResortModal();
+  const resortId = deactiveResortModal.resortId;
+  const resortStatus = deactiveResortModal.resortStatus;
   const [isLoading, setIsLoading] = useState(false);
   const [isForgotPasswordModalOpen, setIsForgotPasswordModalOpen] = useState(false);
-  const [file, setFile] = useState<any[]>([])
+  const [file, setFile] = useState<any[]>([]);
+  const [openModal, setOpenModal] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FieldValues>({
     defaultValues: {
-      email: '',
-      password: '',
+      startDateDeactive: '',
     },
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
-    if (isForgotPasswordModalOpen) {
-    } else {
-      signIn('credentials', { ...data, redirect: false }).then(async (callback) => {
-        setIsLoading(false);
-        if (callback?.ok) {
-          toast.success('Logged in');
-          router.refresh();
-        }
+    const body = {
+      resortId: resortId,
+      resortStatus: resortStatus,
+      startDate: format(new Date(data.startDateDeactive), 'yyyy-MM-dd') + 'T00:00',
+      endDate: null,
+    };
 
-        if (callback?.error) {
-          toast.error('Invalid email or password');
-        }
+    axios
+      .put(`https://holiday-swap.click/api/v1/resorts/updateStatus`, body, {
+        headers: { 'Content-Type': 'application/json' },
+      })
+      .then(() => {
+        toast.success('Updated status successfully!');
+        deactiveResortModal.onSuccess();
+        deactiveResortModal.onClose();
+        reset();
+      })
+      .catch((response) => {
+        toast.error(response.response.data.message);
+        deactiveResortModal.onClose();
+      })
+      .finally(() => {
+        setIsLoading(false);
+        setOpenModal(false);
       });
-    }
   };
 
   const toggleCreateAccountModal = useCallback(() => {
@@ -53,7 +70,6 @@ export default function ModalDeactiveResort() {
     deactiveResortModal.onClose();
   }, []);
 
-  
   const handleDeleteImage = (image: any) => {
     setFile(file.filter((prev) => prev.size !== image.size));
   };
@@ -75,36 +91,53 @@ export default function ModalDeactiveResort() {
           type="date"
           errors={errors}
         />
-        <InputComponent
+        {/* <InputComponent
           register={register}
           label="Script"
           required={true}
           id="script"
           type="text"
           errors={errors}
-        />
+        /> */}
       </div>
 
-      
-      <div>
+      {/* <div>
           <label className="pb-1">Report Image</label>
          <UploadImageCreateOwnership
             handeChangeNewImages={handeChangeNewImages}
             handleDeleteImage={handleDeleteImage}
             mutiple={true}
           />
-      </div>
+      </div> */}
+      <Modal show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal.Header>Deactive resort</Modal.Header>
+        <Modal.Body>
+          <div className="space-y-6">
+            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+              Are you want to deactive resort?
+            </p>
+          </div>
+        </Modal.Body>
+        <Modal.Footer className="flex justify-end">
+          <Button color="red" className="font-bold text-lg" onClick={handleSubmit(onSubmit)}>
+            Continue
+          </Button>
+          <Button color="gray" className="text-lg" onClick={() => setOpenModal(false)}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 
   return (
-    <Modal
+    <ModalCreate
       disabled={isLoading}
       isOpen={deactiveResortModal.isOpen}
       title={'Deactive Resort'}
       actionLabel={'Deactive'}
       onClose={deactiveResortModal.onClose}
-      onSubmit={deactiveResortModal.onClose}
+      onSubmit={() => setOpenModal(false)}
       body={bodyContent}
     />
   );

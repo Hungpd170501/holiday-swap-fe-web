@@ -11,14 +11,23 @@ import { PiSquaresFourLight } from 'react-icons/pi';
 import Link from 'next/link';
 import { Drawer, DrawerProps } from 'antd';
 import ViewFullImage from '@/app/components/apartment/ViewFullImage';
+import useDeactiveResortModal from '@/app/hooks/useDeactiveResortModal';
+import GetResortById from '@/app/actions/getResortById';
+import useMaintanceResortModal from '@/app/hooks/useMaintanceResortModal';
 
 interface EditResortProps {
   resortDetail: any;
+  params: any;
 }
 
-const EditResort: React.FC<EditResortProps> = ({ resortDetail }) => {
+const EditResort: React.FC<EditResortProps> = ({ resortDetail, params }) => {
   const [open, setOpen] = useState(false);
+  const [detail, setDetail] = useState(resortDetail);
   const [placement, setPlacement] = useState<DrawerProps['placement']>('bottom');
+  const deactiveResortModal = useDeactiveResortModal();
+  const maintanceResortModal = useMaintanceResortModal();
+  const isSuccess = deactiveResortModal.isSuccess;
+  const isSuccessMaintance = maintanceResortModal.isSuccess;
 
   const showDrawer = () => {
     setOpen(true);
@@ -27,24 +36,43 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail }) => {
   const onClose = () => {
     setOpen(false);
   };
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      if (isSuccess === true || isSuccessMaintance === true) {
+        const newData = await GetResortById(params);
+        if (newData) {
+          setDetail(newData);
+
+          if (isSuccess) {
+            deactiveResortModal.onSuccessReset();
+          } else if (isSuccessMaintance) {
+            maintanceResortModal.onSuccessReset();
+          }
+        }
+      }
+    };
+    fetchData();
+  }, [isSuccess, params]);
+
   return (
     <Fragment>
       <div className="">
         <div className="flex-col">
           <div className="pb-6 w-full flex flex-row items-center justify-between">
             <div className="flex flex-col gap-3">
-              <div className="pt-10  text-[40px]">{resortDetail.resortName}</div>
+              <div className="pt-10  text-[40px]">{detail.resortName}</div>
               <div className="flex flex-row items-center gap-1">
                 <div className="font-bold text-[20px]">Address: </div>
-                <div>{resortDetail.addressLine}</div>
+                <div>{detail.addressLine}</div>
               </div>
               <div className="flex flex-row items-center gap-1">
                 <div className="font-bold text-[20px]">Property type: </div>
                 <div>
-                  {resortDetail.propertyTypes.map((row: any, index: any) => (
+                  {detail.propertyTypes.map((row: any, index: any) => (
                     <React.Fragment key={index}>
                       <span className="inline-block">{row.propertyTypeName}</span>
-                      {index < resortDetail.propertyTypes.length - 1 && <span>, </span>}
+                      {index < detail.propertyTypes.length - 1 && <span>, </span>}
                     </React.Fragment>
                   ))}
                 </div>
@@ -52,7 +80,7 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail }) => {
               <div className="flex flex-row  gap-1">
                 <div className="font-bold text-[20px]">Amenity: </div>
                 <div>
-                  {resortDetail.resortAmenityTypes.map((row: any, index: any) => (
+                  {detail.resortAmenityTypes.map((row: any, index: any) => (
                     <React.Fragment key={index}>
                       {row?.resortAmenities?.map((item: any, index: number) => (
                         <span key={index} className="inline-block">
@@ -64,9 +92,20 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail }) => {
                   ))}
                 </div>
               </div>
+
+              <div className="flex flex-row gap-1 items-center">
+                <div className="font-bold text-[20px]">Status: </div>
+                <div
+                  className={`font-bold ${
+                    detail.status === 'ACTIVE' ? 'text-green-500' : 'text-orange-500'
+                  }`}
+                >
+                  {detail.status}
+                </div>
+              </div>
             </div>
             <div>
-              <DropDownEditResort resortId={resortDetail.id} />
+              <DropDownEditResort resortId={detail.id} resortStatus={detail.status} />
             </div>
           </div>
         </div>
@@ -76,7 +115,7 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail }) => {
         <div className=" w-full h-80  relative md:w-full md:rounded-l-xl md:h-96 md:relative md:overflow-hidden lg:w-full lg:h-auto lg:rounded-l-xl lg:relative lg:overflow-hidden xl:h-auto xl:w-full xl:rounded-l-xl xl:relative xl:overflow-hidden ">
           <Image
             onClick={showDrawer}
-            key={resortDetail.resortImages[0]?.id}
+            key={detail.resortImages[0]?.id}
             alt="image"
             fill
             src={resortDetail?.resortImages[0]?.link}
@@ -93,7 +132,7 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail }) => {
 
         <div className="relative hidden md:block md:relative lg:block lg:relative xl:block xl:relative">
           <div className="hidden md:grid md:grid-cols-2 md:gap-2 md:rounded-r-xl lg:grid lg:grid-cols-2 lg:gap-2 lg:rounded-r-xl xl:grid xl:grid-cols-2 xl:gap-2 xl:rounded-r-xl">
-            {resortDetail.resortImages.slice(1, 5).map((item: any, index: number) => (
+            {detail.resortImages.slice(1, 5).map((item: any, index: number) => (
               <div
                 key={item.id}
                 className={`w-full md:h-[189px] lg:h-[220px] relative overflow-hidden  md:block ${
@@ -123,17 +162,17 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail }) => {
 
       <div className="w-full h-[700px] pt-20 pb-3 rounded-lg ">
         <MapResort
-          latitude={resortDetail.latitude}
-          id={resortDetail.id}
-          resortName={resortDetail.resortName}
-          longitude={resortDetail.longitude}
+          latitude={detail.latitude}
+          id={detail.id}
+          resortName={detail.resortName}
+          longitude={detail.longitude}
         />
       </div>
       <div className="flex flex-row items-center">
         <div className=" w-full">
           <div className="text-[25px] py-[30px]">Detail</div>
           <div className="pr-[30px]">
-            <div className="pb-[10px]">{resortDetail.resortDescription}</div>
+            <div className="pb-[10px]">{detail.resortDescription}</div>
           </div>
           {/* 
           <div className="py-5 ">
@@ -173,7 +212,7 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail }) => {
         </div>
       </div>
       <Drawer placement={placement} width={500} onClose={onClose} open={open}>
-        <ViewFullImage listImage={resortDetail.resortImages} />
+        <ViewFullImage listImage={detail.resortImages} />
       </Drawer>
     </Fragment>
   );

@@ -22,6 +22,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import useDeactiveResortModal from '@/app/hooks/useDeactiveResortModal';
 import useMaintanceResortModal from '@/app/hooks/useMaintanceResortModal';
+import { useRouter } from 'next/navigation';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -80,6 +81,8 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
   const [totalPages, setTotalPages] = React.useState<number>(resorts?.totalPages);
   const deactiveResortModal = useDeactiveResortModal();
   const [resortName, setResortName] = React.useState<string>('');
+  const isSuccess = deactiveResortModal.isSuccess;
+  const router = useRouter();
 
   const maintanceResortModal = useMaintanceResortModal();
   const [isChangeStatus, setIsChangeStatus] = React.useState(false);
@@ -152,6 +155,14 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
         });
       });
   };
+
+  React.useEffect(() => {
+    if (isSuccess === true) {
+      filterResorts();
+      deactiveResortModal.onSuccessReset();
+    }
+  }, [isSuccess]);
+
   return (
     <>
       <div className="mt-2">
@@ -221,8 +232,8 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                 <StyledTableCell>
                   <div className="line-clamp-1">{row.addressLine}</div>
                 </StyledTableCell>
-                <StyledTableCell className="!py-5 line-clamp-3" align="left">
-                  {row.propertyTypes.map((item: any, index: number) => (
+                <StyledTableCell className="!py-5" align="left">
+                  {row.propertyTypes.slice(0, 3).map((item: any, index: number) => (
                     <div key={index}>{item.propertyTypeName}</div>
                   ))}
                 </StyledTableCell>
@@ -252,42 +263,40 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                 </StyledTableCell>
 
                 <StyledTableCell className="!py-5 !text-green-500 " align="right">
-                   <Dropdown
-                              label=""
-                              dismissOnClick={false}
-                              renderTrigger={() => (
-                                <span className="text-sky-500 hover:underline cursor-pointer">
-                                  Edit
-                                </span>
-                              )}
-                            >
-                  {(() => {
-                    if (row.status === 'ACTIVE') {
-                      return (
-                        <React.Fragment>
-                          {statusList.slice(1, 3).map((item: any, index: number) => (
-                           
+                  {/* <Dropdown
+                    label=""
+                    dismissOnClick={false}
+                    renderTrigger={() => (
+                      <span className="text-sky-500 hover:underline cursor-pointer">Edit</span>
+                    )}
+                  >
+                    {(() => {
+                      if (row.status === 'ACTIVE') {
+                        return (
+                          <React.Fragment>
+                            {statusList.slice(1, 3).map((item: any, index: number) => (
                               <>
                                 <Dropdown.Item
                                   key={index}
                                   value={item.status}
                                   className="flex items-center gap-2"
-                                  onClick={
-                                    item.status === 'DEACTIVE' ? deactiveResortModal.onOpen : maintanceResortModal.onOpen
-                                  }
+                                  onClick={() => {
+                                    item.status === 'DEACTIVATE'
+                                      ? deactiveResortModal.onOpen(row.id, item.status)
+                                      : maintanceResortModal.onOpen();
+                                  }}
                                 >
                                   <item.icon size={18} color={'red'} />
 
                                   <span className={`text-[${item.color}]`}>{item.status}</span>
                                 </Dropdown.Item>
                               </>
-                            
-                          ))}
-                        </React.Fragment>
-                      );
-                    }
-                  })()}
-                  </Dropdown>
+                            ))}
+                          </React.Fragment>
+                        );
+                      }
+                    })()}
+                  </Dropdown> */}
                   {/* {row.status === 'ACTIVE' && (
                     <Dropdown
                       label=""
@@ -310,6 +319,12 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                       </>
                     </Dropdown>
                   )} */}
+                  <span
+                    onClick={() => router.push(`/staff/staffdetailresort/${row.id}`)}
+                    className="text-common underline hover:cursor-pointer"
+                  >
+                    View detail
+                  </span>
                 </StyledTableCell>
               </StyledTableRow>
             ))}
