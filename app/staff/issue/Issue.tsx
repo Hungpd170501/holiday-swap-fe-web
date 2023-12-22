@@ -80,7 +80,10 @@ const Issue: React.FC<IssueProps> = ({ issue }) => {
                   <Table.Cell className="text-green-500 font-bold">{item.status}</Table.Cell>
                   <Table.Cell>
                     <div className="flex gap-3">
-                      <div className="font-medium text-cyan-600 hover:underline hover:cursor-pointer dark:text-cyan-500">
+                      <div
+                        onClick={() => router.push(`/staff/issue/${item.id}`)}
+                        className="font-medium text-cyan-600 hover:underline hover:cursor-pointer dark:text-cyan-500"
+                      >
                         View detail
                       </div>
                     </div>
