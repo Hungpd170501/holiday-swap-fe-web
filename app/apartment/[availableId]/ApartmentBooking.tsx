@@ -147,6 +147,8 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
       toast('Only membership are allowed to booking!', {
         icon: '🚫',
       });
+    } else if (totalPrice <= 0) {
+      toast.error('Please choose check-in and check-out day to booking!');
     } else {
       router.push(
         `/booking?availableTimeId=${apartment.availableTime.id}&apartmentImage=${

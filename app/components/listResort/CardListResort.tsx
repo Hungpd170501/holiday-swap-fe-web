@@ -54,7 +54,7 @@ const CardListResort: React.FC<CardListResortProps> = ({ data }) => {
           }
           className="w-full "
         >
-          <div className="text-base font-bold">{data?.property.propertyName}</div>
+          <div className="text-base font-bold line-clamp-1">{data?.property.propertyName}</div>
           <div className="text-gray-600 text-base ">{data?.resort.resortName}</div>
           <div className="text-gray-600 text-base">
             Owner by: {data?.user.fullName ? data?.user.fullName : data?.user.username}

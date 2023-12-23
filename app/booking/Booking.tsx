@@ -11,6 +11,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { useParams } from 'next/navigation';
 import useNewDateRange from '../hooks/useNewDateRange';
 import useRecharge from '../hooks/useRecharge';
+import { useDateRange } from '../apartment/DateRangeContext';
 
 interface BookingProps {
   currentUser?: any;
@@ -20,6 +21,8 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
   const [selectedRoomData, setSelectedRoomData] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   const recharge = useRecharge();
+  const isBackBooking = recharge.isBackBooking;
+  const isNewDateRange = recharge.isNewDateRange;
   const searchParams = useSearchParams();
   const pathName = usePathname();
   const availableTimeId = searchParams?.get('availableTimeId');
@@ -37,9 +40,12 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
   const username = searchParams?.get('username');
   const rating = searchParams?.get('rating');
   const resortName = searchParams?.get('resortName');
+  const [bookingLink, setBookingLink] = useState<string>('');
+
+  const { dateRangeContext, setDateRangeContext, setDateRangeDefaultContext } = useDateRange();
 
   useEffect(() => {
-    recharge.onBookingLink(
+    setBookingLink(
       `/booking?availableTimeId=${availableTimeId}&apartmentImage=${apartmentImage}&aparmentName=${apartmentName}&priceNight=${priceNight}&userId=${userId}&totalPrice=${totalPrice}&totalGuest=${totalGuest}&dateRangeBooking=${dateRangeBooking}&dateRange=${dateRange}&apartmentAllowGuest=${apartmentAllowGuest}&avatar=${avatar}&fullName=${fullName}&rating=${rating}&resortName=${resortName}&username=${username}`
     );
   }, [
@@ -59,6 +65,34 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
     resortName,
     username,
   ]);
+
+  useEffect(() => {
+    if (bookingLink) {
+      localStorage.setItem('bookingLink', bookingLink);
+    }
+  }, [bookingLink]);
+
+  useEffect(() => {
+    if (isBackBooking === false) {
+      recharge.onNewDateRange();
+      recharge.onBackBooking();
+    }
+  }, [isBackBooking]);
+
+  useEffect(() => {
+    if (isNewDateRange === true && dateRange && dateRangeBooking) {
+      setDateRangeContext(JSON.parse(dateRange));
+      setDateRangeDefaultContext(JSON.parse(dateRangeBooking));
+      recharge.onNewDateRangeReset();
+    }
+  }, [isNewDateRange, dateRange, dateRangeBooking]);
+
+  // useEffect(() => {
+  //   if (performance.navigation.type === 1 && dateRange && dateRangeBooking) {
+  //     setDateRangeContext(JSON.parse(dateRange));
+  //     setDateRangeDefaultContext(JSON.parse(dateRangeBooking));
+  //   }
+  // }, [performance, dateRange, dateRangeBooking]);
 
   return (
     <Container className="bg-white">

@@ -75,8 +75,8 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
     const bookingData = {
       availableTimeId: availableTimeId,
       userId: userId,
-      checkInDate: format(dateRangeContext.startDate, 'yyyy-MM-dd'),
-      checkOutDate: format(dateRangeContext.endDate, 'yyyy-MM-dd'),
+      checkInDate: format(new Date(dateRangeContext.startDate), 'yyyy-MM-dd'),
+      checkOutDate: format(new Date(dateRangeContext.endDate), 'yyyy-MM-dd'),
       numberOfGuest: totalGuestContext,
       userOfBookingRequests: guests.map((item, index) => ({
         email: data[`email${index}`], // Use the indexed email field
@@ -159,10 +159,10 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
             <div className="flex flex-col gap-2">
               <div className="text-base text-black font-semibold">Dates</div>
               <div className="text-gray-600">
-                {dateRangeContext && (
+                {dateRangeContext && dateRangeContext?.startDate && dateRangeContext?.endDate && (
                   <Fragment>
-                    {format(dateRangeContext?.startDate, 'd MMM')} -{' '}
-                    {format(dateRangeContext?.endDate, 'd MMM yyyy')}
+                    {format(new Date(dateRangeContext?.startDate), 'd MMM')} -{' '}
+                    {format(new Date(dateRangeContext?.endDate), 'd MMM yyyy')}
                   </Fragment>
                 )}
               </div>

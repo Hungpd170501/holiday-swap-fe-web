@@ -1,7 +1,7 @@
 'use client';
 
 import Container from '@/app/components/Container';
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
@@ -18,7 +18,7 @@ const RechargeSuccess = () => {
   const moneyTransferId = pathName?.slice(18, 23);
   const recharge = useRecharge();
   const isBackBooking = recharge.isBackBooking;
-  const bookingLink = recharge.bookingLink;
+  const [bookingLink, setBookingLink] = useState<string>('');
   const axiosAuthClient = useAxiosAuthClient();
 
   useEffect(() => {
@@ -28,12 +28,20 @@ const RechargeSuccess = () => {
       )
       .then(() => {
         if (isBackBooking === true) {
-          console.log("Chay vo day ko")
-          router.push(bookingLink);
-          // recharge.onBackBookingReset();
+          const newBookingLink = localStorage.getItem('bookingLink');
+          if (newBookingLink) {
+            setBookingLink(newBookingLink);
+          }
         }
       });
   }, [pathName, isBackBooking, bookingLink]);
+
+  useEffect(() => {
+    if (bookingLink) {
+      router.push(bookingLink);
+      recharge.onBackBookingReset();
+    }
+  }, [bookingLink]);
 
   console.log('Check booking back', isBackBooking);
 

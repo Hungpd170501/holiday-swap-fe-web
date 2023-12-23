@@ -223,7 +223,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
             )}
           </div>
           <div className="text-gray-500">
-            {dateRangeContext && (
+            {dateRangeContext && dateRangeContext?.startDate && dateRangeContext?.endDate && (
               <Fragment>
                 {new Date(dateRangeContext?.startDate).getTime() ===
                 new Date(dateRangeContext?.endDate).getTime()
@@ -245,8 +245,8 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
                 setDateRangeContext(value.selection);
               }}
               className="w-[100%] !text-[1em]"
-              minDate={dateRangeDefaultContext?.startDate}
-              maxDate={dateRangeDefaultContext?.endDate}
+              minDate={new Date(dateRangeDefaultContext?.startDate)}
+              maxDate={new Date(dateRangeDefaultContext?.endDate)}
               disabledDates={dateOut}
             />
           ) : (
@@ -262,8 +262,8 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
                 setDateRangeContext(value.selection);
               }}
               className="w-[100%] !text-[1em]"
-              minDate={dateRangeDefaultContext?.startDate}
-              maxDate={dateRangeDefaultContext?.endDate}
+              minDate={new Date(dateRangeDefaultContext?.startDate)}
+              maxDate={new Date(dateRangeDefaultContext?.endDate)}
               disabledDates={dateOut}
             />
           ) : (
