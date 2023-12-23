@@ -258,62 +258,6 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                 </StyledTableCell>
 
                 <StyledTableCell className="!py-5 !text-green-500 " align="right">
-                  {/* <Dropdown
-                    label=""
-                    dismissOnClick={false}
-                    renderTrigger={() => (
-                      <span className="text-sky-500 hover:underline cursor-pointer">Edit</span>
-                    )}
-                  >
-                    {(() => {
-                      if (row.status === 'ACTIVE') {
-                        return (
-                          <React.Fragment>
-                            {statusList.slice(1, 3).map((item: any, index: number) => (
-                              <>
-                                <Dropdown.Item
-                                  key={index}
-                                  value={item.status}
-                                  className="flex items-center gap-2"
-                                  onClick={() => {
-                                    item.status === 'DEACTIVATE'
-                                      ? deactiveResortModal.onOpen(row.id, item.status)
-                                      : maintanceResortModal.onOpen();
-                                  }}
-                                >
-                                  <item.icon size={18} color={'red'} />
-
-                                  <span className={`text-[${item.color}]`}>{item.status}</span>
-                                </Dropdown.Item>
-                              </>
-                            ))}
-                          </React.Fragment>
-                        );
-                      }
-                    })()}
-                  </Dropdown> */}
-                  {/* {row.status === 'ACTIVE' && (
-                    <Dropdown
-                      label=""
-                      dismissOnClick={false}
-                      renderTrigger={() => (
-                        <span className="text-sky-500 hover:underline cursor-pointer">Edit</span>
-                      )}
-                    >
-                      <>
-                        <Dropdown.Item
-                          key={index}
-                          value={'DEACTIVE'}
-                          className="flex items-center gap-2"
-                          onClick={deactiveResortModal.onOpen}
-                        >
-                          <BiBlock size={18} color={'red'} />
-
-                          <span className={`text-red-500`}>DEACTIVE</span>
-                        </Dropdown.Item>
-                      </>
-                    </Dropdown>
-                  )} */}
                   <span
                     onClick={() => router.push(`/staff/staffdetailresort/${row.id}`)}
                     className="text-common underline hover:cursor-pointer"
