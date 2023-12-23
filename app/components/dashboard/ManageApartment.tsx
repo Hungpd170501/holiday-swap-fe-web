@@ -110,8 +110,8 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
           toast.error(response.response.data.message);
         })
         .finally(() => {
-          setOpenModal(false)
-        })
+          setOpenModal(false);
+        });
     }
   };
 
@@ -197,7 +197,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                                       </div>
 
                                       <div className="w-full">
-                                        Price/night:{' '}
+                                        Point/night:{' '}
                                         <span className="text-common">
                                           {available.pricePerNight}
                                         </span>

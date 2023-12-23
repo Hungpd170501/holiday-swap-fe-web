@@ -387,7 +387,7 @@ export default function ModalCreatePublicTime() {
       <div className="grid grid-cols-1">
         <InputComponent
           id="pricePerNight"
-          label="Price/Night"
+          label="Point/Night"
           type="number"
           min={1}
           register={register}
