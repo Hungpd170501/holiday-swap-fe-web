@@ -113,7 +113,7 @@ const ListResortAmenities = () => {
             {amenitiesList?.map((item: any, index: any) => (
               <Table.Row key={item.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {index + 1}
+                  {pageable.pageNo * pageable.pageSize + index + 1}
                 </Table.Cell>
                 <Table.Cell>{item.inRoomAmenityName}</Table.Cell>
                 <Table.Cell>{item.inRoomAmenityDescription}</Table.Cell>
@@ -127,7 +127,7 @@ const ListResortAmenities = () => {
                     alt="icon"
                   />
                 </Table.Cell>
-                <Table.Cell className="flex flex-row gap-3">
+                <Table.Cell className="flex flex-row gap-3 items-center">
                   <div className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer">
                     Edit
                   </div>
@@ -139,7 +139,6 @@ const ListResortAmenities = () => {
                     className="font-medium text-rose-600 hover:underline hover:cursor-pointer dark:text-rose-500"
                   >
                     Delete
-
                   </div>
                 </Table.Cell>
               </Table.Row>

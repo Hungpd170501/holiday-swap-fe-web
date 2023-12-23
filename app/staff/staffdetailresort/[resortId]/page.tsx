@@ -26,7 +26,7 @@ export default async function StaffDetailResort({ params }: { params: IParams })
       <div className="">
         Staff {'>'} <span className="text-common">Detail Resort</span>
       </div>
-      <EditResort resortDetail={resortDetail} />
+      <EditResort resortDetail={resortDetail} params={params} />
     </div>,
     [3]
   );

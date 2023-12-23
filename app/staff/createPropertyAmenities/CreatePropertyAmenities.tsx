@@ -115,7 +115,7 @@ const CreatePropertyAmenities: React.FC<CreatePropertyAmenitiesProps> = ({ ameni
             />
           </div>
           <div className="py-4">
-            <Label value="Resort Amenity Type" />
+            <Label value="Property Amenity Type" />
             <Select
               value={amenityId}
               onChange={(e: ChangeEvent<HTMLSelectElement>) =>

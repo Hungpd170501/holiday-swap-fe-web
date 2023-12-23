@@ -1,7 +1,7 @@
 'use client';
 import useLoginModal from '@/app/hooks/useLoginModal';
 import { useRouter } from 'next/navigation';
-import React, { useCallback, useState } from 'react';
+import React, { ChangeEvent, useCallback, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import Heading from '../Heading';
 import InputComponent from '../input/Input';
@@ -12,18 +12,35 @@ import useDeactiveResortModal from '@/app/hooks/useDeactiveResortModal';
 import UploadImageCreateOwnership from './UploadImageCreateOwnership';
 import { format } from 'date-fns';
 import axios from 'axios';
-import { Modal, Button } from 'flowbite-react';
+import { Modal as ModalFlowbite, Button, Select, Textarea } from 'flowbite-react';
 import ModalCreate from './ModalCreate';
+import useChangeStatusIssueModal from '@/app/hooks/useChangeStatusIssueModal';
+import Modal from './Modal';
 
-export default function ModalDeactiveResort() {
+export default function ModalChangeStatusIssue() {
   const router = useRouter();
-  const deactiveResortModal = useDeactiveResortModal();
-  const resortId = deactiveResortModal.resortId;
-  const resortStatus = deactiveResortModal.resortStatus;
+  const changeStatusIssueModal = useChangeStatusIssueModal();
+  const issueId = changeStatusIssueModal.issueId;
   const [isLoading, setIsLoading] = useState(false);
-  const [isForgotPasswordModalOpen, setIsForgotPasswordModalOpen] = useState(false);
   const [file, setFile] = useState<any[]>([]);
   const [openModal, setOpenModal] = useState(false);
+
+  const status = [
+    {
+      id: 1,
+      value: 'RESOLVE',
+    },
+    {
+      id: 2,
+      value: 'REFUND',
+    },
+  ];
+
+  const [statusValue, setStatusValue] = useState(status[0].value);
+
+  const handleChangeStatus = (value: any) => {
+    setStatusValue(value);
+  };
 
   const {
     register,
@@ -32,43 +49,37 @@ export default function ModalDeactiveResort() {
     reset,
   } = useForm<FieldValues>({
     defaultValues: {
-      startDateDeactive: '',
+      issueDescription: '',
     },
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
+
     const body = {
-      resortId: resortId,
-      resortStatus: resortStatus,
-      startDate: format(new Date(data.startDateDeactive), 'yyyy-MM-dd') + 'T00:00',
-      endDate: null,
+      issueId: issueId,
+      issueDescription: data.issueDescription,
+      issueStatus: statusValue,
     };
 
     axios
-      .put(`https://holiday-swap.click/api/v1/resorts/updateStatus`, body, {
-        headers: { 'Content-Type': 'application/json' },
+      .put(`https://holiday-swap.click/api/v1/issues-booking/update-issue-booking`, body, {
+        headers: { 'Content-type': 'application/json' },
       })
       .then(() => {
-        toast.success('Updated status successfully!');
-        deactiveResortModal.onSuccess();
-        deactiveResortModal.onClose();
-        reset();
+        toast.success('Change status successfully!');
+        changeStatusIssueModal.onSuccess();
+        changeStatusIssueModal.onClose();
       })
       .catch((response) => {
         toast.error(response.response.data.message);
-        deactiveResortModal.onClose();
+        changeStatusIssueModal.onClose();
       })
       .finally(() => {
         setIsLoading(false);
         setOpenModal(false);
       });
   };
-
-  const toggleCreateAccountModal = useCallback(() => {
-    setIsForgotPasswordModalOpen(false);
-    deactiveResortModal.onClose();
-  }, []);
 
   const handleDeleteImage = (image: any) => {
     setFile(file.filter((prev) => prev.size !== image.size));
@@ -83,14 +94,18 @@ export default function ModalDeactiveResort() {
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col justify-center">
-        <InputComponent
-          register={register}
-          label="Start date deactive"
-          required={true}
-          id="startDateDeactive"
-          type="date"
-          errors={errors}
-        />
+        <div className="flex flex-col gap-1">
+          <label>Issue description</label>
+          <Textarea
+            id="issueDescription"
+            {...register('issueDescription', {
+              required: true,
+            })}
+            placeholder="Issue description"
+            required
+            rows={4}
+          />
+        </div>
         {/* <InputComponent
           register={register}
           label="Script"
@@ -99,6 +114,21 @@ export default function ModalDeactiveResort() {
           type="text"
           errors={errors}
         /> */}
+
+        <div className="flex flex-col gap-1 pt-3">
+          <label>Select status</label>
+          <Select
+            value={statusValue}
+            onChange={(e: ChangeEvent<HTMLSelectElement>) => handleChangeStatus(e.target.value)}
+            required
+          >
+            {status.map((item) => (
+              <option key={item.id} value={item.value}>
+                {item.value}
+              </option>
+            ))}
+          </Select>
+        </div>
       </div>
 
       {/* <div>
@@ -109,35 +139,35 @@ export default function ModalDeactiveResort() {
             mutiple={true}
           />
       </div> */}
-      <Modal show={openModal} onClose={() => setOpenModal(false)}>
-        <Modal.Header>Deactive resort</Modal.Header>
-        <Modal.Body>
+      <ModalFlowbite show={openModal} onClose={() => setOpenModal(false)}>
+        <ModalFlowbite.Header>Change status issue</ModalFlowbite.Header>
+        <ModalFlowbite.Body>
           <div className="space-y-6">
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              Are you want to deactive resort?
+              Are you want to change status issue?
             </p>
           </div>
-        </Modal.Body>
-        <Modal.Footer className="flex justify-end">
+        </ModalFlowbite.Body>
+        <ModalFlowbite.Footer className="flex justify-end">
           <Button color="red" className="font-bold text-lg" onClick={handleSubmit(onSubmit)}>
             Continue
           </Button>
           <Button color="gray" className="text-lg" onClick={() => setOpenModal(false)}>
             Cancel
           </Button>
-        </Modal.Footer>
-      </Modal>
+        </ModalFlowbite.Footer>
+      </ModalFlowbite>
     </div>
   );
 
   return (
-    <ModalCreate
+    <Modal
       disabled={isLoading}
-      isOpen={deactiveResortModal.isOpen}
-      title={'Deactive Resort'}
-      actionLabel={'Deactive'}
-      onClose={deactiveResortModal.onClose}
-      onSubmit={() => setOpenModal(false)}
+      isOpen={changeStatusIssueModal.isOpen}
+      title={'Change status issue'}
+      actionLabel={'Continue'}
+      onClose={changeStatusIssueModal.onClose}
+      onSubmit={() => setOpenModal(true)}
       body={bodyContent}
     />
   );

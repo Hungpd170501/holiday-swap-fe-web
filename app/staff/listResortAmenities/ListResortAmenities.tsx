@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import GetResortAmenityStaff from '@/app/actions/getResortAmenityStaff';
 import Image from 'next/image';
+import useEditResortAmenitiesModal from '@/app/hooks/useEditResortAmenitiesModal';
 
 interface Pageable {
   pageNo: number;
@@ -14,7 +15,11 @@ interface Pageable {
   sortBy: string;
 }
 
-const ListResortAmenities = () => {
+interface ListResortAmenitiesProps {
+  amenitiesType: any;
+}
+
+const ListResortAmenities: React.FC<ListResortAmenitiesProps> = ({ amenitiesType }) => {
   const router = useRouter();
   const [amenitiesList, setAmenitiesList] = useState<any[]>([]);
 
@@ -24,6 +29,7 @@ const ListResortAmenities = () => {
   const [idDelete, setIdDelete] = useState<any>();
   const [isDeleted, setIsDeleted] = useState(false);
   const axiosAuthClient = useAxiosAuthClient();
+  const editResortAmenitiesModal = useEditResortAmenitiesModal();
 
   const onPageChange = (page: number) => {
     setCurrentPage(page);
@@ -112,7 +118,7 @@ const ListResortAmenities = () => {
             {amenitiesList?.map((item: any, index: any) => (
               <Table.Row key={item.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {index + 1}
+                  {pageable.pageNo * pageable.pageSize + index + 1}
                 </Table.Cell>
                 <Table.Cell className="w-[200px]">{item.resortAmenityName}</Table.Cell>
                 <Table.Cell>{item.resortAmenityDescription}</Table.Cell>
@@ -126,8 +132,11 @@ const ListResortAmenities = () => {
                     alt="icon"
                   />
                 </Table.Cell>
-                <Table.Cell className="flex flex-row gap-3">
-                  <div className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer">
+                <Table.Cell className="flex flex-row gap-3 items-center h-full">
+                  <div
+                    onClick={() => editResortAmenitiesModal.onOpen(item, amenitiesType)}
+                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                  >
                     Edit
                   </div>
                   <div

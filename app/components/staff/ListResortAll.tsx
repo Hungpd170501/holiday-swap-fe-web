@@ -22,6 +22,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import useDeactiveResortModal from '@/app/hooks/useDeactiveResortModal';
 import useMaintanceResortModal from '@/app/hooks/useMaintanceResortModal';
+import { useRouter } from 'next/navigation';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -54,6 +55,11 @@ const statusList = [
     icon: BiBlock,
     color: '#e62538',
   },
+  {
+    status: 'MAINTANCE',
+    icon: MdOutlinePending,
+    color: '#F49925',
+  },
 ];
 
 function createData(
@@ -75,6 +81,8 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
   const [totalPages, setTotalPages] = React.useState<number>(resorts?.totalPages);
   const deactiveResortModal = useDeactiveResortModal();
   const [resortName, setResortName] = React.useState<string>('');
+  const isSuccess = deactiveResortModal.isSuccess;
+  const router = useRouter();
 
   const maintanceResortModal = useMaintanceResortModal();
   const [isChangeStatus, setIsChangeStatus] = React.useState(false);
@@ -147,6 +155,9 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
         });
       });
   };
+
+  
+
   return (
     <>
       <div className="mt-2">
@@ -182,7 +193,7 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                 className="!bg-white !text-black !text-[17px] !font-semibold"
                 align="left"
               >
-                Adress
+                Address
               </StyledTableCell>
               <StyledTableCell
                 className="!bg-white !text-black !text-[17px] !font-semibold"
@@ -216,8 +227,8 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                 <StyledTableCell>
                   <div className="line-clamp-1">{row.addressLine}</div>
                 </StyledTableCell>
-                <StyledTableCell className="!py-5 line-clamp-3" align="left">
-                  {row.propertyTypes.map((item: any, index: number) => (
+                <StyledTableCell className="!py-5" align="left">
+                  {row.propertyTypes.slice(0, 3).map((item: any, index: number) => (
                     <div key={index}>{item.propertyTypeName}</div>
                   ))}
                 </StyledTableCell>
@@ -237,7 +248,7 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                         className={`py-2 px-1 text-sm text-center  bg-slate-200 font-bold rounded-md ${
                           statusText === 'ACTIVE' ? 'text-green-500' : ''
                         } ${statusText === 'DEACTIVATE' ? 'text-rose-500' : ''} ${
-                          statusText === 'NO_LONGER_IN_BUSINESS' ? 'text-orange-500' : ''
+                          statusText === 'MAINTANCE' ? 'text-orange-500' : ''
                         }`}
                       >
                         {statusText}
@@ -247,51 +258,12 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                 </StyledTableCell>
 
                 <StyledTableCell className="!py-5 !text-green-500 " align="right">
-                  <Dropdown
-                    label=""
-                    dismissOnClick={false}
-                    renderTrigger={() => (
-                      <span className="text-sky-500 hover:underline cursor-pointer">Edit</span>
-                    )}
+                  <span
+                    onClick={() => router.push(`/staff/staffdetailresort/${row.id}`)}
+                    className="text-common underline hover:cursor-pointer"
                   >
-                    {(() => {
-                      if (row.status === 'ACTIVE') {
-                        return (
-                          <>
-                            {statusList.slice(1, 3).map((status: any, index: number) => (
-                              <Dropdown.Item
-                                key={index}
-                                value={status.status}
-                                className="flex items-center gap-2"
-                                onClick={() => handleOnChangeStatus(row.id, status.status)}
-                              >
-                                <status.icon size={18} color={status.color} />
-
-                                <span className={`text-[${status.color}]`}>{status.status}</span>
-                              </Dropdown.Item>
-                            ))}
-                          </>
-                        );
-                      } else if (row.status === 'DEACTIVATE') {
-                        return (
-                          <>
-                            {statusList.slice(0, 1).map((status: any, index: number) => (
-                              <Dropdown.Item
-                                key={index}
-                                value={status.status}
-                                className="flex items-center gap-2"
-                                onClick={() => handleOnChangeStatus(row.id, status.status)}
-                              >
-                                <status.icon size={18} color={status.color} />
-
-                                <span className={`text-[${status.color}]`}>{status.status}</span>
-                              </Dropdown.Item>
-                            ))}
-                          </>
-                        );
-                      }
-                    })()}
-                  </Dropdown>
+                    View detail
+                  </span>
                 </StyledTableCell>
               </StyledTableRow>
             ))}

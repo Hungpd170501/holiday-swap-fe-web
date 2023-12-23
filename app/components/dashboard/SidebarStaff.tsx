@@ -15,6 +15,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import { LuArrowUpSquare } from 'react-icons/lu';
 import { BsHouseAdd, BsHouseAddFill, BsHouses } from 'react-icons/bs';
+import { AiOutlineUnlock } from 'react-icons/ai';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -115,12 +116,32 @@ const SidebarStaff = () => {
       icon: PiNotepadBold,
       current: pathName?.includes('/staff/listmember') ? true : false,
     },
+    {
+      name: 'List Issue Booking',
+      href: '/staff/issue',
+      icon: PiNotepadBold,
+      current: pathName?.includes('/staff/issue') ? true : false,
+    },
     // {
     //   name: 'Upgrade Member',
     //   href: '/staff/upgrademembership',
     //   icon: LuArrowUpSquare,
     //   current: pathName?.includes('/staff/upgrademembership') ? true : false,
     // },
+  ];
+  const sidebarAccount = [
+    {
+      name: 'Edit Profile',
+      href: '/staff/editProfile',
+      icon: FiEdit,
+      current: pathName?.includes('/staff/editProfile') ? true : false,
+    },
+    {
+      name: 'Change password',
+      href: '/staff/changePassword',
+      icon: AiOutlineUnlock,
+      current: pathName?.includes('/staff/changePassword') ? true : false,
+    },
   ];
   const sidebarExchange = [
     {
@@ -168,6 +189,36 @@ const SidebarStaff = () => {
               </li>
             </ul>
           </div>
+
+          <div className="flex h-16 shrink-0 items-center">
+            <div className="text-3xl font-bold text-gray-700">My account</div>
+          </div>
+
+          <div className="flex flex-1 flex-col">
+            <ul role="list" className="flex flex-1 flex-col gap-y-7">
+              <li>
+                <ul role="list" className="-mx-2 space-y-1">
+                  {sidebarAccount.map((option) => (
+                    <li key={option.name}>
+                      <Link
+                        href={option.href}
+                        className={classNames(
+                          option.current
+                            ? 'bg-common text-white'
+                            : 'text-gray-400 hover:text-white hover:bg-common',
+                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                        )}
+                      >
+                        <option.icon className="text-gray-300 group-hover:text-white h-6 w-6 shrink-0" />
+                        {option.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            </ul>
+          </div>
+
           <div className="flex h-16 shrink-0 items-center">
             <div className="text-3xl font-bold text-gray-700">Member</div>
           </div>

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -12,7 +12,7 @@ import Link from 'next/link';
 import { format } from 'date-fns';
 import DropDownBanMember from './DropDownBanMember';
 import Image from 'next/image';
-import { Dropdown, Pagination } from 'flowbite-react';
+import { Button, Dropdown, Modal, Pagination } from 'flowbite-react';
 import SelectRouterStaff from './SelectRouterStaff';
 import HeadingDashboard from '../HeadingDashboard';
 import { useRouter } from 'next/navigation';
@@ -133,10 +133,14 @@ const ListMembershipAll: React.FC<ListMembershipAllProps> = ({ users }) => {
   const router = useRouter();
   const itemsPerPage = 7;
   const [userList, setUserList] = useState(users);
+  const [openModal, setOpenModal] = useState(false);
+  const [userId, setUserId] = useState<any>();
+  const [status, setStatus] = useState<any>();
 
   const axiosAuthClient = useAxiosAuthClient();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageCount, setPageCount] = useState(users.totalPages);
+  const [username, setUserName] = useState('');
 
   const handlePageChange = (selectedPage: { selected: number }) => {
     setCurrentPage(selectedPage.selected);
@@ -151,11 +155,13 @@ const ListMembershipAll: React.FC<ListMembershipAllProps> = ({ users }) => {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `https://holiday-swap.click/api/v1/users/search?status=ACTIVE&status=BLOCKED&roleIds=2&limit=10&offset=${
-            currentPage - 1
-          }&sortProps=id&sortDirection=desc`
-        );
+        let url = `https://holiday-swap.click/api/v1/users/search?status=ACTIVE&status=BLOCKED&roleIds=2&limit=10&offset=${
+          currentPage - 1
+        }&sortProps=id&sortDirection=desc`;
+        if (username) {
+          url += `&username=${username}`;
+        }
+        const response = await axios.get(url);
         setUserList(response.data);
         setPageCount(response.data.totalPages);
       } catch (error) {
@@ -172,21 +178,45 @@ const ListMembershipAll: React.FC<ListMembershipAllProps> = ({ users }) => {
       headers: { 'Content-type': 'application/json' },
     };
 
+    let url = `https://holiday-swap.click/api/v1/users/search?status=ACTIVE&status=BLOCKED&roleIds=2&limit=10&offset=${
+      currentPage - 1
+    }&sortProps=id&sortDirection=desc`;
+
+    if (username) {
+      url += `&username=${username}`;
+    }
+
     axiosAuthClient
       .put(`/users/${id}/status`, body, config)
       .then(async () => {
         toast.success('Update status success');
-        const newList = await axios.get(
-          `https://holiday-swap.click/api/v1/users/search?status=ACTIVE&status=BLOCKED&roleIds=2&limit=10&offset=${
-            currentPage - 1
-          }&sortProps=id&sortDirection=desc`
-        );
+        const newList = await axios.get(url);
         setUserList(newList?.data);
         setPageCount(newList.data.totalPages);
       })
       .catch((response) => {
         toast.error(response);
+      })
+      .finally(() => {
+        setOpenModal(false);
       });
+  };
+
+  const searchData = async () => {
+    if (username) {
+      let url = `https://holiday-swap.click/api/v1/users/search?status=ACTIVE&status=BLOCKED&roleIds=2&limit=10&offset=${
+        currentPage - 1
+      }&sortProps=id&sortDirection=desc&username=${username}`;
+      const newData = await axios.get(url);
+      setUserList(newData?.data);
+      setPageCount(newData.data.totalPages);
+    }
+  };
+
+  const handleOpenModal = (userId: any, status: any) => {
+    setOpenModal(true);
+    setUserId(userId);
+    setStatus(status);
   };
 
   return (
@@ -197,6 +227,22 @@ const ListMembershipAll: React.FC<ListMembershipAllProps> = ({ users }) => {
           pageCurrentContent="List membership"
           pageCurrentRouter="/staff/listmember"
         />
+      </div>
+
+      <div className="flex items-center my-4 gap-2">
+        <label htmlFor="search" className="mr-2 text-sm">
+          Search by Resort Name:
+        </label>
+        <input
+          type="text"
+          id="search"
+          value={username}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            setUserName(e.target.value);
+          }}
+          className="border p-2 rounded-md"
+        />
+        <Button onClick={searchData}>Search</Button>
       </div>
       <SelectRouterStaff />
       <div className="flex flex-row justify-between items-center py-5 ">
@@ -304,7 +350,9 @@ const ListMembershipAll: React.FC<ListMembershipAllProps> = ({ users }) => {
                                 key={index}
                                 value={status.status}
                                 className="flex items-center gap-2"
-                                onClick={() => handleOnChangeStatus(row.userId, status.status)}
+                                onClick={() => {
+                                  handleOpenModal(row.userId, status.status);
+                                }}
                               >
                                 <status.icon size={18} color={status.color} />
 
@@ -339,6 +387,25 @@ const ListMembershipAll: React.FC<ListMembershipAllProps> = ({ users }) => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Modal show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal.Header>Block user</Modal.Header>
+        <Modal.Body>
+          <div className="space-y-6">
+            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+              Do you want to block this user
+            </p>
+          </div>
+        </Modal.Body>
+        <Modal.Footer className="flex flex-row justify-end">
+          <Button color="red" onClick={() => handleOnChangeStatus(userId, status)}>
+            Continue
+          </Button>
+          <Button color="gray" onClick={() => setOpenModal(false)}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <div className="flex py-5 overflow-x-auto sm:justify-center">
         <Pagination
           currentPage={currentPage}

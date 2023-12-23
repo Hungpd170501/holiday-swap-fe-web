@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import axios from 'axios';
 import Link from 'next/link';
+import useRecharge from '@/app/hooks/useRecharge';
 
 const RechargeSuccess = () => {
   const { data: session } = useSession();
@@ -15,13 +16,27 @@ const RechargeSuccess = () => {
   const searchParams = useSearchParams();
   const responseCode = searchParams?.get('vnp_ResponseCode');
   const moneyTransferId = pathName?.slice(18, 23);
+  const recharge = useRecharge();
+  const isBackBooking = recharge.isBackBooking;
+  const bookingLink = recharge.bookingLink;
   const axiosAuthClient = useAxiosAuthClient();
 
   useEffect(() => {
-    axios.get(
-      `https://holiday-swap.click/api/v1/payment/payment_infor/${moneyTransferId}?vnp_ResponseCode=${responseCode}`
-    );
-  }, [pathName]);
+    axios
+      .get(
+        `https://holiday-swap.click/api/v1/payment/payment_infor/${moneyTransferId}?vnp_ResponseCode=${responseCode}`
+      )
+      .then(() => {
+        if (isBackBooking === true) {
+          console.log("Chay vo day ko")
+          router.push(bookingLink);
+          // recharge.onBackBookingReset();
+        }
+      });
+  }, [pathName, isBackBooking, bookingLink]);
+
+  console.log('Check booking back', isBackBooking);
+
   return (
     <Container className="bg-green-50">
       <div className="w-full h-screen flex flex-col justify-center items-center">

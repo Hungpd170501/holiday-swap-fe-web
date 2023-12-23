@@ -121,7 +121,7 @@ const ListPropertyView: React.FC<ListPropertyViewProps> = () => {
         </div>
         <Table>
           <Table.Head>
-            <Table.HeadCell>ID</Table.HeadCell>
+            <Table.HeadCell>STT</Table.HeadCell>
             <Table.HeadCell>Property View Name</Table.HeadCell>
             <Table.HeadCell>Property View Description</Table.HeadCell>
             <Table.HeadCell>
@@ -132,7 +132,7 @@ const ListPropertyView: React.FC<ListPropertyViewProps> = () => {
             {propertyViewList?.map((item: any, index: any) => (
               <Table.Row key={item.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {item.id}
+                  {pageable.pageNo * pageable.pageSize + index + 1}
                 </Table.Cell>
                 <Table.Cell className="w-[200px]">{item.propertyViewName}</Table.Cell>
                 <Table.Cell>{item.propertyViewDescription}</Table.Cell>

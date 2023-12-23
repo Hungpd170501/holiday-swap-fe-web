@@ -17,6 +17,7 @@ import { Dropdown } from 'flowbite-react';
 import { BsCheck2Circle } from 'react-icons/bs';
 import { BiBlock } from 'react-icons/bi';
 import { MdOutlinePending } from 'react-icons/md';
+import { useRouter } from 'next/navigation';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -87,6 +88,7 @@ const ListResortDashboard: React.FC<ListResortAllProps> = ({ resorts: initialRes
   const pageSize = 10;
   // const totalPages = Math.ceil(resorts?.totalElements / pageSize);
   const axiosAuthClient = useAxiosAuthClient();
+  const router = useRouter();
 
   const onPageChange = async (newPage: any) => {
     try {
@@ -187,7 +189,7 @@ const ListResortDashboard: React.FC<ListResortAllProps> = ({ resorts: initialRes
                 </StyledTableCell>
                 <StyledTableCell>{row.addressLine}</StyledTableCell>
                 <StyledTableCell className="!py-5 " align="left">
-                  {row.propertyTypes.map((item: any, index: number) => (
+                  {row.propertyTypes.slice(0, 3).map((item: any, index: number) => (
                     <div key={index}>{item.propertyTypeName}</div>
                   ))}
                 </StyledTableCell>
@@ -198,8 +200,8 @@ const ListResortDashboard: React.FC<ListResortAllProps> = ({ resorts: initialRes
                       statusText = 'ACTIVE';
                     } else if (row.status === 'DEACTIVATE') {
                       statusText = 'DEACTIVATE';
-                    } else if (row.status === 'NO_LONGER_IN_BUSINESS') {
-                      statusText = 'LONGER BUSINESS';
+                    } else if (row.status === 'MAINTANCE') {
+                      statusText = 'MAINTANCE';
                     }
 
                     return (
@@ -207,7 +209,7 @@ const ListResortDashboard: React.FC<ListResortAllProps> = ({ resorts: initialRes
                         className={`py-2 px-1 text-sm text-center  bg-slate-200 font-bold rounded-md ${
                           statusText === 'ACTIVE' ? 'text-green-500' : ''
                         } ${statusText === 'DEACTIVATE' ? 'text-rose-500' : ''} ${
-                          statusText === 'NO_LONGER_IN_BUSINESS' ? 'text-orange-500' : ''
+                          statusText === 'MAINTANCE' ? 'text-orange-500' : ''
                         }`}
                       >
                         {statusText}
@@ -217,72 +219,12 @@ const ListResortDashboard: React.FC<ListResortAllProps> = ({ resorts: initialRes
                 </StyledTableCell>
 
                 <StyledTableCell className="!py-5 !text-green-500 " align="right">
-                  <Dropdown
-                    label=""
-                    dismissOnClick={false}
-                    renderTrigger={() => (
-                      <span className="text-sky-500 hover:underline cursor-pointer">Edit</span>
-                    )}
+                  <span
+                    onClick={() => router.push(`/staff/staffdetailresort/${row.id}`)}
+                    className="text-common underline hover:cursor-pointer"
                   >
-                    {(() => {
-                      if (row.status === 'ACTIVE') {
-                        return (
-                          <>
-                            {statusList.slice(1, 3).map((status: any, index: number) => (
-                              <Dropdown.Item
-                                key={index}
-                                value={status.status}
-                                className="flex items-center gap-2"
-                                onClick={() => handleOnChangeStatus(row.id, status.status)}
-                              >
-                                <status.icon size={18} color={status.color} />
-
-                                <span className={`text-[${status.color}]`}>{status.status}</span>
-                              </Dropdown.Item>
-                            ))}
-                          </>
-                        );
-                      } else if (row.status === 'DEACTIVATE') {
-                        const newArrray = statusList.filter(
-                          (item) =>
-                            item.status === 'ACTIVE' || item.status === 'NO_LONGER_IN_BUSINESS'
-                        );
-                        return (
-                          <>
-                            {newArrray.map((status: any, index: number) => (
-                              <Dropdown.Item
-                                key={index}
-                                value={status.status}
-                                className="flex items-center gap-2"
-                                onClick={() => handleOnChangeStatus(row.id, status.status)}
-                              >
-                                <status.icon size={18} color={status.color} />
-
-                                <span className={`text-[${status.color}]`}>{status.status}</span>
-                              </Dropdown.Item>
-                            ))}
-                          </>
-                        );
-                      } else if (row.status === 'NO_LONGER_IN_BUSINESS') {
-                        return (
-                          <>
-                            {statusList.slice(0, 2).map((status: any, index: number) => (
-                              <Dropdown.Item
-                                key={index}
-                                value={status.status}
-                                className="flex items-center gap-2"
-                                onClick={() => handleOnChangeStatus(row.id, status.status)}
-                              >
-                                <status.icon size={18} color={status.color} />
-
-                                <span className={`text-[${status.color}]`}>{status.status}</span>
-                              </Dropdown.Item>
-                            ))}
-                          </>
-                        );
-                      }
-                    })()}
-                  </Dropdown>
+                    View detail
+                  </span>
                 </StyledTableCell>
               </StyledTableRow>
             ))}

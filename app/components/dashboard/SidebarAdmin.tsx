@@ -5,7 +5,7 @@ import { GrPersonalComputer, GrSecure } from 'react-icons/gr';
 import { FiEdit } from 'react-icons/fi';
 import { PiNotepadBold } from 'react-icons/pi';
 import { LiaFileInvoiceDollarSolid } from 'react-icons/lia';
-import { AiOutlineStar, AiFillPieChart } from 'react-icons/ai';
+import { AiOutlineStar, AiFillPieChart, AiOutlineUnlock } from 'react-icons/ai';
 import { FiUserPlus } from 'react-icons/fi';
 import { MdOutlineSwapHorizontalCircle, MdBusinessCenter } from 'react-icons/md';
 import { BiSolidCoin } from 'react-icons/bi';
@@ -25,6 +25,18 @@ const SidebarAdmin = () => {
       href: '/admin',
       icon: AiFillPieChart,
       current: pathName === '/admin' ? true : false,
+    },
+     {
+      name: 'Edit Profile',
+      href: '/admin/editProfile',
+      icon: FiEdit,
+      current: pathName?.includes('/admin/editProfile') ? true : false,
+    },
+    {
+      name: 'Change password',
+      href: '/admin/changePassword',
+      icon: AiOutlineUnlock,
+      current: pathName?.includes('/admin/changePassword') ? true : false,
     },
   ];
   const sidebarBooking = [
