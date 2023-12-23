@@ -101,7 +101,7 @@ const CreatePropertyAmenities: React.FC<CreatePropertyAmenitiesProps> = ({ ameni
           <div className="py-4">
             <Input
               id="inRoomAmenityName"
-              label="Resort Amenity Name"
+              label="Property Amenity Name"
               register={register}
               errors={errors}
             />

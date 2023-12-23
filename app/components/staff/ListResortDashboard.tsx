@@ -150,7 +150,7 @@ const ListResortDashboard: React.FC<ListResortAllProps> = ({ resorts: initialRes
                 className="!bg-white !text-black !text-[17px] !font-semibold"
                 align="left"
               >
-                Adress
+                Address
               </StyledTableCell>
               <StyledTableCell
                 className="!bg-white !text-black !text-[17px] !font-semibold"

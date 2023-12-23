@@ -99,7 +99,7 @@ export default function UpgreadeMembershipList() {
                 className="!bg-white !text-black !text-[17px] !font-semibold"
                 align="right"
               >
-                Adress
+                Address
               </StyledTableCell>
               <StyledTableCell
                 className="!bg-white !text-black !text-[17px] !font-semibold"

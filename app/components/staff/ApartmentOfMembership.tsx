@@ -1,14 +1,14 @@
-"use client";
-import * as React from "react";
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Link from "next/link";
+'use client';
+import * as React from 'react';
+import { styled } from '@mui/material/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Link from 'next/link';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -21,11 +21,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
+  '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
   },
   // hide last border
-  "&:last-child td, &:last-child th": {
+  '&:last-child td, &:last-child th': {
     border: 0,
   },
 }));
@@ -42,19 +42,13 @@ function createData(
 
 const rows = [
   createData(
-    "JW Marriott Phu Quoc Emerald Bay Resort & Spa",
-    "Phu Quoc",
-    "Sea Resort",
-    "1200$ - 2500$",
-    "..."
+    'JW Marriott Phu Quoc Emerald Bay Resort & Spa',
+    'Phu Quoc',
+    'Sea Resort',
+    '1200$ - 2500$',
+    '...'
   ),
-  createData(
-    "Amanoi Resort",
-    "Ninh Thuan",
-    "Moutaint Resort",
-    "890$ - 2000$",
-    "..."
-  ),
+  createData('Amanoi Resort', 'Ninh Thuan', 'Moutaint Resort', '890$ - 2000$', '...'),
 ];
 
 export default function ApartmentOfMembership() {
@@ -69,13 +63,13 @@ export default function ApartmentOfMembership() {
           <TableHead>
             <TableRow>
               <StyledTableCell className="!bg-white !text-black !text-[17px] !font-semibold">
-                Resort Name{" "}
+                Resort Name{' '}
               </StyledTableCell>
               <StyledTableCell
                 className="!bg-white !text-black !text-[17px] !font-semibold"
                 align="right"
               >
-                Adress
+                Address
               </StyledTableCell>
               <StyledTableCell
                 className="!bg-white !text-black !text-[17px] !font-semibold"
@@ -87,24 +81,20 @@ export default function ApartmentOfMembership() {
                 className="!bg-white !text-black !text-[17px] !font-semibold"
                 align="right"
               >
-                Price{" "}
+                Price{' '}
               </StyledTableCell>
               <StyledTableCell
                 className="!bg-white !text-black !text-[17px] !font-semibold"
                 align="right"
               >
-                rules{" "}
+                rules{' '}
               </StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows.map((row) => (
               <StyledTableRow key={row.resortname}>
-                <StyledTableCell
-                  className="!py-5 !text-common"
-                  component="th"
-                  scope="row"
-                >
+                <StyledTableCell className="!py-5 !text-common" component="th" scope="row">
                   <Link href="#">{row.resortname}</Link>
                 </StyledTableCell>
                 <StyledTableCell className="!py-5 !text-common" align="right">
@@ -113,16 +103,10 @@ export default function ApartmentOfMembership() {
                 <StyledTableCell className="!py-5 " align="right">
                   {row.meter}
                 </StyledTableCell>
-                <StyledTableCell
-                  className="!py-5 !text-green-500 "
-                  align="right"
-                >
+                <StyledTableCell className="!py-5 !text-green-500 " align="right">
                   {row.bedroom}
                 </StyledTableCell>
-                <StyledTableCell
-                  className="!py-5 !text-green-500 "
-                  align="right"
-                >
+                <StyledTableCell className="!py-5 !text-green-500 " align="right">
                   {row.rules}
                 </StyledTableCell>
               </StyledTableRow>
