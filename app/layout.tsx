@@ -33,6 +33,7 @@ import ModalDeactiveResort from './components/modal/ModalDeactiveResort';
 import ModalMaintanceResort from './components/modal/ModalMaintanceResort';
 import ModalEditResortAmenities from './components/modal/ModalEditResortAmenities';
 import ModalChangeStatusIssue from './components/modal/ModalChangeStatusIssue';
+import GetUserWallet from './actions/getUserWallet';
 
 const font = Poppins({
   subsets: ['latin'],
@@ -50,6 +51,7 @@ export const metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const currentUser = await GetCurrentUser();
+  const userWallet = await GetUserWallet();
   return (
     <html lang="en">
       <body className={font.className}>
@@ -57,7 +59,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <Provider>
             <DateRangeProvider>
               <GuestProvider>
-                <Header currentUser={currentUser} />
+                <Header currentUser={currentUser} userWallet={userWallet} />
                 <Suspense fallback={<Loading />}>
                   <ClientOnly>
                     <ModalDetailProperty />

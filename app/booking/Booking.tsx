@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Container from '../components/Container';
 import Calendar from '../components/input/Calendar';
 import SearchBooking from './SearchBooking';
 import ListRoom from './ListRoom';
 import BookingPriceCard from './BookingPriceCard';
 import BookingInformation from './BookingInformation';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useParams } from 'next/navigation';
 import useNewDateRange from '../hooks/useNewDateRange';
 import useRecharge from '../hooks/useRecharge';
@@ -20,6 +20,7 @@ interface BookingProps {
 const Booking: React.FC<BookingProps> = ({ currentUser }) => {
   const [selectedRoomData, setSelectedRoomData] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
+  const router = useRouter();
   const recharge = useRecharge();
   const isBackBooking = recharge.isBackBooking;
   const isNewDateRange = recharge.isNewDateRange;
@@ -43,6 +44,8 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
   const [bookingLink, setBookingLink] = useState<string>('');
 
   const { dateRangeContext, setDateRangeContext, setDateRangeDefaultContext } = useDateRange();
+
+  const isMounted = useRef(false);
 
   useEffect(() => {
     setBookingLink(
@@ -87,12 +90,27 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
     }
   }, [isNewDateRange, dateRange, dateRangeBooking]);
 
-  // useEffect(() => {
-  //   if (performance.navigation.type === 1 && dateRange && dateRangeBooking) {
-  //     setDateRangeContext(JSON.parse(dateRange));
-  //     setDateRangeDefaultContext(JSON.parse(dateRangeBooking));
-  //   }
-  // }, [performance, dateRange, dateRangeBooking]);
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (
+      (window.performance.getEntries()[0] as PerformanceNavigationTiming).type === 'reload' &&
+      dateRange &&
+      dateRangeBooking
+    ) {
+      setDateRangeContext(JSON.parse(dateRange));
+      setDateRangeDefaultContext(JSON.parse(dateRangeBooking));
+    }
+  }, [
+    (window.performance.getEntries()[0] as PerformanceNavigationTiming).type,
+    dateRange,
+    dateRangeBooking,
+  ]);
 
   return (
     <Container className="bg-white">

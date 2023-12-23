@@ -18,9 +18,11 @@ import { fetchConversations, setConversationLoaded } from '@/app/redux/slices/co
 import { usePathname } from 'next/navigation';
 import useWriteBlogModal from '@/app/hooks/useWriteBlogModal';
 import { NotificationResponse } from '@/app/components/notification/types';
+import GetUserWallet from '@/app/actions/getUserWallet';
 
 interface UserMenuProps {
   currentUser?: Object | any | null;
+  userWallet: any;
 }
 
 export const useToggle = (
@@ -33,7 +35,7 @@ export const useToggle = (
   }, [setter, reSetters]);
 };
 
-const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
+const UserMenu: React.FC<UserMenuProps> = ({ currentUser, userWallet }) => {
   const dispatch = useDispatch();
   const notifications = useSelector((state: any) => state.pushNotification.data);
   const conversations = useSelector((state: any) => state.conversation.data);
@@ -180,6 +182,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           />
           <div className="text-gray-400">
             {currentUser?.fullName ? currentUser.fullName : currentUser.username}
+          </div>
+          <div className="text-gray-400 flex flex-row gap-1 items-center ">
+            <div className='text-black'>{userWallet?.totalPoint?.toFixed(1)}</div>
+            <img className="w-[30px] h-[30px]" src="/images/coin.png" alt="" />
           </div>
         </div>
       </div>
