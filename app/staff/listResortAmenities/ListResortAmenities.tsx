@@ -109,7 +109,7 @@ const ListResortAmenities: React.FC<ListResortAmenitiesProps> = ({ amenitiesType
             <Table.HeadCell>STT</Table.HeadCell>
             <Table.HeadCell>Resort Amenity Name</Table.HeadCell>
             <Table.HeadCell>Resort Amenity Description</Table.HeadCell>
-            <Table.HeadCell>Resort Amenity Type Icon</Table.HeadCell>
+            <Table.HeadCell className="w-[250px]">Resort Amenity Type Icon</Table.HeadCell>
             <Table.HeadCell>
               <span className="sr-only">Edit</span>
             </Table.HeadCell>
@@ -123,7 +123,7 @@ const ListResortAmenities: React.FC<ListResortAmenitiesProps> = ({ amenitiesType
                 <Table.Cell className="w-[200px]">{item.resortAmenityName}</Table.Cell>
                 <Table.Cell>{item.resortAmenityDescription}</Table.Cell>
 
-                <Table.Cell>
+                <Table.Cell className="">
                   <Image
                     src={item.resortAmenityLinkIcon}
                     width={30}

@@ -1,11 +1,11 @@
-"use client";
-import * as React from "react";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import { BsMoonStarsFill } from "react-icons/bs";
-import ChatDatePicker from "../chat/ChatDatePicker";
+'use client';
+import * as React from 'react';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import { BsMoonStarsFill } from 'react-icons/bs';
+import ChatDatePicker from '../chat/ChatDatePicker';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -36,7 +36,7 @@ function CustomTabPanel(props: TabPanelProps) {
 function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
   };
 }
 
@@ -48,13 +48,9 @@ export default function BasicTabs() {
   };
 
   return (
-    <Box sx={{ width: "100%" }} className="-mt-[48px] bg-gray-200 h-[668px]">
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-        >
+    <Box sx={{ width: '100%' }} className="-mt-[48px] bg-gray-200 h-[668px]">
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Your Trip" {...a11yProps(0)} />
           <Tab label="Hung Trip" {...a11yProps(1)} />
           <Tab label="Contract" {...a11yProps(2)} />
@@ -62,11 +58,7 @@ export default function BasicTabs() {
       </Box>
       <CustomTabPanel value={value} index={0}>
         <div>
-          <img
-            className="w-[300px] h-[180px]"
-            src="./images/resort2.jpg"
-            alt=""
-          />
+          <img className="w-[300px] h-[180px]" src="./images/resort2.jpg" alt="" />
         </div>
 
         <div className="flex flex-row items-center justify-between py-3">
@@ -77,15 +69,10 @@ export default function BasicTabs() {
             <div className="text-gray-500 text-[15px]">9h Night</div>
           </div>
         </div>
-        <div className="-mt-[18px] text-[13px] text-gray-500 font-bold ml-2">
-          Ho Chi Minh city
-        </div>
+        <div className="-mt-[18px] text-[13px] text-gray-500 font-bold ml-2">Ho Chi Minh city</div>
         <div className="mt-6">
           <div>Số Lượng người ở </div>
-          <input
-            type="text"
-            className="border border-gray-400 px-2 py-2 w-full rounded-md"
-          />
+          <input type="text" className="border border-gray-400 px-2 py-2 w-full rounded-md" />
         </div>
         <div className="flex flex-row w-[300px] gap-2">
           <ChatDatePicker />
@@ -96,17 +83,11 @@ export default function BasicTabs() {
           <div>Total</div>
           <div>2000 Point</div>
         </div>
-        <button className="bg-[#5C98F2] px-24 py-3 rounded-lg text-white mt-4">
-          Chấp Thuận
-        </button>
+        <button className="bg-[#5C98F2] px-24 py-3 rounded-lg text-white mt-4">Chấp Thuận</button>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <div>
-          <img
-            className="w-[300px] h-[180px]"
-            src="./images/resort1.jpg"
-            alt=""
-          />
+          <img className="w-[300px] h-[180px]" src="./images/resort1.jpg" alt="" />
         </div>
 
         <div className="flex flex-row items-center justify-between py-3">
@@ -117,15 +98,10 @@ export default function BasicTabs() {
             <div className="text-gray-500 text-[15px]">9h Night</div>
           </div>
         </div>
-        <div className="-mt-[18px] text-[13px] text-gray-500 font-bold ml-2">
-          Ho Chi Minh city
-        </div>
+        <div className="-mt-[18px] text-[13px] text-gray-500 font-bold ml-2">Ho Chi Minh city</div>
         <div className="mt-6">
           <div>Số Lượng người ở </div>
-          <input
-            type="text"
-            className="border border-gray-400 px-2 py-2 w-full rounded-md"
-          />
+          <input type="text" className="border border-gray-400 px-2 py-2 w-full rounded-md" />
         </div>
         <div className="flex flex-row w-[300px] gap-2">
           <ChatDatePicker />
@@ -171,15 +147,11 @@ export default function BasicTabs() {
                   </div>
                   <div className="mt-[5px] text-[15px]">
                     <span className="font-semibold">Address: </span>
-                    <span>
-                      64/33 Hang Tre street, 9 district Ho Chi Minh city
-                    </span>
+                    <span>64/33 Hang Tre street, 9 district Ho Chi Minh city</span>
                   </div>
                 </div>
 
-                <div className="text-[20px] font-semibold py-2">
-                  Apartment Infomation
-                </div>
+                <div className="text-[20px] font-semibold py-2">Apartment Infomation</div>
                 <div>
                   <span className="font-semibold">ResortName: </span>
                   <span>Amanoi Resort</span>
@@ -189,7 +161,7 @@ export default function BasicTabs() {
                   <span>801</span>
                 </div>
                 <div className="mt-[5px] text-[15px]">
-                  <span className="font-semibold"> Adress: </span>
+                  <span className="font-semibold"> Address: </span>
                   <span>Nhon Ly, Ninh Hai, Ninh Thuan.</span>
                 </div>
                 <div className="mt-[5px] text-[15px]">
@@ -211,8 +183,7 @@ export default function BasicTabs() {
                 <div className="mt-[5px] text-[15px]">
                   <span className="font-semibold"> Interior amenities: </span>
                   <span>
-                    Fully furnished including refrigerator, air conditioner,
-                    heater, night light...
+                    Fully furnished including refrigerator, air conditioner, heater, night light...
                   </span>
                 </div>
                 <div className="mt-[5px] text-[15px]">
@@ -260,15 +231,11 @@ export default function BasicTabs() {
                   </div>
                   <div className="mt-[5px] text-[15px]">
                     <span className="font-semibold">Address: </span>
-                    <span>
-                      321/1 Nguyen Van Tang street, 9 district Ho Chi Minh city
-                    </span>
+                    <span>321/1 Nguyen Van Tang street, 9 district Ho Chi Minh city</span>
                   </div>
                 </div>
 
-                <div className="text-[20px] font-semibold py-2">
-                  Apartment Infomation
-                </div>
+                <div className="text-[20px] font-semibold py-2">Apartment Infomation</div>
                 <div>
                   <span className="font-semibold">ResortName: </span>
                   <span>Six Senses Ninh Van Bay</span>
@@ -300,8 +267,7 @@ export default function BasicTabs() {
                 <div className="mt-[5px] text-[15px]">
                   <span className="font-semibold"> Interior amenities: </span>
                   <span>
-                    Fully furnished including refrigerator, air conditioner,
-                    heater, night light...
+                    Fully furnished including refrigerator, air conditioner, heater, night light...
                   </span>
                 </div>
                 <div className="mt-[5px] text-[15px]">
@@ -328,9 +294,7 @@ export default function BasicTabs() {
           <div className="flex flex-col items-center justify-center">
             <div>
               <input type="checkbox" />
-              <span className="font-bold ml-2">
-                I agree to all of the above agreements
-              </span>
+              <span className="font-bold ml-2">I agree to all of the above agreements</span>
             </div>
             <button className="bg-[#5C98F2] px-4 py-3 rounded-md text-white hover:bg-blue-500">
               Accept
