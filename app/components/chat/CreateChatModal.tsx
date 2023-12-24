@@ -42,47 +42,57 @@ function GroupChatModal({ users, onClose, isOpen, currentUser, onSuccess }: Prop
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
     // const updatedMemberArray = [...data.member, Number(currentUser?.userId)];
-    ConversationApis.createConversation(data.name, [...data.members?.map((m: {
-      value: number,
-      label: string,
-    }) => m.value), Number(currentUser?.userId)]).then((response) => {
-      onSuccess();
-      router.refresh();
-      onClose();
-    }).catch((err) => {
-      toast.error('Something went wrong');
-    }).finally(() => setIsLoading(false));
+    ConversationApis.createConversation(data.name, [
+      ...data.members?.map((m: { value: number; label: string }) => m.value),
+      Number(currentUser?.userId),
+    ])
+      .then((response) => {
+        onSuccess();
+        router.refresh();
+        onClose();
+      })
+      .catch((err) => {
+        toast.error('Something went wrong');
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='space-y-12'>
-          <div className='border-b- border-gray-900/10 dark:border-gray-300 pb-12'>
-            <h2 className='text-base font-semibold leading-7 text-gray-900 dark:text-gray-100'>
+        <div className="space-y-12">
+          <div className="border-b- border-gray-900/10 dark:border-gray-300 pb-12">
+            <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">
               Create a Chat
             </h2>
-            <p className='mt-1 text-sm leading-6 text-gray-600 dark:text-gray-300'>
+            <p className="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-300">
               Create a chat with people.
             </p>
-            <div className='mt-10 flex flex-col gap-y-8'>
-              {members?.length > 1 && <Input
-                disabled={isLoading}
-                label='Name'
-                id='name'
-                errors={errors}
-                register={register}
-              />}
+            <div className="mt-10 flex flex-col gap-y-8">
+              {members?.length > 1 && (
+                <Input
+                  disabled={isLoading}
+                  label="Name"
+                  id="name"
+                  errors={errors}
+                  register={register}
+                />
+              )}
               <MemberSelect
                 disabled={isLoading}
-                label='Members'
-                options={(users && users.length > 0
-                  && users?.filter((user) => user.userId.toString() !== currentUser?.userId?.toString())
-                    .map((user) => ({
-                      value: user.userId,
-                      label: user.username,
-                      avatar: user?.avatar,
-                    }))) || []}
+                label="Members"
+                options={
+                  (users &&
+                    users.length > 0 &&
+                    users
+                      ?.filter((user) => user.userId.toString() !== currentUser?.userId?.toString())
+                      .map((user) => ({
+                        value: user.userId,
+                        label: user.fullName || user.username,
+                        avatar: user?.avatar,
+                      }))) ||
+                  []
+                }
                 onChange={(value) =>
                   setValue('members', value, {
                     shouldValidate: true,
@@ -93,16 +103,11 @@ function GroupChatModal({ users, onClose, isOpen, currentUser, onSuccess }: Prop
             </div>
           </div>
         </div>
-        <div className='mt-6 flex items-center justify-end gap-x-6'>
-          <Button
-            disabled={isLoading}
-            onClick={onClose}
-            type='button'
-            secondary
-          >
+        <div className="mt-6 flex items-center justify-end gap-x-6">
+          <Button disabled={isLoading} onClick={onClose} type="button" secondary>
             Cancel
           </Button>
-          <Button disabled={isLoading} type='submit'>
+          <Button disabled={isLoading} type="submit">
             Create
           </Button>
         </div>
