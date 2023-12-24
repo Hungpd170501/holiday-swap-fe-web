@@ -121,6 +121,7 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
           <Table.HeadCell>Phone</Table.HeadCell>
           <Table.HeadCell>Role</Table.HeadCell>
           <Table.HeadCell>Status</Table.HeadCell>
+          <Table.HeadCell>Action</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
           {userList.content.map((item: any, index: number) => {
@@ -142,7 +143,7 @@ const ListStaff: React.FC<ListStaffProps> = ({ listUser }) => {
                     <div className="font-base text-sm text-gray-500">{item.username}</div>
                   </div>
                 </Table.Cell>
-                <Table.Cell>{item.fullName}</Table.Cell>
+                <Table.Cell>{item.fullName ? item.fullName : '-'}</Table.Cell>
                 <Table.Cell>{item.gender}</Table.Cell>
                 {/* <Table.Cell>{format(new Date(item.dob), 'dd-MM-yyyy')}</Table.Cell> */}
                 <Table.Cell>{item.phone}</Table.Cell>

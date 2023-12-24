@@ -141,7 +141,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ currentUser }) => {
           <button
             disabled={isLoading}
             onClick={() => setOpenModal(true)}
-            className=" text-[15px] bg-common px-4 py-2 rounded-md text-white md:bg-[#5C98F2] md:px-4 md:py-3 md:text-white md:rounded-md md:ml-56"
+            className=" mb-4 text-[15px] bg-common px-4 py-2 rounded-md text-white md:bg-[#5C98F2] md:px-4 md:py-3 md:text-white md:rounded-md md:ml-56"
           >
             Update Password
           </button>
