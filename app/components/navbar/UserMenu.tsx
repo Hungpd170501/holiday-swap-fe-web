@@ -186,13 +186,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, userWallet }) => {
           />
           <div className="text-gray-400">
             {currentUser?.fullName ? currentUser.fullName : currentUser.username}
+            {(currentUser?.role?.roleId === 2 || currentUser?.role?.roleId === 4) && (
+              <div className="text-gray-400 flex flex-row gap-1 items-center ">
+                <div className="text-black text-[13px]">{userWallet?.totalPoint?.toFixed(1)}</div>
+                <img className="w-[18px] h-[18px]" src="/images/coin.png" alt="" />
+              </div>
+            )}
           </div>
-          {(currentUser?.role?.roleId === 2 || currentUser?.role?.roleId === 4) && (
-            <div className="text-gray-400 flex flex-row gap-1 items-center ">
-              <div className="text-black">{userWallet?.totalPoint?.toFixed(1)}</div>
-              <img className="w-[30px] h-[30px]" src="/images/coin.png" alt="" />
-            </div>
-          )}
         </div>
       </div>
 
