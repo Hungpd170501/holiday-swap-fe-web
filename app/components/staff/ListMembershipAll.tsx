@@ -307,13 +307,13 @@ const ListMembershipAll: React.FC<ListMembershipAllProps> = ({ users }) => {
                     />
                     <div
                       onClick={() => router.push(`/staff/editmembership/${row.userId}`)}
-                      className="hover:underline"
+                      className="hover:underline cursor-pointer"
                     >
-                      {row.username}
+                      {row?.fullName || row?.username}
                     </div>
                   </div>
                 </StyledTableCell>
-                <StyledTableCell className="!py-5 !text-common" align="right">
+                <StyledTableCell className="!py-5" align="right">
                   {row.gender}
                 </StyledTableCell>
                 <StyledTableCell className="!py-5 " align="right">

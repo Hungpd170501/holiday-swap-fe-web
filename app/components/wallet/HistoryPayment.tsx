@@ -56,7 +56,7 @@ const HistoryPayment: React.FC<HistoryPaymentProps> = ({ historyTransaction }) =
           {displayedItems?.map((item: any, index: number) => (
             <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
               <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                <div className="flex flex-col text-base">
+                <div className=" gap-1 font-bold text-base flex flex-row">
                   <div>{format(new Date(item.createdOn), 'dd')}</div>
                   <div>{format(new Date(item.createdOn), 'MMM, yyyy')}</div>
                 </div>

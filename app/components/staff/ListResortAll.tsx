@@ -156,8 +156,6 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
       });
   };
 
-  
-
   return (
     <>
       <div className="mt-2">
@@ -186,7 +184,7 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell className="!bg-white !text-black !text-[17px] !font-semibold w-[200px]">
+              <StyledTableCell className="!bg-white !text-black !text-[17px] !font-semibold w-[270px]">
                 Resort Name{' '}
               </StyledTableCell>
               <StyledTableCell
@@ -196,7 +194,7 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                 Address
               </StyledTableCell>
               <StyledTableCell
-                className="!bg-white !text-black !text-[17px] !font-semibold"
+                className="!bg-white !text-black !text-[17px] w-[200px] !font-semibold"
                 align="left"
               >
                 Property Type
@@ -257,7 +255,7 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                   })()}
                 </StyledTableCell>
 
-                <StyledTableCell className="!py-5 !text-green-500 " align="right">
+                <StyledTableCell className="!py-5 w-[120px] !text-green-500 " align="right">
                   <span
                     onClick={() => router.push(`/staff/staffdetailresort/${row.id}`)}
                     className="text-common underline hover:cursor-pointer"

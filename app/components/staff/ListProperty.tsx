@@ -288,6 +288,7 @@ export default function ListProperty() {
       ...getColumnSearchProps('propertyName'),
       sorter: true,
       sortOrder: tableParams.sorter?.column?.key === 'id' ? tableParams.sorter.order : null,
+      width: 200,
     },
     {
       title: 'Property Description',

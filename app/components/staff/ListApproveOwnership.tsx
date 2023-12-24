@@ -136,8 +136,7 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
             <Table.HeadCell className="w-[130px]">Property</Table.HeadCell>
             <Table.HeadCell className="w-[100px]">Apartment ID</Table.HeadCell>
             <Table.HeadCell className="w-[100px]">User</Table.HeadCell>
-            <Table.HeadCell>Start date</Table.HeadCell>
-            <Table.HeadCell>End date</Table.HeadCell>
+
             <Table.HeadCell>Type</Table.HeadCell>
             <Table.HeadCell>Status</Table.HeadCell>
             <Table.HeadCell className="w-[130px]">Action</Table.HeadCell>
@@ -146,19 +145,11 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
             {ownershipUserList?.content.map((item: any, index: number) => {
               return (
                 <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell>{item?.property.resort?.resortName}</Table.Cell>
+                  <Table.Cell className="w-[250px]">{item?.property.resort?.resortName}</Table.Cell>
                   <Table.Cell>{item.property.propertyName}</Table.Cell>
-                  <Table.Cell>{item.id.roomId}</Table.Cell>
-                  <Table.Cell>{item.user.fullName ? item.user.fullName : item.user.username}</Table.Cell>
+                  <Table.Cell className="w-[140px]">{item.id.roomId}</Table.Cell>
                   <Table.Cell>
-                    {item.startTime === null
-                      ? 'Owner forever'
-                      : `${format(new Date(item.startTime), 'dd-MM-yyyy')}`}
-                  </Table.Cell>
-                  <Table.Cell>
-                    {item.endTime === null
-                      ? 'Owner forever'
-                      : `${format(new Date(item.endTime), 'dd-MM-yyyy')}`}
+                    {item.user.fullName ? item.user.fullName : item.user.username}
                   </Table.Cell>
                   <Table.Cell>
                     {item.type === 'DEEDED' ? 'Owner forever' : 'Owner a previod time'}

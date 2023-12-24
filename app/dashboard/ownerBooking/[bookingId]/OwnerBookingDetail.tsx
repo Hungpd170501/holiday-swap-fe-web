@@ -92,7 +92,7 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
           <div className="py-3">
             <div className="text-2xl font-bold mb-3">Your owner booking is successfully!</div>
             <div className="text-lg text-slate-500">
-              You are going to <span className="font-bold"> {detail?.resortName} </span>
+              Your guests will arrive<span className="font-bold"> {detail?.resortName} </span>
             </div>
             <div className="text-sm text-slate-500 mt-2">
               {format(new Date(detail?.createdDate), "dd/MM/yyyy 'at' h:mm a")}

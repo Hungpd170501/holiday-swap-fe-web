@@ -101,13 +101,11 @@ const ListResortAmenities = () => {
         </div>
         <Table>
           <Table.Head>
-            <Table.HeadCell>STT</Table.HeadCell>
+            <Table.HeadCell>No</Table.HeadCell>
             <Table.HeadCell>Property Amenity Name</Table.HeadCell>
             <Table.HeadCell>Property Amenity Description</Table.HeadCell>
-            <Table.HeadCell>Property Amenity Icon</Table.HeadCell>
-            <Table.HeadCell>
-              <span className="sr-only">Edit</span>
-            </Table.HeadCell>
+            <Table.HeadCell>Icons</Table.HeadCell>
+            <Table.HeadCell>Action </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
             {amenitiesList?.map((item: any, index: any) => (

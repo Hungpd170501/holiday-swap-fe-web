@@ -164,69 +164,11 @@ const SidebarStaff = () => {
           <div className="flex h-16 shrink-0 items-center">
             <div className="text-3xl font-bold text-gray-700">Resort</div>
           </div>
-
           <div className="flex flex-1 flex-col">
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
               <li>
                 <ul role="list" className="-mx-2 space-y-1">
                   {sidebarMyaccount.map((option) => (
-                    <li key={option.name}>
-                      <Link
-                        href={option.href}
-                        className={classNames(
-                          option.current
-                            ? 'bg-common text-white'
-                            : 'text-gray-400 hover:text-white hover:bg-common',
-                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                        )}
-                      >
-                        <option.icon className="text-gray-300 group-hover:text-white h-6 w-6 shrink-0" />
-                        {option.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            </ul>
-          </div>
-
-          <div className="flex h-16 shrink-0 items-center">
-            <div className="text-3xl font-bold text-gray-700">My account</div>
-          </div>
-
-          <div className="flex flex-1 flex-col">
-            <ul role="list" className="flex flex-1 flex-col gap-y-7">
-              <li>
-                <ul role="list" className="-mx-2 space-y-1">
-                  {sidebarAccount.map((option) => (
-                    <li key={option.name}>
-                      <Link
-                        href={option.href}
-                        className={classNames(
-                          option.current
-                            ? 'bg-common text-white'
-                            : 'text-gray-400 hover:text-white hover:bg-common',
-                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                        )}
-                      >
-                        <option.icon className="text-gray-300 group-hover:text-white h-6 w-6 shrink-0" />
-                        {option.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            </ul>
-          </div>
-
-          <div className="flex h-16 shrink-0 items-center">
-            <div className="text-3xl font-bold text-gray-700">Member</div>
-          </div>
-          <div className="flex flex-1 flex-col">
-            <ul role="list" className="flex flex-1 flex-col gap-y-7">
-              <li>
-                <ul role="list" className="-mx-2 space-y-1">
-                  {sidebarMember.map((option) => (
                     <li key={option.name}>
                       <Link
                         href={option.href}
@@ -273,6 +215,60 @@ const SidebarStaff = () => {
               </li>
             </ul>
           </div>
+          <div className="flex h-16 shrink-0 items-center">
+            <div className="text-3xl font-bold text-gray-700">Member</div>
+          </div>
+          <div className="flex flex-1 flex-col">
+            <ul role="list" className="flex flex-1 flex-col gap-y-7">
+              <li>
+                <ul role="list" className="-mx-2 space-y-1">
+                  {sidebarMember.map((option) => (
+                    <li key={option.name}>
+                      <Link
+                        href={option.href}
+                        className={classNames(
+                          option.current
+                            ? 'bg-common text-white'
+                            : 'text-gray-400 hover:text-white hover:bg-common',
+                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                        )}
+                      >
+                        <option.icon className="text-gray-300 group-hover:text-white h-6 w-6 shrink-0" />
+                        {option.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div className="flex h-16 shrink-0 items-center">
+            <div className="text-3xl font-bold text-gray-700">My account</div>
+          </div>
+          <div className="flex flex-1 flex-col">
+            <ul role="list" className="flex flex-1 flex-col gap-y-7">
+              <li>
+                <ul role="list" className="-mx-2 space-y-1">
+                  {sidebarAccount.map((option) => (
+                    <li key={option.name}>
+                      <Link
+                        href={option.href}
+                        className={classNames(
+                          option.current
+                            ? 'bg-common text-white'
+                            : 'text-gray-400 hover:text-white hover:bg-common',
+                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                        )}
+                      >
+                        <option.icon className="text-gray-300 group-hover:text-white h-6 w-6 shrink-0" />
+                        {option.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            </ul>
+          </div>{' '}
           <div>
             <button
               onClick={handelSignOut}
