@@ -180,12 +180,14 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, userWallet }) => {
             height={50}
             className="rounded-full"
           />
-          <div className="text-gray-400">
-            {currentUser?.fullName ? currentUser.fullName : currentUser.username}
-          </div>
-          <div className="text-gray-400 flex flex-row gap-1 items-center ">
-            <div className='text-black'>{userWallet?.totalPoint?.toFixed(1)}</div>
-            <img className="w-[30px] h-[30px]" src="/images/coin.png" alt="" />
+          <div>
+            <div className="text-gray-400">
+              {currentUser?.fullName ? currentUser.fullName : currentUser.username}
+            </div>
+            <div className="text-gray-400 flex flex-row gap-1 items-center ">
+              <div className="text-black text-[15px]">{userWallet?.totalPoint?.toFixed(1)}</div>
+              <img className="w-[20px] h-[20px]" src="/images/coin.png" alt="" />
+            </div>
           </div>
         </div>
       </div>
