@@ -11,19 +11,22 @@ import clsx from 'clsx';
 import useLoginModal from '../hooks/useLoginModal';
 import UserMenu from './navbar/UserMenu';
 import { usePathname, useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import axios from 'axios';
 
 interface HeaderProps {
   currentUser?: any | null;
-  userWallet: any;
 }
 
-const Header: React.FC<HeaderProps> = ({ currentUser, userWallet }) => {
+const Header: React.FC<HeaderProps> = ({ currentUser }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const loginModal = useLoginModal();
   const isLogin = loginModal.isLogin;
   const pathName = usePathname();
   const router = useRouter();
   const [scroll, setScroll] = useState(false);
+  const { data: session } = useSession();
+  const [userWallet, setUserWallet] = useState<any>();
   const pathname = usePathname();
 
   // const { data: session } = useSession();
@@ -61,6 +64,24 @@ const Header: React.FC<HeaderProps> = ({ currentUser, userWallet }) => {
     }
   }, [isLogin, currentUser]);
 
+  const accessToken = session?.user?.access_token;
+  const config = { headers: { Authorization: `Bearer ${accessToken}` } };
+
+  useEffect(() => {
+    const fetchUserWallet = async () => {
+      if (currentUser && accessToken) {
+        const wallet = await axios.get(
+          `https://holiday-swap.click/api/v1/point/user_wallet`,
+          config
+        );
+        if (wallet) {
+          setUserWallet(wallet.data);
+        }
+      }
+    };
+    fetchUserWallet();
+  }, [currentUser, accessToken]);
+
   return (
     <div className={clsx(`w-full z-50 fixed`)}>
       <Container
@@ -95,23 +116,23 @@ const Header: React.FC<HeaderProps> = ({ currentUser, userWallet }) => {
       </Container>
       <div className=" hidden md:block md:w-full md:h-[1px] md:bg-gray-200 md:-mt-1"></div>
 
-      {!pathname?.includes("/informationBooking") && (
+      {!pathname?.includes('/informationBooking') && (
         <Container
-        className={
-          scroll
-            ? 'bg-white opacity-90 -translate-y-1 duration-300 shadow-md py-4 block md:hidden'
-            : ''
-        }
-      >
-        <div className="sm:block md:hidden w-full py-4">
-          <div className="flex flex-row justify-between items-center gap-3 md:py-8 px-4">
-            <Logo />
-            <div onClick={handleMenu} className="mx-4">
-              {openMenu ? <IoMdClose size={30} /> : <BiMenu size={30} />}
+          className={
+            scroll
+              ? 'bg-white opacity-90 -translate-y-1 duration-300 shadow-md py-4 block md:hidden'
+              : ''
+          }
+        >
+          <div className="sm:block md:hidden w-full py-4">
+            <div className="flex flex-row justify-between items-center gap-3 md:py-8 px-4">
+              <Logo />
+              <div onClick={handleMenu} className="mx-4">
+                {openMenu ? <IoMdClose size={30} /> : <BiMenu size={30} />}
+              </div>
             </div>
           </div>
-        </div>
-      </Container>
+        </Container>
       )}
 
       {openMenu ? (

@@ -1,6 +1,6 @@
 'use client';
 
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import MenuItem from './MenuItem';
 import SignOutMiddle from '@/app/libs/signOut';
 import Image from 'next/image';
@@ -19,6 +19,8 @@ import { usePathname } from 'next/navigation';
 import useWriteBlogModal from '@/app/hooks/useWriteBlogModal';
 import { NotificationResponse } from '@/app/components/notification/types';
 import GetUserWallet from '@/app/actions/getUserWallet';
+import useRecharge from '@/app/hooks/useRecharge';
+import axios from 'axios';
 
 interface UserMenuProps {
   currentUser?: Object | any | null;
@@ -37,6 +39,7 @@ export const useToggle = (
 
 const UserMenu: React.FC<UserMenuProps> = ({ currentUser, userWallet }) => {
   const dispatch = useDispatch();
+  const { data: session } = useSession();
   const notifications = useSelector((state: any) => state.pushNotification.data);
   const conversations = useSelector((state: any) => state.conversation.data);
   const conversationsLoaded = useSelector((state: any) => state.conversation.loaded);
@@ -48,6 +51,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, userWallet }) => {
   const socket = useSocket();
   const [notificationsList, setNotificationsList] = useState(notifications ?? []);
   const [conversationsList, setConversationsList] = useState(conversations ?? []);
+  const recharge = useRecharge();
   const pathName = usePathname();
 
   useEffect(() => {
@@ -180,15 +184,15 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, userWallet }) => {
             height={50}
             className="rounded-full"
           />
-          <div>
-            <div className="text-gray-400">
-              {currentUser?.fullName ? currentUser.fullName : currentUser.username}
-            </div>
-            <div className="text-gray-400 flex flex-row gap-1 items-center ">
-              <div className="text-black text-[15px]">{userWallet?.totalPoint?.toFixed(1)}</div>
-              <img className="w-[20px] h-[20px]" src="/images/coin.png" alt="" />
-            </div>
+          <div className="text-gray-400">
+            {currentUser?.fullName ? currentUser.fullName : currentUser.username}
           </div>
+          {(currentUser?.role?.roleId === 2 || currentUser?.role?.roleId === 4) && (
+            <div className="text-gray-400 flex flex-row gap-1 items-center ">
+              <div className="text-black">{userWallet?.totalPoint?.toFixed(1)}</div>
+              <img className="w-[30px] h-[30px]" src="/images/coin.png" alt="" />
+            </div>
+          )}
         </div>
       </div>
 
@@ -230,7 +234,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, userWallet }) => {
                   return (
                     <Fragment>
                       <MenuItem onClick={() => handleRouter('/dashboard')} label="Dashboard" />
-                      <MenuItem onClick={() => handleRouter('/recharge')} label="Recharge" />
+                      <MenuItem
+                        onClick={() => {
+                          handleRouter('/recharge');
+                          recharge.onClickLink();
+                        }}
+                        label="Recharge"
+                      />
                       <MenuItem onClick={() => handleRouter('/chat')} label="Chat" />
                       <MenuItem onClick={handleOpenWriteBlogModal} label="Write blog" />
                       <MenuItem

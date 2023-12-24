@@ -9,6 +9,8 @@ import { format } from 'date-fns';
 import ReactPaginate from 'react-paginate';
 import { Pagination, Table } from 'flowbite-react';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import Image from 'next/image';
+import { message } from 'antd';
 
 interface HistoryPaymentProps {
   historyTransaction: any;
@@ -56,19 +58,42 @@ const HistoryPayment: React.FC<HistoryPaymentProps> = ({ historyTransaction }) =
           {displayedItems?.map((item: any, index: number) => (
             <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
               <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                <div className=" gap-1 font-bold text-base flex flex-row">
-                  <div>{format(new Date(item.createdOn), 'dd')}</div>
-                  <div>{format(new Date(item.createdOn), 'MMM, yyyy')}</div>
+                <div className="flex flex-col gap-1">
+                  <div className="gap-1 font-bold text-base flex flex-row">
+                    <div>{format(new Date(item.createdOn), 'dd')}</div>
+                    <div>{format(new Date(item.createdOn), 'MMM, yyyy')}</div>
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    {format(new Date(item.createdOn), 'h:mm a')}
+                  </div>
                 </div>
               </Table.Cell>
               <Table.Cell>
-                <div className="flex flex-col">
-                  <div className="text-gray-900 text-base font-bold">
-                    {item.type === 'RECIVED'
-                      ? `${item.from === 'VN_PAY' ? 'Top up your wallet' : 'From: ' + item.from}`
-                      : `To: ${item.to}`}
+                <div className="flex flex-row gap-2">
+                  {(() => {
+                    if (item.message.includes('Admin transfer to')) {
+                      return (
+                        <Image src="/images/icons/topup.png" alt="icon" width={40} height={40} />
+                      );
+                    } else if (item.message.includes('transfer to')) {
+                      return (
+                        <Image src="/images/icons/transfer.png" alt="icon" width={40} height={40} />
+                      );
+                    } else if (item.message.includes('pay for')) {
+                      return (
+                        <Image src="/images/icons/payment.png" alt="icon" width={40} height={40} />
+                      );
+                    }
+                  })()}
+
+                  <div className="flex flex-col">
+                    <div className="text-gray-900 text-base font-bold">
+                      {item.type === 'RECIVED'
+                        ? `${item.from === 'VN_PAY' ? 'Top up your wallet' : 'From: ' + item.from}`
+                        : `To: ${item.to}`}
+                    </div>
+                    <div className="text-gray-600 text-sm">{item.message}</div>
                   </div>
-                  <div className="text-gray-600 text-sm">{item.message}</div>
                 </div>
               </Table.Cell>
               <Table.Cell>

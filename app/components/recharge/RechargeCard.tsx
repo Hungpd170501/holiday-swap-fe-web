@@ -22,6 +22,7 @@ const RechargeCard: React.FC<RechargeCardProps> = ({ point }) => {
   const recharge = useRecharge();
   const isRecharge = recharge.isRecharge;
   const bookingLink = recharge.bookingLink;
+  const isClickLink = recharge.isClickLink;
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -110,7 +111,12 @@ const RechargeCard: React.FC<RechargeCardProps> = ({ point }) => {
     }
   }, [point, amountPoint]);
 
-  console.log('Check booking back', recharge.bookingLink);
+  useEffect(() => {
+    if (isClickLink === true) {
+      localStorage.removeItem('bookingLink');
+      recharge.onClickLinkReset();
+    }
+  }, [isClickLink]);
 
   return (
     <div className="px-20">
