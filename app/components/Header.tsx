@@ -14,9 +14,10 @@ import { usePathname, useRouter } from 'next/navigation';
 
 interface HeaderProps {
   currentUser?: any | null;
+  userWallet: any;
 }
 
-const Header: React.FC<HeaderProps> = ({ currentUser }) => {
+const Header: React.FC<HeaderProps> = ({ currentUser, userWallet }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const loginModal = useLoginModal();
   const isLogin = loginModal.isLogin;
@@ -84,7 +85,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
               )}
 
               {currentUser ? (
-                <UserMenu currentUser={currentUser} />
+                <UserMenu currentUser={currentUser} userWallet={userWallet} />
               ) : (
                 <ButtonLoginHeader onClick={loginModal.onOpen} />
               )}

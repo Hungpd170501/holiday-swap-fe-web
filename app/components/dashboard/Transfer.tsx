@@ -174,8 +174,12 @@ const TransferMoney: React.FC<TransferMoneyProps> = ({ currentUser, memberships 
   };
 
   const next = () => {
-    if (!userTo || !moneyTransfer) {
-      return null;
+    if (!userTo || moneyTransfer <= 0) {
+      if (!userTo) {
+        return toast.error('Choose a user to transfer point!');
+      } else if (moneyTransfer <= 0) {
+        return toast.error('Point transfer must be large more 0!');
+      }
     }
     setCurrent(current + 1);
   };

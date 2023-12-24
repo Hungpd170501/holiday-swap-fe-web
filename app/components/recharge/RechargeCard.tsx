@@ -21,6 +21,7 @@ const RechargeCard: React.FC<RechargeCardProps> = ({ point }) => {
   const axiosAuthClient = useAxiosAuthClient();
   const recharge = useRecharge();
   const isRecharge = recharge.isRecharge;
+  const bookingLink = recharge.bookingLink;
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -89,20 +90,17 @@ const RechargeCard: React.FC<RechargeCardProps> = ({ point }) => {
       .then((response) => {
         if (isRecharge === true) {
           recharge.onRechargeReset();
-          recharge.onBackBooking();
         }
 
         router.push(response.data.url);
-
-        
       })
       .catch((response) => {
-        console.log('Response', response.response.data.message);
+        console.log('Response', response?.response?.data?.message);
 
         if (isRecharge === true) {
           recharge.onRechargeReset();
         }
-        toast.error(response.response.data.message);
+        toast.error(response?.response?.data?.message);
       });
   };
 

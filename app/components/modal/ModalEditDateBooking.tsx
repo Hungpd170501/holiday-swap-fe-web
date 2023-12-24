@@ -52,8 +52,8 @@ export default function ModalEditDateBooking() {
             handleDatePicker(value);
           }
         }}
-        minDate={dateRangeDefaultContext?.startDate}
-        maxDate={dateRangeDefaultContext?.endDate}
+        minDate={dateRangeContext?.startDate}
+        maxDate={dateRangeContext?.endDate}
         disabledDates={dateOut}
         className="w-full"
       />
