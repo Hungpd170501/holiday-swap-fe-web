@@ -133,117 +133,110 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
                 ))}
               </Table.Head>
               <Table.Body className="divide-y">
-                {(ownershipUserList?.content || [])
-                  .slice()
-                  .reverse()
-                  .map((item: any, index: number) => {
-                    let endYear = new Date(item.endTime).getFullYear();
-                    let currentWeekIso = dayjs().isoWeek();
-                    let flagTimeFramesCheck = false;
-                    item.timeFrames.forEach((element: any) => {
-                      if (element.weekNumber > currentWeekIso) flagTimeFramesCheck = true;
-                    });
+                {(ownershipUserList?.content || []).map((item: any, index: number) => {
+                  let endYear = new Date(item.endTime).getFullYear();
+                  let currentWeekIso = dayjs().isoWeek();
+                  let flagTimeFramesCheck = false;
+                  item.timeFrames.forEach((element: any) => {
+                    if (element.weekNumber > currentWeekIso) flagTimeFramesCheck = true;
+                  });
 
-                    return (
-                      <>
-                        <Table.Row
-                          key={index}
-                          className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                        >
-                          <Table.Cell>{item?.property.resort?.resortName}</Table.Cell>
-                          <Table.Cell>{item.property.propertyName}</Table.Cell>
-                          <Table.Cell>{item.id.roomId}</Table.Cell>
-                          <Table.Cell>
-                            {item.startTime !== null
-                              ? format(new Date(item.startTime), 'yyyy')
-                              : '-'}
-                          </Table.Cell>
-                          <Table.Cell>{item.endTime !== null ? endYear : '-'}</Table.Cell>
-                          <Table.Cell>
-                            {item.type === 'DEEDED'
-                              ? 'Owner forever'
-                              : 'Owner for a period of time'}
-                          </Table.Cell>
-                          <Table.Cell>
-                            {(() => {
-                              if (item.status === 'ACCEPTED') {
-                                return (
-                                  <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
-                                    ACCEPTED
-                                  </div>
-                                );
-                              } else if (item.status === 'REJECTED') {
-                                return (
-                                  <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-red-500">
-                                    REJECTED
-                                  </div>
-                                );
-                              } else {
-                                return (
-                                  <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-orange-500">
-                                    PENDING
-                                  </div>
-                                );
-                              }
-                            })()}
-                          </Table.Cell>
-                          <Table.Cell>
-                            {(() => {
-                              if (
-                                item.status === 'ACCEPTED' &&
-                                item.property.resort.status == 'ACTIVE' &&
-                                (item.endTime == null || new Date(item.endTime) > new Date())
-                              ) {
-                                return (
-                                  <div
-                                    onClick={() =>
-                                      handleRouter(
-                                        item.id.propertyId,
-                                        item.id.userId,
-                                        item.id.roomId,
-                                        item.status
-                                      )
-                                    }
-                                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 hover:cursor-pointer"
-                                  >
-                                    <p>Detail</p>
-                                  </div>
-                                );
-                              } else if (item.property.resort.status === 'DEACTIVATE') {
-                                return (
-                                  <div className="font-medium text-red-600">
-                                    <p>Resort is Deactive</p>
-                                  </div>
-                                );
-                              }
-                              if (
-                                item.status === 'ACCEPTED' &&
-                                item.type === 'RIGHT_TO_USE' &&
-                                endYear < new Date().getFullYear()
-                              ) {
-                                return (
-                                  <div className="font-medium text-red-600">
-                                    <p>Is expired</p>
-                                  </div>
-                                );
-                              } else if (
-                                item.status === 'ACCEPTED' &&
-                                item.type === 'RIGHT_TO_USE' &&
-                                endYear == new Date().getFullYear() &&
-                                !flagTimeFramesCheck
-                              ) {
-                                return (
-                                  <div className="font-medium text-red-600">
-                                    <p>Is expired</p>
-                                  </div>
-                                );
-                              }
-                            })()}
-                          </Table.Cell>
-                        </Table.Row>
-                      </>
-                    );
-                  })}
+                  return (
+                    <>
+                      <Table.Row
+                        key={index}
+                        className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                      >
+                        <Table.Cell>{item?.property.resort?.resortName}</Table.Cell>
+                        <Table.Cell>{item.property.propertyName}</Table.Cell>
+                        <Table.Cell>{item.id.roomId}</Table.Cell>
+                        <Table.Cell>
+                          {item.startTime !== null ? format(new Date(item.startTime), 'yyyy') : '-'}
+                        </Table.Cell>
+                        <Table.Cell>{item.endTime !== null ? endYear : '-'}</Table.Cell>
+                        <Table.Cell>
+                          {item.type === 'DEEDED' ? 'Owner forever' : 'Owner for a period of time'}
+                        </Table.Cell>
+                        <Table.Cell>
+                          {(() => {
+                            if (item.status === 'ACCEPTED') {
+                              return (
+                                <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
+                                  ACCEPTED
+                                </div>
+                              );
+                            } else if (item.status === 'REJECTED') {
+                              return (
+                                <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-red-500">
+                                  REJECTED
+                                </div>
+                              );
+                            } else {
+                              return (
+                                <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-orange-500">
+                                  PENDING
+                                </div>
+                              );
+                            }
+                          })()}
+                        </Table.Cell>
+                        <Table.Cell>
+                          {(() => {
+                            if (
+                              item.status === 'ACCEPTED' &&
+                              item.property.resort.status == 'ACTIVE' &&
+                              (item.endTime == null || new Date(item.endTime) > new Date())
+                            ) {
+                              return (
+                                <div
+                                  onClick={() =>
+                                    handleRouter(
+                                      item.id.propertyId,
+                                      item.id.userId,
+                                      item.id.roomId,
+                                      item.status
+                                    )
+                                  }
+                                  className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 hover:cursor-pointer"
+                                >
+                                  <p>Detail</p>
+                                </div>
+                              );
+                            } else if (item.property.resort.status === 'DEACTIVATE') {
+                              return (
+                                <div className="font-medium text-red-600">
+                                  <p>Resort is Deactive</p>
+                                </div>
+                              );
+                            }
+                            if (
+                              item.status === 'ACCEPTED' &&
+                              item.type === 'RIGHT_TO_USE' &&
+                              endYear < new Date().getFullYear()
+                            ) {
+                              return (
+                                <div className="font-medium text-red-600">
+                                  <p>Is expired</p>
+                                </div>
+                              );
+                            } else if (
+                              item.status === 'ACCEPTED' &&
+                              item.type === 'RIGHT_TO_USE' &&
+                              endYear == new Date().getFullYear() &&
+                              !flagTimeFramesCheck
+                            ) {
+                              return (
+                                <div className="font-medium text-red-600">
+                                  <p>Is expired</p>
+                                </div>
+                              );
+                            }
+                          })()}
+                        </Table.Cell>
+                      </Table.Row>
+                    </>
+                  );
+                })}
               </Table.Body>
             </Table>
           ) : (
