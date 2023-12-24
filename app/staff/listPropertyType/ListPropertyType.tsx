@@ -126,9 +126,7 @@ const ListPropertyType: React.FC<ListPropertyTypeProps> = () => {
             <Table.HeadCell>No</Table.HeadCell>
             <Table.HeadCell className="w-[200px]">Property Type Name</Table.HeadCell>
             <Table.HeadCell>Property Type Description</Table.HeadCell>
-            <Table.HeadCell>
-              <span className="sr-only">Edit</span>
-            </Table.HeadCell>
+            <Table.HeadCell>Action </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
             {propertyTypeList.map((item: IPropertyType, index: any) => (

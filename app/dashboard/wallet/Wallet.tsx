@@ -113,7 +113,7 @@ const Wallet: React.FC<WalletProps> = ({ userWallet, transfer, historyTransactio
         <div className="bg-gray-300 w-[900px] rounded-b-3xl h-auto px-5 py-4 shadow-xl"></div>
       </div>
       <div className="px-10">
-        <div className="mt-16 text-[25px]  text-common font-bold">Wallet History</div>
+        <div className="mt-10 mb-5 text-[25px]  text-common font-bold">Wallet History</div>
         <div className="w-full">
           <HistoryPayment historyTransaction={historyTransaction} />
         </div>

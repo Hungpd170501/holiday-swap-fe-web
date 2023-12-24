@@ -180,15 +180,19 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
         <div className="w-full h-full py-5">
           {/* Check-in Check-out */}
           <div className="py-3 border-b border-slate-300 flex flex-row items-center justify-between">
-            <div className="flex flex-col text-lg text-slate-500">
-              <div>{format(new Date(detail?.dateCheckIn), 'E')}, </div>
-              <div>{format(new Date(detail?.dateCheckIn), 'MMM dd, yyyy')}</div>
-              <div>Check-in After 3PM</div>
+            <div className="flex flex-col text-lg">
+              <div className="font-bold">{format(new Date(detail?.dateCheckIn), 'E')}, </div>
+              <div className="font-bold">
+                {format(new Date(detail?.dateCheckIn), 'MMM dd, yyyy')}
+              </div>
+              <div className="font-bold">Check-in After 3PM</div>
             </div>
-            <div className="flex flex-col text-lg text-slate-500">
-              <div>{format(new Date(detail?.dateCheckOut), 'E')}, </div>
-              <div>{format(new Date(detail?.dateCheckOut), 'MMM dd, yyyy')}</div>
-              <div>Check-out Before 12PM</div>
+            <div className="flex flex-col text-lg ">
+              <div className="font-bold">{format(new Date(detail?.dateCheckOut), 'E')}, </div>
+              <div className="font-bold">
+                {format(new Date(detail?.dateCheckOut), 'MMM dd, yyyy')}
+              </div>
+              <div className="font-bold">Check-out Before 12PM</div>
             </div>
           </div>
 

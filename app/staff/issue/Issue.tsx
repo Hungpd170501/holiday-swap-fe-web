@@ -60,13 +60,11 @@ const Issue: React.FC<IssueProps> = ({ issue }) => {
           <Table>
             <Table.Head>
               <Table.HeadCell>No</Table.HeadCell>
-              <Table.HeadCell className="w-[200px]">Booking ID</Table.HeadCell>
+              <Table.HeadCell>Booking ID</Table.HeadCell>
               <Table.HeadCell>Description</Table.HeadCell>
               <Table.HeadCell>Created on</Table.HeadCell>
               <Table.HeadCell>Status</Table.HeadCell>
-              <Table.HeadCell>
-                <span className="sr-only">Edit</span>
-              </Table.HeadCell>
+              <Table.HeadCell>Action</Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
               {filteredIssues.map((item: any, index: any) => (
@@ -82,7 +80,7 @@ const Issue: React.FC<IssueProps> = ({ issue }) => {
                     <div className="flex gap-3">
                       <div
                         onClick={() => router.push(`/staff/issue/${item.id}`)}
-                        className="font-medium text-cyan-600 hover:underline hover:cursor-pointer dark:text-cyan-500"
+                        className=" w-[100px] font-medium text-cyan-600 hover:underline hover:cursor-pointer dark:text-cyan-500"
                       >
                         View detail
                       </div>

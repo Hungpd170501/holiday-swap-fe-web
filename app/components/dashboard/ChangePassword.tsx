@@ -103,7 +103,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ currentUser }) => {
         </div>
 
         <div className="mt-10">
-          <div className=" flex flex-col mb-10  md:flex md:flex-row md:mb-14">
+          <div className=" flex flex-col mb-10  md:flex md:flex-row md:mb-5">
             {/* <div className="w-[277px] text-gray-700">Old Password*</div>
             <input
               type="email"
@@ -118,7 +118,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ currentUser }) => {
               required={true}
             />
           </div>
-          <div className=" flex flex-col mb-10  md:flex md:flex-row md:mb-14">
+          <div className=" flex flex-col mb-10  md:flex md:flex-row md:mb-5">
             <InputPassword
               register={register}
               type="password"

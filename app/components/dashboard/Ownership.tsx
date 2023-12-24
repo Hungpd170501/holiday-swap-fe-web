@@ -152,13 +152,15 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
                         >
                           <Table.Cell>{item?.property.resort?.resortName}</Table.Cell>
                           <Table.Cell>{item.property.propertyName}</Table.Cell>
-                          <Table.Cell>{item.id.roomId}</Table.Cell>
-                          <Table.Cell>
+                          <Table.Cell className="w-[140px]">{item.id.roomId}</Table.Cell>
+                          <Table.Cell className="w-[120px]">
                             {item.startTime !== null
                               ? format(new Date(item.startTime), 'yyyy')
                               : '-'}
                           </Table.Cell>
-                          <Table.Cell>{item.endTime !== null ? endYear : '-'}</Table.Cell>
+                          <Table.Cell className="w-[120px]">
+                            {item.endTime !== null ? endYear : '-'}
+                          </Table.Cell>
                           <Table.Cell>
                             {item.type === 'DEEDED'
                               ? 'Owner forever'

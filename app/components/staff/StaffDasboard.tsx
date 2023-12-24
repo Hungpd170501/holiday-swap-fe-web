@@ -40,7 +40,9 @@ const StaffDashboard: React.FC<StaffDasboardProps> = ({ currentUser }) => {
               <div className="mb-5">Email</div>
             </div>
             <div className="flex flex-col mr-16 text-gray-600 ">
-              <div className="mb-5 ml-9">{currentUser?.username}</div>
+              <div className="mb-5 ml-9">
+                {currentUser?.fullName ? currentUser.fullName : currentUser?.username}
+              </div>
               <div className="mb-5 ml-9"> {format(new Date(currentUser?.dob), 'dd-MM-yyyy')} </div>
               <div className="mb-5 ml-9">{currentUser?.email}</div>
             </div>

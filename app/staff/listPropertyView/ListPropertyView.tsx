@@ -121,12 +121,10 @@ const ListPropertyView: React.FC<ListPropertyViewProps> = () => {
         </div>
         <Table>
           <Table.Head>
-            <Table.HeadCell>STT</Table.HeadCell>
+            <Table.HeadCell>No</Table.HeadCell>
             <Table.HeadCell>Property View Name</Table.HeadCell>
             <Table.HeadCell>Property View Description</Table.HeadCell>
-            <Table.HeadCell>
-              <span className="sr-only">Edit</span>
-            </Table.HeadCell>
+            <Table.HeadCell>Action </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
             {propertyViewList?.map((item: any, index: any) => (

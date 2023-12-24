@@ -106,13 +106,11 @@ const ListResortAmenities: React.FC<ListResortAmenitiesProps> = ({ amenitiesType
         </div>
         <Table>
           <Table.Head>
-            <Table.HeadCell>STT</Table.HeadCell>
+            <Table.HeadCell>No</Table.HeadCell>
             <Table.HeadCell>Resort Amenity Name</Table.HeadCell>
             <Table.HeadCell>Resort Amenity Description</Table.HeadCell>
-            <Table.HeadCell className="w-[250px]">Resort Amenity Type Icon</Table.HeadCell>
-            <Table.HeadCell>
-              <span className="sr-only">Edit</span>
-            </Table.HeadCell>
+            <Table.HeadCell className="w-[50px]">Icon</Table.HeadCell>
+            <Table.HeadCell>Action</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
             {amenitiesList?.map((item: any, index: any) => (
