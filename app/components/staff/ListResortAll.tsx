@@ -98,7 +98,7 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
 
   const filterResorts = async () => {
     let config = { resortName };
-    const newData = await GetListResort((currentPage - 1).toString(), config);
+    const newData = await GetListResort("0", config);
 
     if (newData) {
       setFilteredResorts(newData);
@@ -180,102 +180,112 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
         />
         <Button onClick={filterResorts}>Search</Button>
       </div>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell className="!bg-white !text-black !text-[17px] !font-semibold w-[270px]">
-                Resort Name{' '}
-              </StyledTableCell>
-              <StyledTableCell
-                className="!bg-white !text-black !text-[17px] !font-semibold"
-                align="left"
-              >
-                Address
-              </StyledTableCell>
-              <StyledTableCell
-                className="!bg-white !text-black !text-[17px] w-[200px] !font-semibold"
-                align="left"
-              >
-                Property Type
-              </StyledTableCell>
-              <StyledTableCell
-                className="!bg-white !text-black !text-[17px] !font-semibold"
-                align="left"
-              >
-                Status
-              </StyledTableCell>
-
-              <StyledTableCell
-                className="!bg-white !text-black !text-[17px] !font-semibold"
-                align="right"
-              >
-                Action{' '}
-              </StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filteredResorts?.content.map((row: any, index: number) => (
-              <StyledTableRow key={index}>
-                <StyledTableCell className="!py-5 !text-common" component="th" scope="row">
-                  <Link href={`/staff/staffdetailresort/${row.id}`} className="hover:underline">
-                    {row.resortName}
-                  </Link>
-                </StyledTableCell>
-                <StyledTableCell>
-                  <div className="line-clamp-1">{row.addressLine}</div>
-                </StyledTableCell>
-                <StyledTableCell className="!py-5" align="left">
-                  {row.propertyTypes.slice(0, 3).map((item: any, index: number) => (
-                    <div key={index}>{item.propertyTypeName}</div>
-                  ))}
-                </StyledTableCell>
-                <StyledTableCell className="!py-5 " align="left">
-                  {(() => {
-                    let statusText = '';
-                    if (row.status === 'ACTIVE') {
-                      statusText = 'ACTIVE';
-                    } else if (row.status === 'DEACTIVATE') {
-                      statusText = 'DEACTIVATE';
-                    } else if (row.status === 'MAINTANCE') {
-                      statusText = 'MAINTANCE';
-                    }
-
-                    return (
-                      <div
-                        className={`py-2 px-1 text-sm text-center  bg-slate-200 font-bold rounded-md ${
-                          statusText === 'ACTIVE' ? 'text-green-500' : ''
-                        } ${statusText === 'DEACTIVATE' ? 'text-rose-500' : ''} ${
-                          statusText === 'MAINTANCE' ? 'text-orange-500' : ''
-                        }`}
-                      >
-                        {statusText}
-                      </div>
-                    );
-                  })()}
-                </StyledTableCell>
-
-                <StyledTableCell className="!py-5 w-[120px] !text-green-500 " align="right">
-                  <span
-                    onClick={() => router.push(`/staff/staffdetailresort/${row.id}`)}
-                    className="text-common underline hover:cursor-pointer"
+      {filteredResorts && filteredResorts?.content.length > 0 ? (
+        <React.Fragment>
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell className="!bg-white !text-black !text-[17px] !font-semibold w-[270px]">
+                    Resort Name{' '}
+                  </StyledTableCell>
+                  <StyledTableCell
+                    className="!bg-white !text-black !text-[17px] !font-semibold"
+                    align="left"
                   >
-                    View detail
-                  </span>
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <div className="flex py-5 overflow-x-auto sm:justify-center">
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={onPageChange}
-          showIcons
-        />
-      </div>
+                    Address
+                  </StyledTableCell>
+                  <StyledTableCell
+                    className="!bg-white !text-black !text-[17px] w-[200px] !font-semibold"
+                    align="left"
+                  >
+                    Property Type
+                  </StyledTableCell>
+                  <StyledTableCell
+                    className="!bg-white !text-black !text-[17px] !font-semibold"
+                    align="left"
+                  >
+                    Status
+                  </StyledTableCell>
+
+                  <StyledTableCell
+                    className="!bg-white !text-black !text-[17px] !font-semibold"
+                    align="right"
+                  >
+                    Action{' '}
+                  </StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredResorts?.content.map((row: any, index: number) => (
+                  <StyledTableRow key={index}>
+                    <StyledTableCell className="!py-5 !text-common" component="th" scope="row">
+                      <Link href={`/staff/staffdetailresort/${row.id}`} className="hover:underline">
+                        {row.resortName}
+                      </Link>
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <div className="line-clamp-1">{row.addressLine}</div>
+                    </StyledTableCell>
+                    <StyledTableCell className="!py-5" align="left">
+                      {row.propertyTypes.slice(0, 3).map((item: any, index: number) => (
+                        <div key={index}>{item.propertyTypeName}</div>
+                      ))}
+                    </StyledTableCell>
+                    <StyledTableCell className="!py-5 " align="left">
+                      {(() => {
+                        let statusText = '';
+                        if (row.status === 'ACTIVE') {
+                          statusText = 'ACTIVE';
+                        } else if (row.status === 'DEACTIVATE') {
+                          statusText = 'DEACTIVATE';
+                        } else if (row.status === 'MAINTANCE') {
+                          statusText = 'MAINTANCE';
+                        }
+
+                        return (
+                          <div
+                            className={`py-2 px-1 text-sm text-center  bg-slate-200 font-bold rounded-md ${
+                              statusText === 'ACTIVE' ? 'text-green-500' : ''
+                            } ${statusText === 'DEACTIVATE' ? 'text-rose-500' : ''} ${
+                              statusText === 'MAINTANCE' ? 'text-orange-500' : ''
+                            }`}
+                          >
+                            {statusText}
+                          </div>
+                        );
+                      })()}
+                    </StyledTableCell>
+
+                    <StyledTableCell className="!py-5 w-[120px] !text-green-500 " align="right">
+                      <span
+                        onClick={() => router.push(`/staff/staffdetailresort/${row.id}`)}
+                        className="text-common underline hover:cursor-pointer"
+                      >
+                        View detail
+                      </span>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          {filteredResorts.totalPages > 1 && (
+            <div className="flex py-5 overflow-x-auto sm:justify-center">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+              showIcons
+            />
+          </div>
+          )}
+        </React.Fragment>
+      ) : (
+        <div className="pt-5 flex flex-row w-full justify-center text-xl font-bold">
+          Not have resort
+        </div>
+      )}
     </>
   );
 };
