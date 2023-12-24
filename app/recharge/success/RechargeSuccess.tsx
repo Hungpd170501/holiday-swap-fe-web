@@ -18,6 +18,7 @@ const RechargeSuccess = () => {
   const moneyTransferId = pathName?.slice(18, 23);
   const recharge = useRecharge();
   const isBackBooking = recharge.isBackBooking;
+  const isClickLink = recharge.isClickLink;
   const [bookingLink, setBookingLink] = useState<string>('');
   const axiosAuthClient = useAxiosAuthClient();
 
@@ -27,14 +28,16 @@ const RechargeSuccess = () => {
         `https://holiday-swap.click/api/v1/payment/payment_infor/${moneyTransferId}?vnp_ResponseCode=${responseCode}`
       )
       .then(() => {
-        if (isBackBooking === true) {
+        if (isBackBooking === true && localStorage.getItem('bookingLink')) {
           const newBookingLink = localStorage.getItem('bookingLink');
           if (newBookingLink) {
             setBookingLink(newBookingLink);
           }
+        } else {
+          return;
         }
       });
-  }, [pathName, isBackBooking, bookingLink]);
+  }, [isBackBooking, moneyTransferId, responseCode]);
 
   useEffect(() => {
     if (bookingLink) {
@@ -42,8 +45,6 @@ const RechargeSuccess = () => {
       recharge.onBackBookingReset();
     }
   }, [bookingLink]);
-
-  console.log('Check booking back', isBackBooking);
 
   return (
     <Container className="bg-green-50">

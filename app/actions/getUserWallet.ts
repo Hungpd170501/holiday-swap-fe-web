@@ -8,7 +8,7 @@ export default async function GetUserWallet() {
     const accessToken = session?.user?.access_token;
     const config = { headers: { Authorization: `Bearer ${accessToken}` } };
 
-    const userWallet = await axios.get(`${process.env.API_URL}/point/user_wallet`, config);
+    const userWallet = await axios.get(`https://holiday-swap.click/api/v1/point/user_wallet`, config);
 
     if (!userWallet) {
       return null;

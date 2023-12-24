@@ -51,7 +51,6 @@ export const metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const currentUser = await GetCurrentUser();
-  const userWallet = await GetUserWallet();
   return (
     <html lang="en">
       <body className={font.className}>
@@ -59,7 +58,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <Provider>
             <DateRangeProvider>
               <GuestProvider>
-                <Header currentUser={currentUser} userWallet={userWallet} />
+                <Header currentUser={currentUser} />
                 <Suspense fallback={<Loading />}>
                   <ClientOnly>
                     <ModalDetailProperty />
