@@ -50,7 +50,8 @@ const CurrentBooking: React.FC<CurrentBookingProps> = ({ historyBooking }) => {
           <div
             onClick={() => router.push(`/dashboard/myBooking/${item.bookingId}`)}
             key={item.bookingId}
-            className="grid grid-cols-12 h-[150px] bg-white rounded-lg shadow-lg justify-between hover:cursor-pointer mb-5 translate-y-0 duration-300 hover:-translate-y-3 hover:duration-300 transition-all transform active:scale-95"
+            className="grid grid-cols-12 h-[150px] bg-white rounded-lg shadow-lg justify-between hover:cursor-pointer mb-5 translate-y-0 duration-300 hover:-translate-y-3 
+            hover:duration-300 transition-all transform active:scale-95 hover:border-2 hover:border-common"
           >
             <div className="col-span-9">
               <div className="grid grid-cols-9 h-full gap-5">

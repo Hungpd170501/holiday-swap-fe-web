@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import HeadingDashboard from '../HeadingDashboard';
 import { Fragment } from 'react';
 import { Pagination } from 'flowbite-react';
+import { CiFilter } from 'react-icons/ci';
 
 interface MyBookingListProps {
   historyBooking: any;
@@ -24,6 +25,7 @@ const MyBookingList: React.FC<MyBookingListProps> = ({ historyBooking }) => {
   const [pageCount, setPageCount] = useState(0);
   const itemsPerPage = 10; // Số lượng mục trên mỗi trang
   const [displayedItems, setDisplayItems] = useState<any>();
+  const [sortOrder, setSortOrder] = useState<'ascending' | 'descending'>('ascending');
 
   // Tính toán số trang dựa trên số lượng mục và số lượng mục trên mỗi trang
   useEffect(() => {
@@ -47,6 +49,22 @@ const MyBookingList: React.FC<MyBookingListProps> = ({ historyBooking }) => {
 
   const onPageChange = (page: number) => setCurrentPage(page);
 
+  const handleSortToggle = () => {
+    const newSortOrder = sortOrder === 'ascending' ? 'descending' : 'ascending';
+    setSortOrder(newSortOrder);
+  };
+
+  const sortedItems = displayedItems?.sort((a: any, b: any) => {
+    const dateA = new Date(a.createdDate);
+    const dateB = new Date(b.createdDate);
+
+    if (sortOrder === 'ascending') {
+      return dateA.valueOf() - dateB.valueOf();
+    } else {
+      return dateB.valueOf() - dateA.valueOf();
+    }
+  });
+
   return (
     <Fragment>
       <div className="mt-12">
@@ -57,12 +75,25 @@ const MyBookingList: React.FC<MyBookingListProps> = ({ historyBooking }) => {
         />
       </div>
       <div className="py-6">
-        {displayedItems?.length > 0 ? (
-          displayedItems.reverse().map((item: any) => (
+        <div className="py-6">
+          <div
+            onClick={handleSortToggle}
+            className="p-3 border border-slate-300 hover:cursor-pointer rounded-full 
+          justify-center shadow-md flex flex-row items-center gap-1 w-72 transition-all duration-300 transform active:scale-95"
+          >
+            <div>
+              Created date: <span>{sortOrder}</span>
+            </div>
+            <CiFilter size={20} />
+          </div>
+        </div>
+        {sortedItems?.length > 0 ? (
+          sortedItems.map((item: any) => (
             <div
               onClick={() => router.push(`/dashboard/myBooking/${item.bookingId}`)}
               key={item.bookingId}
-              className="grid grid-cols-12 h-[150px] bg-white rounded-lg shadow-lg justify-between hover:cursor-pointer mb-5 translate-y-0 duration-300 hover:-translate-y-3 hover:duration-300 transition-all transform active:scale-95"
+              className="grid grid-cols-12 h-[150px] bg-white rounded-lg shadow-lg justify-between hover:cursor-pointer mb-5 translate-y-0 duration-300 hover:-translate-y-3 
+              hover:duration-300 transition-all transform active:scale-95 hover:border-2 hover:border-common"
             >
               <div className="col-span-9">
                 <div className="grid grid-cols-9 h-full gap-5">

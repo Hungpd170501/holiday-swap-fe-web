@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { Fragment, useState, useEffect } from 'react';
 import HeadingDashboard from '../HeadingDashboard';
 import { Pagination } from 'flowbite-react';
+import { CiFilter } from 'react-icons/ci';
 
 interface OwnerBookingProps {
   historyOwnerBooking: any;
@@ -25,6 +26,7 @@ const OwnerBooking: React.FC<OwnerBookingProps> = ({ historyOwnerBooking }) => {
   const [pageCount, setPageCount] = useState(0);
   const itemsPerPage = 10; // Số lượng mục trên mỗi trang
   const [displayedItems, setDisplayItems] = useState<any>();
+  const [sortOrder, setSortOrder] = useState<'ascending' | 'descending'>('ascending');
 
   // Tính toán số trang dựa trên số lượng mục và số lượng mục trên mỗi trang
   useEffect(() => {
@@ -47,6 +49,23 @@ const OwnerBooking: React.FC<OwnerBookingProps> = ({ historyOwnerBooking }) => {
   // Sử dụng `.slice()` để lấy danh sách các mục cần hiển thị trên trang hiện tại
 
   const onPageChange = (page: number) => setCurrentPage(page);
+
+  const handleSortToggle = () => {
+    const newSortOrder = sortOrder === 'ascending' ? 'descending' : 'ascending';
+    setSortOrder(newSortOrder);
+  };
+
+  const sortedItems = displayedItems?.sort((a: any, b: any) => {
+    const dateA = new Date(a.createdDate);
+    const dateB = new Date(b.createdDate);
+
+    if (sortOrder === 'ascending') {
+      return dateA.valueOf() - dateB.valueOf();
+    } else {
+      return dateB.valueOf() - dateA.valueOf();
+    }
+  });
+
   return (
     <Fragment>
       <div className="mt-7">
@@ -57,13 +76,26 @@ const OwnerBooking: React.FC<OwnerBookingProps> = ({ historyOwnerBooking }) => {
         />
       </div>
       <div className="pb-6 pt-3">
-        {displayedItems?.length > 0 ? (
+         <div className="py-6">
+          <div
+            onClick={handleSortToggle}
+            className="p-3 border border-slate-300 hover:cursor-pointer rounded-full 
+          justify-center shadow-md flex flex-row items-center gap-1 w-72 transition-all duration-300 transform active:scale-95"
+          >
+            <div>
+              Created date: <span>{sortOrder}</span>
+            </div>
+            <CiFilter size={20} />
+          </div>
+        </div>
+        {sortedItems?.length > 0 ? (
           <Fragment>
-            {displayedItems.reverse().map((item: any) => (
+            {sortedItems.map((item: any) => (
               <div
                 onClick={() => router.push(`/dashboard/ownerBooking/${item.bookingId}`)}
                 key={item.bookingId}
-                className="grid grid-cols-12 h-[150px] bg-white rounded-lg shadow-lg justify-between hover:cursor-pointer my-5 translate-y-0 duration-300 hover:-translate-y-3 hover:duration-300 transition-all transform active:scale-95"
+                className="grid grid-cols-12 h-[150px] bg-white rounded-lg shadow-lg justify-between hover:cursor-pointer my-5 translate-y-0 duration-300 
+                hover:-translate-y-3 hover:duration-300 transition-all transform active:scale-95 hover:border-2 hover:border-common"
               >
                 <div className="col-span-9">
                   <div className="grid grid-cols-9 h-full gap-5">
