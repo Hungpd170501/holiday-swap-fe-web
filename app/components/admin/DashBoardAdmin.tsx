@@ -21,7 +21,7 @@ const DashBoardAdmin: React.FC<DashboardAdminProps> = ({ listUser }) => {
   return (
     <div>
       <SelectRouterAdmin />
-      <div className="flex flex-row gap-1 items-center py-5">
+      <div className="flex flex-row gap-1 items-center py-5 mt-6">
         <span
           onClick={() => router.push('/admin')}
           className="hover:underline hover:cursor-pointer text-[20px] text-common font-bold"
