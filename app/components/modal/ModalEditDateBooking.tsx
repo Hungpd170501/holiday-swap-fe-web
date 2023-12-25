@@ -21,18 +21,6 @@ import useNewDateRange from '@/app/hooks/useNewDateRange';
 export default function ModalEditDateBooking() {
   const [isLoading, setIsLoading] = useState(false);
 
-  const editDateBookingModal = useEditDateBookingModal();
-  const newDateRange = useNewDateRange();
-  const isNew = newDateRange.isNew;
-  const isSave = editDateBookingModal.isSave;
-  const handleDatePicker = editDateBookingModal.handleDateRangePicker;
-  const dateRangeProp = JSON.parse(editDateBookingModal.dateRange);
-  const [dateRange, setDateRange] = useState({
-    startDate: addDays(new Date(dateRangeProp?.startDate?.split('T', 1)[0] as string), 1),
-    endDate: addDays(new Date(dateRangeProp?.endDate?.split('T', 1)[0] as string), 1),
-    key: 'selection',
-  });
-
   const {
     dateRangeContext,
     dateRangeDefaultContext,
@@ -42,18 +30,51 @@ export default function ModalEditDateBooking() {
     setDateOut,
   } = useDateRange();
 
+  const editDateBookingModal = useEditDateBookingModal();
+  const newDateRange = useNewDateRange();
+  const isNew = newDateRange.isNew;
+  const isSave = editDateBookingModal.isSave;
+  const handleDatePicker = editDateBookingModal.handleDateRangePicker;
+  const dateRangeProp = JSON.parse(editDateBookingModal.dateRange);
+
+  useEffect(() => {
+    if (
+      dateRangeContext &&
+      dateRangeContext?.startDate.toString().includes('T') &&
+      dateRangeContext?.endDate.toString().includes('T')
+    ) {
+      setDateRangeContext({
+        startDate: new Date(dateRangeContext?.startDate),
+        endDate: new Date(dateRangeContext?.endDate),
+        key: 'selection',
+      });
+    }
+  }, [dateRangeContext]);
+
   const bodyContent = (
     <div className="h-full w-full">
       <CalendarAparment
         value={dateRangeContext}
         onChange={(value: any) => {
           setDateRangeContext(value.selection);
-          if (handleDatePicker) {
-            handleDatePicker(value);
-          }
+
+          handleDatePicker(value);
         }}
-        minDate={dateRangeContext?.startDate}
-        maxDate={dateRangeContext?.endDate}
+        minDate={
+          typeof dateRangeDefaultContext?.startDate === 'string' &&
+          dateRangeDefaultContext?.startDate
+            ? new Date(
+                (dateRangeDefaultContext?.startDate as any)?.toString().split('T', 1)[0] as string
+              )
+            : dateRangeDefaultContext?.startDate
+        }
+        maxDate={
+          typeof dateRangeDefaultContext?.endDate === 'string' && dateRangeDefaultContext?.endDate
+            ? new Date(
+                (dateRangeDefaultContext?.endDate as any)?.toString().split('T', 1)[0] as string
+              )
+            : dateRangeDefaultContext?.endDate
+        }
         disabledDates={dateOut}
         className="w-full"
       />

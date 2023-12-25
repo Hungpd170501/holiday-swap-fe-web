@@ -39,7 +39,7 @@ const CardListResort: React.FC<CardListResortProps> = ({ data }) => {
                 src={item.link}
                 alt="destination"
                 fill
-                className=" rounded-t-xl  "
+                className=" rounded-t-xl object-cover"
               />
             </div>
           ))}

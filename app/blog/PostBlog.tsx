@@ -17,7 +17,6 @@ const PostBlog: React.FC<PostBlogProps> = ({ post, currentUser }) => {
         <div className="w-full">
           <CardBlog post={post} currentUser={currentUser} />
         </div>
-        
       </div>
     </Container>
   );

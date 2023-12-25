@@ -136,6 +136,8 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
     }
   }, [currentUser, setValue]);
 
+  console.log('Check date range booking inform', dateRangeContext);
+
   return (
     <div className="flex flex-row w-full">
       <div className="flex flex-col w-full">

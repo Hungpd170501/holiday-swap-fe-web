@@ -42,7 +42,6 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
   const rating = searchParams?.get('rating');
   const resortName = searchParams?.get('resortName');
   const [bookingLink, setBookingLink] = useState<string>('');
-
   const { dateRangeContext, setDateRangeContext, setDateRangeDefaultContext } = useDateRange();
 
   const isMounted = useRef(false);
@@ -98,19 +97,11 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
   }, []);
 
   useEffect(() => {
-    if (
-      (window.performance.getEntries()[0] as PerformanceNavigationTiming).type === 'reload' &&
-      dateRange &&
-      dateRangeBooking
-    ) {
+    if (performance.navigation.type === 1 && dateRange && dateRangeBooking) {
       setDateRangeContext(JSON.parse(dateRange));
       setDateRangeDefaultContext(JSON.parse(dateRangeBooking));
     }
-  }, [
-    (window.performance.getEntries()[0] as PerformanceNavigationTiming).type,
-    dateRange,
-    dateRangeBooking,
-  ]);
+  }, [dateRange, dateRangeBooking]);
 
   return (
     <Container className="bg-white">

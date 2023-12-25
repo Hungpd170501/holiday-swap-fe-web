@@ -36,7 +36,7 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
           config
         )
         .then(async () => {
-          console.log("Check user like", currentUser.userId)
+          console.log('Check user like', currentUser.userId);
           const newData = await GetPostUser(currentUser.userId);
           if (newData) {
             setPostList(newData);
@@ -86,7 +86,7 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
 
   return (
     <div className="bg-white w-full h-auto ">
-      {postList?.map((item: any, index: number) => (
+      {postList?.reverse().map((item: any, index: number) => (
         <div key={item.id} className="shadow-sm border border-gray-200 rounded-xl mb-10">
           <div className="px-10 my-8 flex flex-col ">
             <div className="flex flex-row items-center justify-between">
