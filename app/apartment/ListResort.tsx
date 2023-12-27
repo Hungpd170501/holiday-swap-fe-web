@@ -9,7 +9,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
 interface ListResortProps {
-  listApartment: any;
+  listApartment?: any;
   resortId: any;
   dateRange: any;
   numberOfGuest: any;
@@ -43,6 +43,7 @@ const ListResort: React.FC<ListResortProps> = ({
   const dateRangeParamsSearch = searchParams?.get('dateRange');
   const numberOfGuestParams = searchParams?.get('numberOfGuest');
   const router = useRouter();
+  const isMounted = useRef(false);
 
   // useEffect(() => {
   //   setDateRangeNew(dateRange);
@@ -51,6 +52,13 @@ const ListResort: React.FC<ListResortProps> = ({
   //     dateRangeParams = JSON.parse(searchParams?.get('dateRange') ?? '');
   //   }
   // }, [dateRange, dateRangeParamsSearch]);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (dateRangeParamsSearch) {
@@ -103,7 +111,11 @@ const ListResort: React.FC<ListResortProps> = ({
 
       setListResort(list?.data);
       setTotalPages(list?.data?.totalPages);
-    } else {
+    } else if (
+      numberOfGuestValue > 0 ||
+      JSON.stringify(dateRangeNew) !== JSON.stringify(initialDateRange) ||
+      resortIdValue !== undefined
+    ) {
       if (resortIdValue) {
         url += `&resortId=${resortIdValue}`;
       }

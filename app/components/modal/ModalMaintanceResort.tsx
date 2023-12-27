@@ -41,17 +41,24 @@ export default function ModalMaintanceResort() {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
-    const body = {
+    const formData = new FormData();
+
+    const resortUpdateRequest = {
       resortId: resortId,
       resortStatus: resortStatus,
       startDate: format(new Date(data.startDateMaintance), 'yyyy-MM-dd') + 'T00:00',
       endDate: format(new Date(data.endDateMaintance), 'yyyy-MM-dd') + 'T00:00',
     };
+    const resortUpdatRequestBlob = new Blob([JSON.stringify(resortUpdateRequest)], {
+      type: 'application/json',
+    });
+    formData.append('resortUpdateRequest', resortUpdatRequestBlob);
+    file.forEach((element) => {
+      formData.append('resortImage', element);
+    });
 
     axios
-      .put(`https://holiday-swap.click/api/v1/resorts/updateStatus`, body, {
-        headers: { 'Content-Type': 'application/json' },
-      })
+      .put(`https://holiday-swap.click/api/v1/resorts/updateStatus`, formData)
       .then(() => {
         toast.success('Updated status successfully!');
         maintanceResortModal.onSuccess();
@@ -114,14 +121,14 @@ export default function ModalMaintanceResort() {
         /> */}
       </div>
 
-      {/* <div>
+      <div>
         <label className="pb-1">Report Image</label>
         <UploadImageCreateOwnership
           handeChangeNewImages={handeChangeNewImages}
           handleDeleteImage={handleDeleteImage}
           mutiple={true}
         />
-      </div> */}
+      </div>
 
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header>Maintenance resort</Modal.Header>

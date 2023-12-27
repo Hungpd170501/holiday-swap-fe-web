@@ -49,7 +49,6 @@ const ListAparment: React.FC<ListApartmentProps> = ({ listApartment, listResort,
           <Categories />
         </div> */}
         <ListResort
-          listApartment={listApartment}
           resortId={resortId}
           dateRange={dateRange}
           numberOfGuest={numberOfGuest}

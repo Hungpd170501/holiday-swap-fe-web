@@ -38,17 +38,24 @@ export default function ModalDeactiveResort() {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
-    const body = {
+    const formData = new FormData();
+
+    const resortUpdateRequest = {
       resortId: resortId,
       resortStatus: resortStatus,
       startDate: format(new Date(data.startDateDeactive), 'yyyy-MM-dd') + 'T00:00',
       endDate: null,
     };
+    const resortUpdatRequestBlob = new Blob([JSON.stringify(resortUpdateRequest)], {
+      type: 'application/json',
+    });
+    formData.append('resortUpdateRequest', resortUpdatRequestBlob);
+    file.forEach((element) => {
+      formData.append('resortImage', element);
+    });
 
     axios
-      .put(`https://holiday-swap.click/api/v1/resorts/updateStatus`, body, {
-        headers: { 'Content-Type': 'application/json' },
-      })
+      .put(`https://holiday-swap.click/api/v1/resorts/updateStatus`, formData)
       .then(() => {
         toast.success('Updated status successfully!');
         deactiveResortModal.onSuccess();
@@ -101,14 +108,14 @@ export default function ModalDeactiveResort() {
         /> */}
       </div>
 
-      {/* <div>
-          <label className="pb-1">Report Image</label>
-         <UploadImageCreateOwnership
-            handeChangeNewImages={handeChangeNewImages}
-            handleDeleteImage={handleDeleteImage}
-            mutiple={true}
-          />
-      </div> */}
+      <div>
+        <label className="pb-1">Report Image</label>
+        <UploadImageCreateOwnership
+          handeChangeNewImages={handeChangeNewImages}
+          handleDeleteImage={handleDeleteImage}
+          mutiple={true}
+        />
+      </div>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header>Deactive resort</Modal.Header>
         <Modal.Body>
@@ -137,7 +144,7 @@ export default function ModalDeactiveResort() {
       title={'Deactive Resort'}
       actionLabel={'Deactive'}
       onClose={deactiveResortModal.onClose}
-      onSubmit={() => setOpenModal(false)}
+      onSubmit={() => setOpenModal(true)}
       body={bodyContent}
     />
   );

@@ -61,18 +61,18 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail, params }) => {
         <div className="flex-col">
           <div className="pb-6 w-full flex flex-row items-center justify-between">
             <div className="flex flex-col gap-3">
-              <div className="pt-10  text-[40px]">{detail.resortName}</div>
+              <div className="pt-10  text-[40px]">{detail?.resortName}</div>
               <div className="flex flex-row items-center gap-1">
                 <div className="font-bold text-[20px]">Address: </div>
-                <div>{detail.addressLine}</div>
+                <div>{detail?.addressLine}</div>
               </div>
               <div className="flex flex-row items-center gap-1">
                 <div className="font-bold text-[20px]">Property type: </div>
                 <div>
-                  {detail.propertyTypes.map((row: any, index: any) => (
+                  {detail?.propertyTypes?.map((row: any, index: any) => (
                     <React.Fragment key={index}>
                       <span className="inline-block">{row.propertyTypeName}</span>
-                      {index < detail.propertyTypes.length - 1 && <span>, </span>}
+                      {index < detail?.propertyTypes?.length - 1 && <span>, </span>}
                     </React.Fragment>
                   ))}
                 </div>
@@ -80,7 +80,7 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail, params }) => {
               <div className="flex flex-row  gap-1">
                 <div className="font-bold text-[20px]">Amenity: </div>
                 <div>
-                  {detail.resortAmenityTypes.map((row: any, index: any) => (
+                  {detail?.resortAmenityTypes?.map((row: any, index: any) => (
                     <React.Fragment key={index}>
                       {row?.resortAmenities?.map((item: any, index: number) => (
                         <span key={index} className="inline-block">
