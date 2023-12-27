@@ -43,6 +43,7 @@ import Meta from 'antd/es/card/Meta';
 import ModalCoOwnerCalendar from '../modal/ModalCoOwnerCalendar';
 import getAvailableTimeByCoOwnerId from '@/app/actions/getAvailableTimeByCoOwnerId';
 import ModalViewImageContractCoOwner from '../modal/ModalViewImageContractCoOwner';
+import { FaRegEdit } from 'react-icons/fa';
 
 interface ManageApartmentProps {
   detailCoOwner: any;
@@ -152,7 +153,9 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                           <div>Type: {detail.type}</div>
                           <div>
                             Week Number:
-                            {detail.timeFrames.map((w: any, i: number) => `${w.weekNumber}, `)}
+                            {detail.timeFrames.map((w: any, i: number) => (
+                              <div key={i}>{w.weekNumber}, </div>
+                            ))}
                           </div>
                           <div>Apartment Id: {detail.roomId}</div>
                         </Card>
@@ -238,14 +241,11 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                       style={{ marginTop: 16 }}
                       title="My public"
                       extra={
-                        // <Button
-                        //   onClick={() => {
-                        //     console.log('Open Modals');
-                        //   }}
-                        //   type="link"
-                        //   icon={<ExportOutlined />}
-                        // />
-                        <ModalCoOwnerCalendar />
+                        <Button
+                          onClick={() => createModalPublicTime.onOpen(detail)}
+                          type="link"
+                          icon={<FaRegEdit size={18} />}
+                        />
                       }
                     >
                       <Table dataSource={availableTime} columns={columns} />
@@ -265,7 +265,7 @@ export default ManageApartment;
 
 const columns = [
   {
-    title: 'id',
+    title: 'Id',
     dataIndex: 'id',
     key: 'id',
     render: (id: string) => <a>{id}</a>,
@@ -289,7 +289,7 @@ const columns = [
     },
   },
   {
-    title: 'pricePerNight',
+    title: 'Price/Night',
     dataIndex: 'pricePerNight',
     key: 'pricePerNight',
   },

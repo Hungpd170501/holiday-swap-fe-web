@@ -6,8 +6,13 @@ const nextConfig = {
   reactStrictMode: false,
   output: 'standalone',
   images: {
-    domains: ['holiday-swap-file-resouces.s3.ap-southeast-1.amazonaws.com'],
     remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'holiday-swap-file-resouces.s3.ap-southeast-1.amazonaws.com',
+        port: '',
+        pathname: '/**',
+      },
       {
         protocol: 'https',
         hostname: 'images.pexels.com',

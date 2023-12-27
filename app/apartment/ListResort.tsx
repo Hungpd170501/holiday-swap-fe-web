@@ -111,11 +111,7 @@ const ListResort: React.FC<ListResortProps> = ({
 
       setListResort(list?.data);
       setTotalPages(list?.data?.totalPages);
-    } else if (
-      numberOfGuestValue > 0 ||
-      JSON.stringify(dateRangeNew) !== JSON.stringify(initialDateRange) ||
-      resortIdValue !== undefined
-    ) {
+    } else {
       if (resortIdValue) {
         url += `&resortId=${resortIdValue}`;
       }
@@ -161,7 +157,7 @@ const ListResort: React.FC<ListResortProps> = ({
 
   useEffect(() => {
     getListResort();
-  }, [page, dateRangeNew, numberOfGuestValue, resortIdValue]);
+  }, [page, dateRangeNew, numberOfGuestValue, resortIdValue, currentUser]);
 
   return (
     <Fragment>
