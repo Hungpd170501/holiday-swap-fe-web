@@ -42,6 +42,7 @@ import {
   ExportOutlined,
   EyeOutlined,
   SettingOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import Meta from 'antd/es/card/Meta';
 import ModalCoOwnerCalendar from '../modal/ModalCoOwnerCalendar';
@@ -49,6 +50,7 @@ import getAvailableTimeByCoOwnerId from '@/app/actions/getAvailableTimeByCoOwner
 import ModalViewImageContractCoOwner from '../modal/ModalViewImageContractCoOwner';
 import { FaRegEdit } from 'react-icons/fa';
 import { current } from '@reduxjs/toolkit';
+import getRatingByPropertyIdAndRoomId from '@/app/actions/getRatingByPropertyIdAndRoomId';
 
 interface ManageApartmentProps {
   detailCoOwner: any;
@@ -68,6 +70,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
 }) => {
   const [detail, setDetail] = useState(detailCoOwner);
   const [availableTime, setAvailableTime] = useState<any>();
+  const [rating, setRating] = useState<any>();
   const [pageAvailableTime, setPageAvailableTime] = useState<IPagination>({
     current: 1,
     pageSize: 4,
@@ -99,6 +102,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
   );
   useEffect(() => {
     fetchAvailableTimeByCoOwnerId();
+    fetchRatingByPropertyIdAndRoomId();
   }, [JSON.stringify(pageAvailableTime.current)]);
   const fetchAvailableTimeByCoOwnerId = async () => {
     var rs = await getAvailableTimeByCoOwnerId({
@@ -110,6 +114,18 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
     });
     setAvailableTime(rs.content);
     setPageAvailableTime({ current: rs.number, pageSize: rs.size, total: rs.totalElements });
+  };
+  const fetchRatingByPropertyIdAndRoomId = async () => {
+    var rs = await getRatingByPropertyIdAndRoomId({
+      propertyId: detail.property.id,
+      roomId: detail.roomId,
+      // pageNo: pageAvailableTime.current,
+      // pageSize: 5,
+      // sortDirection: 'asc',
+      // sortBy: 'id',
+    });
+    setRating(rs.content);
+    // setPageAvailableTime({ current: rs.number, pageSize: rs.size, total: rs.totalElements });
   };
   // Function to toggle isOpenTimePublic for a specific index
   const toggleIsOpenTimePublic = (index: number) => {
@@ -223,29 +239,36 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                     </Card>
 
                     <Card title={'Review'} extra={<a href="#">View More</a>}>
-                      {arr.slice(0, 2).map((e: any, i: number) => {
-                        return (
-                          <Card
-                            key={i}
-                            style={{ marginTop: 8 }}
-                            title={<Rate disabled defaultValue={4.5} />}
-                          >
-                            <Meta
-                              avatar={
-                                <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-                              }
-                              title="User name"
-                              description="content reviee"
-                            />
-                          </Card>
-                        );
-                      })}
+                      <div className="grid grid-cols-1 gap-2">
+                        {rating.slice(0, 2).map((e: any, i: number) => {
+                          return (
+                            <div key={i}>
+                              <Card style={{ marginTop: 8 }}>
+                                <Meta
+                                  avatar={
+                                    e.user.avatar ? (
+                                      <Avatar src={e.user.avatar} size={20} />
+                                    ) : (
+                                      <Avatar icon={<UserOutlined />} size={20} />
+                                    )
+                                  }
+                                  title={e.user.userName}
+                                  description={
+                                    <Rate disabled defaultValue={e.rating} className="text-[7px]" />
+                                  }
+                                />
+                                <div className="my-2">Review: {e.comment}</div>
+                              </Card>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </Card>
                   </Card>
                 </div>
                 <div className="col-span-2">
                   <Card>
-                    <Card title="Statistic" extra={<b>This year</b>}>
+                    {/* <Card title="Statistic" extra={<b>This year</b>}>
                       <div className="flex justify-between">
                         <Statistic
                           title="Booking"
@@ -272,8 +295,8 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                           suffix="%"
                         />
                       </div>
-                    </Card>
-                    <Card
+                    </Card> */}
+                    {/* <Card
                       style={{ marginTop: 16 }}
                       title="New booking"
                       extra={<a href="#">View More</a>}
@@ -297,7 +320,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                           );
                         })}
                       </Row>
-                    </Card>
+                    </Card> */}
                     <Card
                       style={{ marginTop: 16 }}
                       title="My public"

@@ -25,7 +25,7 @@ const ModalViewImageContractCoOwner = (image: imageProps) => {
   return (
     <>
       <Space>
-        <Button type="link" onClick={showModal} icon={<EyeOutlined />}></Button>
+        <Button type="link" onClick={showModal} icon={<EyeOutlined />}>View contract</Button>
       </Space>
       <Modal
         open={open}
