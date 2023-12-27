@@ -236,7 +236,7 @@ const TransferMoney: React.FC<TransferMoneyProps> = ({ currentUser, memberships 
 
   const handleChangeMoneyTransfer = (value: any) => {
     if (value < 1) {
-      setMoneyTransfer(1);
+      setMoneyTransfer(null);
     } else {
       setMoneyTransfer(value);
     }
