@@ -342,6 +342,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                             current: number - 1,
                           });
                         }}
+                        className='pt-2'
                       />
                     </Card>
                   </Card>
