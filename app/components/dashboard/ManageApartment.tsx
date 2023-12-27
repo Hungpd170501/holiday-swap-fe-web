@@ -240,28 +240,36 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
 
                     <Card title={'Review'} extra={<a href="#">View More</a>}>
                       <div className="grid grid-cols-1 gap-2">
-                        {rating.slice(0, 2).map((e: any, i: number) => {
-                          return (
-                            <div key={i}>
-                              <Card style={{ marginTop: 8 }}>
-                                <Meta
-                                  avatar={
-                                    e.user.avatar ? (
-                                      <Avatar src={e.user.avatar} size={20} />
-                                    ) : (
-                                      <Avatar icon={<UserOutlined />} size={20} />
-                                    )
-                                  }
-                                  title={e.user.userName}
-                                  description={
-                                    <Rate disabled defaultValue={e.rating} className="text-[7px]" />
-                                  }
-                                />
-                                <div className="my-2">Review: {e.comment}</div>
-                              </Card>
-                            </div>
-                          );
-                        })}
+                        {rating ? (
+                          rating.slice(0, 2).map((e: any, i: number) => {
+                            return (
+                              <div key={i}>
+                                <Card style={{ marginTop: 8 }}>
+                                  <Meta
+                                    avatar={
+                                      e.user.avatar ? (
+                                        <Avatar src={e.user.avatar} size={20} />
+                                      ) : (
+                                        <Avatar icon={<UserOutlined />} size={20} />
+                                      )
+                                    }
+                                    title={e.user.userName}
+                                    description={
+                                      <Rate
+                                        disabled
+                                        defaultValue={e.rating}
+                                        className="text-[7px]"
+                                      />
+                                    }
+                                  />
+                                  <div className="my-2">Review: {e.comment}</div>
+                                </Card>
+                              </div>
+                            );
+                          })
+                        ) : (
+                          <></>
+                        )}
                       </div>
                     </Card>
                   </Card>
@@ -342,7 +350,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                             current: number - 1,
                           });
                         }}
-                        className='pt-2'
+                        className="pt-2"
                       />
                     </Card>
                   </Card>
