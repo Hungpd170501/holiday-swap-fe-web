@@ -183,7 +183,7 @@ export default function ModalCreateOwnership() {
     const coOwner = {
       propertyId: data.propertyId as number,
       userId: currentUser.userId as number,
-      roomId: data.roomId,
+      roomId: data.apartmentId,
       startTime: `${startYear}-01-01`,
       endTime: typeValue === 'DEEDED' ? null : `${endYear}-01-01`,
       type: typeValue,

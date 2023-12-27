@@ -11,6 +11,13 @@ import type { Dayjs } from 'dayjs';
 
 import type { CalendarProps } from 'antd';
 import { DateRange, DateRangePicker } from 'react-date-range';
+
+const initialDate = {
+  startDate: new Date(),
+  endDate: new Date(new Date().getTime() + 24 * 1000 * 1000),
+  key: 'selection',
+};
+
 const ModalCoOwnerCalendar = () => {
   const [open, setOpen] = useState(false);
 
@@ -24,13 +31,7 @@ const ModalCoOwnerCalendar = () => {
   const handleCancel = () => {
     setOpen(false);
   };
-  const [state, setState] = useState([
-    {
-      startDate: new Date(),
-      endDate: null,
-      key: 'selection',
-    },
-  ]);
+  const [date, setDate] = useState(initialDate);
   return (
     <>
       <Space>
@@ -47,13 +48,15 @@ const ModalCoOwnerCalendar = () => {
         <div>
           <DateRange
             dateDisplayFormat="yyyy-MM-dd"
-            editableDateInputs={true}
-            onChange={(item: any) => setState([item.selection])}
-            moveRangeOnFirstSelection={false}
-            ranges={state}
+            showDateDisplay={false}
+            rangeColors={['#5C98F2']}
+            ranges={[date]}
+            date={new Date()}
+            onChange={(value: any) => {
+              setDate(value.selection);
+            }}
             months={2}
             direction="horizontal"
-            className="w-[100%] !text-[1em]"
           />
         </div>
       </Modal>
