@@ -14,6 +14,10 @@ import {
   List,
   Skeleton,
   Table,
+  Space,
+  Pagination,
+  Popconfirm,
+  message,
 } from 'antd';
 import React, { useState, useRef, Fragment, useEffect } from 'react';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
@@ -44,19 +48,31 @@ import ModalCoOwnerCalendar from '../modal/ModalCoOwnerCalendar';
 import getAvailableTimeByCoOwnerId from '@/app/actions/getAvailableTimeByCoOwnerId';
 import ModalViewImageContractCoOwner from '../modal/ModalViewImageContractCoOwner';
 import { FaRegEdit } from 'react-icons/fa';
+import { current } from '@reduxjs/toolkit';
 
 interface ManageApartmentProps {
   detailCoOwner: any;
   propertyDetail: any;
   slug: any;
 }
+interface IPagination {
+  current: number;
+  pageSize: number;
+  total: number;
+}
+
 const ManageApartment: React.FC<ManageApartmentProps> = ({
   detailCoOwner,
   propertyDetail,
   slug,
 }) => {
   const [detail, setDetail] = useState(detailCoOwner);
-  const [availableTime, setAvailableTime] = useState<any[]>([]);
+  const [availableTime, setAvailableTime] = useState<any>();
+  const [pageAvailableTime, setPageAvailableTime] = useState<IPagination>({
+    current: 1,
+    pageSize: 4,
+    total: 0,
+  });
 
   const [isOpenTimePublic, setIsOpenTimePublic] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -83,22 +99,28 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
   );
   useEffect(() => {
     fetchAvailableTimeByCoOwnerId();
-  }, []);
+  }, [JSON.stringify(pageAvailableTime.current)]);
   const fetchAvailableTimeByCoOwnerId = async () => {
     var rs = await getAvailableTimeByCoOwnerId({
       coOwnerId: slug,
-      pageNo: 0,
-      pageSize: 10,
+      pageNo: pageAvailableTime.current,
+      pageSize: 5,
       sortDirection: 'asc',
       sortBy: 'id',
     });
     setAvailableTime(rs.content);
+    setPageAvailableTime({ current: rs.number, pageSize: rs.size, total: rs.totalElements });
   };
   // Function to toggle isOpenTimePublic for a specific index
   const toggleIsOpenTimePublic = (index: number) => {
     const updatedArr = [...isOpenTimePublicArr];
     updatedArr[index] = !updatedArr[index];
     setIsOpenTimePublicArr(updatedArr);
+  };
+  const confirm = (id: any) => {
+    console.log(id);
+
+    handleDeleteAvailableTime(id);
   };
 
   const handleDeleteAvailableTime = (id: string) => {
@@ -107,11 +129,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
         .delete(`available-times/${id}`)
         .then(async () => {
           toast.success('Delete public time successfully!');
-          const detailCoOwner = await GetApproveOwnershipById({ slug });
-          if (detailCoOwner) {
-            setDetail(detailCoOwner);
-          }
-          setOpenModal(false);
+          fetchAvailableTimeByCoOwnerId();
         })
         .catch((response) => {
           toast.error(response.response.data.message);
@@ -122,6 +140,49 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
     }
   };
   const arr = [1, 2, 3, 4];
+  const columns = [
+    {
+      title: 'Start Time',
+      dataIndex: 'startTime',
+      key: 'startTime',
+      render: (startTime: string) => {
+        var date = new Date(startTime);
+        return <b>{date.toLocaleDateString('en-GB')}</b>;
+      },
+    },
+    {
+      title: 'End Time',
+      dataIndex: 'endTime',
+      key: 'endTime',
+      render: (endTime: string) => {
+        var date = new Date(endTime);
+        return <b>{date.toLocaleDateString('en-GB')}</b>;
+      },
+    },
+    {
+      title: 'Price/Night',
+      dataIndex: 'pricePerNight',
+      key: 'pricePerNight',
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_: any, record: any) => (
+        <Space size="middle">
+          <Popconfirm
+            title="Delete public time"
+            description="Are you sure to delete this public time?"
+            onConfirm={() => confirm(record.id)}
+            okText="Yes"
+            cancelText="No"
+            okType="danger"
+          >
+            <Button danger>Delete</Button>
+          </Popconfirm>
+        </Space>
+      ),
+    },
+  ];
   return (
     <div>
       <Image.PreviewGroup>
@@ -144,23 +205,23 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                         <Image key={i} src={e.link} />
                       ))}
                     </Carousel>
-                    <Row gutter={4}>
-                      <Col span={12}>
-                        <Card bordered={false}>Resort: {detail.property.resort.resortName}</Card>
-                      </Col>
-                      <Col span={12}>
-                        <Card bordered={false}>
-                          <div>Type: {detail.type}</div>
-                          <div>
-                            Week Number:
-                            {detail.timeFrames.map((w: any, i: number) => (
-                              <div key={i}>{w.weekNumber}, </div>
-                            ))}
-                          </div>
-                          <div>Apartment Id: {detail.roomId}</div>
-                        </Card>
-                      </Col>
-                    </Row>
+
+                    <Card bordered={false}>Resort: {detail.property.resort.resortName}</Card>
+                    <Card bordered={false}>
+                      <div>Type: {detail.type}</div>
+                      <div>Apartment Id: {detail.roomId}</div>
+                      <div>
+                        Week Number:
+                        <div className="grid grid-cols-7">
+                          {detail.timeFrames.map((w: any, i: number) => (
+                            <Tag color="green" key={i}>
+                              <div> {w.weekNumber}</div>
+                            </Tag>
+                          ))}
+                        </div>
+                      </div>
+                    </Card>
+
                     <Card title={'Review'} extra={<a href="#">View More</a>}>
                       {arr.slice(0, 2).map((e: any, i: number) => {
                         return (
@@ -241,14 +302,24 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                       style={{ marginTop: 16 }}
                       title="My public"
                       extra={
-                        <Button
-                          onClick={() => createModalPublicTime.onOpen(detail)}
-                          type="link"
-                          icon={<FaRegEdit size={18} />}
+                        <ModalCoOwnerCalendar
+                          coOwnerId={slug}
+                          fetchAvailableTimeByCoOwnerId={fetchAvailableTimeByCoOwnerId}
                         />
                       }
                     >
-                      <Table dataSource={availableTime} columns={columns} />
+                      <Table dataSource={availableTime} columns={columns} pagination={false} />
+                      <Pagination
+                        defaultCurrent={1}
+                        total={pageAvailableTime?.total}
+                        current={pageAvailableTime?.current + 1}
+                        onChange={(number) => {
+                          setPageAvailableTime({
+                            ...pageAvailableTime,
+                            current: number - 1,
+                          });
+                        }}
+                      />
                     </Card>
                   </Card>
                 </div>
@@ -262,35 +333,3 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
 };
 
 export default ManageApartment;
-
-const columns = [
-  {
-    title: 'Id',
-    dataIndex: 'id',
-    key: 'id',
-    render: (id: string) => <a>{id}</a>,
-  },
-  {
-    title: 'Start Time',
-    dataIndex: 'startTime',
-    key: 'startTime',
-    render: (startTime: string) => {
-      var date = new Date(startTime);
-      return <a>{date.toLocaleDateString('en-GB')}</a>;
-    },
-  },
-  {
-    title: 'End Time',
-    dataIndex: 'endTime',
-    key: 'endTime',
-    render: (endTime: string) => {
-      var date = new Date(endTime);
-      return <a>{date.toLocaleDateString('en-GB')}</a>;
-    },
-  },
-  {
-    title: 'Price/Night',
-    dataIndex: 'pricePerNight',
-    key: 'pricePerNight',
-  },
-];
