@@ -72,7 +72,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
   const [availableTime, setAvailableTime] = useState<any>();
   const [rating, setRating] = useState<any>();
   const [pageAvailableTime, setPageAvailableTime] = useState<IPagination>({
-    current: 1,
+    current: 0,
     pageSize: 4,
     total: 0,
   });
