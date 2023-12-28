@@ -90,13 +90,6 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
   }, [isNewDateRange, dateRange, dateRangeBooking]);
 
   useEffect(() => {
-    isMounted.current = true;
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
-
-  useEffect(() => {
     if (performance.navigation.type === 1 && dateRange && dateRangeBooking) {
       setDateRangeContext(JSON.parse(dateRange));
       setDateRangeDefaultContext(JSON.parse(dateRangeBooking));

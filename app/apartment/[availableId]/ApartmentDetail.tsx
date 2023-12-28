@@ -315,6 +315,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     });
     return arr;
   };
+
   useEffect(() => {
     editDateBookingModal.onHandleDateRangePicker(handleOnChangeDateRangePicker);
   }, []);
