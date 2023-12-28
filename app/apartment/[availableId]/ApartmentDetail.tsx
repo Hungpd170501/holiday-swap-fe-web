@@ -323,7 +323,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     if (propertyId && roomId) {
       const fetchRating = async () => {
         const rating = await axios.get(
-          `https://holiday-swap.click/api/v1/rating?propertyId=${propertyId}&roomId=${roomId}&pageNo=0&pageSize=9999&sortDirection=asc&sortBy=id`
+          `https://holiday-swap.click/api/v1/rating?propertyId=${propertyId}&roomId=${roomId}&pageNo=0&pageSize=9999&sortDirection=desc`
         );
         setRating(rating.data);
       };
