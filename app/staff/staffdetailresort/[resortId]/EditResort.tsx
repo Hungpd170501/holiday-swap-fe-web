@@ -14,6 +14,7 @@ import ViewFullImage from '@/app/components/apartment/ViewFullImage';
 import useDeactiveResortModal from '@/app/hooks/useDeactiveResortModal';
 import GetResortById from '@/app/actions/getResortById';
 import useMaintanceResortModal from '@/app/hooks/useMaintanceResortModal';
+import { format } from 'date-fns';
 
 interface EditResortProps {
   resortDetail: any;
@@ -160,26 +161,23 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail, params }) => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2 mt-7 border border-slate-300 rounded-lg shadow-lg bg-white hover:-translate-y-3 hover:duration-500 translate-y-0 duration-500">
-        <div className="p-6">
-          <div>
-            <div className="text-lg font-bold">Maintanance time</div>
-            <ul className="list-disc px-5">
-              <li className="border-b p-2 border-slate-300">09/09/2021 - 09/10/2021</li>
-              <li className="border-b p-2 border-slate-300">09/09/2021 - 09/10/2021</li>
-              <li className="p-2">09/09/2021 - 09/10/2021</li>
-            </ul>
-          </div>
-          <div>
-            <div className="text-lg font-bold">Deactive time</div>
-            <ul className="list-disc px-5">
-              <li className="border-b p-2 border-slate-300">09/09/2021 - 09/10/2021</li>
-              <li className="border-b p-2 border-slate-300">09/09/2021 - 09/10/2021</li>
-              <li className="p-2">09/09/2021 - 09/10/2021</li>
-            </ul>
+      {detail?.resortMaintances && detail?.resortMaintances.length > 0 && (
+        <div className="flex flex-col gap-2 mt-20 border border-slate-300 rounded-lg shadow-lg bg-white hover:-translate-y-3 hover:duration-500 translate-y-0 duration-500">
+          <div className="p-6">
+            <div>
+              <div className="text-lg font-bold">Maintanance time</div>
+              <ul className="list-disc px-5">
+                {detail?.resortMaintances.map((item: any, index: number) => (
+                  <li key={item.resortId} className="border-b p-2 border-slate-300">
+                    {format(new Date(item.startDate), 'dd/MM/yyyy')} -{' '}
+                    {format(new Date(item.endDate), 'dd/MM/yyyy')}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       <div className="flex flex-col"></div>
       <div className="w-full h-[700px] pt-20 pb-3 rounded-lg ">

@@ -36,6 +36,7 @@ export default function ModalEditDateBooking() {
   const isSave = editDateBookingModal.isSave;
   const handleDatePicker = editDateBookingModal.handleDateRangePicker;
   const dateRangeProp = JSON.parse(editDateBookingModal.dateRange);
+  const [dateRange, setDateRange] = useState<any>();
 
   useEffect(() => {
     if (
@@ -43,7 +44,7 @@ export default function ModalEditDateBooking() {
       dateRangeContext?.startDate.toString().includes('T') &&
       dateRangeContext?.endDate.toString().includes('T')
     ) {
-      setDateRangeContext({
+      setDateRange({
         startDate: new Date(dateRangeContext?.startDate),
         endDate: new Date(dateRangeContext?.endDate),
         key: 'selection',
@@ -54,11 +55,13 @@ export default function ModalEditDateBooking() {
   const bodyContent = (
     <div className="h-full w-full">
       <CalendarAparment
-        value={dateRangeContext}
+        value={dateRange}
         onChange={(value: any) => {
           setDateRangeContext(value.selection);
 
-          handleDatePicker(value);
+          if (handleDatePicker) {
+            handleDatePicker(value);
+          }
         }}
         minDate={
           typeof dateRangeDefaultContext?.startDate === 'string' &&

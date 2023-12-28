@@ -8,7 +8,7 @@ interface IParams {
   sortBy: string;
 }
 
-export default async function getAvailableTimeByCoOwnerId(params: IParams) {
+export default async function GetAvailableTimeByCoOwnerId(params: IParams) {
   try {
     const { coOwnerId, pageNo, pageSize, sortDirection, sortBy } = params;
 

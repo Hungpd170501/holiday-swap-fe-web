@@ -46,11 +46,11 @@ import {
 } from '@ant-design/icons';
 import Meta from 'antd/es/card/Meta';
 import ModalCoOwnerCalendar from '../modal/ModalCoOwnerCalendar';
-import getAvailableTimeByCoOwnerId from '@/app/actions/getAvailableTimeByCoOwnerId';
 import ModalViewImageContractCoOwner from '../modal/ModalViewImageContractCoOwner';
 import { FaRegEdit } from 'react-icons/fa';
 import { current } from '@reduxjs/toolkit';
 import getRatingByPropertyIdAndRoomId from '@/app/actions/getRatingByPropertyIdAndRoomId';
+import GetAvailableTimeByCoOwnerId from '@/app/actions/getAvailableTimeByCoOwnerId';
 
 interface ManageApartmentProps {
   detailCoOwner: any;
@@ -100,12 +100,9 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
   const [isOpenTimePublicArr, setIsOpenTimePublicArr] = useState(
     new Array(detailCoOwner.timeFrames.length).fill(false)
   );
-  useEffect(() => {
-    fetchAvailableTimeByCoOwnerId();
-    fetchRatingByPropertyIdAndRoomId();
-  }, [JSON.stringify(pageAvailableTime.current)]);
+
   const fetchAvailableTimeByCoOwnerId = async () => {
-    var rs = await getAvailableTimeByCoOwnerId({
+    var rs = await GetAvailableTimeByCoOwnerId({
       coOwnerId: slug,
       pageNo: pageAvailableTime.current,
       pageSize: 5,
@@ -127,6 +124,12 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
     setRating(rs.content);
     // setPageAvailableTime({ current: rs.number, pageSize: rs.size, total: rs.totalElements });
   };
+
+  useEffect(() => {
+    fetchAvailableTimeByCoOwnerId();
+    fetchRatingByPropertyIdAndRoomId();
+  }, [JSON.stringify(pageAvailableTime.current)]);
+
   // Function to toggle isOpenTimePublic for a specific index
   const toggleIsOpenTimePublic = (index: number) => {
     const updatedArr = [...isOpenTimePublicArr];
@@ -155,6 +158,9 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
         });
     }
   };
+
+  console.log('Check availableTime', availableTime);
+
   const arr = [1, 2, 3, 4];
   const columns = [
     {
