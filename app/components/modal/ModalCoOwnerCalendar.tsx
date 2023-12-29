@@ -15,6 +15,7 @@ import axios from 'axios';
 import getAllByCoOwnerIdAndBetweenTimeAndTime from '@/app/actions/getAvailableTimesHasCreatedByCoOwnerId';
 import getAvailableTimesHasCreatedByCoOwnerId from '@/app/actions/getAvailableTimesHasCreatedByCoOwnerId';
 import getTimeHasBookedByCoOwnerId from '@/app/actions/getTimeHasBookedByCoOwnerID';
+import { elements } from 'chart.js';
 
 const initialDate = {
   startDate: new Date(),
@@ -34,11 +35,9 @@ const ModalCoOwnerCalendar = (props: any) => {
   const [timesHasCreated, setTimesHasCreated] = useState<IDate[]>([]);
   const [timesHasBooked, setTimesHasBooked] = useState<IDate[]>([]);
   const [timesDisable, setTimesDisable] = useState<any>([]);
+  const [weeksTimeFrame, setWeeksTimeFrame] = useState<number[]>([]);
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState(initialDate);
-  const [arrayTimeDisAble, setArrayTimeDisAble] = useState<IDate[]>([
-    { checkIn: '', checkOut: '' },
-  ]);
   const showModal = () => {
     setOpen(true);
   };
@@ -80,24 +79,6 @@ const ModalCoOwnerCalendar = (props: any) => {
   };
 
   const handleDateChange = (value: any) => {};
-  // const fetchAvailableTimeHasCreatedByCoOwnerId = async () => {
-  //   var avCreated = await getAvailableTimesHasCreatedByCoOwnerId({
-  //     coOwnerId: coOwnerId,
-  //   });
-  //   const rs = avCreated.map((element: any) => {
-  //     const startDate = element.startTime;
-  //     const endDate = element.endTime;
-  //     const obj = { checkIn: startDate, checkOut: endDate };
-  //     return obj;
-  //   });
-  //   setTimesHasCreated(rs);
-  // };
-  // const fetchTimeHassBookedByCoOwnerId = async () => {
-  //   var timesHasBooked = await getTimeHasBookedByCoOwnerId({
-  //     coOwnerId: coOwnerId,
-  //   });
-  //   setTimesHasBooked(timesHasBooked);
-  // };
   const fetchTimesDisable = async () => {
     var avCreated = await getAvailableTimesHasCreatedByCoOwnerId({
       coOwnerId: coOwnerId,
@@ -117,107 +98,18 @@ const ModalCoOwnerCalendar = (props: any) => {
       const obj = { checkIn: startDate, checkOut: endDate };
       return obj;
     });
-   const rs3 =  rs.concat(rs2);
+    const rs3 = rs.concat(rs2);
     setTimesDisable(rs3);
   };
+  const fetchWeeks = () => {
+    props.coOwner.timeFrames.forEach((element: any) => {
+      weeksTimeFrame.push(element.weekNumber);
+    });
+  };
   useEffect(() => {
-    // fetchAvailableTimeHasCreatedByCoOwnerId();
-    // fetchTimeHassBookedByCoOwnerId();
     fetchTimesDisable();
-  }, []);
-  useEffect(() => {
-    // let checkDateInBoundary: Date[] = checkDateIsInBoundary(arrayTimeDisAble);
-    // let dateDiffGreaterTwo = dateDiffIsGreaterTwo(arrayTimeDisAble);
-    // let dateConsecutive = dateIsConsecutive(arrayTimeDisAble);
-    // setTimesDisable([...checkDateInBoundary, ...dateDiffGreaterTwo, ...dateConsecutive]);
-    // console.log('useEffect timeHasBooked');
-  }, [timesHasCreated]);
-  //#region function disable date
-  const checkDateIsInBoundary = (array: IDate[]) => {
-    let arr: Date[] = [];
-    array.forEach((element) => {
-      let checkIn = new Date(element.checkIn);
-      checkIn.setHours(0, 0, 0, 0);
-      let checkOut = new Date(element.checkOut);
-      checkOut.setHours(0, 0, 0, 0);
-      if (checkIn.getTime() == date.startDate.getTime()) {
-        arr.push(checkIn);
-      }
-      if (checkOut.getTime() == date.endDate.getTime()) {
-        arr.push(checkOut);
-      }
-    });
-    return arr;
-  };
-
-  const dateDiffIsGreaterTwo = (array: IDate[]) => {
-    let arr: Date[] = [];
-    array.forEach((element) => {
-      let checkIn = new Date(element.checkIn);
-      let checkOut = new Date(element.checkOut);
-      const timeDifference = checkOut.getTime() - checkIn.getTime();
-      const daysDifference = timeDifference / (1000 * 3600 * 24);
-
-      if (daysDifference > 1) {
-        let theDateStart = checkIn;
-        theDateStart = new Date(theDateStart.getTime() + 24 * 60 * 60 * 1000);
-        while (theDateStart.getTime() < checkOut.getTime()) {
-          arr.push(theDateStart);
-          theDateStart = new Date(theDateStart.getTime() + 24 * 60 * 60 * 1000);
-        }
-      }
-    });
-    return arr;
-  };
-
-  const dateIsConsecutive = (array: IDate[]) => {
-    let arr: Date[] = [];
-    array.forEach((element) => {
-      let checkIn = new Date(element.checkIn);
-      let checkOut = new Date(element.checkOut);
-      for (let index = 1; index < array.length; index++) {
-        const nextCheckIn = new Date(array[index].checkIn);
-        const nextCheckOut = new Date(array[index].checkOut);
-        if (checkOut.getTime() == nextCheckIn.getTime()) {
-          arr.push(nextCheckIn);
-        } else if (checkIn.getTime() == nextCheckOut.getTime()) {
-          arr.push(nextCheckOut);
-        }
-      }
-    });
-    return arr;
-  };
-
-  // const func4 = (ranges: any, array: IDate[]) => {
-  //   const { selection } = ranges;
-  //   const startDate = selection.startDate;
-
-  //   const endDate = selection.endDate;
-  //   let result: Date[] = [];
-  //   array.forEach((element) => {
-  //     let checkIn = new Date(element.checkIn);
-  //     checkIn.setHours(0, 0, 0, 0);
-  //     let checkOut = new Date(element.checkOut);
-  //     checkOut.setHours(0, 0, 0, 0);
-
-  //     if (startDate.getTime() <= checkIn.getTime()) {
-  //       result.push(checkOut);
-  //       // setDateOut(result);
-  //     } else if (startDate.getTime() >= checkIn.getTime()) {
-  //       result.push(checkIn);
-  //       // setDateOut(result);
-  //     }
-  //   });
-  //   let x: Date[] = dateDiffIsGreaterTwo(arrayTimeDisAble);
-
-  //   x.forEach((e) => {
-  //     result.push(new Date(e));
-  //   });
-  //   result.concat(x);
-
-  //   setDateOut(result);
-  // };
-  //#endregion
+    fetchWeeks();
+  }, [open]);
   return (
     <>
       <Space>
@@ -252,18 +144,27 @@ const ModalCoOwnerCalendar = (props: any) => {
               setStartTime(startDate.toISOString().split('T')[0]);
               setEndTime(endDate.toISOString().split('T')[0]);
             }}
-            minDate={new Date()}
+            minDate={
+              new Date(props.coOwner.startTime) > new Date()
+                ? new Date(props.coOwner.startTime)
+                : new Date()
+            }
             maxDate={
               props.coOwner.endTime
                 ? new Date(props.coOwner.endTime)
                 : new Date(new Date().setFullYear(new Date().getFullYear() + 50))
             }
             disabledDay={(date) => {
-              return timesDisable.some((d: any) => {
-                const checkInDate = new Date(d.checkIn);
-                const checkOutDate = new Date(d.checkOut);
-                return date >= checkInDate && date <= checkOutDate;
-              });
+              let disableDays = true;
+              disableDays = isDateInISOWeekNumber(date, weeksTimeFrame);
+              //is in list disable
+              if (!disableDays)
+                disableDays = timesDisable.some((d: any) => {
+                  const checkInDate = new Date(d.checkIn);
+                  const checkOutDate = new Date(d.checkOut);
+                  return date >= checkInDate && date <= checkOutDate;
+                });
+              return disableDays;
             }}
             weekStartsOn={1}
             weekdayDisplayFormat={'EEEEEE'}
@@ -288,13 +189,6 @@ const ModalCoOwnerCalendar = (props: any) => {
             >
               Create
             </button>
-            <button
-              className="border rounded-lg border-curent h-10 text-white bg-[#5C98F2] hover:bg-sky-700 justify-self-center w-20"
-              type="button"
-              onClick={() => alert()}
-            >
-              Create
-            </button>
           </div>
         </div>
       </Modal>
@@ -303,3 +197,18 @@ const ModalCoOwnerCalendar = (props: any) => {
 };
 
 export default ModalCoOwnerCalendar;
+function isDateInISOWeekNumber(date: Date, targetWeekNumbers: number[]) {
+  const isoWeekNumber = getISOWeekNumber(date);
+  return !targetWeekNumbers.includes(isoWeekNumber);
+}
+function getISOWeekNumber(date: Date) {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  const tempDate = new Date(Date.UTC(year, month, day));
+  const dayOfWeek = tempDate.getUTCDay() || 7;
+  tempDate.setUTCDate(tempDate.getUTCDate() + 4 - dayOfWeek);
+  const startOfYear: Date = new Date(Date.UTC(tempDate.getUTCFullYear(), 0, 1));
+  const weekNumber = Math.ceil(((+tempDate - +startOfYear) / 86400000 + 1) / 7);
+  return weekNumber;
+}
