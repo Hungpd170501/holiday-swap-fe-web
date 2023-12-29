@@ -182,9 +182,10 @@ const ModalCoOwnerCalendar = (props: any) => {
                 disableDays = timesDisable?.some((d: any) => {
                   const checkInDate = new Date(d.checkIn);
                   const checkOutDate = new Date(d.checkOut);
+                  if (date <= new Date(props.coOwner.startTime) && date === checkInDate)
+                    disableDays = true;
                   return date > checkInDate && date < checkOutDate;
                 });
-              if (date <= new Date(props.coOwner.startTime)) disableDays = true;
               return disableDays;
             }}
             weekStartsOn={1}

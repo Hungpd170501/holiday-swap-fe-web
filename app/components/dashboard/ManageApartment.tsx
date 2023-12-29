@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/alt-text */
 'use client';
 import {
@@ -44,7 +45,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
 }) => {
   const [detail, setDetail] = useState(detailCoOwner);
   const [availableTime, setAvailableTime] = useState<any>();
-  const [rating, setRating] = useState<any>();
+  const [rating, setRating] = useState<any[]>([]);
   const [pageAvailableTime, setPageAvailableTime] = useState<IPagination>({
     current: 0,
     pageSize: 5,
@@ -237,10 +238,10 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                     <Card
                       title={'Review'}
                       bordered={false}
-                      extra={rating.size > 0 ? <a href="#">View More</a> : <></>}
+                      extra={rating.length > 0 ? <a href="#">View More</a> : <></>}
                     >
                       <div className="grid grid-cols-1 gap-2">
-                        {rating.size > 0 ? (
+                        {rating.length > 0 ? (
                           rating.slice(0, 2).map((e: any, i: number) => {
                             return (
                               <div key={i}>
