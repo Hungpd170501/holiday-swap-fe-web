@@ -6,8 +6,8 @@ import { ExportOutlined } from '@ant-design/icons';
 
 import { DateRange } from 'react-date-range';
 import axios from 'axios';
-import getAvailableTimesHasCreatedByCoOwnerId from '@/app/actions/getAvailableTimesHasCreatedByCoOwnerId';
-import getTimeHasBookedByCoOwnerId from '@/app/actions/getTimeHasBookedByCoOwnerId';
+import GetAvailableTimesHasCreatedByCoOwnerId from '@/app/actions/getAvailableTimesHasCreatedByCoOwnerId';
+import GetTimeHasBookedByCoOwnerId from '@/app/actions/getTimeHasBookedByCoOwnerId';
 
 const initialDate = {
   startDate: new Date("2024-02-02"),
@@ -72,7 +72,7 @@ const ModalCoOwnerCalendar = (props: any) => {
 
   const handleDateChange = (value: any) => {};
   const fetchTimesDisable = async () => {
-    var avCreated = await getAvailableTimesHasCreatedByCoOwnerId({
+    var avCreated = await GetAvailableTimesHasCreatedByCoOwnerId({
       coOwnerId: coOwnerId,
     });
     const rs = avCreated.map((element: any) => {
@@ -81,7 +81,7 @@ const ModalCoOwnerCalendar = (props: any) => {
       const obj = { checkIn: startDate, checkOut: endDate };
       return obj;
     });
-    var timesHasBooked = await getTimeHasBookedByCoOwnerId({
+    var timesHasBooked = await GetTimeHasBookedByCoOwnerId({
       coOwnerId: coOwnerId,
     });
     const rs2 = timesHasBooked.map((element: any) => {

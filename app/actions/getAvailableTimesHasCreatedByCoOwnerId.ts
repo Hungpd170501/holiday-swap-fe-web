@@ -4,7 +4,7 @@ interface IParams {
   coOwnerId: number;
 }
 
-export default async function getAvailableTimesHasCreatedByCoOwnerId(params: IParams) {
+export default async function GetAvailableTimesHasCreatedByCoOwnerId(params: IParams) {
   try {
     // Destructure the slug array from params.
     const { coOwnerId } = params;
