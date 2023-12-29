@@ -1,25 +1,17 @@
 'use client';
 
-import useAparmentAmenitiesModal from '@/app/hooks/useApartmentAmenitiesModal';
-import React, { ChangeEventHandler, useEffect, useState } from 'react';
-import ModalBaseDetail from './ModalBaseDetail';
-import Image from 'next/image';
-import { Button, Calendar, Input, Modal, Space, message } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Button, Input, Modal, Space, message } from 'antd';
 import { ExportOutlined } from '@ant-design/icons';
-import { addDays, subDays } from 'date-fns';
-import type { Dayjs } from 'dayjs';
 
-import type { CalendarProps } from 'antd';
-import { DateRange, DateRangePicker } from 'react-date-range';
+import { DateRange } from 'react-date-range';
 import axios from 'axios';
-import getAllByCoOwnerIdAndBetweenTimeAndTime from '@/app/actions/getAvailableTimesHasCreatedByCoOwnerId';
 import getAvailableTimesHasCreatedByCoOwnerId from '@/app/actions/getAvailableTimesHasCreatedByCoOwnerId';
-import getTimeHasBookedByCoOwnerId from '@/app/actions/getTimeHasBookedByCoOwnerID';
-import { elements } from 'chart.js';
+import getTimeHasBookedByCoOwnerId from '@/app/actions/getTimeHasBookedByCoOwnerId';
 
 const initialDate = {
-  startDate: new Date(),
-  endDate: new Date(new Date().getTime() + 24 * 1000 * 1000),
+  startDate: new Date("2024-02-02"),
+  endDate: new Date("2024-02-12"),//new Date(new Date().getTime() + 24 * 1000 * 1000),
   key: 'selection',
 };
 interface IDate {
@@ -144,15 +136,15 @@ const ModalCoOwnerCalendar = (props: any) => {
               setStartTime(startDate.toISOString().split('T')[0]);
               setEndTime(endDate.toISOString().split('T')[0]);
             }}
+            maxDate={
+              props.coOwner.endTime
+                ? new Date(props.coOwner.endTime)
+                : new Date(new Date().getFullYear() + 50, 1, 1)
+            }
             minDate={
               new Date(props.coOwner.startTime) > new Date()
                 ? new Date(props.coOwner.startTime)
                 : new Date()
-            }
-            maxDate={
-              props.coOwner.endTime
-                ? new Date(props.coOwner.endTime)
-                : new Date(new Date().setFullYear(new Date().getFullYear() + 50))
             }
             disabledDay={(date) => {
               let disableDays = true;

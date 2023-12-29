@@ -10,7 +10,7 @@ export default async function getTimeHasBookedByCoOwnerId(params: IParams) {
     const { coOwnerId } = params;
 
     const availableTimes = await axios.get(
-      `http://localhost:8080/api/booking/timeHasBooked/${coOwnerId} `
+      `https://holiday-swap.click/api/booking/timeHasBooked/${coOwnerId} `
     );
 
     if (!availableTimes) {

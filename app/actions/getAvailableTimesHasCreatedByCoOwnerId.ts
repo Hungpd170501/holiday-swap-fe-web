@@ -10,7 +10,7 @@ export default async function getAvailableTimesHasCreatedByCoOwnerId(params: IPa
     const { coOwnerId } = params;
 
     const availableTimes = await axios.get(
-      `http://localhost:8080/api/v1/available-times/getAllByCoOwnerId?coOwnerId=${coOwnerId} `
+      `https://holiday-swap.click/api/v1/available-times/getAllByCoOwnerId?coOwnerId=${coOwnerId} `
     );
 
     if (!availableTimes) {
