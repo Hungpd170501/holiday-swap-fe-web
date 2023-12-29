@@ -2,6 +2,7 @@
 
 import HeadingDashboard from '@/app/components/HeadingDashboard';
 import HistoryPayment from '@/app/components/wallet/HistoryPayment';
+import useRecharge from '@/app/hooks/useRecharge';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { BiWallet } from 'react-icons/bi';
@@ -21,6 +22,9 @@ const Wallet: React.FC<WalletProps> = ({ userWallet, transfer, historyTransactio
   const numberPayment = historyTransaction?.filter(
     (item: any) => item.message.includes('pay for') && item.status === 'SUCCESS'
   ).length;
+
+  const recharge = useRecharge();
+
   return (
     <div>
       <div className="mt-12">
@@ -49,7 +53,10 @@ const Wallet: React.FC<WalletProps> = ({ userWallet, transfer, historyTransactio
             </div>
             <div>
               <div
-                onClick={() => router.push('/recharge')}
+                onClick={() => {
+                  router.push('/recharge')
+                  recharge.onClickLink()
+                }}
                 className="bg-common text-white px-5 py-2 rounded-md cursor-pointer hover:bg-blue-600"
               >
                 Recharge
