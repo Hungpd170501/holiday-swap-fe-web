@@ -10,14 +10,31 @@ import GetAvailableTimesHasCreatedByCoOwnerId from '@/app/actions/getAvailableTi
 import GetTimeHasBookedByCoOwnerId from '@/app/actions/getTimeHasBookedByCoOwnerId';
 
 const initialDate = {
-  startDate: new Date("2024-02-02"),
-  endDate: new Date("2024-02-12"),//new Date(new Date().getTime() + 24 * 1000 * 1000),
+  startDate: new Date('2024-02-02'),
+  endDate: new Date('2024-02-12'), //new Date(new Date().getTime() + 24 * 1000 * 1000),
   key: 'selection',
 };
 interface IDate {
   checkIn: string;
   checkOut: string;
 }
+
+const isDateInISOWeekNumber = (date: Date, targetWeekNumbers: number[]) => {
+  const isoWeekNumber = getISOWeekNumber(date);
+  return !targetWeekNumbers.includes(isoWeekNumber);
+};
+
+const getISOWeekNumber = (date: Date) => {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  const tempDate = new Date(Date.UTC(year, month, day));
+  const dayOfWeek = tempDate.getUTCDay() || 7;
+  tempDate.setUTCDate(tempDate.getUTCDate() + 4 - dayOfWeek);
+  const startOfYear: Date = new Date(Date.UTC(tempDate.getUTCFullYear(), 0, 1));
+  const weekNumber = Math.ceil(((+tempDate - +startOfYear) / 86400000 + 1) / 7);
+  return weekNumber;
+};
 
 const ModalCoOwnerCalendar = (props: any) => {
   const [coOwnerId, setCoOwnerId] = useState<number>(props.coOwnerId);
@@ -72,25 +89,25 @@ const ModalCoOwnerCalendar = (props: any) => {
 
   const handleDateChange = (value: any) => {};
   const fetchTimesDisable = async () => {
-    var avCreated = await GetAvailableTimesHasCreatedByCoOwnerId({
+    const avCreated = await GetAvailableTimesHasCreatedByCoOwnerId({
       coOwnerId: coOwnerId,
     });
-    const rs = avCreated.map((element: any) => {
+    const rs = avCreated?.map((element: any) => {
       const startDate = new Date(element.startTime);
       const endDate = new Date(element.endTime);
       const obj = { checkIn: startDate, checkOut: endDate };
       return obj;
     });
-    var timesHasBooked = await GetTimeHasBookedByCoOwnerId({
+    const timesHasBooked = await GetTimeHasBookedByCoOwnerId({
       coOwnerId: coOwnerId,
     });
-    const rs2 = timesHasBooked.map((element: any) => {
+    const rs2 = timesHasBooked?.map((element: any) => {
       const startDate = new Date(element.checkIn);
       const endDate = new Date(element.checkOut);
       const obj = { checkIn: startDate, checkOut: endDate };
       return obj;
     });
-    const rs3 = rs.concat(rs2);
+    const rs3 = rs?.concat(rs2);
     setTimesDisable(rs3);
   };
   const fetchWeeks = () => {
@@ -111,7 +128,7 @@ const ModalCoOwnerCalendar = (props: any) => {
       </Space>
       <Modal
         open={open}
-        title="Create new public time "
+        title="Create new public time"
         onOk={handleOk}
         onCancel={handleCancel}
         footer={false}
@@ -151,7 +168,7 @@ const ModalCoOwnerCalendar = (props: any) => {
               disableDays = isDateInISOWeekNumber(date, weeksTimeFrame);
               //is in list disable
               if (!disableDays)
-                disableDays = timesDisable.some((d: any) => {
+                disableDays = timesDisable?.some((d: any) => {
                   const checkInDate = new Date(d.checkIn);
                   const checkOutDate = new Date(d.checkOut);
                   return date >= checkInDate && date <= checkOutDate;
@@ -175,7 +192,7 @@ const ModalCoOwnerCalendar = (props: any) => {
           />
           <div className="flex justify-center pt-3">
             <button
-              className="border rounded-lg border-curent h-10 text-white bg-[#5C98F2] hover:bg-sky-700 justify-self-center w-20"
+              className="border rounded-lg border-curent h-10 text-white bg-common hover:bg-sky-500 justify-self-center w-full"
               type="button"
               onClick={() => createAvailableTime()}
             >
@@ -189,18 +206,3 @@ const ModalCoOwnerCalendar = (props: any) => {
 };
 
 export default ModalCoOwnerCalendar;
-function isDateInISOWeekNumber(date: Date, targetWeekNumbers: number[]) {
-  const isoWeekNumber = getISOWeekNumber(date);
-  return !targetWeekNumbers.includes(isoWeekNumber);
-}
-function getISOWeekNumber(date: Date) {
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const day = date.getDate();
-  const tempDate = new Date(Date.UTC(year, month, day));
-  const dayOfWeek = tempDate.getUTCDay() || 7;
-  tempDate.setUTCDate(tempDate.getUTCDate() + 4 - dayOfWeek);
-  const startOfYear: Date = new Date(Date.UTC(tempDate.getUTCFullYear(), 0, 1));
-  const weekNumber = Math.ceil(((+tempDate - +startOfYear) / 86400000 + 1) / 7);
-  return weekNumber;
-}
