@@ -9,11 +9,6 @@ import axios from 'axios';
 import GetAvailableTimesHasCreatedByCoOwnerId from '@/app/actions/getAvailableTimesHasCreatedByCoOwnerId';
 import GetTimeHasBookedByCoOwnerId from '@/app/actions/getTimeHasBookedByCoOwnerId';
 
-const initialDate = {
-  startDate: new Date('2024-02-02'),
-  endDate: new Date('2024-02-12'), //new Date(new Date().getTime() + 24 * 1000 * 1000),
-  key: 'selection',
-};
 interface IDate {
   checkIn: string;
   checkOut: string;
@@ -37,6 +32,17 @@ const getISOWeekNumber = (date: Date) => {
 };
 
 const ModalCoOwnerCalendar = (props: any) => {
+  const initialDate = {
+    startDate:
+      new Date(props.coOwner.startTime) > new Date()
+        ? new Date(props.coOwner.startTime)
+        : new Date(),
+    endDate:
+      new Date(props.coOwner.startTime) > new Date()
+        ? new Date(props.coOwner.startTime)
+        : new Date(),
+    key: 'selection',
+  };
   const [coOwnerId, setCoOwnerId] = useState<number>(props.coOwnerId);
   const [startTime, setStartTime] = useState<string>('');
   const [endTime, setEndTime] = useState<string>('');
@@ -44,6 +50,7 @@ const ModalCoOwnerCalendar = (props: any) => {
   const [timesHasCreated, setTimesHasCreated] = useState<IDate[]>([]);
   const [timesHasBooked, setTimesHasBooked] = useState<IDate[]>([]);
   const [timesDisable, setTimesDisable] = useState<any>([]);
+  const [timesDisableOnClick, setTimesDisableOnClick] = useState<Date[]>([]);
   const [weeksTimeFrame, setWeeksTimeFrame] = useState<number[]>([]);
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState(initialDate);
@@ -67,7 +74,7 @@ const ModalCoOwnerCalendar = (props: any) => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `https://holiday-swap.click/api/v1/available-times/${coOwnerId}`,
+      url: `http://localhost:8080/api/v1/available-times/${coOwnerId}`,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -87,7 +94,10 @@ const ModalCoOwnerCalendar = (props: any) => {
       });
   };
 
-  const handleDateChange = (value: any) => {};
+  const handleDateChange = (value: any) => {
+    const rs = func4(value, timesDisable);
+    setTimesDisableOnClick(rs);
+  };
   const fetchTimesDisable = async () => {
     const avCreated = await GetAvailableTimesHasCreatedByCoOwnerId({
       coOwnerId: coOwnerId,
@@ -108,6 +118,7 @@ const ModalCoOwnerCalendar = (props: any) => {
       return obj;
     });
     const rs3 = rs?.concat(rs2);
+    dateIsConsecutive(rs3);
     setTimesDisable(rs3);
   };
   const fetchWeeks = () => {
@@ -140,18 +151,18 @@ const ModalCoOwnerCalendar = (props: any) => {
             // showDateDisplay={false}
             // showMonthArrow={false}
             // showMonthAndYearPickers={false}
-            // disabledDates={timesDisable}
+            disabledDates={timesDisableOnClick}
             rangeColors={['#5C98F2']}
             ranges={[date]}
             date={new Date()}
             onChange={(value: any) => {
               setDate(value.selection);
-              // handleDateChange(value);
               const offset = new Date().getTimezoneOffset();
               var startDate = new Date(value.selection.startDate.getTime() - offset * 60 * 1000);
               var endDate = new Date(value.selection.endDate.getTime() - offset * 60 * 1000);
               setStartTime(startDate.toISOString().split('T')[0]);
               setEndTime(endDate.toISOString().split('T')[0]);
+              handleDateChange(value);
             }}
             maxDate={
               props.coOwner.endTime
@@ -171,8 +182,9 @@ const ModalCoOwnerCalendar = (props: any) => {
                 disableDays = timesDisable?.some((d: any) => {
                   const checkInDate = new Date(d.checkIn);
                   const checkOutDate = new Date(d.checkOut);
-                  return date >= checkInDate && date <= checkOutDate;
+                  return date > checkInDate && date < checkOutDate;
                 });
+              if (date <= new Date(props.coOwner.startTime)) disableDays = true;
               return disableDays;
             }}
             weekStartsOn={1}
@@ -206,3 +218,63 @@ const ModalCoOwnerCalendar = (props: any) => {
 };
 
 export default ModalCoOwnerCalendar;
+const dateIsConsecutive = (array: IDate[]) => {
+  array.forEach((element) => {
+    let checkIn = new Date(element.checkIn);
+    let checkOut = new Date(element.checkOut);
+    for (let index = 1; index < array.length; index++) {
+      const nextCheckIn = new Date(array[index].checkIn);
+      const nextCheckOut = new Date(array[index].checkOut);
+      if (checkOut.getTime() == nextCheckIn.getTime()) {
+        element.checkOut = nextCheckOut.toString();
+      }
+    }
+  });
+};
+const func4 = (ranges: any, array: IDate[]) => {
+  const { selection } = ranges;
+  const startDate = selection.startDate;
+
+  const endDate = selection.endDate;
+  let result: Date[] = [];
+  array.forEach((element) => {
+    let checkIn = new Date(element.checkIn);
+    checkIn.setHours(0, 0, 0, 0);
+    let checkOut = new Date(element.checkOut);
+    checkOut.setHours(0, 0, 0, 0);
+
+    if (startDate.getTime() <= checkIn.getTime()) {
+      result.push(checkOut);
+      // setDateOut(result);
+    } else if (startDate.getTime() >= checkIn.getTime()) {
+      result.push(checkIn);
+      // setDateOut(result);
+    }
+  });
+  let x: Date[] = dateDiffIsGreaterTwo(array);
+
+  x.forEach((e) => {
+    result.push(new Date(e));
+  });
+  result.concat(x);
+  return result;
+};
+const dateDiffIsGreaterTwo = (array: IDate[]) => {
+  let arr: Date[] = [];
+  array.forEach((element) => {
+    let checkIn = new Date(element.checkIn);
+    let checkOut = new Date(element.checkOut);
+    const timeDifference = checkOut.getTime() - checkIn.getTime();
+    const daysDifference = timeDifference / (1000 * 3600 * 24);
+
+    if (daysDifference > 1) {
+      let theDateStart = checkIn;
+      theDateStart = new Date(theDateStart.getTime() + 24 * 60 * 60 * 1000);
+      while (theDateStart.getTime() < checkOut.getTime()) {
+        arr.push(theDateStart);
+        theDateStart = new Date(theDateStart.getTime() + 24 * 60 * 60 * 1000);
+      }
+    }
+  });
+  return arr;
+};
