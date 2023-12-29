@@ -331,11 +331,13 @@ export default function ModalCreateOwnership() {
                   setStartYear(Number(e.target.value));
                 }}
               >
-                {arrayYear.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
+                {arrayYear
+                  .filter((date) => date > new Date().getFullYear())
+                  .map((item) => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
               </Select>
             </div>
           </div>
