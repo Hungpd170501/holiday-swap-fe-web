@@ -20,13 +20,13 @@ import useCreatePublicTimeModal from '@/app/hooks/useCreatePublicTimeModal';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import GetApproveOwnershipById from '@/app/actions/getApproveOwnershipById';
 import toast from 'react-hot-toast';
-import { UserOutlined } from '@ant-design/icons';
+import { ExportOutlined, UserOutlined } from '@ant-design/icons';
 import Meta from 'antd/es/card/Meta';
 import ModalCoOwnerCalendar from '../modal/ModalCoOwnerCalendar';
 import ModalViewImageContractCoOwner from '../modal/ModalViewImageContractCoOwner';
 import getRatingByPropertyIdAndRoomId from '@/app/actions/getRatingByPropertyIdAndRoomId';
 import GetAvailableTimeByCoOwnerId from '@/app/actions/getAvailableTimeByCoOwnerId';
-
+import useAparmentReviewModal from '@/app/hooks/useApartmentReviewModal';
 interface ManageApartmentProps {
   detailCoOwner: any;
   propertyDetail: any;
@@ -45,7 +45,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
 }) => {
   const [detail, setDetail] = useState(detailCoOwner);
   const [availableTime, setAvailableTime] = useState<any>();
-  const [rating, setRating] = useState<any[]>([]);
+  const [rating, setRating] = useState({ content: [] });
   const [pageAvailableTime, setPageAvailableTime] = useState<IPagination>({
     current: 0,
     pageSize: 5,
@@ -59,7 +59,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
   const createModalPublicTime = useCreatePublicTimeModal();
   const isCreated = createModalPublicTime.isCreated;
   const axiosAuthClient = useAxiosAuthClient();
-
+  const apartmentReviewModal = useAparmentReviewModal();
   useEffect(() => {
     if (isCreated === true) {
       const getData = async () => {
@@ -99,7 +99,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
       // sortDirection: 'asc',
       // sortBy: 'id',
     });
-    setRating(rs.content);
+    setRating(rs);
     // setPageAvailableTime({ current: rs.number, pageSize: rs.size, total: rs.totalElements });
   };
 
@@ -238,11 +238,25 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                     <Card
                       title={'Review'}
                       bordered={false}
-                      extra={rating.length > 0 ? <a href="#">View More</a> : <></>}
+                      extra={
+                        rating.content.length > 0 ? (
+                          <Button
+                            onClick={() => {
+                              apartmentReviewModal.onOpen(rating, detailCoOwner.property);
+                            }}
+                            type="link"
+                            icon={<ExportOutlined />}
+                          >
+                            View More
+                          </Button>
+                        ) : (
+                          <></>
+                        )
+                      }
                     >
                       <div className="grid grid-cols-1 gap-2">
-                        {rating.length > 0 ? (
-                          rating.slice(0, 2).map((e: any, i: number) => {
+                        {rating.content.length > 0 ? (
+                          rating.content.slice(0, 2).map((e: any, i: number) => {
                             return (
                               <div key={i}>
                                 <Card style={{ marginTop: 8 }}>
