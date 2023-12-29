@@ -158,10 +158,6 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
         });
     }
   };
-
-  console.log('Check availableTime', availableTime);
-
-  const arr = [1, 2, 3, 4];
   const columns = [
     {
       title: 'Start Time',
@@ -341,6 +337,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                       extra={
                         <ModalCoOwnerCalendar
                           coOwnerId={slug}
+                          coOwner={detail}
                           fetchAvailableTimeByCoOwnerId={fetchAvailableTimeByCoOwnerId}
                         />
                       }
