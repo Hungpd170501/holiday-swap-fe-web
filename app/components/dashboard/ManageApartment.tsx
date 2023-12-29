@@ -158,10 +158,6 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
         });
     }
   };
-
-  console.log('Check availableTime', availableTime);
-
-  const arr = [1, 2, 3, 4];
   const columns = [
     {
       title: 'Start Time',
@@ -230,8 +226,20 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
 
                     <Card bordered={false}>Resort: {detail.property.resort.resortName}</Card>
                     <Card bordered={false}>
-                      <div>Type: {detail.type}</div>
-                      <div>Apartment Id: {detail.roomId}</div>
+                      <div>
+                        Type: <Tag>{detail.type}</Tag>
+                      </div>
+                      <div>
+                        Start : <Tag>{new Date(detail.startTime).getFullYear()}</Tag>
+                      </div>
+                      {detail.type == 'RIGHT_TO_USE' && (
+                        <div>
+                          End : <Tag>{new Date(detail.endTime).getFullYear()}</Tag>
+                        </div>
+                      )}
+                      <div>
+                        Apartment Id:<Tag> {detail.roomId}</Tag>
+                      </div>
                       <div>
                         Week Number:
                         <div className="grid grid-cols-7">
@@ -341,23 +349,33 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                       extra={
                         <ModalCoOwnerCalendar
                           coOwnerId={slug}
+                          coOwner={detail}
                           fetchAvailableTimeByCoOwnerId={fetchAvailableTimeByCoOwnerId}
                         />
                       }
                     >
-                      <Table dataSource={availableTime} columns={columns} pagination={false} />
-                      <Pagination
-                        defaultCurrent={1}
-                        total={pageAvailableTime?.total}
-                        current={pageAvailableTime?.current + 1}
-                        onChange={(number) => {
-                          setPageAvailableTime({
-                            ...pageAvailableTime,
-                            current: number - 1,
-                          });
-                        }}
-                        className="pt-2"
-                      />
+                      <div className="grid justify-items-center">
+                        <Table
+                          dataSource={availableTime}
+                          columns={columns}
+                          pagination={false}
+                          className="w-full"
+                        />
+                        {pageAvailableTime?.total != 0 && (
+                          <Pagination
+                            defaultCurrent={1}
+                            total={pageAvailableTime?.total}
+                            current={pageAvailableTime?.current + 1}
+                            onChange={(number) => {
+                              setPageAvailableTime({
+                                ...pageAvailableTime,
+                                current: number - 1,
+                              });
+                            }}
+                            className="pt-2"
+                          />
+                        )}
+                      </div>
                     </Card>
                   </Card>
                 </div>
