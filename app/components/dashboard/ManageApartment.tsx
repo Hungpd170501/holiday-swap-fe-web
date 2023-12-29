@@ -4,51 +4,25 @@ import {
   Avatar,
   Card,
   Carousel,
-  Col,
   Image,
   Rate,
-  Row,
-  Statistic,
   Tag,
   Button,
-  List,
-  Skeleton,
   Table,
   Space,
   Pagination,
   Popconfirm,
-  message,
+  Empty,
 } from 'antd';
-import React, { useState, useRef, Fragment, useEffect } from 'react';
-import { AiOutlineCloseCircle } from 'react-icons/ai';
-import { FiEdit } from 'react-icons/fi';
-import EditPublicTime from '../managementApartment/EditPublicTime';
-import { BiBlock } from 'react-icons/bi';
-import { Upload } from 'antd';
+import React, { useState, useEffect } from 'react';
 import useCreatePublicTimeModal from '@/app/hooks/useCreatePublicTimeModal';
-import useEditApartmentModal from '@/app/hooks/useEditApartmentModal';
-import { lastIndexOf } from 'lodash';
-import { format } from 'date-fns';
-import { RiArrowDownSFill, RiArrowUpSFill } from 'react-icons/ri';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import GetApproveOwnershipById from '@/app/actions/getApproveOwnershipById';
 import toast from 'react-hot-toast';
-import { FaTrashAlt } from 'react-icons/fa';
-import { Modal, Tooltip } from 'flowbite-react';
-import {
-  ArrowUpOutlined,
-  EditOutlined,
-  EllipsisOutlined,
-  ExportOutlined,
-  EyeOutlined,
-  SettingOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 import Meta from 'antd/es/card/Meta';
 import ModalCoOwnerCalendar from '../modal/ModalCoOwnerCalendar';
 import ModalViewImageContractCoOwner from '../modal/ModalViewImageContractCoOwner';
-import { FaRegEdit } from 'react-icons/fa';
-import { current } from '@reduxjs/toolkit';
 import getRatingByPropertyIdAndRoomId from '@/app/actions/getRatingByPropertyIdAndRoomId';
 import GetAvailableTimeByCoOwnerId from '@/app/actions/getAvailableTimeByCoOwnerId';
 
@@ -73,9 +47,10 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
   const [rating, setRating] = useState<any>();
   const [pageAvailableTime, setPageAvailableTime] = useState<IPagination>({
     current: 0,
-    pageSize: 4,
+    pageSize: 5,
     total: 0,
   });
+  const [loadingTableAvailableTime, setLoadingTableAvailableTime] = useState<boolean>(false);
 
   const [isOpenTimePublic, setIsOpenTimePublic] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -102,6 +77,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
   );
 
   const fetchAvailableTimeByCoOwnerId = async () => {
+    setLoadingTableAvailableTime(true);
     var rs = await GetAvailableTimeByCoOwnerId({
       coOwnerId: slug,
       pageNo: pageAvailableTime.current,
@@ -109,6 +85,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
       sortDirection: 'asc',
       sortBy: 'id',
     });
+    setLoadingTableAvailableTime(false);
     setAvailableTime(rs.content);
     setPageAvailableTime({ current: rs.number, pageSize: rs.size, total: rs.totalElements });
   };
@@ -159,6 +136,11 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
     }
   };
   const columns = [
+    {
+      title: 'Id',
+      dataIndex: 'id',
+      key: 'id',
+    },
     {
       title: 'Start Time',
       dataIndex: 'startTime',
@@ -252,9 +234,13 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                       </div>
                     </Card>
 
-                    <Card title={'Review'} extra={<a href="#">View More</a>}>
+                    <Card
+                      title={'Review'}
+                      bordered={false}
+                      extra={rating.size > 0 ? <a href="#">View More</a> : <></>}
+                    >
                       <div className="grid grid-cols-1 gap-2">
-                        {rating ? (
+                        {rating.size > 0 ? (
                           rating.slice(0, 2).map((e: any, i: number) => {
                             return (
                               <div key={i}>
@@ -282,7 +268,9 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                             );
                           })
                         ) : (
-                          <></>
+                          <div>
+                            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                          </div>
                         )}
                       </div>
                     </Card>
@@ -360,10 +348,12 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                           columns={columns}
                           pagination={false}
                           className="w-full"
+                          loading={loadingTableAvailableTime}
                         />
                         {pageAvailableTime?.total != 0 && (
                           <Pagination
                             defaultCurrent={1}
+                            defaultPageSize={5}
                             total={pageAvailableTime?.total}
                             current={pageAvailableTime?.current + 1}
                             onChange={(number) => {

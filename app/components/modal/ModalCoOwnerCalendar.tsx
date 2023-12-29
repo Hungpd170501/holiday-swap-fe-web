@@ -134,7 +134,7 @@ const ModalCoOwnerCalendar = (props: any) => {
     <>
       <Space>
         <Button type="link" onClick={showModal} icon={<ExportOutlined />}>
-          Create new public times
+          Create new public time
         </Button>
       </Space>
       <Modal
