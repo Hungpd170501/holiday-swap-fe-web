@@ -4,7 +4,6 @@ import axios from 'axios';
 
 export default async function GetOwnershipStaff() {
   try {
-    const currentUser = await GetCurrentUser();
     const ownership = await axios.get(
       `https://holiday-swap.click/api/co-owners?pageNo=0&pageSize=8&sortDirection=desc`
     );

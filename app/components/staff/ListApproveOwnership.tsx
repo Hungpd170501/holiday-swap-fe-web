@@ -71,7 +71,7 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(ownershipStaff?.totalPages);
   const [loading, setLoading] = useState(false);
 
   const axiosAuthClient = useAxiosAuthClient();
@@ -98,12 +98,6 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (ownershipStaff) {
-      setTotalPages(ownershipStaff.totalPages);
-    }
-  }, [ownershipStaff]);
 
   useEffect(() => {
     fetchData();
@@ -179,11 +173,7 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
                   </Table.Cell>
                   <Table.Cell>
                     <span
-                      onClick={() =>
-                        router.push(
-                          `/staff/listapproveOwnership/${item.id}`
-                        )
-                      }
+                      onClick={() => router.push(`/staff/listapproveOwnership/${item.id}`)}
                       className="text-sky-500 hover:underline cursor-pointer "
                     >
                       View detail
