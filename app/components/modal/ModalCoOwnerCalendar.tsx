@@ -137,7 +137,7 @@ const ModalCoOwnerCalendar = (props: any) => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `http://localhost:8080/api/v1/available-times/${coOwnerId}`,
+      url: `https://holiday-swap.click/api/v1/available-times/${coOwnerId}`,
       headers: {
         'Content-Type': 'application/json',
       },
