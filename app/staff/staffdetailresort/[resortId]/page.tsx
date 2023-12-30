@@ -18,6 +18,15 @@ import EditResort from './EditResort';
 interface IParams {
   resortId: string;
 }
+
+export const generateMetadata = async ({ params }: { params: IParams }) => {
+  const resortDetail = await GetResortById(params);
+
+  return {
+    title: resortDetail?.resortName,
+  };
+};
+
 export default async function StaffDetailResort({ params }: { params: IParams }) {
   const resortDetail = await GetResortById(params);
 

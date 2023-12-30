@@ -15,7 +15,7 @@ import {
   Popconfirm,
   Empty,
 } from 'antd';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import useCreatePublicTimeModal from '@/app/hooks/useCreatePublicTimeModal';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import GetApproveOwnershipById from '@/app/actions/getApproveOwnershipById';
@@ -27,6 +27,8 @@ import ModalViewImageContractCoOwner from '../modal/ModalViewImageContractCoOwne
 import getRatingByPropertyIdAndRoomId from '@/app/actions/getRatingByPropertyIdAndRoomId';
 import GetAvailableTimeByCoOwnerId from '@/app/actions/getAvailableTimeByCoOwnerId';
 import useAparmentReviewModal from '@/app/hooks/useApartmentReviewModal';
+import { Tooltip } from 'flowbite-react';
+
 interface ManageApartmentProps {
   detailCoOwner: any;
   propertyDetail: any;
@@ -60,6 +62,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
   const isCreated = createModalPublicTime.isCreated;
   const axiosAuthClient = useAxiosAuthClient();
   const apartmentReviewModal = useAparmentReviewModal();
+
   useEffect(() => {
     if (isCreated === true) {
       const getData = async () => {
@@ -193,12 +196,18 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
               <div className="grid grid-cols-3 gap-4">
                 <div>
                   <Card
-                    title={detail.property.propertyName}
+                    title={
+                      <Fragment>
+                        <Tooltip content={detail.property.propertyName}>
+                          <div className="truncate w-20">{detail.property.propertyName}</div>
+                        </Tooltip>
+                      </Fragment>
+                    }
                     extra={
-                      <>
+                      <Fragment>
                         <Tag color="success">{detail.status}</Tag>
                         <ModalViewImageContractCoOwner image={detail.contractImages} />
-                      </>
+                      </Fragment>
                     }
                   >
                     <Carousel autoplay>

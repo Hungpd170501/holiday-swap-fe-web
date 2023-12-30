@@ -7,6 +7,15 @@ import React from 'react';
 interface IParams {
   slug: any[];
 }
+
+export const generateMetadata = async ({ params }: { params: IParams }) => {
+  const ownership = await GetApproveOwnershipById(params);
+
+  return {
+    title: `${ownership?.property?.propertyName} | ${ownership?.roomId}`,
+  };
+};
+
 export default async function EditApartment({ params }: { params: IParams }) {
   const { slug } = params;
   const [propertyId, userId, roomId] = slug;
