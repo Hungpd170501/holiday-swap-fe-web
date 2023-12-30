@@ -5,7 +5,7 @@ import GetCurrentUser from '../actions/getCurrentUser';
 import getBookingHistory from '../actions/getBookingHistory';
 
 export const metadata = {
-  title: 'DashBoard',
+  title: 'Dashboard',
 };
 
 export default async function DashBoard() {

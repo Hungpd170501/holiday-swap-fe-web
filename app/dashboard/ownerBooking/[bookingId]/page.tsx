@@ -10,6 +10,14 @@ interface IParams {
   bookingId: string;
 }
 
+export const generateMetadata = async ({ params }: { params: IParams }) => {
+  const historyBooking = await GetOwnerHistoryBookingById(params);
+
+  return {
+    title: `${historyBooking?.propertyName} owner booking`,
+  };
+};
+
 export default async function OwnerBookingDetailPage({ params }: { params: IParams }) {
   const ownerBookingDetail = await GetOwnerHistoryBookingById(params);
   const rating = await GetRatingByBookingId(params);

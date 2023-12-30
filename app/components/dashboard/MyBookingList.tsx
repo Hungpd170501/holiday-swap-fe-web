@@ -75,18 +75,20 @@ const MyBookingList: React.FC<MyBookingListProps> = ({ historyBooking }) => {
         />
       </div>
       <div className="py-6">
-        <div className="py-6">
-          <div
-            onClick={handleSortToggle}
-            className="p-3 border border-slate-300 hover:cursor-pointer rounded-full 
+        {sortedItems && sortedItems?.length > 0 && (
+          <div className="py-6">
+            <div
+              onClick={handleSortToggle}
+              className="p-3 border border-slate-300 hover:cursor-pointer rounded-full 
           justify-center shadow-md flex flex-row items-center gap-1 w-72 transition-all duration-300 transform active:scale-95"
-          >
-            <div>
-              Created date: <span>{sortOrder}</span>
+            >
+              <div>
+                Created date: <span>{sortOrder}</span>
+              </div>
+              <CiFilter size={20} />
             </div>
-            <CiFilter size={20} />
           </div>
-        </div>
+        )}
         {sortedItems?.length > 0 ? (
           sortedItems.map((item: any) => (
             <div
