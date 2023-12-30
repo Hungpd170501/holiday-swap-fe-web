@@ -290,7 +290,7 @@ const CaroselResortAndApartment: React.FC = ({}) => {
                               <div
                                 onClick={() =>
                                   handleRedirectApartmentDetail(
-                                    `/apartment/${element.availableTime.id}?propertyId=${element.coOwnerId.propertyId}&roomId=${element.coOwnerId.roomId}`
+                                    `/apartment/${element.availableTime.id}?propertyId=${element.availableTime.coOwner.property.id}&roomId=${element.availableTime.coOwner.roomId}`
                                   )
                                 }
                               >
