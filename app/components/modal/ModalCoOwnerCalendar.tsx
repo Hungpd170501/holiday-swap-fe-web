@@ -31,6 +31,69 @@ const getISOWeekNumber = (date: Date) => {
   return weekNumber;
 };
 
+const dateIsConsecutive = (array: IDate[]) => {
+  array?.forEach((element) => {
+    let checkIn = new Date(element.checkIn);
+    let checkOut = new Date(element.checkOut);
+    for (let index = 1; index < array.length; index++) {
+      const nextCheckIn = new Date(array[index].checkIn);
+      const nextCheckOut = new Date(array[index].checkOut);
+      if (checkOut.getTime() == nextCheckIn.getTime()) {
+        element.checkOut = nextCheckOut.toString();
+      }
+    }
+  });
+};
+
+const func4 = (ranges: any, array: IDate[]) => {
+  const { selection } = ranges;
+  const startDate = selection.startDate;
+
+  const endDate = selection.endDate;
+  let result: Date[] = [];
+  array.forEach((element) => {
+    let checkIn = new Date(element.checkIn);
+    checkIn.setHours(0, 0, 0, 0);
+    let checkOut = new Date(element.checkOut);
+    checkOut.setHours(0, 0, 0, 0);
+
+    if (startDate.getTime() <= checkIn.getTime()) {
+      result.push(checkOut);
+      // setDateOut(result);
+    } else if (startDate.getTime() >= checkIn.getTime()) {
+      result.push(checkIn);
+      // setDateOut(result);
+    }
+  });
+  let x: Date[] = dateDiffIsGreaterTwo(array);
+
+  x.forEach((e) => {
+    result.push(new Date(e));
+  });
+  result.concat(x);
+  return result;
+};
+
+const dateDiffIsGreaterTwo = (array: IDate[]) => {
+  let arr: Date[] = [];
+  array.forEach((element) => {
+    let checkIn = new Date(element.checkIn);
+    let checkOut = new Date(element.checkOut);
+    const timeDifference = checkOut.getTime() - checkIn.getTime();
+    const daysDifference = timeDifference / (1000 * 3600 * 24);
+
+    if (daysDifference > 1) {
+      let theDateStart = checkIn;
+      theDateStart = new Date(theDateStart.getTime() + 24 * 60 * 60 * 1000);
+      while (theDateStart.getTime() < checkOut.getTime()) {
+        arr.push(theDateStart);
+        theDateStart = new Date(theDateStart.getTime() + 24 * 60 * 60 * 1000);
+      }
+    }
+  });
+  return arr;
+};
+
 const ModalCoOwnerCalendar = (props: any) => {
   const initialDate = {
     startDate:
@@ -219,63 +282,3 @@ const ModalCoOwnerCalendar = (props: any) => {
 };
 
 export default ModalCoOwnerCalendar;
-const dateIsConsecutive = (array: IDate[]) => {
-  array.forEach((element) => {
-    let checkIn = new Date(element.checkIn);
-    let checkOut = new Date(element.checkOut);
-    for (let index = 1; index < array.length; index++) {
-      const nextCheckIn = new Date(array[index].checkIn);
-      const nextCheckOut = new Date(array[index].checkOut);
-      if (checkOut.getTime() == nextCheckIn.getTime()) {
-        element.checkOut = nextCheckOut.toString();
-      }
-    }
-  });
-};
-const func4 = (ranges: any, array: IDate[]) => {
-  const { selection } = ranges;
-  const startDate = selection.startDate;
-
-  const endDate = selection.endDate;
-  let result: Date[] = [];
-  array.forEach((element) => {
-    let checkIn = new Date(element.checkIn);
-    checkIn.setHours(0, 0, 0, 0);
-    let checkOut = new Date(element.checkOut);
-    checkOut.setHours(0, 0, 0, 0);
-
-    if (startDate.getTime() <= checkIn.getTime()) {
-      result.push(checkOut);
-      // setDateOut(result);
-    } else if (startDate.getTime() >= checkIn.getTime()) {
-      result.push(checkIn);
-      // setDateOut(result);
-    }
-  });
-  let x: Date[] = dateDiffIsGreaterTwo(array);
-
-  x.forEach((e) => {
-    result.push(new Date(e));
-  });
-  result.concat(x);
-  return result;
-};
-const dateDiffIsGreaterTwo = (array: IDate[]) => {
-  let arr: Date[] = [];
-  array.forEach((element) => {
-    let checkIn = new Date(element.checkIn);
-    let checkOut = new Date(element.checkOut);
-    const timeDifference = checkOut.getTime() - checkIn.getTime();
-    const daysDifference = timeDifference / (1000 * 3600 * 24);
-
-    if (daysDifference > 1) {
-      let theDateStart = checkIn;
-      theDateStart = new Date(theDateStart.getTime() + 24 * 60 * 60 * 1000);
-      while (theDateStart.getTime() < checkOut.getTime()) {
-        arr.push(theDateStart);
-        theDateStart = new Date(theDateStart.getTime() + 24 * 60 * 60 * 1000);
-      }
-    }
-  });
-  return arr;
-};

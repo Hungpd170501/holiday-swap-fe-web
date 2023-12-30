@@ -247,7 +247,7 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
           )}
         </Fragment>
       )}
-      {ownershipUserList && ownershipUserList?.content && ownershipUserList?.content.length > 0 && (
+      {ownershipUserList && ownershipUserList?.totalPages > 1 && (
         <div className="flex py-5 overflow-x-auto sm:justify-center">
           <Pagination
             currentPage={currentPage}
