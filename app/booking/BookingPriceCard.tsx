@@ -63,7 +63,6 @@ const BookingPriceCard: React.FC<BookingPriceCardProps> = ({
     }
   }, [dateRangeContext, priceNight]);
 
-  console.log('Check date range booking in booking price', dateRangeValue);
   return (
     <div className="bg-white p-4 flex flex-col rounded-xl shadow-xl border border-gray-200 sticky top-44">
       <div className="w-full py-4 border-b border-gray-400">
@@ -95,7 +94,9 @@ const BookingPriceCard: React.FC<BookingPriceCardProps> = ({
                   />
                 )}
               </div>
-              <div className="text-[12px]">Owner by {fullName !== 'null' ? fullName : username}</div>
+              <div className="text-[12px]">
+                Owner by {fullName !== 'null' ? fullName : username}
+              </div>
             </div>
             {rating !== 'null' && (
               <div className="flex flex-row items-center">

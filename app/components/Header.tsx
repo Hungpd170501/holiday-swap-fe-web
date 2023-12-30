@@ -13,6 +13,7 @@ import UserMenu from './navbar/UserMenu';
 import { usePathname, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
+import useBooking from '../hooks/useBooking';
 
 interface HeaderProps {
   currentUser?: any | null;
@@ -64,6 +65,9 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
     }
   }, [isLogin, currentUser]);
 
+  const booking = useBooking();
+  const isSuccess = booking.isSuccess;
+
   const accessToken = session?.user?.access_token;
   const config = { headers: { Authorization: `Bearer ${accessToken}` } };
 
@@ -80,7 +84,12 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
       }
     };
     fetchUserWallet();
-  }, [currentUser, accessToken]);
+
+    if (isSuccess === true) {
+      fetchUserWallet();
+      booking.onSuccessReset();
+    }
+  }, [currentUser, accessToken, isSuccess]);
 
   return (
     <div className={clsx(`w-full z-50 fixed`)}>

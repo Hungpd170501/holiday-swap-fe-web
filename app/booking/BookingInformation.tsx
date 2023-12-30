@@ -17,6 +17,7 @@ import { Button, Modal } from 'flowbite-react';
 import useNewDateRange from '../hooks/useNewDateRange';
 import InputPhone from '../components/input/InputPhone';
 import useRecharge from '../hooks/useRecharge';
+import useBooking from '../hooks/useBooking';
 
 interface BookingInformationProps {
   totalGuest?: any;
@@ -63,6 +64,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
   const recharge = useRecharge();
   const isNew = newDateRange.isNew;
   const isSave = editGuestBookingModal.isSave;
+  const booking = useBooking();
   const {
     register,
     handleSubmit,
@@ -91,6 +93,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
       .post('https://holiday-swap.click/api/booking/create', bookingData, config)
       .then(() => {
         setOpenModal(false);
+        booking.onSuccess();
         router.push('/booking/success');
       })
       .catch((response) => {
