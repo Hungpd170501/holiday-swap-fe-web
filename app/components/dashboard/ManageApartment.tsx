@@ -54,7 +54,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
     total: 0,
   });
   const [loadingTableAvailableTime, setLoadingTableAvailableTime] = useState<boolean>(false);
-
+  const [weeksTimeFrame, setWeeksTimeFrame] = useState<number[]>(detailCoOwner.timeFrames);
   const [isOpenTimePublic, setIsOpenTimePublic] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [switchActive, setSwitchActive] = useState(true);
@@ -62,19 +62,6 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
   const isCreated = createModalPublicTime.isCreated;
   const axiosAuthClient = useAxiosAuthClient();
   const apartmentReviewModal = useAparmentReviewModal();
-
-  useEffect(() => {
-    if (isCreated === true) {
-      const getData = async () => {
-        const detailCoOwner = await GetApproveOwnershipById({ slug });
-        if (detailCoOwner) {
-          setDetail(detailCoOwner);
-          createModalPublicTime.onCreatedReset();
-        }
-      };
-      getData();
-    }
-  }, [isCreated, createModalPublicTime]);
 
   const [isOpenTimePublicArr, setIsOpenTimePublicArr] = useState(
     new Array(detailCoOwner.timeFrames.length).fill(false)
@@ -105,18 +92,33 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
     setRating(rs);
     // setPageAvailableTime({ current: rs.number, pageSize: rs.size, total: rs.totalElements });
   };
-
+  useEffect(() => {
+    let weeks: number[] = [];
+    detailCoOwner.timeFrames.forEach((element: any) => {
+      weeks.push(element.weekNumber);
+    });
+    weeks.sort(function (a, b) {
+      return a - b;
+    });
+    setWeeksTimeFrame(weeks);
+  }, []);
+  useEffect(() => {
+    if (isCreated === true) {
+      const getData = async () => {
+        const detailCoOwner = await GetApproveOwnershipById({ slug });
+        if (detailCoOwner) {
+          setDetail(detailCoOwner);
+          setWeeksTimeFrame(detailCoOwner.timeFrames);
+          createModalPublicTime.onCreatedReset();
+        }
+      };
+      getData();
+    }
+  }, [isCreated, createModalPublicTime]);
   useEffect(() => {
     fetchAvailableTimeByCoOwnerId();
     fetchRatingByPropertyIdAndRoomId();
   }, [JSON.stringify(pageAvailableTime.current)]);
-
-  // Function to toggle isOpenTimePublic for a specific index
-  const toggleIsOpenTimePublic = (index: number) => {
-    const updatedArr = [...isOpenTimePublicArr];
-    updatedArr[index] = !updatedArr[index];
-    setIsOpenTimePublicArr(updatedArr);
-  };
   const confirm = (id: any) => {
     console.log(id);
 
@@ -140,11 +142,11 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
     }
   };
   const columns = [
-    {
-      title: 'Id',
-      dataIndex: 'id',
-      key: 'id',
-    },
+    // {
+    //   title: 'Id',
+    //   dataIndex: 'id',
+    //   key: 'id',
+    // },
     {
       title: 'Start Time',
       dataIndex: 'startTime',
@@ -235,9 +237,9 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                       <div>
                         Week Number:
                         <div className="grid grid-cols-7">
-                          {detail.timeFrames.map((w: any, i: number) => (
+                          {weeksTimeFrame.map((w: any, i: number) => (
                             <Tag color="green" key={i}>
-                              <div> {w.weekNumber}</div>
+                              <div> {w}</div>
                             </Tag>
                           ))}
                         </div>

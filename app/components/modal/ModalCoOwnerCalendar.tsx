@@ -185,9 +185,14 @@ const ModalCoOwnerCalendar = (props: any) => {
     setTimesDisable(rs3);
   };
   const fetchWeeks = () => {
+    let weeks: number[] = [];
     props.coOwner.timeFrames.forEach((element: any) => {
-      weeksTimeFrame.push(element.weekNumber);
+      weeks.push(element.weekNumber);
     });
+    weeks.sort(function (a, b) {
+      return a - b;
+    });
+    setWeeksTimeFrame(weeks);
   };
   useEffect(() => {
     fetchTimesDisable();
