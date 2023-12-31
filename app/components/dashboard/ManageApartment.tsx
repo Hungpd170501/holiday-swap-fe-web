@@ -54,7 +54,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
     total: 0,
   });
   const [loadingTableAvailableTime, setLoadingTableAvailableTime] = useState<boolean>(false);
-  const [weeksTimeFrame, setWeeksTimeFrame] = useState<number[]>(detailCoOwner.timeFrames);
+  const [weeksTimeFrame, setWeeksTimeFrame] = useState<number[]>([]);
   const [isOpenTimePublic, setIsOpenTimePublic] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [switchActive, setSwitchActive] = useState(true);
@@ -237,7 +237,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                       <div>
                         Week Number:
                         <div className="grid grid-cols-7">
-                          {weeksTimeFrame.map((w: any, i: number) => (
+                          {weeksTimeFrame.map((w: number, i: number) => (
                             <Tag color="green" key={i}>
                               <div> {w}</div>
                             </Tag>
