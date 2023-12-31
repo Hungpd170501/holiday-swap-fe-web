@@ -247,6 +247,8 @@ const ModalCoOwnerCalendar = (props: any) => {
                   const checkOutDate = new Date(d.checkOut);
                   if (date <= new Date(props.coOwner.startTime) && date === checkInDate)
                     disableDays = true;
+                  if (date <= new Date(props.coOwner.endTime) && date === checkOutDate)
+                    disableDays = true;
                   return date > checkInDate && date < checkOutDate;
                 });
               return disableDays;
