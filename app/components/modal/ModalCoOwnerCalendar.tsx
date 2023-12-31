@@ -240,7 +240,10 @@ const ModalCoOwnerCalendar = (props: any) => {
             disabledDay={(date) => {
               let disableDays = true;
               disableDays = isDateInISOWeekNumber(date, weeksTimeFrame);
-              //is in list disable
+              if (disableDays) {
+                const subtractOneDay = new Date(date.getTime() - 24 * 60 * 60 * 1000);
+                disableDays = isDateInISOWeekNumber(subtractOneDay, weeksTimeFrame);
+              }
               if (!disableDays)
                 disableDays = timesDisable?.some((d: any) => {
                   const checkInDate = new Date(d.checkIn);
