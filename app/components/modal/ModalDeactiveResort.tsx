@@ -20,6 +20,7 @@ export default function ModalDeactiveResort() {
   const deactiveResortModal = useDeactiveResortModal();
   const resortId = deactiveResortModal.resortId;
   const resortStatus = deactiveResortModal.resortStatus;
+  const isDeactiveProperty = deactiveResortModal.isDeactiveProperty;
   const [isLoading, setIsLoading] = useState(false);
   const [isForgotPasswordModalOpen, setIsForgotPasswordModalOpen] = useState(false);
   const [file, setFile] = useState<any[]>([]);
@@ -40,12 +41,24 @@ export default function ModalDeactiveResort() {
     setIsLoading(true);
     const formData = new FormData();
 
-    const resortUpdateRequest = {
-      resortId: resortId,
-      resortStatus: resortStatus,
-      startDate: format(new Date(data.startDateDeactive), 'yyyy-MM-dd') + 'T00:00',
-      endDate: null,
-    };
+    let resortUpdateRequest;
+
+    if (isDeactiveProperty === true) {
+      resortUpdateRequest = {
+        propertyId: resortId,
+        propertyStatus: resortStatus,
+        startDate: format(new Date(data.startDateDeactive), 'yyyy-MM-dd') + 'T00:00',
+        endDate: null,
+      };
+    } else {
+      resortUpdateRequest = {
+        resortId: resortId,
+        resortStatus: resortStatus,
+        startDate: format(new Date(data.startDateDeactive), 'yyyy-MM-dd') + 'T00:00',
+        endDate: null,
+      };
+    }
+
     const resortUpdatRequestBlob = new Blob([JSON.stringify(resortUpdateRequest)], {
       type: 'application/json',
     });
@@ -54,22 +67,42 @@ export default function ModalDeactiveResort() {
       formData.append('resortImage', element);
     });
 
-    axios
-      .put(`https://holiday-swap.click/api/v1/resorts/updateStatus`, formData)
-      .then(() => {
-        toast.success('Updated status successfully!');
-        deactiveResortModal.onSuccess();
-        deactiveResortModal.onClose();
-        reset();
-      })
-      .catch((response) => {
-        toast.error(response.response.data.message);
-        deactiveResortModal.onClose();
-      })
-      .finally(() => {
-        setIsLoading(false);
-        setOpenModal(false);
-      });
+    if (isDeactiveProperty === true) {
+      axios
+        .put(`https://holiday-swap.click/api/v1/properties/updateStatus`, formData)
+        .then(() => {
+          toast.success('Updated status successfully!');
+          deactiveResortModal.onSuccess();
+          deactiveResortModal.onClose();
+          deactiveResortModal.onDeactivePropertyReset();
+          reset();
+        })
+        .catch((response) => {
+          toast.error(response.response.data.message);
+          deactiveResortModal.onClose();
+        })
+        .finally(() => {
+          setIsLoading(false);
+          setOpenModal(false);
+        });
+    } else {
+      axios
+        .put(`https://holiday-swap.click/api/v1/resorts/updateStatus`, formData)
+        .then(() => {
+          toast.success('Updated status successfully!');
+          deactiveResortModal.onSuccess();
+          deactiveResortModal.onClose();
+          reset();
+        })
+        .catch((response) => {
+          toast.error(response.response.data.message);
+          deactiveResortModal.onClose();
+        })
+        .finally(() => {
+          setIsLoading(false);
+          setOpenModal(false);
+        });
+    }
   };
 
   const toggleCreateAccountModal = useCallback(() => {
@@ -117,11 +150,11 @@ export default function ModalDeactiveResort() {
         />
       </div>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
-        <Modal.Header>Deactive resort</Modal.Header>
+        <Modal.Header>Deactive {isDeactiveProperty === true ? "property" : "resort"}</Modal.Header>
         <Modal.Body>
           <div className="space-y-6">
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              Are you want to deactive resort?
+              Are you want to deactive {isDeactiveProperty === true ? "property" : "resort"}?
             </p>
           </div>
         </Modal.Body>
@@ -141,7 +174,7 @@ export default function ModalDeactiveResort() {
     <ModalCreate
       disabled={isLoading}
       isOpen={deactiveResortModal.isOpen}
-      title={'Deactive Resort'}
+      title={isDeactiveProperty === true ? 'Deactive property' : 'Deactive resort'}
       actionLabel={'Deactive'}
       onClose={deactiveResortModal.onClose}
       onSubmit={() => setOpenModal(true)}

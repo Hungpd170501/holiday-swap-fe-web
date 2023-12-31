@@ -22,6 +22,7 @@ export default function ModalMaintanceResort() {
   const maintanceResortModal = useMaintanceResortModal();
   const resortId = maintanceResortModal.resortId;
   const resortStatus = maintanceResortModal.resortStatus;
+  const isMaintanceProperty = maintanceResortModal.isMaintanceProperty;
   const [isLoading, setIsLoading] = useState(false);
   const [isForgotPasswordModalOpen, setIsForgotPasswordModalOpen] = useState(false);
   const [file, setFile] = useState<any[]>([]);
@@ -43,12 +44,24 @@ export default function ModalMaintanceResort() {
     setIsLoading(true);
     const formData = new FormData();
 
-    const resortUpdateRequest = {
-      resortId: resortId,
-      resortStatus: resortStatus,
-      startDate: format(new Date(data.startDateMaintance), 'yyyy-MM-dd') + 'T00:00',
-      endDate: format(new Date(data.endDateMaintance), 'yyyy-MM-dd') + 'T00:00',
-    };
+    let resortUpdateRequest;
+
+    if (isMaintanceProperty === true) {
+      resortUpdateRequest = {
+        propertyId: resortId,
+        propertyStatus: resortStatus,
+        startDate: format(new Date(data.startDateMaintance), 'yyyy-MM-dd') + 'T00:00',
+        endDate: format(new Date(data.endDateMaintance), 'yyyy-MM-dd') + 'T00:00',
+      };
+    } else {
+      resortUpdateRequest = {
+        resortId: resortId,
+        resortStatus: resortStatus,
+        startDate: format(new Date(data.startDateMaintance), 'yyyy-MM-dd') + 'T00:00',
+        endDate: format(new Date(data.endDateMaintance), 'yyyy-MM-dd') + 'T00:00',
+      };
+    }
+
     const resortUpdatRequestBlob = new Blob([JSON.stringify(resortUpdateRequest)], {
       type: 'application/json',
     });
@@ -57,22 +70,42 @@ export default function ModalMaintanceResort() {
       formData.append('resortImage', element);
     });
 
-    axios
-      .put(`https://holiday-swap.click/api/v1/resorts/updateStatus`, formData)
-      .then(() => {
-        toast.success('Updated status successfully!');
-        maintanceResortModal.onSuccess();
-        maintanceResortModal.onClose();
-        reset();
-      })
-      .catch((response) => {
-        toast.error(response.response.data.message);
-        maintanceResortModal.onClose();
-      })
-      .finally(() => {
-        setIsLoading(false);
-        setOpenModal(false);
-      });
+    if (isMaintanceProperty === true) {
+      axios
+        .put(`https://holiday-swap.click/api/v1/properties/updateStatus`, formData)
+        .then(() => {
+          toast.success('Updated status successfully!');
+          maintanceResortModal.onSuccess();
+          maintanceResortModal.onClose();
+          maintanceResortModal.onMaintancePropertyReset();
+          reset();
+        })
+        .catch((response) => {
+          toast.error(response.response.data.message);
+          maintanceResortModal.onClose();
+        })
+        .finally(() => {
+          setIsLoading(false);
+          setOpenModal(false);
+        });
+    } else {
+      axios
+        .put(`https://holiday-swap.click/api/v1/resorts/updateStatus`, formData)
+        .then(() => {
+          toast.success('Updated status successfully!');
+          maintanceResortModal.onSuccess();
+          maintanceResortModal.onClose();
+          reset();
+        })
+        .catch((response) => {
+          toast.error(response.response.data.message);
+          maintanceResortModal.onClose();
+        })
+        .finally(() => {
+          setIsLoading(false);
+          setOpenModal(false);
+        });
+    }
   };
 
   const toggleCreateAccountModal = useCallback(() => {
@@ -131,11 +164,11 @@ export default function ModalMaintanceResort() {
       </div>
 
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
-        <Modal.Header>Maintenance resort</Modal.Header>
+        <Modal.Header>Maintenance {isMaintanceProperty === true ? "property" : "resort"}</Modal.Header>
         <Modal.Body>
           <div className="space-y-6">
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              Are you want to maintenance resort?
+              Are you want to maintenance {isMaintanceProperty === true ? "property" : "resort"}?
             </p>
           </div>
         </Modal.Body>
@@ -155,7 +188,7 @@ export default function ModalMaintanceResort() {
     <ModalCreate
       disabled={isLoading}
       isOpen={maintanceResortModal.isOpen}
-      title={'Maintance Resort'}
+      title={isMaintanceProperty === true ? 'Maintance Property' : 'Maintance Resort'}
       actionLabel={'Maintance'}
       onClose={maintanceResortModal.onClose}
       onSubmit={() => setOpenModal(true)}
