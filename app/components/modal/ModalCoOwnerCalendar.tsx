@@ -259,11 +259,16 @@ const ModalCoOwnerCalendar = (props: any) => {
           />
           <Input
             placeholder="Input price per night"
-            className="rounded"
+            className="rounded-md"
             type="number"
+            value={pricePerNight}
             min={1}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setPricePerNight(e.target.value);
+              if (Number(e.target.value) < 1) {
+                setPricePerNight('');
+              } else {
+                setPricePerNight(e.target.value);
+              }
             }}
           />
           <div className="flex justify-center pt-3">
