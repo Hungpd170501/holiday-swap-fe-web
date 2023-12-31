@@ -229,8 +229,8 @@ const ModalCoOwnerCalendar = (props: any) => {
             }}
             maxDate={
               props.coOwner.endTime
-                ? new Date(props.coOwner.endTime)
-                : new Date(new Date().getFullYear() + 50, 1, 1)
+                ? new Date(new Date(props.coOwner.endTime).getFullYear(), 10, 31)
+                : new Date(new Date().getFullYear() + 50, 10, 31)
             }
             minDate={
               new Date(props.coOwner.startTime) > new Date()
