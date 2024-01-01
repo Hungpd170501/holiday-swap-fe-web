@@ -235,6 +235,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                         Apartment Id:<Tag> {detail.roomId}</Tag>
                       </div>
                       <div>
+
                         Week Number:
                         <div className="grid grid-cols-7">
                           {weeksTimeFrame.map((w: number, i: number) => (
