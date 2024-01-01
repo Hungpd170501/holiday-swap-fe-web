@@ -219,7 +219,7 @@ const ModalCoOwnerCalendar = (props: any) => {
             // showDateDisplay={false}
             // showMonthArrow={false}
             // showMonthAndYearPickers={false}
-            // disabledDates={timesDisableOnClick}
+            disabledDates={timesDisableOnClick}
             rangeColors={['#5C98F2']}
             ranges={[date]}
             date={new Date()}
