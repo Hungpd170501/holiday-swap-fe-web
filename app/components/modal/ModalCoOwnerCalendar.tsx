@@ -219,7 +219,7 @@ const ModalCoOwnerCalendar = (props: any) => {
             // showDateDisplay={false}
             // showMonthArrow={false}
             // showMonthAndYearPickers={false}
-            disabledDates={timesDisableOnClick}
+            // disabledDates={timesDisableOnClick}
             rangeColors={['#5C98F2']}
             ranges={[date]}
             date={new Date()}
@@ -248,6 +248,12 @@ const ModalCoOwnerCalendar = (props: any) => {
               if (disableDays) {
                 const subtractOneDay = new Date(date.getTime() - 24 * 60 * 60 * 1000);
                 disableDays = isDateInISOWeekNumber(subtractOneDay, weeksTimeFrame);
+                if (!disableDays)
+                  disableDays = timesDisable?.some((d: any) => {
+                    const checkInDate = new Date(d.checkIn);
+                    const checkOutDate = new Date(d.checkOut);
+                    return date <= checkOutDate;
+                  });
               }
               if (!disableDays)
                 disableDays = timesDisable?.some((d: any) => {
@@ -265,7 +271,7 @@ const ModalCoOwnerCalendar = (props: any) => {
             weekdayDisplayFormat={'EEEEEE'}
             months={2}
             direction="horizontal"
-            className="1px w-full"
+            className="2px w-full"
           />
           <Input
             placeholder="Input price per night"

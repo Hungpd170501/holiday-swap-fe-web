@@ -106,7 +106,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
             <div className="flex flex-row justify-between items-center gap-3">
               <Logo />
               {currentUser == undefined || currentUser.role.name == 'Membership' ? (
-                <div className="ml-36">
+                <div className="ml-7">
                   <LinkHeader />
                 </div>
               ) : (
@@ -114,7 +114,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
               )}
 
               {currentUser ? (
-                <UserMenu currentUser={currentUser} userWallet={userWallet} />
+                <UserMenu currentUser={currentUser} userWallet={userWallet} /> 
               ) : (
                 <ButtonLoginHeader onClick={loginModal.onOpen} />
               )}
