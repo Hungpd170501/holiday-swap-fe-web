@@ -168,7 +168,7 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail, params }) => {
               <div className="text-lg font-bold">Maintanance time</div>
               <ul className="list-disc px-5">
                 {detail?.resortMaintances.map((item: any, index: number) => (
-                  <li key={item.resortId} className="border-b p-2 border-slate-300">
+                  <li key={item.id} className="border-b p-2 border-slate-300">
                     {format(new Date(item.startDate), 'dd/MM/yyyy')} -{' '}
                     {format(new Date(item.endDate), 'dd/MM/yyyy')}
                   </li>

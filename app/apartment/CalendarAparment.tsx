@@ -37,6 +37,8 @@ const CalendarAparment: React.FC<CalendarApartmentProps> = ({
       maxDate={maxDate}
       disabledDates={disabledDates}
       className={`${className}`}
+      weekStartsOn={1}
+      weekdayDisplayFormat={'EEEEEE'}
     />
   );
 };

@@ -14,8 +14,8 @@ export interface TaxonomyType {
   thumbnail?: string;
   desc?: string;
   color?: TwMainColor | string;
-  taxonomy: "category" | "tag";
-  listingType?: "stay" | "experiences" | "car";
+  taxonomy: 'category' | 'tag';
+  listingType?: 'stay' | 'experiences' | 'car';
 }
 
 export interface AuthorType {
@@ -45,18 +45,18 @@ export interface PostDataType {
   commentCount: number;
   viewdCount: number;
   readingTime: number;
-  postType?: "standard" | "video" | "gallery" | "audio";
+  postType?: 'standard' | 'video' | 'gallery' | 'audio';
 }
 
 export type TwMainColor =
-  | "pink"
-  | "green"
-  | "yellow"
-  | "red"
-  | "indigo"
-  | "blue"
-  | "purple"
-  | "gray";
+  | 'pink'
+  | 'green'
+  | 'yellow'
+  | 'red'
+  | 'indigo'
+  | 'blue'
+  | 'purple'
+  | 'gray';
 
 export interface GuestsObject {
   guestAdults?: number;
@@ -65,7 +65,7 @@ export interface GuestsObject {
   rooms?: number;
 }
 
-export type StaySearchFormFields = "location" | "guests" | "dates";
+export type StaySearchFormFields = 'location' | 'guests' | 'dates';
 
 export interface PropertyType {
   name: string;
@@ -126,10 +126,11 @@ export interface Property {
   isDeleted: boolean;
   status: string;
   resortId: number;
+  resort: Resort;
   propertyType: PropertyType;
   propertyView: PropertyView;
   inRoomAmenityType: InRoomAmenityType[];
-  propertyImage: {
+  propertyImages: {
     id: number;
     propertyId: number;
     link: string;
@@ -181,21 +182,44 @@ export interface AvailableTime {
   endTime: string;
   pricePerNight: number;
   status: string;
-  timeFrameId: number;
+  coOwner: CoOwner;
   deleted: boolean;
 }
 
-export interface CoOwnerId {
-  propertyId: number;
-  userId: number;
+export interface CoOwner {
+  id: number;
   roomId: string;
+  endTime: string;
+  startTime: string;
+  type: string;
+  status: string;
+  contractImages: [
+    {
+      id: number;
+      link: string;
+      deleted: true;
+    }
+  ];
+  timeFrames: [
+    {
+      id: number;
+      weekNumber: number;
+      coOwnerId: number;
+      deleted: true;
+    }
+  ];
+  createDate: string;
+  property: Property;
+
+  user: User;
+  deleted: true;
 }
 
 export interface ApartmentForRent {
-  coOwnerId: CoOwnerId;
-  property: Property;
-  resort: Resort;
-  user: User;
+  // coOwnerId: CoOwnerId;
+  // property: Property;
+  // resort: Resort;
+  // user: User;
   availableTime: AvailableTime;
 }
 
@@ -276,7 +300,7 @@ export interface SearchApartmentForRentParams {
   listOfPropertyView: number[];
   listOfPropertyType: number[];
   sortBy: string;
-  sortDirection: "asc" | "desc";
+  sortDirection: 'asc' | 'desc';
 }
 
 export interface InRoomAmenity {
@@ -330,7 +354,6 @@ export interface PropertyTypeResponse {
   first: boolean;
   empty: boolean;
 }
-
 
 export interface PropertyView {
   id: number;

@@ -19,31 +19,43 @@ import useNewDateRange from '@/app/hooks/useNewDateRange';
 function mapApartmentToStayCard(
   apartmentForRentResponse: ApartmentForRentResponse
 ): StayDataType[] {
+  const result = apartmentForRentResponse.content.map((apartmentForRent, newDateRange) => {
+    return {
+      id: `${apartmentForRent.availableTime.id}`,
+      href: `/apartment`,
+      galleryImgs: apartmentForRent.availableTime.coOwner.property.propertyImages,
+    };
+  });
+  console.log('result', result);
+
   return apartmentForRentResponse.content.map((apartmentForRent, newDateRange) => {
     return {
       id: `${apartmentForRent.availableTime.id}`,
       // author: apartmentForRent.user.username,
       // date: null,
       href: `/apartment`,
-      galleryImgs: apartmentForRent.property.propertyImage.map((image) => image.link),
-      title: apartmentForRent.property.propertyName,
+      galleryImgs: apartmentForRent.availableTime.coOwner.property.propertyImages.map(
+        (image) => image.link
+      ),
+      title: apartmentForRent.availableTime.coOwner.property.propertyName,
       commentCount: 5,
       viewCount: 100,
       reviewStart: 5,
       reviewCount: 100,
-      roomSize: apartmentForRent.property.roomSize,
+      roomSize: apartmentForRent.availableTime.coOwner.property.roomSize,
       price: apartmentForRent.availableTime.pricePerNight,
-      listingCategory: apartmentForRent.property.propertyType.propertyTypeName,
-      bedrooms: apartmentForRent.property.numberBedsRoom,
-      bathrooms: apartmentForRent.property.numberBathRoom,
+      listingCategory:
+        apartmentForRent.availableTime.coOwner.property.propertyType.propertyTypeName,
+      bedrooms: apartmentForRent.availableTime.coOwner.property.numberBedsRoom,
+      bathrooms: apartmentForRent.availableTime.coOwner.property.numberBathRoom,
       map: {
-        lat: apartmentForRent.resort.latitude,
-        lng: apartmentForRent.resort.longitude,
+        lat: apartmentForRent.availableTime.coOwner.property.resort.latitude,
+        lng: apartmentForRent.availableTime.coOwner.property.resort.longitude,
       },
-      propertyView: apartmentForRent.property.propertyView.propertyViewName,
-      resortName: apartmentForRent.resort.resortName,
-      ownerName: apartmentForRent.user.username,
-      ownerAvatar: apartmentForRent.user?.avatar,
+      propertyView: apartmentForRent.availableTime.coOwner.property.propertyView.propertyViewName,
+      resortName: apartmentForRent.availableTime.coOwner.property.resort.resortName,
+      ownerName: apartmentForRent.availableTime.coOwner.user.username,
+      ownerAvatar: apartmentForRent.availableTime.coOwner.user?.avatar,
     } as unknown as StayDataType;
   });
 }
@@ -68,7 +80,6 @@ const MainMap: React.FC<MainMapProps> = ({ data }) => {
 
   useEffect(() => {
     fetchApartmentForRents();
-    
   }, [params]);
 
   const newDateRange = useNewDateRange();

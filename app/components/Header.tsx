@@ -90,6 +90,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
       booking.onSuccessReset();
     }
   }, [currentUser, accessToken, isSuccess]);
+  console.log('current User', currentUser);
 
   return (
     <div className={clsx(`w-full z-50 fixed`)}>
@@ -104,14 +105,12 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
           <div className="flex flex-col">
             <div className="flex flex-row justify-between items-center gap-3">
               <Logo />
-              {currentUser ? (
+              {currentUser == undefined || currentUser.role.name == 'Membership' ? (
                 <div className="ml-36">
                   <LinkHeader />
                 </div>
               ) : (
-                <div className="mr-7">
-                  <LinkHeader />
-                </div>
+                <div className="mr-7">{/* <LinkHeader /> */}</div>
               )}
 
               {currentUser ? (

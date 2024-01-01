@@ -2,6 +2,8 @@ import React from 'react';
 import { Button, message, Popconfirm } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import axios from '@/app/libs/axios';
+import useDeactiveResortModal from '@/app/hooks/useDeactiveResortModal';
+import useMaintanceResortModal from '@/app/hooks/useMaintanceResortModal';
 
 interface PopChangeStatusPropertyToDeActivateProps {
   fetchProperties: () => void;
@@ -41,19 +43,32 @@ const PopChangeStatusPropertyToDeActivate: React.FC<PopChangeStatusPropertyToDeA
         });
     });
   };
+
+  const deactiveResortModal = useDeactiveResortModal();
+  const maintanceResortModal = useMaintanceResortModal();
+
   return (
-    <Popconfirm
-      title={'Change status the property'}
-      description="Are you sure to change status this property?"
-      onConfirm={(e: any) => confirm(e)}
-      // onCancel={(e: any) => cancel(e)}
-      okText="Yes"
-      cancelText="No"
-      okType="default"
-      icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-    >
-      <Button danger>Deactive</Button>
-    </Popconfirm>
+    <div className="flex flex-col gap-1">
+      <Button
+        danger
+        onClick={() => {
+          deactiveResortModal.onOpen(id.toString(), 'DEACTIVATE');
+          deactiveResortModal.onDeactiveProperty();
+        }}
+      >
+        Deactive
+      </Button>
+
+      <Button
+        className="border-orange-500 text-orange-500 hover:border-orange-600 hover:text-orange-600"
+        onClick={() => {
+          maintanceResortModal.onOpen(id.toString(), 'MAINTANCE');
+          maintanceResortModal.onMaintanceProperty();
+        }}
+      >
+        Maintance
+      </Button>
+    </div>
   );
 };
 

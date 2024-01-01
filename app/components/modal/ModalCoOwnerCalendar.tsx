@@ -185,9 +185,14 @@ const ModalCoOwnerCalendar = (props: any) => {
     setTimesDisable(rs3);
   };
   const fetchWeeks = () => {
+    let weeks: number[] = [];
     props.coOwner.timeFrames.forEach((element: any) => {
-      weeksTimeFrame.push(element.weekNumber);
+      weeks.push(element.weekNumber);
     });
+    weeks.sort(function (a, b) {
+      return a - b;
+    });
+    setWeeksTimeFrame(weeks);
   };
   useEffect(() => {
     fetchTimesDisable();
@@ -229,8 +234,8 @@ const ModalCoOwnerCalendar = (props: any) => {
             }}
             maxDate={
               props.coOwner.endTime
-                ? new Date(props.coOwner.endTime)
-                : new Date(new Date().getFullYear() + 50, 1, 1)
+                ? new Date(new Date(props.coOwner.endTime).getFullYear(), 10, 31)
+                : new Date(new Date().getFullYear() + 50, 10, 31)
             }
             minDate={
               new Date(props.coOwner.startTime) > new Date()
@@ -240,12 +245,17 @@ const ModalCoOwnerCalendar = (props: any) => {
             disabledDay={(date) => {
               let disableDays = true;
               disableDays = isDateInISOWeekNumber(date, weeksTimeFrame);
-              //is in list disable
+              if (disableDays) {
+                const subtractOneDay = new Date(date.getTime() - 24 * 60 * 60 * 1000);
+                disableDays = isDateInISOWeekNumber(subtractOneDay, weeksTimeFrame);
+              }
               if (!disableDays)
                 disableDays = timesDisable?.some((d: any) => {
                   const checkInDate = new Date(d.checkIn);
                   const checkOutDate = new Date(d.checkOut);
                   if (date <= new Date(props.coOwner.startTime) && date === checkInDate)
+                    disableDays = true;
+                  if (date <= new Date(props.coOwner.endTime) && date === checkOutDate)
                     disableDays = true;
                   return date > checkInDate && date < checkOutDate;
                 });
@@ -259,11 +269,16 @@ const ModalCoOwnerCalendar = (props: any) => {
           />
           <Input
             placeholder="Input price per night"
-            className="rounded"
+            className="rounded-md"
             type="number"
+            value={pricePerNight}
             min={1}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setPricePerNight(e.target.value);
+              if (Number(e.target.value) < 1) {
+                setPricePerNight('');
+              } else {
+                setPricePerNight(e.target.value);
+              }
             }}
           />
           <div className="flex justify-center pt-3">
