@@ -99,3 +99,12 @@ select:focus {
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   border-color: #9CA3AF;
 }
+
+:where(.css-dev-only-do-not-override-1vr7spz).ant-checkbox+span {
+  padding-inline-start: 3px;
+  padding-inline-end: 8px;
+}
+
+:where(.css-dev-only-do-not-override-1vr7spz).ant-col-2 {
+  margin-bottom: 15px;
+}

@@ -45,17 +45,20 @@ const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({ approve
     // };
 
     axiosAuthClient
-      .put(`https://holiday-swap.click/api/co-owners/${approveDetail.id}?coOwnerStatus=${value}`, body)
+      .put(
+        `https://holiday-swap.click/api/co-owners/${approveDetail.id}?coOwnerStatus=${value}`,
+        body
+      )
       .then(async () => {
         toast.success('Update status success');
-        const newDetail = await axios.get(`https://holiday-swap.click/api/co-owners/${approveDetail.id}`);
+        // const newDetail = await axios.get(`https://holiday-swap.click/api/co-owners/${approveDetail.id}`);
 
-        if (newDetail) {
-          setDetail(newDetail.data);
-        }
+        // if (newDetail) {
+        //   setDetail(newDetail.data);
+        // }
 
         // Redirect to /staff/listapproveOwnership after successful update
-        // router.push('/staff/listapproveOwnership');
+        router.push('/staff/listapproveOwnership');
       })
       .catch((response) => {
         toast.error(response.response.data.message);
