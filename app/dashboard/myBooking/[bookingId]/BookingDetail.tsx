@@ -15,6 +15,8 @@ import GetRatingByBookingId from '@/app/actions/getRatingByBookingId';
 import ConversationApis from '@/app/actions/ConversationApis';
 import { useRouter } from 'next/navigation';
 import useLoginModal from '@/app/hooks/useLoginModal';
+import GetListResort from '@/app/actions/getListResort';
+import MapResort from '@/app/staff/staffdetailresort/MapResort';
 
 interface BookingDetailProps {
   bookingDetail: any;
@@ -34,6 +36,7 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
   rating,
 }) => {
   const [detail, setDetail] = useState(bookingDetail);
+  const [resort, setResort] = useState<any>();
   const [ratingValue, setRatingValue] = useState(rating);
   const router = useRouter();
   const loginModal = useLoginModal();
@@ -61,8 +64,20 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
         }
       }
     };
+    const getResort = async () => {
+      const resortName = detail.resortName;
+      const config = { resortName };
+      const resort = await GetListResort('0', config);
+      if (resort) {
+        setResort(resort.content[0]);
+      }
+    };
+
+    getResort();
     getData();
   }, [isCreated]);
+
+  console.log('Check resort', resort);
 
   const handleContactOwner = (ownerId: string) => {
     ConversationApis.getContactWithOwner(ownerId)
@@ -82,7 +97,7 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
   };
 
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col pb-40">
       {/* QR code */}
       <div className="flex my-2 flex-row w-full justify-center bg-gradient-to-r from-sky-200 to-indigo-300 rounded-md">
         <div className="py-6 flex flex-col items-center">
@@ -293,6 +308,20 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
           <div className="text-base font-normal line-clamp-3">{ratingValue?.comment}</div>
         </div>
       )}
+     {resort && (
+       <div className="w-full h-[700px] pt-3 pb-3 rounded-lg ">
+        <div className="text-xl font-bold pb-3">Address</div>
+        <span className="block mt-2 text-neutral-500 dark:text-neutral-400 py-3">
+          {resort?.locationFormattedName}
+        </span>
+        <MapResort
+          latitude={resort.latitude}
+          id={resort.id}
+          resortName={resort.resortName}
+          longitude={resort.longitude}
+        />
+      </div>
+     )}
     </div>
   );
 };
