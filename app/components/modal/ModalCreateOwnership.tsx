@@ -399,18 +399,25 @@ export default function ModalCreateOwnership() {
           tooltipContent="This is the week you own in the year, for example if you own the 6th week in 2023, you enter 6. You can enter multiple weeks by separating the weeks with a comma. For example: 6, 10, 11"
         /> */}
         <>
-          <Checkbox indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll}>
+          <Checkbox
+            className="mb-2"
+            indeterminate={indeterminate}
+            onChange={onCheckAllChange}
+            checked={checkAll}
+          >
             Select all
           </Checkbox>
           <br />
           <div>
             {/* <Checkbox.Group options={plainOptions} value={checkedList} onChange={onChange} /> */}
-            <Checkbox.Group style={{ width: '100%' }} onChange={onChange} value={checkedList}>
-              <Row gutter={24}>
+            <Checkbox.Group className="w-full" onChange={onChange} value={checkedList}>
+              <Row>
                 {plainOptions.map((e, i) => {
                   return (
                     <Col span={2} key={i}>
-                      <Checkbox value={e.value}>{e.label}</Checkbox>
+                      <Checkbox className="" value={e.value}>
+                        {e.label}
+                      </Checkbox>
                     </Col>
                   );
                 })}
