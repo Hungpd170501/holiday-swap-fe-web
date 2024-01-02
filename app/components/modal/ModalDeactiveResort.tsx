@@ -46,7 +46,7 @@ export default function ModalDeactiveResort() {
     if (isDeactiveProperty === true) {
       resortUpdateRequest = {
         propertyId: resortId,
-        propertyStatus: resortStatus,
+        resortStatus: resortStatus,
         startDate: format(new Date(data.startDateDeactive), 'yyyy-MM-dd') + 'T00:00',
         endDate: null,
       };
@@ -150,11 +150,11 @@ export default function ModalDeactiveResort() {
         />
       </div>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
-        <Modal.Header>Deactive {isDeactiveProperty === true ? "property" : "resort"}</Modal.Header>
+        <Modal.Header>Deactive {isDeactiveProperty === true ? 'property' : 'resort'}</Modal.Header>
         <Modal.Body>
           <div className="space-y-6">
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              Are you want to deactive {isDeactiveProperty === true ? "property" : "resort"}?
+              Are you want to deactive {isDeactiveProperty === true ? 'property' : 'resort'}?
             </p>
           </div>
         </Modal.Body>

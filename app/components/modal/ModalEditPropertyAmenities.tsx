@@ -8,19 +8,20 @@ import { Textarea, Label, Select } from 'flowbite-react';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import toast from 'react-hot-toast';
 import useEditPropertyViewModal from '@/app/hooks/useEditPropertyViewModal';
-import useEditResortAmenitiesModal from './../../hooks/useEditResortAmenitiesModal';
+import useEditResortAmenitiesModal from '../../hooks/useEditResortAmenitiesModal';
 import UploadContractApartment from '../register/UploadContractApartment';
 import UploadImageCreateOwnership from './UploadImageCreateOwnership';
 import UploadImageResortEdit from '../staff/UploadImageResortEdit';
 import UploadImageAmenities from '../staff/UploadImageAmenities';
 import ModalCreate from './ModalCreate';
 import { useRouter } from 'next/navigation';
+import useEditPropertyAmenitiesModal from '@/app/hooks/useEditPropertyAmenitiesModal';
 
-export default function ModalEditResortAmenities() {
+export default function ModalEditPropertyAmenities() {
   const [isLoading, setIsLoading] = useState(false);
-  const editResortAmenities = useEditResortAmenitiesModal();
-  const resortAmenities = editResortAmenities.resortAmenities;
-  const amenitiesType = editResortAmenities.amenitiesType;
+  const editPropertyAmenitiesModal = useEditPropertyAmenitiesModal();
+  const resortAmenities = editPropertyAmenitiesModal.resortAmenities;
+  const amenitiesType = editPropertyAmenitiesModal.amenitiesType;
   const [images, setImages] = useState<any[]>();
   const [oldImages, setOldImages] = useState<any>();
   const axiosAuthClient = useAxiosAuthClient();
@@ -39,18 +40,18 @@ export default function ModalEditResortAmenities() {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      resortAmenityName: '',
-      resortAmenityDescription: '',
+      inRoomAmenityName: '',
+      inRoomAmenityDescription: '',
     },
   });
 
   useEffect(() => {
     if (resortAmenities) {
-      setAmenityId(resortAmenities.resortAmenityTypeId);
-      setValue('resortAmenityName', resortAmenities.resortAmenityName);
-      setValue('resortAmenityDescription', resortAmenities.resortAmenityDescription);
-      setOldImages(resortAmenities.resortAmenityLinkIcon);
-      setImages(resortAmenities.resortAmenityLinkIcon);
+      setAmenityId(resortAmenities.inRoomAmenityTypeId);
+      setValue('inRoomAmenityName', resortAmenities.inRoomAmenityName);
+      setValue('inRoomAmenityDescription', resortAmenities.inRoomAmenityDescription);
+      setOldImages(resortAmenities.inRoomAmenityLinkIcon);
+      setImages(resortAmenities.inRoomAmenityLinkIcon);
     }
   }, [resortAmenities]);
 
@@ -75,23 +76,23 @@ export default function ModalEditResortAmenities() {
 
     const formData = new FormData();
     const resortAmenity = {
-      resortAmenityName: data.resortAmenityName,
-      resortAmenityDescription: data.resortAmenityDescription,
-      resortAmenityTypeId: amenityId,
+      inRoomAmenityName: data.inRoomAmenityName,
+      inRoomAmenityDescription: data.inRoomAmenityDescription,
+      inRoomAmenityTypeId: amenityId,
     };
 
     const resortAmenityBlob = new Blob([JSON.stringify(resortAmenity)], {
       type: 'application/json',
     });
-    formData.append('resortAmenity', resortAmenityBlob);
+    formData.append('inRoomAmenity', resortAmenityBlob);
     formData.append('inRoomAmenityIcon', oldImages);
 
     axiosAuthClient
-      .put(`https://holiday-swap.click/api/v1/resort-amenities/${resortAmenities?.id}`, formData)
+      .put(`https://holiday-swap.click/api/v1/in-room-amenities/${resortAmenities?.id}`, formData)
       .then(() => {
         toast.success('Update Resort Amenity success!');
-        editResortAmenities.onClose();
-        editResortAmenities.onSuccess();
+        editPropertyAmenitiesModal.onClose();
+        editPropertyAmenitiesModal.onSuccess();
       })
       .catch((response) => {
         toast.error(response.response.data.message);
@@ -104,34 +105,34 @@ export default function ModalEditResortAmenities() {
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <InputComponent
-        label="Resort Amenity Name"
-        id="resortAmenityName"
+        label="Property Amenity Name"
+        id="inRoomAmenityName"
         errors={errors}
         register={register}
         required
       />
       <div className="w-full">
         <div className="mb-2 block">
-          <label>Resort Amenity Description</label>
+          <label>Property Amenity Description</label>
         </div>
         <Textarea
-          id="resortAmenityDescription"
+          id="inRoomAmenityDescription"
           placeholder="Description"
           required
           rows={4}
-          {...register('resortAmenityDescription')}
+          {...register('inRoomAmenityDescription')}
         />
       </div>
 
       <div>
-        <Label value="Resort Amenity Type" />
+        <Label value="Property Amenity Type" />
         <Select
           value={amenityId}
           onChange={(e: ChangeEvent<HTMLSelectElement>) => handleChangeAmenityId(e.target.value)}
         >
           {amenitiesType?.content?.map((item: any, index: number) => (
             <option key={item?.id} value={item?.id}>
-              {item?.resortAmenityTypeName}
+              {item?.inRoomAmenityTypeName}
             </option>
           ))}
         </Select>
@@ -147,10 +148,10 @@ export default function ModalEditResortAmenities() {
   return (
     <ModalCreate
       disabled={isLoading}
-      isOpen={editResortAmenities.isOpen}
-      title="Edit resort amenities"
+      isOpen={editPropertyAmenitiesModal.isOpen}
+      title="Edit property amenities"
       actionLabel="Submit"
-      onClose={editResortAmenities.onClose}
+      onClose={editPropertyAmenitiesModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
     />

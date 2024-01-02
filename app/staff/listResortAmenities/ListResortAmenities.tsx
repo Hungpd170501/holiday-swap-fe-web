@@ -7,6 +7,7 @@ import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import GetResortAmenityStaff from '@/app/actions/getResortAmenityStaff';
 import Image from 'next/image';
 import useEditResortAmenitiesModal from '@/app/hooks/useEditResortAmenitiesModal';
+import toast from 'react-hot-toast';
 
 interface Pageable {
   pageNo: number;
@@ -30,6 +31,7 @@ const ListResortAmenities: React.FC<ListResortAmenitiesProps> = ({ amenitiesType
   const [isDeleted, setIsDeleted] = useState(false);
   const axiosAuthClient = useAxiosAuthClient();
   const editResortAmenitiesModal = useEditResortAmenitiesModal();
+  const isSuccess = editResortAmenitiesModal.isSuccess;
 
   const onPageChange = (page: number) => {
     setCurrentPage(page);
@@ -60,21 +62,31 @@ const ListResortAmenities: React.FC<ListResortAmenitiesProps> = ({ amenitiesType
 
   useEffect(() => {
     fetchPropertyView();
-  }, [JSON.stringify(pageable), JSON.stringify(searchName)]);
 
-  //   const handleDeleteProperty = (id: any) => {
-  //     axiosAuthClient
-  //       .delete(`https://holiday-swap.click/api/v1/property-view/${id}`)
-  //       .then(() => {
-  //         setOpenModal(false);
-  //         setIsDeleted(true);
-  //         toast.success('Delete property success');
-  //       })
-  //       .catch((response) => {
-  //         setOpenModal(false);
-  //         toast.error(response.response.data.message);
-  //       });
-  //   };
+    if (isSuccess === true) {
+      fetchPropertyView();
+      editResortAmenitiesModal.onSuccessReset();
+    }
+
+    if (isDeleted === true) {
+      fetchPropertyView();
+      setIsDeleted(false);
+    }
+  }, [JSON.stringify(pageable), JSON.stringify(searchName), isSuccess, isDeleted]);
+
+  const handleDeleteProperty = (id: any) => {
+    axiosAuthClient
+      .delete(`https://holiday-swap.click/api/v1/resort-amenities/${id}`)
+      .then(() => {
+        setOpenModal(false);
+        setIsDeleted(true);
+        toast.success('Delete property success');
+      })
+      .catch((response) => {
+        setOpenModal(false);
+        toast.error(response.response.data.message);
+      });
+  };
 
   const handleSearchNameSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -162,16 +174,20 @@ const ListResortAmenities: React.FC<ListResortAmenitiesProps> = ({ amenitiesType
         </div>
 
         <Modal show={openModal} onClose={() => setOpenModal(false)}>
-          <Modal.Header>Delete property view</Modal.Header>
+          <Modal.Header>Delete resort amenity</Modal.Header>
           <Modal.Body>
             <div className="space-y-6">
               <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                Do you want to delete this property view
+                Do you want to delete resort amenity
               </p>
             </div>
           </Modal.Body>
           <Modal.Footer className="flex justify-end">
-            <Button color="red" className="font-bold">
+            <Button
+              onClick={() => handleDeleteProperty(idDelete)}
+              color="red"
+              className="font-bold"
+            >
               Delete
             </Button>
             <Button color="gray" onClick={() => setOpenModal(false)}>

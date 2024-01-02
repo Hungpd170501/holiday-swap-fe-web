@@ -308,20 +308,20 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
           <div className="text-base font-normal line-clamp-3">{ratingValue?.comment}</div>
         </div>
       )}
-     {resort && (
-       <div className="w-full h-[700px] pt-3 pb-3 rounded-lg ">
-        <div className="text-xl font-bold pb-3">Address</div>
-        <span className="block mt-2 text-neutral-500 dark:text-neutral-400 py-3">
-          {resort?.locationFormattedName}
-        </span>
-        <MapResort
-          latitude={resort.latitude}
-          id={resort.id}
-          resortName={resort.resortName}
-          longitude={resort.longitude}
-        />
-      </div>
-     )}
+      {resort && (
+        <div className="w-full h-[700px] pt-3 pb-3 rounded-lg ">
+          <div className="text-xl font-bold pb-3">Address</div>
+          <span className="block mt-2 text-neutral-500 dark:text-neutral-400 py-3">
+            {resort?.locationFormattedName}
+          </span>
+          <MapResort
+            latitude={resort.latitude}
+            id={resort.id}
+            resortName={resort.resortName}
+            longitude={resort.longitude}
+          />
+        </div>
+      )}
     </div>
   );
 };

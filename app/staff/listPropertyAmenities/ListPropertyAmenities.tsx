@@ -7,6 +7,8 @@ import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import GetResortAmenityStaff from '@/app/actions/getResortAmenityStaff';
 import GetPropertyAmenityStaff from '@/app/actions/getPropertyAmenityStaff';
 import Image from 'next/image';
+import useEditPropertyAmenitiesModal from '@/app/hooks/useEditPropertyAmenitiesModal';
+import toast from 'react-hot-toast';
 
 interface Pageable {
   pageNo: number;
@@ -15,16 +17,21 @@ interface Pageable {
   sortBy: string;
 }
 
-const ListResortAmenities = () => {
+interface ListPropertyAmenitiesProps {
+  amenitiesType: any;
+}
+
+const ListPropertyAmenities: React.FC<ListPropertyAmenitiesProps> = ({ amenitiesType }) => {
   const router = useRouter();
   const [amenitiesList, setAmenitiesList] = useState<any[]>([]);
-
+  const editPropertyAmenitiesModal = useEditPropertyAmenitiesModal();
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [openModal, setOpenModal] = useState(false);
   const [idDelete, setIdDelete] = useState<any>();
   const [isDeleted, setIsDeleted] = useState(false);
   const axiosAuthClient = useAxiosAuthClient();
+  const isSuccess = editPropertyAmenitiesModal.isSuccess;
 
   const onPageChange = (page: number) => {
     setCurrentPage(page);
@@ -55,21 +62,31 @@ const ListResortAmenities = () => {
 
   useEffect(() => {
     fetchPropertyView();
-  }, [JSON.stringify(pageable), JSON.stringify(searchName)]);
 
-  //   const handleDeleteProperty = (id: any) => {
-  //     axiosAuthClient
-  //       .delete(`https://holiday-swap.click/api/v1/property-view/${id}`)
-  //       .then(() => {
-  //         setOpenModal(false);
-  //         setIsDeleted(true);
-  //         toast.success('Delete property success');
-  //       })
-  //       .catch((response) => {
-  //         setOpenModal(false);
-  //         toast.error(response.response.data.message);
-  //       });
-  //   };
+    if (isSuccess === true) {
+      fetchPropertyView();
+      editPropertyAmenitiesModal.onSuccessReset();
+    }
+
+    if (isDeleted === true) {
+      fetchPropertyView();
+      setIsDeleted(false);
+    }
+  }, [JSON.stringify(pageable), JSON.stringify(searchName), isSuccess, isDeleted]);
+
+    const handleDeleteProperty = (id: any) => {
+      axiosAuthClient
+        .delete(`https://holiday-swap.click/api/v1/in-room-amenities/${id}`)
+        .then(() => {
+          setOpenModal(false);
+          setIsDeleted(true);
+          toast.success('Delete property amenities success');
+        })
+        .catch((response) => {
+          setOpenModal(false);
+          toast.error(response.response.data.message);
+        });
+    };
 
   const handleSearchNameSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -126,7 +143,10 @@ const ListResortAmenities = () => {
                   />
                 </Table.Cell>
                 <Table.Cell className="flex flex-row gap-3 items-center">
-                  <div className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer">
+                  <div
+                    onClick={() => editPropertyAmenitiesModal.onOpen(item, amenitiesType)}
+                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                  >
                     Edit
                   </div>
                   <div
@@ -154,16 +174,16 @@ const ListResortAmenities = () => {
         </div>
 
         <Modal show={openModal} onClose={() => setOpenModal(false)}>
-          <Modal.Header>Delete property view</Modal.Header>
+          <Modal.Header>Delete property amenities</Modal.Header>
           <Modal.Body>
             <div className="space-y-6">
               <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                Do you want to delete this property view
+                Do you want to delete this property amenities
               </p>
             </div>
           </Modal.Body>
           <Modal.Footer className="flex justify-end">
-            <Button color="red" className="font-bold">
+            <Button onClick={() => handleDeleteProperty(idDelete)} color="red" className="font-bold">
               Delete
             </Button>
             <Button color="gray" onClick={() => setOpenModal(false)}>
@@ -176,4 +196,4 @@ const ListResortAmenities = () => {
   );
 };
 
-export default ListResortAmenities;
+export default ListPropertyAmenities;

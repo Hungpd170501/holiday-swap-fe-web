@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-interface EditResortAmenitiesModalStore {
+interface EditPropertyAmenitiesModalStore {
   isOpen: boolean;
   resortAmenities: any;
   amenitiesType: any;
@@ -11,7 +11,7 @@ interface EditResortAmenitiesModalStore {
   onClose: () => void;
 }
 
-const useEditResortAmenitiesModal = create<EditResortAmenitiesModalStore>((set) => ({
+const useEditPropertyAmenitiesModal = create<EditPropertyAmenitiesModalStore>((set) => ({
   isOpen: false,
   resortAmenities: null,
   amenitiesType: null,
@@ -23,4 +23,4 @@ const useEditResortAmenitiesModal = create<EditResortAmenitiesModalStore>((set) 
   onSuccessReset: () => set({ isSuccess: false }),
 }));
 
-export default useEditResortAmenitiesModal;
+export default useEditPropertyAmenitiesModal;
