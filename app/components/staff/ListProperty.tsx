@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation';
 import PopChangeStatusPropertyToDeActivate from './PopChangeStatusPropertyToDeActivate';
 import PopChangeStatusPropertyToActive from './PopChangeStatusPropertyToActive';
 import HeadingDashboard from '../HeadingDashboard';
+
 interface PropertyType {
   id: number;
   propertyName: string;

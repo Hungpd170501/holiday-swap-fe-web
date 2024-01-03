@@ -15,11 +15,48 @@ import useDeactiveResortModal from '@/app/hooks/useDeactiveResortModal';
 import GetResortById from '@/app/actions/getResortById';
 import useMaintanceResortModal from '@/app/hooks/useMaintanceResortModal';
 import { format } from 'date-fns';
+import Table, { ColumnsType } from 'antd/es/table';
 
 interface EditResortProps {
   resortDetail: any;
   params: any;
 }
+
+interface DataType {
+  key: React.Key;
+  startDate: string;
+  endDate: string;
+  type: string;
+}
+
+const columns: ColumnsType<DataType> = [
+  {
+    title: 'Start Date',
+    dataIndex: 'startDate',
+    width: 150,
+    render: (text, record) => {
+      return <span>{format(new Date(text), 'dd/MM/yyyy')}</span>;
+    },
+  },
+  {
+    title: 'End date',
+    dataIndex: 'endDate',
+    width: 150,
+    render: (text, record) => {
+      return <span>{text === null ? '-' : format(new Date(text), 'dd/MM/yyyy')}</span>;
+    },
+  },
+  {
+    title: 'Type',
+    dataIndex: 'type',
+    key: 'type',
+    width: 150,
+    render: (text, record) => {
+      const statusColor = record.type === 'DEACTIVATE' ? 'red' : 'orange';
+      return <span style={{ color: statusColor }}>{text}</span>;
+    },
+  },
+];
 
 const EditResort: React.FC<EditResortProps> = ({ resortDetail, params }) => {
   const [open, setOpen] = useState(false);
@@ -42,19 +79,20 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail, params }) => {
     const fetchData = async () => {
       if (isSuccess === true || isSuccessMaintance === true) {
         const newData = await GetResortById(params);
+        console.log('check data', newData);
         if (newData) {
           setDetail(newData);
 
-          if (isSuccess) {
+          if (isSuccess === true) {
             deactiveResortModal.onSuccessReset();
-          } else if (isSuccessMaintance) {
+          } else if (isSuccessMaintance === true) {
             maintanceResortModal.onSuccessReset();
           }
         }
       }
     };
     fetchData();
-  }, [isSuccess, params]);
+  }, [isSuccess, isSuccessMaintance, params]);
 
   return (
     <Fragment>
@@ -162,20 +200,14 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail, params }) => {
       </div>
 
       {detail?.resortMaintances && detail?.resortMaintances.length > 0 && (
-        <div className="flex flex-col gap-2 mt-20 border border-slate-300 rounded-lg shadow-lg bg-white hover:-translate-y-3 hover:duration-500 translate-y-0 duration-500">
-          <div className="p-6">
-            <div>
-              <div className="text-lg font-bold">Maintanance time</div>
-              <ul className="list-disc px-5">
-                {detail?.resortMaintances.map((item: any, index: number) => (
-                  <li key={item.id} className="border-b p-2 border-slate-300">
-                    {format(new Date(item.startDate), 'dd/MM/yyyy')} -{' '}
-                    {format(new Date(item.endDate), 'dd/MM/yyyy')}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
+        <div className="pt-7">
+          <div className="text-lg font-bold">Maintanance and deactive time</div>
+          <Table
+            columns={columns}
+            dataSource={detail?.resortMaintances}
+            pagination={{ pageSize: 10 }}
+            scroll={{ y: 240 }}
+          />
         </div>
       )}
 
