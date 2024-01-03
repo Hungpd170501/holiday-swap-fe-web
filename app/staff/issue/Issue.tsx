@@ -59,7 +59,6 @@ const Issue: React.FC<IssueProps> = ({ issue }) => {
         {filteredIssues && filteredIssues.length > 0 ? (
           <Table>
             <Table.Head>
-              <Table.HeadCell>No</Table.HeadCell>
               <Table.HeadCell>Booking ID</Table.HeadCell>
               <Table.HeadCell>Description</Table.HeadCell>
               <Table.HeadCell>Created on</Table.HeadCell>
@@ -67,15 +66,18 @@ const Issue: React.FC<IssueProps> = ({ issue }) => {
               <Table.HeadCell>Action</Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
-              {filteredIssues.map((item: any, index: any) => (
+              {filteredIssues.reverse().map((item: any, index: any) => (
                 <Table.Row key={item.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    {item.id}
-                  </Table.Cell>
                   <Table.Cell>{item.bookingId}</Table.Cell>
                   <Table.Cell>{item.description}</Table.Cell>
                   <Table.Cell>{format(new Date(item?.createdOn), 'dd/MM/yyyy')}</Table.Cell>
-                  <Table.Cell className="text-green-500 font-bold">{item.status}</Table.Cell>
+                  <Table.Cell
+                    className={`${
+                      item.status === 'OPEN' ? 'text-green-500' : 'text-rose-500'
+                    } font-bold`}
+                  >
+                    {item.status}
+                  </Table.Cell>
                   <Table.Cell>
                     <div className="flex gap-3">
                       <div
