@@ -1,13 +1,12 @@
 'use client';
 import React, { useState } from 'react';
-import HeadingDashboard from '../HeadingDashboard';
-import InputComponent from '../input/Input';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import axios from 'axios';
 import { signOut, useSession } from 'next-auth/react';
+import { Button, Modal } from 'flowbite-react';
+import HeadingDashboard from '../HeadingDashboard';
+import axios from 'axios';
 import toast from 'react-hot-toast';
 import useLoginModal from '@/app/hooks/useLoginModal';
-import { Button, Modal } from 'flowbite-react';
 import InputPassword from '../input/InputPassword';
 
 interface ChangePasswordProps {

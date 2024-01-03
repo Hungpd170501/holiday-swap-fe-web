@@ -1,15 +1,14 @@
 'use client';
 
-import { ChangeEvent, Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { format } from 'date-fns';
+import { Table } from 'flowbite-react';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import toast from 'react-hot-toast';
 import axios from 'axios';
-import { Table } from 'flowbite-react';
 import useEditPointModal from '@/app/hooks/useEditPointModal';
 import TooltipCreatePoint from './tooltip/TooltipCreatePoint';
 import SelectRouterAdmin from './SelectRouterAdmin';
-const TABLE_HEAD = ['ID', 'Point Price', 'Created Date', 'Status', ''];
 
 interface PointProps {
   point: any;

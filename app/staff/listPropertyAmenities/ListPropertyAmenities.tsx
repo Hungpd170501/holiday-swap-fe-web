@@ -74,19 +74,19 @@ const ListPropertyAmenities: React.FC<ListPropertyAmenitiesProps> = ({ amenities
     }
   }, [JSON.stringify(pageable), JSON.stringify(searchName), isSuccess, isDeleted]);
 
-    const handleDeleteProperty = (id: any) => {
-      axiosAuthClient
-        .delete(`https://holiday-swap.click/api/v1/in-room-amenities/${id}`)
-        .then(() => {
-          setOpenModal(false);
-          setIsDeleted(true);
-          toast.success('Delete property amenities success');
-        })
-        .catch((response) => {
-          setOpenModal(false);
-          toast.error(response.response.data.message);
-        });
-    };
+  const handleDeleteProperty = (id: any) => {
+    axiosAuthClient
+      .delete(`https://holiday-swap.click/api/v1/in-room-amenities/${id}`)
+      .then(() => {
+        setOpenModal(false);
+        setIsDeleted(true);
+        toast.success('Delete property amenities success');
+      })
+      .catch((response) => {
+        setOpenModal(false);
+        toast.error(response.response.data.message);
+      });
+  };
 
   const handleSearchNameSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -183,7 +183,11 @@ const ListPropertyAmenities: React.FC<ListPropertyAmenitiesProps> = ({ amenities
             </div>
           </Modal.Body>
           <Modal.Footer className="flex justify-end">
-            <Button onClick={() => handleDeleteProperty(idDelete)} color="red" className="font-bold">
+            <Button
+              onClick={() => handleDeleteProperty(idDelete)}
+              color="red"
+              className="font-bold"
+            >
               Delete
             </Button>
             <Button color="gray" onClick={() => setOpenModal(false)}>

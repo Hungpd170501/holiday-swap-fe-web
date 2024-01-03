@@ -7,7 +7,7 @@ import { useForm, FieldValues, SubmitHandler } from 'react-hook-form';
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
 import useEditDateBookingModal from '../hooks/useEditDateBookingModal';
-import { addDays, addMonths, format, subDays } from 'date-fns';
+import { addDays, addMonths, differenceInDays, format, subDays } from 'date-fns';
 import useEditGuestBookingModal from '../hooks/useEditGuestBookingMoadal';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -27,6 +27,7 @@ interface BookingInformationProps {
   availableTimeId: any;
   userId: any;
   currentUser: any;
+  priceNight: any;
 }
 
 const BookingInformation: React.FC<BookingInformationProps> = ({
@@ -37,6 +38,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
   availableTimeId,
   userId,
   currentUser,
+  priceNight,
 }) => {
   const router = useRouter();
   const [totalGuestValue, setTotalGuestValue] = useState(totalGuest);
@@ -57,6 +59,13 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
 
   const { dateRangeContext, setDateRangeContext } = useDateRange();
   const { totalGuestContext } = useGuest();
+
+  const calculateNightDifference = (startDate: any, endDate: any) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const nightDifference = differenceInDays(end, start);
+    return nightDifference;
+  };
 
   const editDateBookingModal = useEditDateBookingModal();
   const editGuestBookingModal = useEditGuestBookingModal();
@@ -100,6 +109,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
         toast.error(response.response.data.message);
 
         if (response.response.data.message.includes('does not have enough balance')) {
+          recharge.onAmountPoint(Number(calculateNightDifference(dateRangeContext?.startDate, dateRangeContext?.endDate) * priceNight))
           router.push('/recharge');
           recharge.onRecharge();
         }

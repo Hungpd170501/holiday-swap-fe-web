@@ -53,16 +53,16 @@ const FormDetailProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) =
         </div>
         <div className="flex flex-col mr-10 text-gray-400 ">Property Image</div>
         <div className="flex flex-col mr-16 text-gray-600 col-span-3">
-          <div>
+          <div className="grid grid-cols-3 gap-3">
             <Image.PreviewGroup>
-              {propertyDetail?.propertyImage.map((e, index) => (
+              {propertyDetail?.propertyImages.map((e: any, index: number) => (
                 <Image
                   className=" p-1 border border-gray-400 rounded-md"
                   key={index}
                   style={{ marginRight: 2 }}
                   src={e.link}
-                  width={75}
-                  height={60}
+                  width={200}
+                  height={150}
                   alt={e.link}
                 />
               ))}
@@ -300,7 +300,7 @@ interface PropertyType {
       ];
     }
   ];
-  propertyImage: [
+  propertyImages: [
     {
       id: number;
       propertyId: number;
