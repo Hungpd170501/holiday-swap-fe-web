@@ -40,6 +40,18 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
   const isBack = newDateRange.isBack;
   const editDateBookingModal = useEditDateBookingModal();
 
+  const testJSON = (text: any) => {
+    if (typeof text !== 'string') {
+      return false;
+    }
+    try {
+      JSON.parse(text);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
   const [dateRange, setDateRange] = useState(initialDateRange);
   const [initialDateRangeValue, setInitialDateRangeValue] = useState(initialDateRange);
   const [apartmentAllowGuest, setApartmentAllowGuest] = useState(
@@ -200,30 +212,14 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
           if (startDate) {
             if (checkInMap.has(format(startDate, 'yyyy-MM-dd'))) {
               datesOutsideDateRange.push(new Date(startDate));
-              // setDateRangeContext({
-              //   ...dateRangeContext,
-              //   startDate: new Date(startDate).getTime() + 24 * 60 * 60 * 1000,
-              // });
             }
           }
 
           if (endDate) {
             if (checkOutMap.has(format(endDate, 'yyyy-MM-dd'))) {
               datesOutsideDateRange.push(new Date(endDate));
-              // setDateRangeContext({
-              //   ...dateRangeContext,
-              //   endDate: new Date(endDate).getTime() - 24 * 60 * 60 * 1000,
-              // });
             }
           }
-
-          // for (
-          //   let i = checkInDate.getTime();
-          //   i <= checkOutDate.getTime();
-          //   i += 24 * 60 * 60 * 1000
-          // ) {
-          //   datesOutsideDateRange.push(new Date(i));
-          // }
         } else {
           for (
             let i = checkInDate.getTime() + 24 * 60 * 60 * 1000;
@@ -258,8 +254,6 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
 
     return datesOutsideDateRange;
   };
-
-  console.log('Check smallest day', checkInMap);
 
   useEffect(() => {
     setDateOut(getDatesOutsideDateRange(dateRangeDefaultContext));

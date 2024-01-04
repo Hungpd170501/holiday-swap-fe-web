@@ -90,7 +90,6 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
       booking.onSuccessReset();
     }
   }, [currentUser, accessToken, isSuccess]);
-  console.log('current User', currentUser);
 
   return (
     <div className={clsx(`w-full z-50 fixed`)}>
