@@ -14,6 +14,7 @@ import { BsCheck2Circle } from 'react-icons/bs';
 import { MdOutlinePending } from 'react-icons/md';
 import SelectRouterStaff from './SelectRouterStaff';
 import HeadingDashboard from '../HeadingDashboard';
+import Link from 'next/link';
 
 const TABS = [
   {
@@ -172,12 +173,13 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
                     })()}
                   </Table.Cell>
                   <Table.Cell>
-                    <span
-                      onClick={() => router.push(`/staff/listapproveOwnership/${item.id}`)}
-                      className="text-sky-500 hover:underline cursor-pointer "
+                    <Link
+                      href={`/staff/listapproveOwnership/${item.id}`}
+                      target="_blank"
+                      className="text-sky-500 hover:underline cursor-pointer"
                     >
                       View detail
-                    </span>
+                    </Link>
                   </Table.Cell>
                 </Table.Row>
               );
