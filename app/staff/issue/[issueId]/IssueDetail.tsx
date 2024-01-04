@@ -79,9 +79,9 @@ const IssueDetail: React.FC<IssueDetailProps> = ({ issueDetail, params }) => {
           <div className="flex flex-row gap-1 items-center">
             <span className="font-bold">Status:</span>
             <span
-              className={`text-sm ${
-                detail.status === 'OPEN' ? 'text-green-500' : 'text-orange-500'
-              } font-bold`}
+              className={`${detail.status === 'OPEN' ? 'text-green-500' : ''} ${
+                      detail.status === 'REFUND' ? 'text-orange-500' : ''
+                    } ${detail.status === 'RESOLVE' ? 'text-sky-500' : ''} font-bold`}
             >
               {detail.status}
             </span>
