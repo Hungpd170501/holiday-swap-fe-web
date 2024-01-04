@@ -72,9 +72,9 @@ const Issue: React.FC<IssueProps> = ({ issue }) => {
                   <Table.Cell>{item.description}</Table.Cell>
                   <Table.Cell>{format(new Date(item?.createdOn), 'dd/MM/yyyy')}</Table.Cell>
                   <Table.Cell
-                    className={`${
-                      item.status === 'OPEN' ? 'text-green-500' : 'text-rose-500'
-                    } font-bold`}
+                    className={`${item.status === 'OPEN' ? 'text-green-500' : ''} ${
+                      item.status === 'REFUND' ? 'text-orange-500' : ''
+                    } ${item.status === 'RESOLVE' ? 'text-sky-500' : ''} font-bold`}
                   >
                     {item.status}
                   </Table.Cell>
