@@ -105,7 +105,14 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
           <div className="flex flex-col">
             <div className="flex flex-row justify-between items-center gap-3">
               <Logo />
-              {currentUser == undefined || currentUser.role.name == 'Membership' ? (
+              {currentUser === undefined ? (
+                <div className="ml-24">
+                  <LinkHeader />
+                </div>
+              ) : (
+                ''
+              )}
+              {currentUser?.role?.name === 'Membership' ? (
                 <div className="ml-28">
                   <LinkHeader />
                 </div>
@@ -122,7 +129,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
           </div>
         </div>
       </Container>
-      <div className=" hidden md:block md:w-full md:h-[1px] md:bg-gray-200 md:-mt-1"></div>
+      <div className="hidden md:block md:w-full md:h-[1px] md:bg-gray-200 md:-mt-1"></div>
 
       {!pathname?.includes('/informationBooking') && (
         <Container
