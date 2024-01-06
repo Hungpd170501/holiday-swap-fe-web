@@ -1,7 +1,19 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Button, Checkbox, Col, Input, Modal, Row, Select, Space, Tag, message } from 'antd';
+import {
+  Button,
+  Checkbox,
+  Col,
+  DatePicker,
+  Input,
+  Modal,
+  Row,
+  Select,
+  Space,
+  Tag,
+  message,
+} from 'antd';
 import { ExportOutlined } from '@ant-design/icons';
 
 import { DateRange } from 'react-date-range';
@@ -32,9 +44,6 @@ const compareDates = (date1: Date, date2: Date) => {
   const day2 = date2.getDate();
   const formattedDate1 = new Date(year1, month1, day1);
   const formattedDate2 = new Date(year2, month2, day2);
-  console.log('formattedDate1', formattedDate1);
-  console.log('formattedDate2', formattedDate2);
-
   return formattedDate1.toDateString() === formattedDate2.toDateString();
 };
 const isDateInISOWeekNumber = (date: Date, targetWeekNumbers: number[]) => {
@@ -166,6 +175,7 @@ const ModalCoOwnerCalendar = (props: any) => {
   const [weeksTimeFrame, setWeeksTimeFrame] = useState<number[]>([]);
   const [open, setOpen] = useState(false);
   const [dateRange, setDateRange] = useState(initialDate);
+  const [yearSelectBox, setYearSelectBox] = useState(new Date().getFullYear());
   const showModal = () => {
     setOpen(true);
   };
@@ -252,9 +262,108 @@ const ModalCoOwnerCalendar = (props: any) => {
   useEffect(() => {
     fetchTimesDisable();
     fetchWeeks();
+    getTheListSelectWeek(yearSelectBox);
   }, [open]);
 
+  function getTheListSelectWeek(year: number) {
+    const arr = weeksTimeFrame.map((e: any, i: number) => {
+      let disable = false;
+      let arrDisable: number[] = [];
+      timesDisable.map((e: any, i: number) => {
+        const checkIn = new Date(e.checkIn);
+        const checkOut = new Date(e.checkOut);
 
+        if (checkIn.getFullYear() === year || checkOut.getFullYear() === year) {
+          const x: any = getWeekNumbers(checkIn, checkOut);
+          arrDisable = [...arrDisable, ...x];
+        }
+      });
+
+      disable = arrDisable.includes(e);
+      let week = {
+        label: e < 10 ? `${e}` : `${e}`,
+        value: String(e),
+        disabled: disable,
+      };
+
+      return week;
+    });
+    setPlainOptions(arr);
+  }
+  const [plainOptions, setPlainOptions] = useState<Option[]>([]);
+  const defaultCheckedList: CheckboxValueType[] = [];
+  const [checkedList, setCheckedList] = useState<CheckboxValueType[]>(defaultCheckedList);
+
+  const checkAll = plainOptions.length === checkedList.length;
+  const indeterminate = checkedList.length > 0 && checkedList.length < plainOptions.length;
+
+  const onChange = (list: CheckboxValueType[]) => {
+    function getAdjacentNumbers(input: number, nums: number[]) {
+      const result = [input];
+      const inputId = nums.findIndex((e) => e == input);
+
+      if (inputId === -1) return [input];
+      // left side
+
+      for (let index = inputId; index > 0; index--) {
+        let element = nums[inputId];
+        if (element - 1 == nums[index - 1]) {
+          result.push(nums[index - 1]);
+          element = nums[index - 1];
+        }
+      }
+      //right side
+      if (inputId == nums.length - 1 && nums[nums.length - 1] == 52) result.push(1);
+      for (let index = inputId; index < nums.length - 1; index++) {
+        let element = nums[inputId];
+        if (element + 1 == nums[index + 1]) {
+          result.push(nums[index + 1]);
+          element = nums[index + 1];
+        }
+      }
+      result.sort((a, b) => {
+        return a - b;
+      });
+      return result ? result : [input];
+    }
+
+    const theNewWeekInput: number = Number(list.filter((x) => !checkedList.includes(x))[0]);
+    const arrPre: CheckboxValueType[] = list.filter((x) => x != theNewWeekInput);
+    let checkAdjacent: boolean = false;
+    console.log('list', list);
+
+    arrPre.forEach((e: CheckboxValueType) => {
+      if (!checkAdjacent) {
+        checkAdjacent = getAdjacentNumbers(theNewWeekInput, weeksTimeFrame).includes(Number(e));
+      }
+    });
+    if (!checkAdjacent && list.length > checkedList.length) {
+      list = [String(theNewWeekInput)];
+      setCheckedList(list);
+    } else setCheckedList(list);
+
+    list.sort((a, b) => Number(a) - Number(b));
+    if (theNewWeekInput) {
+      const min: number = list[0] as number;
+      const max: number = list[list.length - 1] as number;
+
+      const dateWeek = {
+        startDate:
+          getStartAndEndDateOfWeekISO(min, yearSelectBox).startDate < new Date()
+            ? new Date()
+            : getStartAndEndDateOfWeekISO(min, yearSelectBox).startDate,
+        endDate: getStartAndEndDateOfWeekISO(max, yearSelectBox).endDate,
+        key: 'selection',
+      };
+      setDateRange(dateWeek);
+    }
+  };
+  useEffect(() => {
+    getTheListSelectWeek(yearSelectBox);
+  }, [yearSelectBox]);
+  const onCheckAllChange = (e: CheckboxChangeEvent) => {
+    setCheckedList(e.target.checked ? plainOptions.map((op) => op.value) : []);
+  };
 
   return (
     <>
@@ -273,87 +382,133 @@ const ModalCoOwnerCalendar = (props: any) => {
       >
         <div className=" justify-center">
           <div className="flex w-full">
-            <div className="pt-2 pl-2 pr-4">
-               
+            <div className="pt-2 pl-2 pr-4 w-[300px]">
+              <div>
+                <DatePicker
+                  allowClear={false}
+                  onChange={(value: any, dateString: string) => {
+                    setYearSelectBox(Number(dateString));
+                  }}
+                  picker="year"
+                  className="rounded h-[35px] w-full"
+                  defaultValue={dayjs()}
+                  disabledDate={(date: any) => {
+                    return date < new Date();
+                  }}
+                />
+                {/* <Checkbox
+                  className="my-2"
+                  indeterminate={indeterminate}
+                  onChange={onCheckAllChange}
+                  checked={checkAll}
+                >
+                  Select all
+                </Checkbox> */}
+              </div>
+
+              <div>
+                <Checkbox.Group className="w-full" onChange={onChange} value={checkedList}>
+                  <Row>
+                    {plainOptions.map((e, i) => {
+                      return (
+                        <Col span={6} key={i}>
+                          <Checkbox className="" value={e.value} disabled={e.disabled}>
+                            {e.label}
+                          </Checkbox>
+                        </Col>
+                      );
+                    })}
+                  </Row>
+                </Checkbox.Group>
+              </div>
             </div>
-            <DateRange
-               
-              dateDisplayFormat="yyyy-MM-dd"
-              disabledDates={timesDisableOnClick}
-              rangeColors={['#5C98F2']}
-              ranges={[dateRange]}
-              date={new Date()}
-              onChange={(value: any) => {
-                handleDateChange(value);
-              }}
-              maxDate={
-                props.coOwner.endTime
-                  ? new Date(new Date(props.coOwner.endTime).getFullYear(), 10, 31)
-                  : new Date(new Date().getFullYear() + 50, 10, 31)
-              }
-              minDate={
-                new Date(props.coOwner.startTime) > new Date()
-                  ? new Date(props.coOwner.startTime)
-                  : new Date()
-              }
-              disabledDay={(date) => {
-                date.setHours(0, 0, 0, 0);
-                let disableDays = true;
-                disableDays = !isDateInISOWeekNumber(date, weeksTimeFrame);
-
-                if (!disableDays) {
-                  disableDays = timesDisable?.some((d: any) => {
-                    const checkIn = new Date(d.checkIn);
-                    const checkOut = new Date(d.checkOut);
-                    checkIn.setHours(0, 0, 0, 0);
-                    checkOut.setHours(0, 0, 0, 0);
-                    const startDateWeek = getStartAndEndDateOfWeekISO(
-                      getISOWeekNumber(checkIn),
-                      checkIn.getFullYear()
-                    ).startDate;
-                    startDateWeek.setHours(0, 0, 0, 0);
-                    const endDateWeek = getStartAndEndDateOfWeekISO(
-                      getISOWeekNumber(checkIn),
-                      checkIn.getFullYear()
-                    ).endDate;
-                    endDateWeek.setHours(0, 0, 0, 0);
-                    if (date.toDateString() == startDateWeek.toDateString() || date <= new Date())
-                      return date >= checkIn && date <= checkOut;
-                    const weekOfDateNow = getStartAndEndDateOfWeekISO(
-                      getISOWeekNumber(date),
-                      date.getFullYear()
-                    ).startDate;
-                    weekOfDateNow.setHours(0, 0, 0, 0);
-                    if (weekOfDateNow.toDateString() == checkOut.toDateString())
-                      return date > checkIn && date <= checkOut;
-                    return date > checkIn && date < checkOut;
-                  });
+            <div className="w-full">
+              <DateRange
+                dateDisplayFormat="yyyy-MM-dd"
+                disabledDates={timesDisableOnClick}
+                rangeColors={['#5C98F2']}
+                ranges={[dateRange]}
+                date={new Date()}
+                onChange={(value: any) => {
+                  handleDateChange(value);
+                }}
+                maxDate={
+                  props.coOwner.endTime
+                    ? new Date(new Date(props.coOwner.endTime).getFullYear(), 10, 31)
+                    : new Date(new Date().getFullYear() + 50, 10, 31)
                 }
+                minDate={
+                  new Date(props.coOwner.startTime) > new Date()
+                    ? new Date(props.coOwner.startTime)
+                    : new Date()
+                }
+                disabledDay={(date) => {
+                  date.setHours(0, 0, 0, 0);
+                  let disableDays = true;
+                  disableDays = !isDateInISOWeekNumber(date, weeksTimeFrame);
 
-                return disableDays;
-              }}
-              editableDateInputs={true}
-              weekStartsOn={1}
-              weekdayDisplayFormat={'EEEEEE'}
-              months={3}
-              direction="horizontal"
-              className="2px w-full"
-            />
+                  if (!disableDays) {
+                    disableDays = timesDisable?.some((d: any) => {
+                      const checkIn = new Date(d.checkIn);
+                      const checkOut = new Date(d.checkOut);
+                      checkIn.setHours(0, 0, 0, 0);
+                      checkOut.setHours(0, 0, 0, 0);
+                      const startDateWeek = getStartAndEndDateOfWeekISO(
+                        getISOWeekNumber(checkIn),
+                        checkIn.getFullYear()
+                      ).startDate;
+                      startDateWeek.setHours(0, 0, 0, 0);
+                      const endDateWeek = getStartAndEndDateOfWeekISO(
+                        getISOWeekNumber(checkIn),
+                        checkIn.getFullYear()
+                      ).endDate;
+                      endDateWeek.setHours(0, 0, 0, 0);
+                      if (date.toDateString() == startDateWeek.toDateString() || date <= new Date())
+                        return date >= checkIn && date <= checkOut;
+                      const weekOfDateNow = getStartAndEndDateOfWeekISO(
+                        getISOWeekNumber(date),
+                        date.getFullYear()
+                      ).startDate;
+                      weekOfDateNow.setHours(0, 0, 0, 0);
+                      if (weekOfDateNow.toDateString() == checkOut.toDateString())
+                        return date > checkIn && date <= checkOut;
+                      return date > checkIn && date < checkOut;
+                    });
+                  }
+
+                  return disableDays;
+                }}
+                weekStartsOn={1}
+                weekdayDisplayFormat={'EEEEEE'}
+                months={3}
+                direction="horizontal"
+                className="2px w-full"
+              />
+            </div>
           </div>
-          <Input
-            placeholder="Input price per night"
-            className="rounded-md"
-            type="number"
-            value={pricePerNight}
-            min={1}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              if (Number(e.target.value) < 1) {
-                setPricePerNight('');
-              } else {
-                setPricePerNight(e.target.value);
-              }
-            }}
-          />
+          <div className=" justify-center">
+            <div className="flex w-full">
+              <div className="pt-2 pl-2 pr-4 w-[300px]">
+                <>Input price per night</>
+              </div>
+              <div className="w-full">
+                <Input
+                  placeholder="Input price per night"
+                  className="rounded-md"
+                  type="number"
+                  value={pricePerNight}
+                  min={1}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    if (Number(e.target.value) < 1) {
+                      setPricePerNight;
+                    } else {
+                      setPricePerNight(e.target.value);
+                    }
+                  }}
+                />
+              </div>
+            </div>
+          </div>
           <div className="flex justify-center pt-3">
             <button
               className="border rounded-lg border-curent h-10 text-white bg-common hover:bg-sky-500 justify-self-center w-full"
