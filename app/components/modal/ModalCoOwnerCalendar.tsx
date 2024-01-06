@@ -360,6 +360,7 @@ const ModalCoOwnerCalendar = (props: any) => {
   };
   useEffect(() => {
     getTheListSelectWeek(yearSelectBox);
+    setCheckedList([]);
   }, [yearSelectBox]);
   const onCheckAllChange = (e: CheckboxChangeEvent) => {
     setCheckedList(e.target.checked ? plainOptions.map((op) => op.value) : []);
