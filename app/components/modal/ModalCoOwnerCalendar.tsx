@@ -1,22 +1,52 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Button, Input, Modal, Space, message } from 'antd';
+import { Button, Checkbox, Col, Input, Modal, Row, Select, Space, Tag, message } from 'antd';
 import { ExportOutlined } from '@ant-design/icons';
 
 import { DateRange } from 'react-date-range';
 import axios from 'axios';
 import GetAvailableTimesHasCreatedByCoOwnerId from '@/app/actions/getAvailableTimesHasCreatedByCoOwnerId';
 import GetTimeHasBookedByCoOwnerId from '@/app/actions/getTimeHasBookedByCoOwnerId';
+import { CheckboxValueType } from 'antd/es/checkbox/Group';
+import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import dayjs from 'dayjs';
+import isoWeek from 'dayjs/plugin/isoWeek';
+dayjs.extend(isoWeek);
 
 interface IDate {
   checkIn: string;
   checkOut: string;
 }
+interface Option {
+  label: string;
+  value: string;
+  disabled?: boolean;
+}
+const compareDates = (date1: Date, date2: Date) => {
+  const year1 = date1.getFullYear();
+  const month1 = date1.getMonth();
+  const day1 = date1.getDate();
+  const year2 = date2.getFullYear();
+  const month2 = date2.getMonth();
+  const day2 = date2.getDate();
+  const formattedDate1 = new Date(year1, month1, day1);
+  const formattedDate2 = new Date(year2, month2, day2);
+  console.log('formattedDate1', formattedDate1);
+  console.log('formattedDate2', formattedDate2);
 
+  return formattedDate1.toDateString() === formattedDate2.toDateString();
+};
 const isDateInISOWeekNumber = (date: Date, targetWeekNumbers: number[]) => {
   const isoWeekNumber = getISOWeekNumber(date);
-  return !targetWeekNumbers.includes(isoWeekNumber);
+  const rangeWeek = getStartAndEndDateOfWeekISO(isoWeekNumber - 1, date.getFullYear());
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  const subtractOneDay = new Date(year, month, day);
+  subtractOneDay.setDate(subtractOneDay.getDate() - 1);
+  const isoWeekNumber2 = getISOWeekNumber(subtractOneDay);
+  return targetWeekNumbers.includes(isoWeekNumber2) || targetWeekNumbers.includes(isoWeekNumber);
 };
 
 const getISOWeekNumber = (date: Date) => {
@@ -27,7 +57,7 @@ const getISOWeekNumber = (date: Date) => {
   const dayOfWeek = tempDate.getUTCDay() || 7;
   tempDate.setUTCDate(tempDate.getUTCDate() + 4 - dayOfWeek);
   const startOfYear: Date = new Date(Date.UTC(tempDate.getUTCFullYear(), 0, 1));
-  const weekNumber = Math.ceil(((+tempDate - +startOfYear) / 86400000 + 1) / 7);
+  let weekNumber = Math.ceil(((+tempDate - +startOfYear) / 86400000 + 1) / 7);
   return weekNumber;
 };
 
@@ -93,7 +123,26 @@ const dateDiffIsGreaterTwo = (array: IDate[]) => {
   });
   return arr;
 };
+function getStartAndEndDateOfWeekISO(week: number, year: number) {
+  const startDate = dayjs().year(year).isoWeek(week).startOf('isoWeek').startOf('day');
+  const endDate = dayjs().year(year).isoWeek(week).endOf('isoWeek').startOf('day').add(1, 'days');
+  return {
+    startDate: startDate.toDate(),
+    endDate: endDate.toDate(),
+  };
+}
+function getWeekNumbers(startDate: Date, endDate: Date) {
+  let weekNumbers = [];
+  let currentDate = new Date(startDate);
 
+  while (currentDate <= endDate) {
+    let weekNumber = getISOWeekNumber(currentDate);
+    weekNumbers.push(weekNumber);
+    currentDate.setDate(currentDate.getDate() + 7); // Move to the next week
+  }
+
+  return weekNumbers;
+}
 const ModalCoOwnerCalendar = (props: any) => {
   const initialDate = {
     startDate:
@@ -116,7 +165,7 @@ const ModalCoOwnerCalendar = (props: any) => {
   const [timesDisableOnClick, setTimesDisableOnClick] = useState<Date[]>([]);
   const [weeksTimeFrame, setWeeksTimeFrame] = useState<number[]>([]);
   const [open, setOpen] = useState(false);
-  const [date, setDate] = useState(initialDate);
+  const [dateRange, setDateRange] = useState(initialDate);
   const showModal = () => {
     setOpen(true);
   };
@@ -146,21 +195,27 @@ const ModalCoOwnerCalendar = (props: any) => {
     axios
       .request(config)
       .then((response) => {
-        console.log(response);
         props.fetchAvailableTimeByCoOwnerId();
         setOpen(false);
         message.success('Create success!.');
       })
       .catch((error) => {
         message.error(error.response.data.message);
-        console.log(error);
       });
   };
 
   const handleDateChange = (value: any) => {
     const rs = func4(value, timesDisable);
     setTimesDisableOnClick(rs);
+    setDateRange(value.selection);
   };
+  useEffect(() => {
+    const offset = new Date().getTimezoneOffset();
+    var startDate = new Date(dateRange.startDate.getTime() - offset * 60 * 1000);
+    var endDate = new Date(dateRange.endDate.getTime() - offset * 60 * 1000);
+    setStartTime(startDate.toISOString().split('T')[0]);
+    setEndTime(endDate.toISOString().split('T')[0]);
+  }, [dateRange]);
   const fetchTimesDisable = async () => {
     const avCreated = await GetAvailableTimesHasCreatedByCoOwnerId({
       coOwnerId: coOwnerId,
@@ -198,6 +253,9 @@ const ModalCoOwnerCalendar = (props: any) => {
     fetchTimesDisable();
     fetchWeeks();
   }, [open]);
+
+
+
   return (
     <>
       <Space>
@@ -211,68 +269,77 @@ const ModalCoOwnerCalendar = (props: any) => {
         onOk={handleOk}
         onCancel={handleCancel}
         footer={false}
-        // width={750}
+        width={1000}
       >
-        <div className="justify-center">
-          <DateRange
-            dateDisplayFormat="yyyy-MM-dd"
-            // showDateDisplay={false}
-            // showMonthArrow={false}
-            // showMonthAndYearPickers={false}
-            disabledDates={timesDisableOnClick}
-            rangeColors={['#5C98F2']}
-            ranges={[date]}
-            date={new Date()}
-            onChange={(value: any) => {
-              setDate(value.selection);
-              const offset = new Date().getTimezoneOffset();
-              var startDate = new Date(value.selection.startDate.getTime() - offset * 60 * 1000);
-              var endDate = new Date(value.selection.endDate.getTime() - offset * 60 * 1000);
-              setStartTime(startDate.toISOString().split('T')[0]);
-              setEndTime(endDate.toISOString().split('T')[0]);
-              handleDateChange(value);
-            }}
-            maxDate={
-              props.coOwner.endTime
-                ? new Date(new Date(props.coOwner.endTime).getFullYear(), 10, 31)
-                : new Date(new Date().getFullYear() + 50, 10, 31)
-            }
-            minDate={
-              new Date(props.coOwner.startTime) > new Date()
-                ? new Date(props.coOwner.startTime)
-                : new Date()
-            }
-            disabledDay={(date) => {
-              let disableDays = true;
-              disableDays = isDateInISOWeekNumber(date, weeksTimeFrame);
-              if (disableDays) {
-                const subtractOneDay = new Date(date.getTime() - 24 * 60 * 60 * 1000);
-                disableDays = isDateInISOWeekNumber(subtractOneDay, weeksTimeFrame);
-                if (!disableDays)
-                  disableDays = timesDisable?.some((d: any) => {
-                    const checkInDate = new Date(d.checkIn);
-                    const checkOutDate = new Date(d.checkOut);
-                    return date <= checkOutDate;
-                  });
+        <div className=" justify-center">
+          <div className="flex w-full">
+            <div className="pt-2 pl-2 pr-4">
+               
+            </div>
+            <DateRange
+               
+              dateDisplayFormat="yyyy-MM-dd"
+              disabledDates={timesDisableOnClick}
+              rangeColors={['#5C98F2']}
+              ranges={[dateRange]}
+              date={new Date()}
+              onChange={(value: any) => {
+                handleDateChange(value);
+              }}
+              maxDate={
+                props.coOwner.endTime
+                  ? new Date(new Date(props.coOwner.endTime).getFullYear(), 10, 31)
+                  : new Date(new Date().getFullYear() + 50, 10, 31)
               }
-              if (!disableDays)
-                disableDays = timesDisable?.some((d: any) => {
-                  const checkInDate = new Date(d.checkIn);
-                  const checkOutDate = new Date(d.checkOut);
-                  if (date <= new Date(props.coOwner.startTime) && date === checkInDate)
-                    disableDays = true;
-                  if (date <= new Date(props.coOwner.endTime) && date === checkOutDate)
-                    disableDays = true;
-                  return date > checkInDate && date < checkOutDate;
-                });
-              return disableDays;
-            }}
-            weekStartsOn={1}
-            weekdayDisplayFormat={'EEEEEE'}
-            months={2}
-            direction="horizontal"
-            className="2px w-full"
-          />
+              minDate={
+                new Date(props.coOwner.startTime) > new Date()
+                  ? new Date(props.coOwner.startTime)
+                  : new Date()
+              }
+              disabledDay={(date) => {
+                date.setHours(0, 0, 0, 0);
+                let disableDays = true;
+                disableDays = !isDateInISOWeekNumber(date, weeksTimeFrame);
+
+                if (!disableDays) {
+                  disableDays = timesDisable?.some((d: any) => {
+                    const checkIn = new Date(d.checkIn);
+                    const checkOut = new Date(d.checkOut);
+                    checkIn.setHours(0, 0, 0, 0);
+                    checkOut.setHours(0, 0, 0, 0);
+                    const startDateWeek = getStartAndEndDateOfWeekISO(
+                      getISOWeekNumber(checkIn),
+                      checkIn.getFullYear()
+                    ).startDate;
+                    startDateWeek.setHours(0, 0, 0, 0);
+                    const endDateWeek = getStartAndEndDateOfWeekISO(
+                      getISOWeekNumber(checkIn),
+                      checkIn.getFullYear()
+                    ).endDate;
+                    endDateWeek.setHours(0, 0, 0, 0);
+                    if (date.toDateString() == startDateWeek.toDateString() || date <= new Date())
+                      return date >= checkIn && date <= checkOut;
+                    const weekOfDateNow = getStartAndEndDateOfWeekISO(
+                      getISOWeekNumber(date),
+                      date.getFullYear()
+                    ).startDate;
+                    weekOfDateNow.setHours(0, 0, 0, 0);
+                    if (weekOfDateNow.toDateString() == checkOut.toDateString())
+                      return date > checkIn && date <= checkOut;
+                    return date > checkIn && date < checkOut;
+                  });
+                }
+
+                return disableDays;
+              }}
+              editableDateInputs={true}
+              weekStartsOn={1}
+              weekdayDisplayFormat={'EEEEEE'}
+              months={3}
+              direction="horizontal"
+              className="2px w-full"
+            />
+          </div>
           <Input
             placeholder="Input price per night"
             className="rounded-md"
