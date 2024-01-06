@@ -394,7 +394,13 @@ const ModalCoOwnerCalendar = (props: any) => {
                   className="rounded h-[35px] w-full"
                   defaultValue={dayjs()}
                   disabledDate={(date: any) => {
-                    return date < new Date();
+                    let start;
+                    let end;
+                    new Date(props.coOwner.startTime) > new Date()
+                      ? (start = new Date(props.coOwner.startTime))
+                      : (start = new Date());
+                    props.coOwner.endTime ? (end = new Date(props.coOwner.endTime)) : (end = null);
+                    return end ? date <= start || date >= end : date <= start;
                   }}
                 />
                 {/* <Checkbox
