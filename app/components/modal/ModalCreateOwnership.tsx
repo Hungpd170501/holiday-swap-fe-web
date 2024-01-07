@@ -308,7 +308,10 @@ export default function ModalCreateOwnership() {
         <Select
           id="type"
           value={typeValue}
-          onChange={(e: ChangeEvent<HTMLSelectElement>) => handleChangeTypeValue(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+            setEndYear(startYear + 1);
+            handleChangeTypeValue(e.target.value);
+          }}
         >
           {type?.map((item: any) => (
             <option key={item.id} value={item.type}>
@@ -332,7 +335,7 @@ export default function ModalCreateOwnership() {
                 }}
               >
                 {arrayYear
-                  .filter((date) => date > new Date().getFullYear())
+                  .filter((date) => date >= new Date().getFullYear())
                   .map((item) => (
                     <option key={item} value={item}>
                       {item}
