@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import { Image } from 'antd';
 import { useRouter } from 'next/navigation';
+import { Button, Modal } from 'flowbite-react';
 
 interface DetailOwnershipApproveProps {
   approveDetail: any;
@@ -37,12 +38,17 @@ const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({ approve
   const [detail, setDetail] = useState(approveDetail);
   const axiosAuthClient = useAxiosAuthClient();
   const router = useRouter();
+  const [openModal, setOpenModal] = useState(false);
+  const [statusValue, setStatusValue] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleOpenModal = (status: string) => {
+    setOpenModal(true);
+    setStatusValue(status);
+  };
 
   const handleOnChangeStatus = (propertyId: any, userId: any, roomId: any, value: any) => {
     const body = value;
-    // const config = {
-    //   headers: { 'Content-type': 'application/json' },
-    // };
 
     axiosAuthClient
       .put(
@@ -62,6 +68,10 @@ const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({ approve
       })
       .catch((response) => {
         toast.error(response.response.data.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
+        setOpenModal(false);
       });
   };
   return (
@@ -206,27 +216,13 @@ const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({ approve
               {detail.status !== 'ACCEPTED' && detail.status !== 'REJECTED' && (
                 <div className="flex flex-end justify-end items-center gap-5">
                   <button
-                    onClick={() =>
-                      handleOnChangeStatus(
-                        detail.id.propertyId,
-                        detail.id.userId,
-                        detail.id.roomId,
-                        'ACCEPTED'
-                      )
-                    }
+                    onClick={() => handleOpenModal('ACCEPTED')}
                     className="bg-common hover:bg-hover p-3 text-white text-center font-bold rounded-lg shadow-md"
                   >
                     ACCEPTED
                   </button>
                   <button
-                    onClick={() =>
-                      handleOnChangeStatus(
-                        detail.id.propertyId,
-                        detail.id.userId,
-                        detail.id.roomId,
-                        'REJECTED'
-                      )
-                    }
+                    onClick={() => handleOpenModal('REJECTED')}
                     className="bg-rose-400 hover:bg-rose-500 p-3 text-white text-center font-bold rounded-lg shadow-md"
                   >
                     REJECTED
@@ -237,6 +233,37 @@ const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({ approve
           </div>
         </div>
       </Image.PreviewGroup>
+
+      <Modal show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal.Header>Change status</Modal.Header>
+        <Modal.Body>
+          <div className="space-y-6">
+            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+              Are you sure want to change status
+            </p>
+          </div>
+        </Modal.Body>
+        <Modal.Footer className="flex justify-end">
+          <Button
+            disabled={isLoading}
+            color="blue"
+            className="font-bold text-lg"
+            onClick={() =>
+              handleOnChangeStatus(
+                detail.id.propertyId,
+                detail.id.userId,
+                detail.id.roomId,
+                statusValue
+              )
+            }
+          >
+            Continue
+          </Button>
+          <Button color="gray" className="text-lg" onClick={() => setOpenModal(false)}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
