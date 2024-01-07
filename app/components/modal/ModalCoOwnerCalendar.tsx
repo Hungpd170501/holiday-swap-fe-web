@@ -69,22 +69,49 @@ const getISOWeekNumber = (date: Date) => {
   let weekNumber = Math.ceil(((+tempDate - +startOfYear) / 86400000 + 1) / 7);
   return weekNumber;
 };
+const checkDateIsInBoundary = (array: IDate[], weeksTimeFrame: number[]) => {
+  let arr: Date[] = [];
+  array.forEach((e) => {
+    let checkIn = new Date(e.checkIn);
+    let checkOut = new Date(e.checkOut);
+    checkIn.setHours(0, 0, 0, 0);
+    checkOut.setHours(0, 0, 0, 0);
+    const startDateWeek = getStartAndEndDateOfWeekISO(
+      getISOWeekNumber(checkIn),
+      checkIn.getFullYear()
+    ).startDate;
+    startDateWeek.setHours(0, 0, 0, 0);
+    const endDateWeek = getStartAndEndDateOfWeekISO(
+      getISOWeekNumber(checkIn),
+      checkIn.getFullYear()
+    ).endDate;
+    endDateWeek.setHours(0, 0, 0, 0);
+    if (
+      !weeksTimeFrame.includes(getISOWeekNumber(checkIn) + 1) &&
+      !weeksTimeFrame.includes(getISOWeekNumber(checkIn) - 1)
+    ) {
+      if (checkIn.toDateString() == startDateWeek.toDateString()) arr.push(checkIn);
 
-const dateIsConsecutive = (array: IDate[]) => {
-  array?.forEach((element) => {
-    let checkIn = new Date(element.checkIn);
-    let checkOut = new Date(element.checkOut);
-    for (let index = 1; index < array.length; index++) {
-      const nextCheckIn = new Date(array[index].checkIn);
-      const nextCheckOut = new Date(array[index].checkOut);
-      if (checkOut.getTime() == nextCheckIn.getTime()) {
-        element.checkOut = nextCheckOut.toString();
-      }
+      if (endDateWeek.toDateString() == checkOut.toDateString()) arr.push(checkOut);
     }
   });
+  return arr;
 };
+// const dateIsConsecutive = (array: IDate[]) => {
+//   array?.forEach((element) => {
+//     let checkIn = new Date(element.checkIn);
+//     let checkOut = new Date(element.checkOut);
+//     for (let index = 1; index < array.length; index++) {
+//       const nextCheckIn = new Date(array[index].checkIn);
+//       const nextCheckOut = new Date(array[index].checkOut);
+//       if (checkOut.getTime() == nextCheckIn.getTime()) {
+//         element.checkOut = nextCheckOut.toString();
+//       }
+//     }
+//   });
+// };
 
-const func4 = (ranges: any, array: IDate[]) => {
+const func4 = (ranges: any, array: IDate[], weeksTimeFrame: number[]) => {
   const { selection } = ranges;
   const startDate = selection.startDate;
 
@@ -98,10 +125,8 @@ const func4 = (ranges: any, array: IDate[]) => {
 
     if (startDate.getTime() <= checkIn.getTime()) {
       result.push(checkOut);
-      // setDateOut(result);
     } else if (startDate.getTime() >= checkIn.getTime()) {
       result.push(checkIn);
-      // setDateOut(result);
     }
   });
   let x: Date[] = dateDiffIsGreaterTwo(array);
@@ -109,7 +134,13 @@ const func4 = (ranges: any, array: IDate[]) => {
   x.forEach((e) => {
     result.push(new Date(e));
   });
-  result.concat(x);
+
+  let b = checkDateIsInBoundary(array, weeksTimeFrame);
+
+  b.forEach((e) => {
+    result.push(new Date(e));
+  });
+
   return result;
 };
 
@@ -215,7 +246,8 @@ const ModalCoOwnerCalendar = (props: any) => {
   };
 
   const handleDateChange = (value: any) => {
-    const rs = func4(value, timesDisable);
+    const rs = func4(value, timesDisable, weeksTimeFrame);
+
     setTimesDisableOnClick(rs);
     setDateRange(value.selection);
   };
@@ -246,7 +278,6 @@ const ModalCoOwnerCalendar = (props: any) => {
       return obj;
     });
     const rs3 = rs?.concat(rs2);
-    dateIsConsecutive(rs3);
     setTimesDisable(rs3);
   };
   const fetchWeeks = () => {
@@ -330,7 +361,6 @@ const ModalCoOwnerCalendar = (props: any) => {
     const theNewWeekInput: number = Number(list.filter((x) => !checkedList.includes(x))[0]);
     const arrPre: CheckboxValueType[] = list.filter((x) => x != theNewWeekInput);
     let checkAdjacent: boolean = false;
-    console.log('list', list);
 
     arrPre.forEach((e: CheckboxValueType) => {
       if (!checkAdjacent) {
@@ -453,36 +483,6 @@ const ModalCoOwnerCalendar = (props: any) => {
                   date.setHours(0, 0, 0, 0);
                   let disableDays = true;
                   disableDays = !isDateInISOWeekNumber(date, weeksTimeFrame);
-
-                  if (!disableDays) {
-                    disableDays = timesDisable?.some((d: any) => {
-                      const checkIn = new Date(d.checkIn);
-                      const checkOut = new Date(d.checkOut);
-                      checkIn.setHours(0, 0, 0, 0);
-                      checkOut.setHours(0, 0, 0, 0);
-                      const startDateWeek = getStartAndEndDateOfWeekISO(
-                        getISOWeekNumber(checkIn),
-                        checkIn.getFullYear()
-                      ).startDate;
-                      startDateWeek.setHours(0, 0, 0, 0);
-                      const endDateWeek = getStartAndEndDateOfWeekISO(
-                        getISOWeekNumber(checkIn),
-                        checkIn.getFullYear()
-                      ).endDate;
-                      endDateWeek.setHours(0, 0, 0, 0);
-                      if (date.toDateString() == startDateWeek.toDateString() || date <= new Date())
-                        return date >= checkIn && date <= checkOut;
-                      const weekOfDateNow = getStartAndEndDateOfWeekISO(
-                        getISOWeekNumber(date),
-                        date.getFullYear()
-                      ).startDate;
-                      weekOfDateNow.setHours(0, 0, 0, 0);
-                      if (weekOfDateNow.toDateString() == checkOut.toDateString())
-                        return date > checkIn && date <= checkOut;
-                      return date > checkIn && date < checkOut;
-                    });
-                  }
-
                   return disableDays;
                 }}
                 weekStartsOn={1}
