@@ -124,10 +124,10 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
     axios
       .request(config)
       .then((response) => {
-        // console.log(response.data);
+        console.log('Check data property', response.data);
         setPropertyDetail(response.data);
         setFileList(
-          response.data.propertyImage.map((e: { id: number; link: string }) => {
+          response.data.propertyImages.map((e: { id: number; link: string }) => {
             var result = {
               uid: e.id,
               status: 'done',
