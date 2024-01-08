@@ -1,14 +1,18 @@
 import React from 'react';
 import { Button, message, Popconfirm } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import axios from '@/app/libs/axios';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 interface PopConfirmDeletePropertyProps {
   fetchProperties: () => void;
   id: number;
 }
 
-const PopConfirmDeleteProperty: React.FC<PopConfirmDeletePropertyProps> = ({ id , fetchProperties}) => {
+const PopConfirmDeleteProperty: React.FC<PopConfirmDeletePropertyProps> = ({
+  id,
+  fetchProperties,
+}) => {
   const confirm = (e: React.MouseEvent<HTMLElement>) =>
     new Promise((resolve) => {
       //setTimeout(() => resolve(null), 3000);
@@ -22,7 +26,6 @@ const PopConfirmDeleteProperty: React.FC<PopConfirmDeletePropertyProps> = ({ id 
       axios
         .request(config)
         .then((response) => {
-          console.log(response.data);
           message.success('Delete success.');
           resolve(null);
           fetchProperties();
@@ -33,11 +36,23 @@ const PopConfirmDeleteProperty: React.FC<PopConfirmDeletePropertyProps> = ({ id 
           console.log(error);
         });
     });
+
+  const handleDeleteProperty = () => {
+    axios
+      .delete(`https://holiday-swap.click/api/v1/properties/${id}`)
+      .then(() => {
+        toast.success('Delete success');
+        fetchProperties();
+      })
+      .catch((response: any) => {
+        toast.error(response.response.data.message);
+      });
+  };
   return (
     <Popconfirm
       title={'Delete the property'}
       description="Are you sure to delete this property?"
-      onConfirm={(e: any) => confirm(e)}
+      onConfirm={handleDeleteProperty}
       // onCancel={(e: any) => cancel(e)}
       okText="Yes"
       cancelText="No"

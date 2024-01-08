@@ -135,10 +135,12 @@ export default function ListProperty() {
       defaultCurrent: 1,
     },
   });
+
   useEffect(() => {
     fetchProperties();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(tableParams)]);
+
   const handleTableChange = (
     pagination: TablePaginationConfig,
     filters: Record<string, FilterValue>,
