@@ -27,7 +27,7 @@ const Issue: React.FC<IssueProps> = ({ issue }) => {
 
   return (
     <Fragment>
-      <div className="mt-12">
+      <div className="">
         <HeadingDashboard
           routerDashboard="/staff"
           pageCurrentContent="Issue booking"

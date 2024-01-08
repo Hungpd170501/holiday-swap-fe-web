@@ -42,7 +42,7 @@ const ListPropertyView: React.FC<ListPropertyViewProps> = () => {
 
   const [pageable, setPageable] = useState<Pageable>({
     pageNo: 0,
-    pageSize: 10,
+    pageSize: 17,
     sortDirection: 'desc',
     sortBy: 'id',
   });
