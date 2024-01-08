@@ -40,7 +40,7 @@ const ListResortAmenities: React.FC<ListResortAmenitiesProps> = ({ amenitiesType
 
   const [pageable, setPageable] = useState<Pageable>({
     pageNo: 0,
-    pageSize: 10,
+    pageSize: 15,
     sortDirection: 'desc',
     sortBy: 'id',
   });
