@@ -1,9 +1,7 @@
 'use client';
 
-import useLoginModal from '@/app/hooks/useLoginModal';
-import { useRouter, usePathname, redirect } from 'next/navigation';
-import React, { useEffect } from 'react';
-
+import { useRouter, usePathname } from 'next/navigation';
+import React from 'react';
 import { TransitionProps } from '@mui/material/transitions';
 import Dialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
@@ -74,21 +72,7 @@ const LinkHeader = () => {
       </div>
       <div onClick={handleClickOpen} className="hover:text-black cursor-pointer list-none">
         <li className="rounded-full cursor-pointer">
-          <p className="flex font-medium items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 mr-2"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M12 1.586l-4 4v12.828l4-4V1.586zM3.707 3.293A1 1 0 002 4v10a1 1 0 00.293.707L6 18.414V5.586L3.707 3.293zM17.707 5.293L14 1.586v12.828l2.293 2.293A1 1 0 0018 16V6a1 1 0 00-.293-.707z"
-                clipRule="evenodd"
-              />
-            </svg>
-            Map View
-          </p>
+          <p className="flex font-medium items-center">Map View</p>
         </li>
       </div>
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>

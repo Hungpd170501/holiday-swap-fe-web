@@ -1,26 +1,28 @@
 'use client';
 
-import { signOut, useSession } from 'next-auth/react';
-import MenuItem from './MenuItem';
-import SignOutMiddle from '@/app/libs/signOut';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
-import NotificationWidget from '@/app/components/notification/NotificationWidget';
+import ConversationApis, { Conversation } from '@/app/actions/ConversationApis';
+import { signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import NotificationApis from '@/app/actions/NotificationApis';
 import { fetchNotifications } from '@/app/redux/slices/pushNotificationSlice';
 import { useSocket } from '@/app/hooks/useSocket';
-import ChatWidget from '@/app/components/notification/ChatWidget';
-import Divider from '@mui/material/Divider';
-import ConversationApis, { Conversation } from '@/app/actions/ConversationApis';
 import { fetchConversations, setConversationLoaded } from '@/app/redux/slices/conversationSlice';
 import { usePathname } from 'next/navigation';
-import useWriteBlogModal from '@/app/hooks/useWriteBlogModal';
 import { NotificationResponse } from '@/app/components/notification/types';
-import GetUserWallet from '@/app/actions/getUserWallet';
+import { MdDashboard } from 'react-icons/md';
+import { IoIosCreate, IoIosLogOut, IoIosChatboxes } from 'react-icons/io';
+import { FaListCheck, FaList } from 'react-icons/fa6';
+import { FaMoneyCheckAlt, FaHouseUser } from 'react-icons/fa';
+import { TfiWrite } from 'react-icons/tfi';
+import MenuItem from './MenuItem';
+import Image from 'next/image';
+import NotificationWidget from '@/app/components/notification/NotificationWidget';
+import NotificationApis from '@/app/actions/NotificationApis';
+import ChatWidget from '@/app/components/notification/ChatWidget';
+import useWriteBlogModal from '@/app/hooks/useWriteBlogModal';
 import useRecharge from '@/app/hooks/useRecharge';
-import axios from 'axios';
+import useLoginModal from '@/app/hooks/useLoginModal';
 
 interface UserMenuProps {
   currentUser?: Object | any | null;
@@ -53,6 +55,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, userWallet }) => {
   const [conversationsList, setConversationsList] = useState(conversations ?? []);
   const recharge = useRecharge();
   const pathName = usePathname();
+  const loginModal = useLoginModal();
+  const isLogin = loginModal.isLogin;
 
   useEffect(() => {
     setNotificationsList(notifications);
@@ -96,6 +100,12 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, userWallet }) => {
     writeBlogModal.onOpen();
     setIsOpen(false);
   };
+
+  useEffect(() => {
+    if (isLogin === true) {
+      setIsOpen(false);
+    }
+  }, [isLogin]);
 
   return (
     <>
@@ -229,21 +239,46 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, userWallet }) => {
             <Fragment>
               {(() => {
                 if (currentUser?.role.roleId === 1) {
-                  return <MenuItem onClick={() => handleRouter('/admin')} label="Dashboard " />;
+                  return (
+                    <MenuItem
+                      icon={MdDashboard}
+                      onClick={() => handleRouter('/admin')}
+                      label="Dashboard "
+                    />
+                  );
                 } else if (currentUser?.role.roleId === 2 || currentUser?.role.roleId === 4) {
                   return (
                     <Fragment>
-                      <MenuItem onClick={() => handleRouter('/dashboard')} label="Dashboard" />
                       <MenuItem
+                        icon={MdDashboard}
+                        onClick={() => handleRouter('/dashboard')}
+                        label="Dashboard"
+                      />
+                       <MenuItem
+                        icon={FaHouseUser}
+                        onClick={() => handleRouter('/dashboard/ownership')}
+                        label="My apartment"
+                      />
+                      <MenuItem
+                        icon={FaMoneyCheckAlt}
                         onClick={() => {
                           handleRouter('/recharge');
                           recharge.onClickLink();
                         }}
                         label="Recharge"
                       />
-                      <MenuItem onClick={() => handleRouter('/chat')} label="Chat" />
-                      <MenuItem onClick={handleOpenWriteBlogModal} label="Write blog" />
                       <MenuItem
+                        icon={IoIosChatboxes}
+                        onClick={() => handleRouter('/chat')}
+                        label="Chat"
+                      />
+                      <MenuItem
+                        icon={TfiWrite}
+                        onClick={handleOpenWriteBlogModal}
+                        label="Write blog"
+                      />
+                      <MenuItem
+                        icon={FaList}
                         onClick={() => handleRouter('/dashboard/myBooking')}
                         label="My Booking"
                       />
@@ -252,16 +287,25 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, userWallet }) => {
                 } else if (currentUser?.role.roleId === 3) {
                   return (
                     <Fragment>
-                      <MenuItem onClick={() => handleRouter('/staff')} label="Dashboard " />
+                      <div className="flex flex-row gap-1 items-center">
+                        <MenuItem
+                          icon={MdDashboard}
+                          onClick={() => handleRouter('/staff')}
+                          label="Dashboard "
+                        />
+                      </div>
                       <MenuItem
+                        icon={IoIosCreate}
                         onClick={() => handleRouter('/staff/createresort')}
                         label="Create resort"
                       />
                       <MenuItem
+                        icon={IoIosCreate}
                         onClick={() => handleRouter('/staff/createproperty')}
                         label="Create property"
                       />
                       <MenuItem
+                        icon={FaListCheck}
                         onClick={() => handleRouter('/staff/listapproveOwnership')}
                         label="Approve ownership"
                       />
@@ -270,7 +314,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, userWallet }) => {
                 }
               })()}
               <hr />
-              <MenuItem onClick={() => signOut()} label="Logout" />
+              <MenuItem icon={IoIosLogOut} onClick={() => signOut()} label="Logout" />
             </Fragment>
           </div>
         </div>

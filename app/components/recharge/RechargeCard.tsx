@@ -23,6 +23,7 @@ const RechargeCard: React.FC<RechargeCardProps> = ({ point }) => {
   const isRecharge = recharge.isRecharge;
   const bookingLink = recharge.bookingLink;
   const isClickLink = recharge.isClickLink;
+  const amountLess = recharge.amountPoint;
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -78,6 +79,12 @@ const RechargeCard: React.FC<RechargeCardProps> = ({ point }) => {
       setAmountPoint(cardData[index].amount.toString());
     }
   };
+
+  useEffect(() => {
+    if (amountLess && amountLess > 0) {
+      setAmountPoint(amountLess.toString());
+    }
+  }, [amountLess]);
 
   const handleTopup = async (amount: string, orderInfor: string, returnUrl: string) => {
     const config = {

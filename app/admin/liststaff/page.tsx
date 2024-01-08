@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import ListStaff from '../../components/admin/ListStaff';
-import GetListUser from '@/app/actions/getListUser';
 import requireAuth from '@/app/libs/requireAuth';
 import GetListUserStaffAdmin from '@/app/actions/getListUserStaffAdmin';
 

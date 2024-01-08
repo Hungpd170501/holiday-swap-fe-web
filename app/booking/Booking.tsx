@@ -108,6 +108,7 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
             availableTimeId={availableTimeId}
             userId={userId}
             currentUser={currentUser}
+            priceNight={priceNight}
           />
         </div>
         <div className="w-full sticky">

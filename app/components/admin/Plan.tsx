@@ -1,23 +1,10 @@
 'use client';
 
-import React, { Fragment, useCallback, useState } from 'react';
-import { MagnifyingGlassIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline';
-import { PencilIcon, UserPlusIcon } from '@heroicons/react/24/solid';
-import { BsClipboard2PlusFill } from 'react-icons/bs';
-import useCreatePlanModal from '@/app/hooks/useCreatePlanModal';
+import React, { Fragment, useState } from 'react';
 import { Table } from 'flowbite-react';
+import useCreatePlanModal from '@/app/hooks/useCreatePlanModal';
 import SelectRouterAdmin from './SelectRouterAdmin';
 
-const TABLE_HEAD = [
-  'ID',
-  'Plane Name',
-  'Description',
-  'Price',
-  'Price Type',
-  'Plan Price Interval',
-  'Status',
-  '',
-];
 
 interface PlanProps {
   plan?: any;

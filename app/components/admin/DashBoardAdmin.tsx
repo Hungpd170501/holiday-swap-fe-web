@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import ChartUser from './ChartUser';
 import ChartBooking from './ChartBooking';
@@ -9,8 +10,6 @@ import ChartBookingYear from './ChartBookingYear';
 import ChartIncomeYear from './ChartIncomeYear';
 import ChartTotalPoint from './ChartTotalPoint';
 import ChartTotalPointYear from './ChartTotalPointYear';
-import HeadingDashboard from '../HeadingDashboard';
-import { useRouter } from 'next/navigation';
 
 interface DashboardAdminProps {
   listUser: any;

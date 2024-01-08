@@ -9,7 +9,7 @@ export default async function GetResortById(params: IParams) {
     const { resortId } = params;
 
     const resort = await axios.get(
-      `${process.env.API_URL}/resorts/${resortId}`
+      `https://holiday-swap.click/api/v1/resorts/${resortId}`
     );
 
     if (!resort) {

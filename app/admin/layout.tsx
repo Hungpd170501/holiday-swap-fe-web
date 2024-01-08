@@ -1,5 +1,4 @@
 import React from 'react';
-import SidebarStaff from '../components/dashboard/SidebarStaff';
 import Provider from '../components/Provider';
 import SidebarAdmin from '../components/dashboard/SidebarAdmin';
 import requireAuth from '../libs/requireAuth';

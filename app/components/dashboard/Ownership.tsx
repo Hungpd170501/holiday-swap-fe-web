@@ -44,7 +44,7 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
 
   const onPageChange = (page: number) => setCurrentPage(page);
 
-  const handleRouter = (coOwnerId : any, status: any) => {
+  const handleRouter = (coOwnerId: any, status: any) => {
     if (status === 'ACCEPTED') {
       router.push(`/dashboard/ownership/${coOwnerId}`);
     } else {
@@ -191,17 +191,13 @@ const Ownership: React.FC<OwnershipProps> = ({ ownershipUser, resort, currentUse
                               (item.endTime == null || new Date(item.endTime) > new Date())
                             ) {
                               return (
-                                <div
-                                  onClick={() =>
-                                    handleRouter(
-                                      item.id,
-                                      item.status
-                                    )
-                                  }
+                                <Link
+                                  href={`/dashboard/ownership/${item.id}`}
+                                  target="_blank"
                                   className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 hover:cursor-pointer"
                                 >
                                   <p>Detail</p>
-                                </div>
+                                </Link>
                               );
                             } else if (item.property.resort.status === 'DEACTIVATE') {
                               return (
