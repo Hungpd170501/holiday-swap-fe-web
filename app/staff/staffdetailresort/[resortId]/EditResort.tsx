@@ -200,7 +200,7 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail, params }) => {
       </div>
 
       {detail?.resortMaintances && detail?.resortMaintances.length > 0 && (
-        <div className="pt-7">
+        <div className="pt-20">
           <div className="text-lg font-bold">Maintanance and deactive time</div>
           <Table
             columns={columns}

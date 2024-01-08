@@ -33,7 +33,6 @@ const getBase64 = (file: RcFile): Promise<string> =>
   });
 const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => {
   const [propertyDetail, setPropertyDetail] = useState<PropertyType>();
-  // const [propertyDetailUpdate, setPropertyDetailUpdate] = useState<PropertyTypeUpdate>();
   const [propertyTypeList, setPropertyTypeList] = useState<PropertyTypeType[]>();
   const [propertyViewList, setPropertyViewList] = useState<PropertyViewType[]>();
   const [inRoomAmenityTypeList, setInRoomAmenityTypeList] = useState<InRoomAmenityTypeType[]>();
@@ -42,14 +41,13 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
   const [previewTitle, setPreviewTitle] = useState('');
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [listImageDelete, setListImageDelete] = useState<number[]>([]);
-  // const [listImageCreate, setListImageCreate] = useState<string[]>([]);
+
   const route = useRouter();
   const [formEditProperty] = Form.useForm();
+
   const onFinish = async (values: any) => {
     values = { ...values, listImageDelete: listImageDelete };
     var fileCreate = fileList.filter((file) => typeof file.uid !== 'number');
-    console.log(values);
-    console.log('fileList', fileCreate);
     let data = new FormData();
     if (fileCreate.length > 0)
       fileCreate.map((file) => {
@@ -155,6 +153,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
         console.log(error);
       });
   };
+
   const fetchPropertyView = () => {
     let config = {
       method: 'get',
@@ -194,6 +193,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
         console.log(error);
       });
   };
+
   const fetchInRoomAmenityType = () => {
     let config = {
       method: 'get',
@@ -212,12 +212,13 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
         console.log(error);
       });
   };
+
   useEffect(() => {
     fetchPropertyDetail();
     fetchPropertyView();
     fetchInRoomAmenityType();
-    // fetchPropertyType();
   }, []);
+
   useEffect(() => {
     fetchPropertyType();
   }, [propertyDetail]);
@@ -235,6 +236,7 @@ const FormEditProperty: React.FC<FormDetailPropertyProps> = ({ propertyId }) => 
       }
     });
   };
+
   const validateBeds = () => {
     const kingBedValue = formEditProperty.getFieldValue('numberKingBeds');
     const queenBedValue = formEditProperty.getFieldValue('numberQueenBeds');
