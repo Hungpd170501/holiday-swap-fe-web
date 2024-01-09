@@ -217,35 +217,39 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                         <Image key={i} src={e.link} />
                       ))}
                     </Carousel>
-
-                    <Card bordered={false}>Resort: {detail.property.resort.resortName}</Card>
-                    <Card bordered={false}>
-                      <div>
-                        Type: <Tag>{detail.type}</Tag>
-                      </div>
-                      <div>
-                        Start : <Tag>{new Date(detail.startTime).getFullYear()}</Tag>
-                      </div>
-                      {detail.type == 'RIGHT_TO_USE' && (
+                    <div className="">
+                      <Card className="" bordered={false}>
+                        Resort: {detail.property.resort.resortName}
+                      </Card>
+                    </div>
+                    <div>
+                      <Card className="-mt-[26px]" bordered={false}>
                         <div>
-                          End : <Tag>{new Date(detail.endTime).getFullYear()}</Tag>
+                          Type: <Tag>{detail.type}</Tag>
                         </div>
-                      )}
-                      <div>
-                        Apartment Id:<Tag> {detail.roomId}</Tag>
-                      </div>
-                      <div>
-
-                        Week Number:
-                        <div className="grid grid-cols-7">
-                          {weeksTimeFrame.map((w: number, i: number) => (
-                            <Tag color="green" key={i}>
-                              <div> {w}</div>
-                            </Tag>
-                          ))}
+                        <div>
+                          Start : <Tag>{new Date(detail.startTime).getFullYear()}</Tag>
                         </div>
-                      </div>
-                    </Card>
+                        {detail.type == 'RIGHT_TO_USE' && (
+                          <div>
+                            End : <Tag>{new Date(detail.endTime).getFullYear()}</Tag>
+                          </div>
+                        )}
+                        <div>
+                          Apartment Id:<Tag> {detail.roomId}</Tag>
+                        </div>
+                        <div>
+                          Week Number:
+                          <div className="grid grid-cols-7 items-center gap-2 mt-2">
+                            {weeksTimeFrame.map((w: number, i: number) => (
+                              <Tag color="green" key={i}>
+                                <div> {w}</div>
+                              </Tag>
+                            ))}
+                          </div>
+                        </div>
+                      </Card>
+                    </div>
 
                     <Card
                       title={'Review'}
