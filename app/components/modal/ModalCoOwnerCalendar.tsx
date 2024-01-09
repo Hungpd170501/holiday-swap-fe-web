@@ -444,17 +444,8 @@ const ModalCoOwnerCalendar = (props: any) => {
                     return end ? date <= start || date >= end : date <= start;
                   }}
                 />
-                {/* <Checkbox
-                  className="my-2"
-                  indeterminate={indeterminate}
-                  onChange={onCheckAllChange}
-                  checked={checkAll}
-                >
-                  Select all
-                </Checkbox> */}
               </div>
-
-              <div>
+              <div className="mt-5">
                 <Checkbox.Group className="w-full" onChange={onChange} value={checkedList}>
                   <Row>
                     {plainOptions.map((e, i) => {
