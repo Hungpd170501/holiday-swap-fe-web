@@ -21,9 +21,12 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
   const [selectedRoomData, setSelectedRoomData] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   const router = useRouter();
+
   const recharge = useRecharge();
   const isBackBooking = recharge.isBackBooking;
   const isNewDateRange = recharge.isNewDateRange;
+  const isSetNewDate = recharge.isSetNewDate;
+
   const searchParams = useSearchParams();
   const pathName = usePathname();
   const availableTimeId = searchParams?.get('availableTimeId');
@@ -90,11 +93,12 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
   }, [isNewDateRange, dateRange, dateRangeBooking]);
 
   useEffect(() => {
-    if (performance.navigation.type === 1 && dateRange && dateRangeBooking) {
+    if (isSetNewDate === true && dateRange && dateRangeBooking) {
       setDateRangeContext(JSON.parse(dateRange));
       setDateRangeDefaultContext(JSON.parse(dateRangeBooking));
+      recharge.onSetNewDateReset();
     }
-  }, [dateRange, dateRangeBooking]);
+  }, [dateRange, dateRangeBooking, isSetNewDate]);
 
   return (
     <Container className="bg-white">

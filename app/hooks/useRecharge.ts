@@ -7,6 +7,7 @@ interface RechargeStore {
   isNewDateRange: boolean;
   isClickLink: boolean;
   amountPoint: number;
+  isSetNewDate: boolean;
   onAmountPoint: (amountPoint: number) => void;
   onNewDateRange: () => void;
   onNewDateRangeReset: () => void;
@@ -17,6 +18,8 @@ interface RechargeStore {
   onBackBookingReset: () => void;
   onClickLink: () => void;
   onClickLinkReset: () => void;
+  onSetNewDate: () => void;
+  onSetNewDateReset: () => void;
 }
 
 const useRecharge = create<RechargeStore>((set) => ({
@@ -26,6 +29,7 @@ const useRecharge = create<RechargeStore>((set) => ({
   isNewDateRange: false,
   isClickLink: false,
   amountPoint: 0,
+  isSetNewDate: false,
   onAmountPoint: (amountPoint: number) => set({ amountPoint: amountPoint }),
   onBookingLink: (bookingLink: any) => set({ bookingLink: bookingLink }),
   onNewDateRange: () => set({ isNewDateRange: true }),
@@ -36,6 +40,8 @@ const useRecharge = create<RechargeStore>((set) => ({
   onBackBookingReset: () => set({ isBackBooking: false }),
   onClickLink: () => set({ isClickLink: true }),
   onClickLinkReset: () => set({ isClickLink: false }),
+  onSetNewDate: () => set({ isSetNewDate: true }),
+  onSetNewDateReset: () => set({ isSetNewDate: false }),
 }));
 
 export default useRecharge;
