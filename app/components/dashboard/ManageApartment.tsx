@@ -20,7 +20,7 @@ import useCreatePublicTimeModal from '@/app/hooks/useCreatePublicTimeModal';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import GetApproveOwnershipById from '@/app/actions/getApproveOwnershipById';
 import toast from 'react-hot-toast';
-import { ExportOutlined, UserOutlined } from '@ant-design/icons';
+import { CloseCircleOutlined, ExportOutlined, SyncOutlined, UserOutlined } from '@ant-design/icons';
 import Meta from 'antd/es/card/Meta';
 import ModalCoOwnerCalendar from '../modal/ModalCoOwnerCalendar';
 import ModalViewImageContractCoOwner from '../modal/ModalViewImageContractCoOwner';
@@ -170,6 +170,23 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
       title: 'Price/Night',
       dataIndex: 'pricePerNight',
       key: 'pricePerNight',
+    },
+    {
+      title: 'Status',
+      dataIndex: 'endTime',
+      key: 'endTime',
+      render: (endTime: string) => {
+        var date = dayjs(endTime);
+        return date > dayjs() ? (
+          <Tag icon={<SyncOutlined spin />} color="processing">
+            Is active
+          </Tag>
+        ) : (
+          <Tag icon={<CloseCircleOutlined />} color="error">
+          Expired
+        </Tag>
+        );
+      },
     },
     {
       title: 'Action',
