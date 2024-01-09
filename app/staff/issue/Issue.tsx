@@ -4,8 +4,10 @@ import HeadingDashboard from '@/app/components/HeadingDashboard';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Button, Label, Table, TextInput } from 'flowbite-react';
+import useChangeStatusIssueModal from '@/app/hooks/useChangeStatusIssueModal';
+import GetListIssue from '@/app/actions/getListIssue';
 
 interface IssueProps {
   issue: any;
@@ -15,7 +17,9 @@ const Issue: React.FC<IssueProps> = ({ issue }) => {
   const router = useRouter();
 
   const [searchName, setSearchName] = React.useState<string>('');
-  const [filteredIssues, setFilteredIssues] = React.useState<any[]>(issue);
+  const [filteredIssues, setFilteredIssues] = React.useState<any[]>(issue.reverse());
+  const changeStatusIssueModal = useChangeStatusIssueModal();
+  const isSuccess = changeStatusIssueModal.isSuccess;
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,6 +28,19 @@ const Issue: React.FC<IssueProps> = ({ issue }) => {
     const filtered = issue.filter((item: any) => item?.bookingId?.toString().includes(searchName));
     setFilteredIssues(filtered);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (isSuccess === true) {
+        const newDetail = await GetListIssue();
+        if (newDetail) {
+          setFilteredIssues(newDetail.reverse());
+          changeStatusIssueModal.onSuccessReset();
+        }
+      }
+    };
+    fetchData();
+  }, [isSuccess]);
 
   return (
     <Fragment>
@@ -66,7 +83,7 @@ const Issue: React.FC<IssueProps> = ({ issue }) => {
               <Table.HeadCell>Action</Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
-              {filteredIssues.reverse().map((item: any, index: any) => (
+              {filteredIssues.map((item: any, index: any) => (
                 <Table.Row key={item.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                   <Table.Cell>{item.bookingId}</Table.Cell>
                   <Table.Cell>{item.description}</Table.Cell>
@@ -79,14 +96,14 @@ const Issue: React.FC<IssueProps> = ({ issue }) => {
                     {item.status}
                   </Table.Cell>
                   <Table.Cell>
-                    <div className="flex gap-3">
+                    {item.status === 'OPEN' && (
                       <div
-                        onClick={() => router.push(`/staff/issue/${item.id}`)}
+                        onClick={() => changeStatusIssueModal.onOpen(item.id)}
                         className=" w-[100px] font-medium text-cyan-600 hover:underline hover:cursor-pointer dark:text-cyan-500"
                       >
-                        View detail
+                        Edit
                       </div>
-                    </div>
+                    )}
                   </Table.Cell>
                 </Table.Row>
               ))}
