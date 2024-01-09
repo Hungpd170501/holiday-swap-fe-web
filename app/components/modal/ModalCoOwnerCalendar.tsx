@@ -340,64 +340,61 @@ const ModalCoOwnerCalendar = (props: any) => {
   const indeterminate = checkedList.length > 0 && checkedList.length < plainOptions.length;
 
   const onChange = (list: CheckboxValueType[]) => {
-    function getAdjacentNumbers(input: number, nums: number[]) {
-      const result = [input];
-      const inputId = nums.findIndex((e) => e == input);
-
-      if (inputId === -1) return [input];
-      // left side
-
-      for (let index = inputId; index > 0; index--) {
-        let element = nums[inputId];
-        if (element - 1 == nums[index - 1]) {
-          result.push(nums[index - 1]);
-          element = nums[index - 1];
-        }
+    function getAdjacentNumbers(min: number, max: number, input: number, options: Option[]) {
+      let arrayRs: string[] = [];
+      const optionsEnable = options.filter((op) => op.disabled == false);
+      const optValue = optionsEnable.map((op) => op.value);
+      let isAdjacent = true;
+      if (input > min) {
+        do {
+          if (optValue.includes(min.toString())) {
+            arrayRs.push(min.toString());
+          } else {
+            isAdjacent = false;
+            arrayRs = [input.toString()];
+          }
+          min++;
+        } while (isAdjacent && min <= input);
+      } else {
+        do {
+          if (optValue.includes(max.toString())) {
+            arrayRs.push(max.toString());
+          } else {
+            isAdjacent = false;
+            arrayRs = [input.toString()];
+          }
+          max--;
+        } while (isAdjacent && max >= input);
       }
-      //right side
-      if (inputId == nums.length - 1 && nums[nums.length - 1] == 52) result.push(1);
-      for (let index = inputId; index < nums.length - 1; index++) {
-        let element = nums[inputId];
-        if (element + 1 == nums[index + 1]) {
-          result.push(nums[index + 1]);
-          element = nums[index + 1];
-        }
-      }
-      result.sort((a, b) => {
-        return a - b;
-      });
-      return result ? result : [input];
+
+      return arrayRs;
     }
 
     const theNewWeekInput: number = Number(list.filter((x) => !checkedList.includes(x))[0]);
     const arrPre: CheckboxValueType[] = list.filter((x) => x != theNewWeekInput);
-    let checkAdjacent: boolean = false;
+    arrPre.sort((a, b) => Number(a) - Number(b));
 
-    arrPre.forEach((e: CheckboxValueType) => {
-      if (!checkAdjacent) {
-        checkAdjacent = getAdjacentNumbers(theNewWeekInput, weeksTimeFrame).includes(Number(e));
-      }
-    });
-    if (!checkAdjacent && list.length > checkedList.length) {
-      list = [String(theNewWeekInput)];
-      setCheckedList(list);
-    } else setCheckedList(list);
+    const minList = arrPre[0] ? (arrPre[0] as number) : -1;
+    const maxList = arrPre[arrPre.length - 1] ? (arrPre[arrPre.length - 1] as number) : -1;
+    if (list.length > checkedList.length)
+      list = getAdjacentNumbers(minList, maxList, theNewWeekInput, plainOptions);
+    setCheckedList(list);
 
     list.sort((a, b) => Number(a) - Number(b));
-    if (theNewWeekInput) {
-      const min: number = list[0] as number;
-      const max: number = list[list.length - 1] as number;
+    console.log(list);
 
-      const dateWeek = {
-        startDate:
-          getStartAndEndDateOfWeekISO(min, yearSelectBox).startDate < new Date()
-            ? new Date()
-            : getStartAndEndDateOfWeekISO(min, yearSelectBox).startDate,
-        endDate: getStartAndEndDateOfWeekISO(max, yearSelectBox).endDate,
-        key: 'selection',
-      };
-      setDateRange(dateWeek);
-    }
+    const min: number = list[0] as number;
+    const max: number = list[list.length - 1] as number;
+
+    const dateWeek = {
+      startDate:
+        getStartAndEndDateOfWeekISO(min, yearSelectBox).startDate < new Date()
+          ? new Date()
+          : getStartAndEndDateOfWeekISO(min, yearSelectBox).startDate,
+      endDate: getStartAndEndDateOfWeekISO(max, yearSelectBox).endDate,
+      key: 'selection',
+    };
+    setDateRange(dateWeek);
   };
   useEffect(() => {
     getTheListSelectWeek(yearSelectBox);
