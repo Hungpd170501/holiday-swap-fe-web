@@ -163,10 +163,10 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
           fixedDateRange
         )}&apartmentAllowGuest=${apartmentAllowGuest}&avatar=${
           apartment.availableTime.coOwner.user.avatar
-        }&fullName=${apartment.availableTime.coOwner.property.fullName}&rating=${
+        }&fullName=${apartment.availableTime.coOwner.user.fullName}&rating=${
           apartment.availableTime.coOwner.property.rating
         }&resortName=${apartment.availableTime.coOwner.property.resort.resortName}&username=${
-          apartment.availableTime.coOwner.property.username
+          apartment.availableTime.coOwner.user.username
         }`
       );
     }
