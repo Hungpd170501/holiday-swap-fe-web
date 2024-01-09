@@ -20,7 +20,7 @@ import useCreatePublicTimeModal from '@/app/hooks/useCreatePublicTimeModal';
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
 import GetApproveOwnershipById from '@/app/actions/getApproveOwnershipById';
 import toast from 'react-hot-toast';
-import { ExportOutlined, UserOutlined } from '@ant-design/icons';
+import { CloseCircleOutlined, ExportOutlined, SyncOutlined, UserOutlined } from '@ant-design/icons';
 import Meta from 'antd/es/card/Meta';
 import ModalCoOwnerCalendar from '../modal/ModalCoOwnerCalendar';
 import ModalViewImageContractCoOwner from '../modal/ModalViewImageContractCoOwner';
@@ -28,6 +28,7 @@ import getRatingByPropertyIdAndRoomId from '@/app/actions/getRatingByPropertyIdA
 import GetAvailableTimeByCoOwnerId from '@/app/actions/getAvailableTimeByCoOwnerId';
 import useAparmentReviewModal from '@/app/hooks/useApartmentReviewModal';
 import { Tooltip } from 'flowbite-react';
+import dayjs from 'dayjs';
 
 interface ManageApartmentProps {
   detailCoOwner: any;
@@ -74,7 +75,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
       pageNo: pageAvailableTime.current,
       pageSize: 5,
       sortDirection: 'asc',
-      sortBy: 'id',
+      sortBy: 'startTime',
     });
     setLoadingTableAvailableTime(false);
     setAvailableTime(rs.content);
@@ -152,8 +153,8 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
       dataIndex: 'startTime',
       key: 'startTime',
       render: (startTime: string) => {
-        var date = new Date(startTime);
-        return <b>{date.toLocaleDateString('en-GB')}</b>;
+        var date = dayjs(startTime);
+        return <b>{date.format('YYYY-MM-DD')}</b>;
       },
     },
     {
@@ -161,14 +162,31 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
       dataIndex: 'endTime',
       key: 'endTime',
       render: (endTime: string) => {
-        var date = new Date(endTime);
-        return <b>{date.toLocaleDateString('en-GB')}</b>;
+        var date = dayjs(endTime);
+        return <b>{date.format('YYYY-MM-DD')}</b>;
       },
     },
     {
       title: 'Price/Night',
       dataIndex: 'pricePerNight',
       key: 'pricePerNight',
+    },
+    {
+      title: 'Status',
+      dataIndex: 'endTime',
+      key: 'endTime',
+      render: (endTime: string) => {
+        var date = dayjs(endTime);
+        return date > dayjs() ? (
+          <Tag icon={<SyncOutlined spin />} color="processing">
+            Is active
+          </Tag>
+        ) : (
+          <Tag icon={<CloseCircleOutlined />} color="error">
+          Expired
+        </Tag>
+        );
+      },
     },
     {
       title: 'Action',
@@ -242,7 +260,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                           Week Number:
                           <div className="grid grid-cols-7 items-center gap-2 mt-2">
                             {weeksTimeFrame.map((w: number, i: number) => (
-                              <Tag color="green" key={i}>
+                              <Tag className="-mr-[1px]" color="green" key={i}>
                                 <div> {w}</div>
                               </Tag>
                             ))}

@@ -108,9 +108,3 @@ select:focus {
 :where(.css-dev-only-do-not-override-1vr7spz).ant-col-2 {
   margin-bottom: 15px;
 }
-
-:where(.css-dev-only-do-not-override-1vr7spz).ant-tag {
-
-  margin-inline-end: 0px;
-
-}
