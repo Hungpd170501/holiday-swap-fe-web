@@ -97,19 +97,23 @@ const checkDateIsInBoundary = (array: IDate[], weeksTimeFrame: number[]) => {
   });
   return arr;
 };
-// const dateIsConsecutive = (array: IDate[]) => {
-//   array?.forEach((element) => {
-//     let checkIn = new Date(element.checkIn);
-//     let checkOut = new Date(element.checkOut);
-//     for (let index = 1; index < array.length; index++) {
-//       const nextCheckIn = new Date(array[index].checkIn);
-//       const nextCheckOut = new Date(array[index].checkOut);
-//       if (checkOut.getTime() == nextCheckIn.getTime()) {
-//         element.checkOut = nextCheckOut.toString();
-//       }
-//     }
-//   });
-// };
+const dateIsConsecutive = (array: IDate[]) => {
+  let arr: Date[] = [];
+  array.forEach((element) => {
+    let checkIn = new Date(element.checkIn);
+    let checkOut = new Date(element.checkOut);
+    for (let index = 1; index < array.length; index++) {
+      const nextCheckIn = new Date(array[index].checkIn);
+      const nextCheckOut = new Date(array[index].checkOut);
+      if (checkOut.getTime() == nextCheckIn.getTime()) {
+        arr.push(nextCheckIn);
+      } else if (checkIn.getTime() == nextCheckOut.getTime()) {
+        arr.push(nextCheckOut);
+      }
+    }
+  });
+  return arr;
+};
 
 const func4 = (ranges: any, array: IDate[], weeksTimeFrame: number[]) => {
   const { selection } = ranges;
@@ -295,7 +299,14 @@ const ModalCoOwnerCalendar = (props: any) => {
     fetchWeeks();
     getTheListSelectWeek(yearSelectBox);
   }, [open]);
-
+  useEffect(() => {
+    let rs: Date[] = [];
+    let p1 = dateDiffIsGreaterTwo(timesDisable);
+    let p2 = dateIsConsecutive(timesDisable);
+    rs = rs.concat(p1);
+    rs = rs.concat(p2);
+    setTimesDisableOnClick(rs);
+  }, [JSON.stringify(timesDisable), JSON.stringify(weeksTimeFrame)]);
   function getTheListSelectWeek(year: number) {
     const arr = weeksTimeFrame.map((e: any, i: number) => {
       let disable = false;
