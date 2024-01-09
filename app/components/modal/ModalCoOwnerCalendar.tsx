@@ -384,19 +384,20 @@ const ModalCoOwnerCalendar = (props: any) => {
 
     list.sort((a, b) => Number(a) - Number(b));
     console.log(list);
+    if (list.length > 0) {
+      const min: number = list[0] as number;
+      const max: number = list[list.length - 1] as number;
 
-    const min: number = list[0] as number;
-    const max: number = list[list.length - 1] as number;
-
-    const dateWeek = {
-      startDate:
-        getStartAndEndDateOfWeekISO(min, yearSelectBox).startDate < new Date()
-          ? new Date()
-          : getStartAndEndDateOfWeekISO(min, yearSelectBox).startDate,
-      endDate: getStartAndEndDateOfWeekISO(max, yearSelectBox).endDate,
-      key: 'selection',
-    };
-    setDateRange(dateWeek);
+      const dateWeek = {
+        startDate:
+          getStartAndEndDateOfWeekISO(min, yearSelectBox).startDate < new Date()
+            ? new Date()
+            : getStartAndEndDateOfWeekISO(min, yearSelectBox).startDate,
+        endDate: getStartAndEndDateOfWeekISO(max, yearSelectBox).endDate,
+        key: 'selection',
+      };
+      setDateRange(dateWeek);
+    }
   };
   useEffect(() => {
     getTheListSelectWeek(yearSelectBox);
