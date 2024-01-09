@@ -242,7 +242,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                           Week Number:
                           <div className="grid grid-cols-7 items-center gap-2 mt-2">
                             {weeksTimeFrame.map((w: number, i: number) => (
-                              <Tag color="green" key={i}>
+                              <Tag className="-mr-[1px]" color="green" key={i}>
                                 <div> {w}</div>
                               </Tag>
                             ))}
