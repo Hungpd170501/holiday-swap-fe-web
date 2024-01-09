@@ -75,7 +75,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
       pageNo: pageAvailableTime.current,
       pageSize: 5,
       sortDirection: 'asc',
-      sortBy: 'id',
+      sortBy: 'startTime',
     });
     setLoadingTableAvailableTime(false);
     setAvailableTime(rs.content);
