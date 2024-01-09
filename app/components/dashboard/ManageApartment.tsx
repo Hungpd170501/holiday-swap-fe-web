@@ -28,6 +28,7 @@ import getRatingByPropertyIdAndRoomId from '@/app/actions/getRatingByPropertyIdA
 import GetAvailableTimeByCoOwnerId from '@/app/actions/getAvailableTimeByCoOwnerId';
 import useAparmentReviewModal from '@/app/hooks/useApartmentReviewModal';
 import { Tooltip } from 'flowbite-react';
+import dayjs from 'dayjs';
 
 interface ManageApartmentProps {
   detailCoOwner: any;
@@ -152,8 +153,8 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
       dataIndex: 'startTime',
       key: 'startTime',
       render: (startTime: string) => {
-        var date = new Date(startTime);
-        return <b>{date.toLocaleDateString('en-GB')}</b>;
+        var date = dayjs(startTime);
+        return <b>{date.format('YYYY-MM-DD')}</b>;
       },
     },
     {
@@ -161,8 +162,8 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
       dataIndex: 'endTime',
       key: 'endTime',
       render: (endTime: string) => {
-        var date = new Date(endTime);
-        return <b>{date.toLocaleDateString('en-GB')}</b>;
+        var date = dayjs(endTime);
+        return <b>{date.format('YYYY-MM-DD')}</b>;
       },
     },
     {

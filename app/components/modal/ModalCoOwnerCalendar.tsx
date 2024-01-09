@@ -298,6 +298,8 @@ const ModalCoOwnerCalendar = (props: any) => {
     fetchTimesDisable();
     fetchWeeks();
     getTheListSelectWeek(yearSelectBox);
+    setCheckedList([]);
+    setDateRange(initialDate);
   }, [open]);
   useEffect(() => {
     let rs: Date[] = [];
@@ -469,6 +471,7 @@ const ModalCoOwnerCalendar = (props: any) => {
             </div>
             <div className="w-full">
               <DateRange
+                editableDateInputs={true}
                 dateDisplayFormat="yyyy-MM-dd"
                 disabledDates={timesDisableOnClick}
                 rangeColors={['#5C98F2']}
