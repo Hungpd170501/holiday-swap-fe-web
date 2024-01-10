@@ -34,8 +34,6 @@ const IssueDetail: React.FC<IssueDetailProps> = ({ issueDetail, params }) => {
     fetchData();
   }, [isSuccess]);
 
-  console.log('Check issue', isSuccess);
-
   return (
     <Fragment>
       <div className="mt-12">

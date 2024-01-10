@@ -43,6 +43,7 @@ const RechargeSuccess = () => {
     if (bookingLink) {
       router.push(bookingLink);
       recharge.onBackBookingReset();
+      recharge.onSetNewDate();
     }
   }, [bookingLink]);
 

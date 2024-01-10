@@ -340,7 +340,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
 
     if (smallestDay && isBack === false) {
       const newDate = {
-        startDate: dateRangeContext?.startDate,
+        startDate: new Date(dateRangeContext?.startDate),
         endDate: new Date(smallestDay),
         key: 'selection',
       };
