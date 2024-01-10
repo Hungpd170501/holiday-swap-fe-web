@@ -312,8 +312,6 @@ const ModalCoOwnerCalendar = (props: any) => {
     rs = rs.concat(p1);
     rs = rs.concat(p2);
     let b = checkDateIsInBoundary(timesDisable, weeksTimeFrame);
-    console.log('timesDisable', timesDisable);
-    console.log('checkDateIsInBoundary', b);
     rs = rs.concat(b);
     setTimesDisableOnClick(rs);
   }, [JSON.stringify(timesDisable), JSON.stringify(weeksTimeFrame)]);
@@ -396,7 +394,6 @@ const ModalCoOwnerCalendar = (props: any) => {
     setCheckedList(list);
 
     list.sort((a, b) => Number(a) - Number(b));
-    console.log(list);
     if (list.length > 0) {
       const min: number = list[0] as number;
       const max: number = list[list.length - 1] as number;
