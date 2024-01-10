@@ -331,12 +331,12 @@ const ModalCoOwnerCalendar = (props: any) => {
         }
       });
       disable = arrDisable.includes(e);
-      weeksTimeFrame.forEach((w) => {
-        const range = getStartAndEndDateOfWeekISO(w, year);
-        if (range.startDate < new Date() || range.endDate < new Date()) {
-          disable = true;
-        }
-      });
+
+      const range = getStartAndEndDateOfWeekISO(e, year);
+      if (range.startDate < new Date() || range.endDate < new Date()) {
+        disable = true;
+      }
+
       let week = {
         label: e < 10 ? `${e}` : `${e}`,
         value: String(e),
