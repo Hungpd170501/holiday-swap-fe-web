@@ -520,7 +520,7 @@ const ModalCoOwnerCalendar = (props: any) => {
                   min={1}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     if (Number(e.target.value) < 1) {
-                      setPricePerNight(null);
+                      setPricePerNight('');
                     } else {
                       setPricePerNight(e.target.value);
                     }
