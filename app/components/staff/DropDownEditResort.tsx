@@ -9,6 +9,7 @@ import { BiBlock } from 'react-icons/bi';
 import { MdOutlinePending } from 'react-icons/md';
 import { FaRegEdit } from 'react-icons/fa';
 import useMaintanceResortModal from '@/app/hooks/useMaintanceResortModal';
+import Link from 'next/link';
 
 interface IParams {
   resortId: string;
@@ -50,19 +51,19 @@ const DropDownEditResort: React.FC<IParams> = ({ resortId, resortStatus }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem
-          className="text-green-500 flex flex-row gap-1 hover:underline items-center"
-          onClick={() => route.push(`/staff/staffeditresort/${resortId}`)}
-        >
-          <FaRegEdit size={18} color="green" />
-          <span>Edit</span>
+        <MenuItem className="text-green-500 flex flex-row gap-1 hover:underline items-center">
+          <Link href={`/staff/staffeditresort/${resortId}`} target="_blank">
+            <FaRegEdit size={18} color="green" />
+            <span>Edit</span>
+          </Link>
         </MenuItem>
         {resortStatus === 'ACTIVE' ? (
           <Fragment>
             <MenuItem
               className="text-red-500 flex flex-row gap-1 hover:underline items-center"
               onClick={() => {
-                deactiveResortModal.onOpen(resortId, 'DEACTIVATE'); handleClose();
+                deactiveResortModal.onOpen(resortId, 'DEACTIVATE');
+                handleClose();
               }}
             >
               <BiBlock size={18} color="red" />
@@ -71,7 +72,8 @@ const DropDownEditResort: React.FC<IParams> = ({ resortId, resortStatus }) => {
             <MenuItem
               className="text-orange-500 flex flex-row gap-1 hover:underline items-center"
               onClick={() => {
-                maintanceResortModal.onOpen(resortId, 'MAINTENANCE'); handleClose();
+                maintanceResortModal.onOpen(resortId, 'MAINTENANCE');
+                handleClose();
               }}
             >
               <MdOutlinePending size={18} color="orange" />
