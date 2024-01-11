@@ -24,6 +24,7 @@ import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
+import { forEach } from 'lodash';
 dayjs.extend(isoWeek);
 
 interface IDate {
@@ -73,27 +74,30 @@ const checkDateIsInBoundary = (array: IDate[], weeksTimeFrame: number[]) => {
   let arr: Date[] = [];
   array.forEach((e) => {
     let checkIn = new Date(e.checkIn);
+    const currentDate = new Date();
+
     let checkOut = new Date(e.checkOut);
+    currentDate.setHours(0, 0, 0, 0);
     checkIn.setHours(0, 0, 0, 0);
     checkOut.setHours(0, 0, 0, 0);
+    const yesterdayCheckIn = new Date(checkIn.getTime() - 24 * 60 * 60 * 1000);
     const startDateWeek = getStartAndEndDateOfWeekISO(
       getISOWeekNumber(checkIn),
       checkIn.getFullYear()
     ).startDate;
-    startDateWeek.setHours(0, 0, 0, 0);
     const endDateWeek = getStartAndEndDateOfWeekISO(
-      getISOWeekNumber(checkIn),
-      checkIn.getFullYear()
+      getISOWeekNumber(checkOut),
+      checkOut.getFullYear()
     ).endDate;
+    startDateWeek.setHours(0, 0, 0, 0);
     endDateWeek.setHours(0, 0, 0, 0);
+    if (!weeksTimeFrame.includes(getISOWeekNumber(checkOut))) arr.push(checkOut);
+    if (!weeksTimeFrame.includes(getISOWeekNumber(yesterdayCheckIn))) arr.push(checkIn);
     if (
-      !weeksTimeFrame.includes(getISOWeekNumber(checkIn) + 1) &&
-      !weeksTimeFrame.includes(getISOWeekNumber(checkIn) - 1)
-    ) {
-      if (checkIn.toDateString() == startDateWeek.toDateString()) arr.push(checkIn);
-
-      if (endDateWeek.toDateString() == checkOut.toDateString()) arr.push(checkOut);
-    }
+      checkIn.toDateString() == currentDate.toDateString() ||
+      checkOut.toDateString() == currentDate.toDateString()
+    )
+      arr.push(new Date());
   });
   return arr;
 };
@@ -307,6 +311,8 @@ const ModalCoOwnerCalendar = (props: any) => {
     let p2 = dateIsConsecutive(timesDisable);
     rs = rs.concat(p1);
     rs = rs.concat(p2);
+    let b = checkDateIsInBoundary(timesDisable, weeksTimeFrame);
+    rs = rs.concat(b);
     setTimesDisableOnClick(rs);
   }, [JSON.stringify(timesDisable), JSON.stringify(weeksTimeFrame)]);
   function getTheListSelectWeek(year: number) {
@@ -322,8 +328,13 @@ const ModalCoOwnerCalendar = (props: any) => {
           arrDisable = [...arrDisable, ...x];
         }
       });
-
       disable = arrDisable.includes(e);
+
+      const range = getStartAndEndDateOfWeekISO(e, year);
+      if (range.startDate < new Date() || range.endDate < new Date()) {
+        disable = true;
+      }
+
       let week = {
         label: e < 10 ? `${e}` : `${e}`,
         value: String(e),
@@ -383,7 +394,6 @@ const ModalCoOwnerCalendar = (props: any) => {
     setCheckedList(list);
 
     list.sort((a, b) => Number(a) - Number(b));
-    console.log(list);
     if (list.length > 0) {
       const min: number = list[0] as number;
       const max: number = list[list.length - 1] as number;

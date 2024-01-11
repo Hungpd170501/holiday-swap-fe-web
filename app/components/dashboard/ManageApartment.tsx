@@ -14,6 +14,8 @@ import {
   Pagination,
   Popconfirm,
   Empty,
+  Row,
+  Col,
 } from 'antd';
 import React, { useState, useEffect, Fragment } from 'react';
 import useCreatePublicTimeModal from '@/app/hooks/useCreatePublicTimeModal';
@@ -29,6 +31,8 @@ import GetAvailableTimeByCoOwnerId from '@/app/actions/getAvailableTimeByCoOwner
 import useAparmentReviewModal from '@/app/hooks/useApartmentReviewModal';
 import { Tooltip } from 'flowbite-react';
 import dayjs from 'dayjs';
+import axios from 'axios';
+import ModalBookingByCoOwnerId from '../modal/ModalBookingByCoOwnerId';
 
 interface ManageApartmentProps {
   detailCoOwner: any;
@@ -59,6 +63,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
   const [isOpenTimePublic, setIsOpenTimePublic] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [switchActive, setSwitchActive] = useState(true);
+  const [historyBookingByCoOwnerId, setHistoryBookingByCoOwnerId] = useState<any[]>([]);
   const createModalPublicTime = useCreatePublicTimeModal();
   const isCreated = createModalPublicTime.isCreated;
   const axiosAuthClient = useAxiosAuthClient();
@@ -102,6 +107,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
       return a - b;
     });
     setWeeksTimeFrame(weeks);
+    fetchHistoryBookingByCoOwnerId();
   }, []);
   useEffect(() => {
     if (isCreated === true) {
@@ -125,7 +131,10 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
 
     handleDeleteAvailableTime(id);
   };
-
+  async function fetchHistoryBookingByCoOwnerId() {
+    var rs = await axios.get(`https://holiday-swap.click/api/booking/co-owner/${slug}`);
+    setHistoryBookingByCoOwnerId(rs.data);
+  }
   const handleDeleteAvailableTime = (id: string) => {
     if (id) {
       axiosAuthClient
@@ -183,8 +192,8 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
           </Tag>
         ) : (
           <Tag icon={<CloseCircleOutlined />} color="error">
-          Expired
-        </Tag>
+            Expired
+          </Tag>
         );
       },
     },
@@ -327,59 +336,6 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                 </div>
                 <div className="col-span-2">
                   <Card>
-                    {/* <Card title="Statistic" extra={<b>This year</b>}>
-                      <div className="flex justify-between">
-                        <Statistic
-                          title="Booking"
-                          value={11.28}
-                          precision={2}
-                          valueStyle={{ color: '#3f8600' }}
-                          prefix={<ArrowUpOutlined />}
-                          suffix="%"
-                        />
-                        <Statistic
-                          title="Profit"
-                          value={11.28}
-                          precision={2}
-                          valueStyle={{ color: '#3f8600' }}
-                          prefix={<ArrowUpOutlined />}
-                          suffix="%"
-                        />
-                        <Statistic
-                          title="Booking"
-                          value={11.28}
-                          precision={2}
-                          valueStyle={{ color: '#3f8600' }}
-                          prefix={<ArrowUpOutlined />}
-                          suffix="%"
-                        />
-                      </div>
-                    </Card> */}
-                    {/* <Card
-                      style={{ marginTop: 16 }}
-                      title="New booking"
-                      extra={<a href="#">View More</a>}
-                    >
-                      <Row gutter={16}>
-                        {arr.map((e: any, i: number) => {
-                          return (
-                            <Col span={6} key={i}>
-                              <Card>
-                                <Meta
-                                  avatar={
-                                    <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />
-                                  }
-                                  title="User name"
-                                  description="Price"
-                                />
-                                <div>time Book</div>
-                                <div>time Book</div>
-                              </Card>
-                            </Col>
-                          );
-                        })}
-                      </Row>
-                    </Card> */}
                     <Card
                       style={{ marginTop: 16 }}
                       title="My public"
@@ -415,6 +371,91 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                           />
                         )}
                       </div>
+                    </Card>
+                    {/* <Card title="Statistic" extra={<b>This year</b>}>
+                      <div className="flex justify-between">
+                        <Statistic
+                          title="Booking"
+                          value={11.28}
+                          precision={2}
+                          valueStyle={{ color: '#3f8600' }}
+                          prefix={<ArrowUpOutlined />}
+                          suffix="%"
+                        />
+                        <Statistic
+                          title="Profit"
+                          value={11.28}
+                          precision={2}
+                          valueStyle={{ color: '#3f8600' }}
+                          prefix={<ArrowUpOutlined />}
+                          suffix="%"
+                        />
+                        <Statistic
+                          title="Booking"
+                          value={11.28}
+                          precision={2}
+                          valueStyle={{ color: '#3f8600' }}
+                          prefix={<ArrowUpOutlined />}
+                          suffix="%"
+                        />
+                      </div>
+                    </Card> */}
+                    <Card
+                      style={{ marginTop: 16 }}
+                      title="Booking"
+                      extra={
+                        historyBookingByCoOwnerId.length != 0 && (
+                          <ModalBookingByCoOwnerId
+                            historyBookingByCoOwnerId={historyBookingByCoOwnerId}
+                          />
+                        )
+                      }
+                    >
+                      {historyBookingByCoOwnerId.length == 0 && (
+                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                      )}
+                      <Row gutter={14}>
+                        {historyBookingByCoOwnerId.slice(0, 2).map((e: any, i: number) => {
+                          const checkIn = dayjs(e.checkInDate);
+                          const checkOut = dayjs(e.checkOutDate);
+                          let tag = '';
+                          if (e.status == 'PENDING') tag = 'default';
+                          else if (e.status == 'ACCEPTED') tag = 'success';
+                          else if (e.status == 'REJECTED') tag = 'error';
+                          else if (e.status == 'CANCELLED') tag = 'error';
+                          else if (e.status == 'EXPIRED') tag = 'error';
+                          else if (e.status == 'SUCCESS') tag = 'success';
+                          else if (e.status == 'FAILED') tag = 'error';
+                          else if (e.status == 'WAITING_EXCHANGE') tag = 'warning';
+                          return (
+                            <Col span={12} key={i}>
+                              <Card>
+                                <Meta
+                                  style={{ display: 'flex' }}
+                                  avatar={
+                                    e.user.avatar ? (
+                                      <Avatar src={e.user.avatar} />
+                                    ) : (
+                                      <Avatar></Avatar>
+                                    )
+                                  }
+                                  title={e.user.fullName ? e.user.fullName : e.user.username}
+                                />
+                                <div className="flex justify-between my-1">
+                                  <b>{'Price :' + e.actualPrice}</b>
+                                  <Tag color={tag}>{e.status}</Tag>
+                                </div>
+                                <div className="my-2">
+                                  <div className="flex justify-between">
+                                    <Tag>{checkIn.format('YYYY-MM-DD')}</Tag>
+                                    <Tag> {checkOut.format('YYYY-MM-DD')}</Tag>
+                                  </div>
+                                </div>
+                              </Card>
+                            </Col>
+                          );
+                        })}
+                      </Row>
                     </Card>
                   </Card>
                 </div>
