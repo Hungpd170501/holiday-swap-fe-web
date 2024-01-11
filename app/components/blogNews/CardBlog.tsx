@@ -102,7 +102,9 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
                   className="rounded-full object-cover"
                 />
                 <div className="flex flex-col gap-1">
-                  <div className="text-gray-700 text-lg">{item.userName}</div>
+                  <div className="text-gray-700 text-lg">
+                    {item.fullName ? item.fullName : item.userName}
+                  </div>
                   <div className="text-gray-700 text-base">
                     {format(new Date(item.datePosted), 'MMMM d, yyyy')}
                   </div>
