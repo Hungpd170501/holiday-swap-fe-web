@@ -25,9 +25,7 @@ const ApartmentReivewBox: React.FC<ApartmentReviewBoxProps> = ({ rating }) => {
           <p className="text-black text-base">
             {rating?.ratingType === 'PRIVATE'
               ? 'Anonymous users'
-              : rating?.user?.fullName
-              ? rating?.user?.fullName
-              : rating?.user?.username}
+              : `${rating?.user.fullName ? rating?.user.fullName : rating?.user.username}`}
           </p>
         </div>
       </div>

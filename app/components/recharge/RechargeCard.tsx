@@ -163,7 +163,7 @@ const RechargeCard: React.FC<RechargeCardProps> = ({ point }) => {
               value={amountPoint}
               onChange={(e) => {
                 if (Number(e.target.value) < 1) {
-                  setAmountPoint('1');
+                  setAmountPoint('');
                 } else {
                   setAmountPoint(e.target.value);
                 }

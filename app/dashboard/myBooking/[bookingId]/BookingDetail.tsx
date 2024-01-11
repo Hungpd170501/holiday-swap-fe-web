@@ -283,7 +283,11 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
               <p className="text-black text-base">
                 {ratingValue?.ratingType === 'PRIVATE'
                   ? 'Anonymous users'
-                  : ratingValue?.user?.fullName}
+                  : `${
+                      ratingValue?.user.fullName
+                        ? ratingValue?.user.fullName
+                        : ratingValue?.user.username
+                    }`}
               </p>
               {/* <p className="text-slate-400 text-base">6 years on HolidaySwap</p> */}
             </div>

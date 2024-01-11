@@ -250,7 +250,9 @@ const OwnerBookingDetail: React.FC<OwnerBookingDetailProps> = ({
             />
             <div className="flex flex-col">
               <p className="text-black text-base">
-                {rating?.ratingType === 'PRIVATE' ? 'Anonymous users' : rating?.user?.fullName}
+                {rating?.ratingType === 'PRIVATE'
+                  ? 'Anonymous users'
+                  : `${rating?.user.fullName ? rating?.user.fullName : rating?.user.username}`}
               </p>
             </div>
           </div>
