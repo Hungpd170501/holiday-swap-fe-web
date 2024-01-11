@@ -98,7 +98,7 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
 
   const filterResorts = async () => {
     let config = { resortName };
-    const newData = await GetListResort("0", config);
+    const newData = await GetListResort('0', config);
 
     if (newData) {
       setFilteredResorts(newData);
@@ -258,12 +258,13 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
                     </StyledTableCell>
 
                     <StyledTableCell className="!py-5 w-[120px] !text-green-500 " align="right">
-                      <span
-                        onClick={() => router.push(`/staff/staffdetailresort/${row.id}`)}
+                      <Link
+                        href={`/staff/staffdetailresort/${row.id}`}
+                        target="_blank"
                         className="text-common underline hover:cursor-pointer"
                       >
                         View detail
-                      </span>
+                      </Link>
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}
@@ -272,13 +273,13 @@ const ListResortAll: React.FC<ListResortAllProps> = ({ resorts: initialResorts }
           </TableContainer>
           {filteredResorts.totalPages > 1 && (
             <div className="flex py-5 overflow-x-auto sm:justify-center">
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={onPageChange}
-              showIcons
-            />
-          </div>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={onPageChange}
+                showIcons
+              />
+            </div>
           )}
         </React.Fragment>
       ) : (

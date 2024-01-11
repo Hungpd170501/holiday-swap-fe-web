@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation';
 import PopChangeStatusPropertyToDeActivate from './PopChangeStatusPropertyToDeActivate';
 import PopChangeStatusPropertyToActive from './PopChangeStatusPropertyToActive';
 import HeadingDashboard from '../HeadingDashboard';
+import Link from 'next/link';
 
 interface PropertyType {
   id: number;
@@ -339,18 +340,22 @@ export default function ListProperty() {
                   <Button
                     type="primary"
                     style={{ color: 'white', backgroundColor: 'green', width: 74.4 }}
-                    onClick={() => route.push(`/staff/detailProperty/${record.id}`)}
+                    // onClick={() => route.push(`/staff/detailProperty/${record.id}`)}
                   >
-                    Detail
+                    <Link href={`/staff/detailProperty/${record.id}`} target="_blank">
+                      Detail
+                    </Link>
                   </Button>
                 </Menu.Item>
                 <Menu.Item key="1">
                   <Button
                     type="primary"
                     style={{ color: 'white', backgroundColor: 'orange', width: 74.4 }}
-                    onClick={() => route.push(`/staff/editProperty/${record.id}`)}
+                    // onClick={() => route.push(`/staff/editProperty/${record.id}`)}
                   >
-                    Edit
+                    <Link href={`/staff/editProperty/${record.id}`} target="_blank">
+                      Edit
+                    </Link>
                   </Button>
                 </Menu.Item>
                 <Menu.Item key="2">

@@ -84,7 +84,7 @@ const ListMembershipAll: React.FC<ListMembershipAllProps> = ({ users }) => {
     <div className="hidden md:block md:w-auto md:h-auto ">
       <div className="flex flex-row justify-between items-center mb-5 ">
         <div className="text-common text-[20px] font-bold ">List Membership</div>
-        <Link className="text-gray-400" href="/staff/listmember">
+        <Link className="text-gray-400 hover:underline" href="/staff/listmember">
           View All List Membership
         </Link>
       </div>

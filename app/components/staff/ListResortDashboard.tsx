@@ -135,7 +135,7 @@ const ListResortDashboard: React.FC<ListResortAllProps> = ({ resorts: initialRes
     <div className="hidden md:block md:w-auto md:h-auto md:py-10">
       <div className="flex flex-row justify-between items-center mt-10 mb-4">
         <div className="text-common text-[20px] font-bold ">List Resort</div>
-        <Link className="text-gray-400" href="/staff/listresort">
+        <Link className="text-gray-400 hover:underline" href="/staff/listresort">
           View All List Resort
         </Link>
       </div>
@@ -219,12 +219,13 @@ const ListResortDashboard: React.FC<ListResortAllProps> = ({ resorts: initialRes
                 </StyledTableCell>
 
                 <StyledTableCell className="!py-5 !text-green-500 " align="right">
-                  <span
-                    onClick={() => router.push(`/staff/staffdetailresort/${row.id}`)}
+                  <Link
+                    href={`/staff/staffdetailresort/${row.id}`}
+                    target="_blank"
                     className="text-common underline hover:cursor-pointer"
                   >
                     View detail
-                  </span>
+                  </Link>
                 </StyledTableCell>
               </StyledTableRow>
             ))}

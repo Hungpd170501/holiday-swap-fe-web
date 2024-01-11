@@ -7,6 +7,7 @@ import { Carousel } from 'flowbite-react';
 import { format } from 'date-fns';
 import { AiFillStar } from 'react-icons/ai';
 import useNewDateRange from '@/app/hooks/useNewDateRange';
+import Link from 'next/link';
 
 interface CardListResortProps {
   data: any;
@@ -16,9 +17,8 @@ const CardListResort: React.FC<CardListResortProps> = ({ data }) => {
   const route = useRouter();
   const newDateRange = useNewDateRange();
 
-  const handleRedirectApartmentDetail = (url: string) => {
+  const handleRedirectApartmentDetail = () => {
     newDateRange.setNew();
-    route.push(url);
     route.refresh();
   };
   return (
@@ -29,30 +29,29 @@ const CardListResort: React.FC<CardListResortProps> = ({ data }) => {
           className="relative w-full h-[300px] rounded-xl z-40 object-cover  "
         >
           {data?.availableTime.coOwner.property.propertyImages.slice(0, 5).map((item: any) => (
-            <div key={item.id} className="w-full h-full ">
+            <Link
+              target="_blank"
+              href={`/apartment/${data.availableTime.id}?propertyId=${data.availableTime.coOwner.property.id}&roomId=${data.availableTime.coOwner.roomId}`}
+              key={item.id}
+              className="w-full h-full "
+            >
               <Image
-                onClick={() =>
-                  handleRedirectApartmentDetail(
-                    `/apartment/${data.availableTime.id}?propertyId=${data.availableTime.coOwner.property.id}&roomId=${data.availableTime.coOwner.roomId}`
-                  )
-                }
+                onClick={handleRedirectApartmentDetail}
                 src={item.link}
                 alt="destination"
                 fill
                 className=" rounded-t-xl object-cover"
               />
-            </div>
+            </Link>
           ))}
         </Carousel>
       </div>
       <div className="flex flex-row justify-between py-3 ">
-        <div
-          onClick={() =>
-            handleRedirectApartmentDetail(
-              `/apartment/${data.availableTime.id}?propertyId=${data.availableTime.coOwner.property.id}&roomId=${data.availableTime.coOwner.roomId}`
-            )
-          }
-          className="w-full "
+        <Link
+          href={`/apartment/${data.availableTime.id}?propertyId=${data.availableTime.coOwner.property.id}&roomId=${data.availableTime.coOwner.roomId}`}
+          onClick={handleRedirectApartmentDetail}
+          className="w-full"
+          target="_blank"
         >
           <div className="text-base font-bold line-clamp-1">
             {data?.availableTime.coOwner.property.propertyName}
@@ -80,7 +79,7 @@ const CardListResort: React.FC<CardListResortProps> = ({ data }) => {
               /night
             </div>
           </div>
-        </div>
+        </Link>
         {data?.availableTime.coOwner.property?.rating && (
           <div className="">
             <div className="flex flex-row items-center gap-1">
