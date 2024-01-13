@@ -17,7 +17,7 @@ const Issue: React.FC<IssueProps> = ({ issue }) => {
   const router = useRouter();
 
   const [searchName, setSearchName] = React.useState<string>('');
-  const [filteredIssues, setFilteredIssues] = React.useState<any[]>(issue.reverse());
+  const [filteredIssues, setFilteredIssues] = React.useState<any[]>(issue);
   const changeStatusIssueModal = useChangeStatusIssueModal();
   const isSuccess = changeStatusIssueModal.isSuccess;
 
@@ -34,13 +34,20 @@ const Issue: React.FC<IssueProps> = ({ issue }) => {
       if (isSuccess === true) {
         const newDetail = await GetListIssue();
         if (newDetail) {
-          setFilteredIssues(newDetail.reverse());
+          setFilteredIssues(newDetail);
           changeStatusIssueModal.onSuccessReset();
         }
       }
     };
     fetchData();
   }, [isSuccess]);
+
+  const sortedItems = filteredIssues?.sort((a: any, b: any) => {
+    const dateA = new Date(a.createdOn);
+    const dateB = new Date(b.createdOn);
+
+    return dateB.valueOf() - dateA.valueOf();
+  });
 
   return (
     <Fragment>
@@ -73,7 +80,7 @@ const Issue: React.FC<IssueProps> = ({ issue }) => {
       </div>
 
       <div className="py-6">
-        {filteredIssues && filteredIssues.length > 0 ? (
+        {sortedItems && sortedItems.length > 0 ? (
           <Table>
             <Table.Head>
               <Table.HeadCell>Booking ID</Table.HeadCell>
@@ -83,7 +90,7 @@ const Issue: React.FC<IssueProps> = ({ issue }) => {
               <Table.HeadCell>Action</Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
-              {filteredIssues.map((item: any, index: any) => (
+              {sortedItems.map((item: any, index: any) => (
                 <Table.Row key={item.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                   <Table.Cell>{item.bookingId}</Table.Cell>
                   <Table.Cell>{item.description}</Table.Cell>
