@@ -16,7 +16,7 @@ import Link from 'next/link';
 import HeadingDashboard from '@/app/components/HeadingDashboard';
 
 const ListApartment = () => {
-    const deactiveApartmentModal = useDeactiveApartmentModal();
+  const deactiveApartmentModal = useDeactiveApartmentModal();
   return (
     <div>
       <div className=" mb-10 mt-2">
@@ -41,12 +41,16 @@ const ListApartment = () => {
           </Table.Head>
           <Table.Body className="divide-y">
             <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <Table.Cell className="w-[250px]">RESORT NAME</Table.Cell>
-              <Table.Cell>PROPERTY NAME</Table.Cell>
-              <Table.Cell className="w-[140px]">APARTMENT ID</Table.Cell>
-              <Table.Cell>FULL NAME</Table.Cell>
-              <Table.Cell>Owner forever</Table.Cell>
-              <Table.Cell>ACCEPT</Table.Cell>
+              <Table.Cell className="w-[250px]">Victory Hotel</Table.Cell>
+              <Table.Cell>Deluxe king room</Table.Cell>
+              <Table.Cell className="w-[140px]">S.0012</Table.Cell>
+              <Table.Cell>Bùi Trí Thức</Table.Cell>
+              <Table.Cell>Owner a previod time</Table.Cell>
+              <Table.Cell>
+                <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
+                  ACCEPTED
+                </div>
+              </Table.Cell>
               <Table.Cell>
                 <Dropdown
                   label=""
@@ -55,10 +59,13 @@ const ListApartment = () => {
                     <span className="text-sky-500 hover:underline cursor-pointer">Edit</span>
                   )}
                 >
-                  <Dropdown.Item onClick={deactiveApartmentModal.onOpen} className="flex flex-row items-center gap-x-1 text-rose-500">
+                  <Dropdown.Item
+                    onClick={deactiveApartmentModal.onOpen}
+                    className="flex flex-row items-center gap-x-1 text-rose-500"
+                  >
                     <BiBlock size={18} color="red" />
                     Deactivate
-                </Dropdown.Item>
+                  </Dropdown.Item>
                 </Dropdown>
               </Table.Cell>
             </Table.Row>
