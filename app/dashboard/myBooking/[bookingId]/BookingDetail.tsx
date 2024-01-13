@@ -283,11 +283,15 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
               <p className="text-black text-base">
                 {ratingValue?.ratingType === 'PRIVATE'
                   ? 'Anonymous users'
-                  : `${
-                      ratingValue?.user.fullName
-                        ? ratingValue?.user.fullName
-                        : ratingValue?.user.username
-                    }`}
+                  : `${(() => {
+                  if (ratingValue?.user.fullName) {
+                    return ratingValue?.user.fullName;
+                  } else if (!ratingValue?.user.fullName && ratingValue?.user.username) {
+                    return ratingValue?.user.username;
+                  } else if (!ratingValue?.user.fullName && !ratingValue?.user.username) {
+                    return ratingValue?.user.email.split('@')[0];
+                  }
+                })()}`}
               </p>
               {/* <p className="text-slate-400 text-base">6 years on HolidaySwap</p> */}
             </div>

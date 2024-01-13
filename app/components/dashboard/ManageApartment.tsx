@@ -311,7 +311,15 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                                         <Avatar icon={<UserOutlined />} size={20} />
                                       )
                                     }
-                                    title={e.user.userName}
+                                    title={(() => {
+                                              if (e.user.fullName) {
+                                                return e.user.fullName;
+                                              } else if (!e.user.fullName && e.user.username) {
+                                                return e.user.username;
+                                              } else if (!e.user.fullName && !e.user.username) {
+                                                return e.user.email.split('@')[0];
+                                              }
+                                          })()}
                                     description={
                                       <Rate
                                         disabled
@@ -439,7 +447,15 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                                       <Avatar></Avatar>
                                     )
                                   }
-                                  title={e.user.fullName ? e.user.fullName : e.user.username}
+                                  title={(() => {
+                                          if (e.user.fullName) {
+                                            return e.user.fullName;
+                                          } else if (!e.user.fullName && e.user.username) {
+                                            return e.user.username;
+                                          } else if (!e.user.fullName && !e.user.username) {
+                                            return e.user.email.split('@')[0];
+                                          }
+                                        })()}
                                 />
                                 <div className="flex justify-between my-1">
                                   <b>{'Price :' + e.actualPrice}</b>
@@ -447,8 +463,8 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                                 </div>
                                 <div className="my-2">
                                   <div className="flex justify-between">
-                                    <Tag>{checkIn.format('YYYY-MM-DD')}</Tag>
-                                    <Tag> {checkOut.format('YYYY-MM-DD')}</Tag>
+                                    <Tag>Check-in: {checkIn.format('YYYY-MM-DD')}</Tag>
+                                    <Tag>Check-out: {checkOut.format('YYYY-MM-DD')}</Tag>
                                   </div>
                                 </div>
                               </Card>

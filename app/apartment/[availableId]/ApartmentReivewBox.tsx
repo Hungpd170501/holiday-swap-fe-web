@@ -25,7 +25,15 @@ const ApartmentReivewBox: React.FC<ApartmentReviewBoxProps> = ({ rating }) => {
           <p className="text-black text-base">
             {rating?.ratingType === 'PRIVATE'
               ? 'Anonymous users'
-              : `${rating?.user.fullName ? rating?.user.fullName : rating?.user.username}`}
+              : `${(() => {
+                  if (rating?.user.fullName) {
+                    return rating?.user.fullName;
+                  } else if (!rating?.user.fullName && rating?.user.username) {
+                    return rating?.user.username;
+                  } else if (!rating?.user.fullName && !rating?.user.username) {
+                    return rating?.user.email.split('@')[0];
+                  }
+                })()}`}
           </p>
         </div>
       </div>
