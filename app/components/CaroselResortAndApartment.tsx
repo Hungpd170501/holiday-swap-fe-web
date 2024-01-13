@@ -301,13 +301,19 @@ const CaroselResortAndApartment: React.FC = ({}) => {
                                     element.availableTime.coOwner.user.avatar ? (
                                       <Avatar src={element.availableTime.coOwner.user.avatar} />
                                     ) : (
-                                      <Avatar>
-                                        {element.availableTime.coOwner.user.username}
-                                      </Avatar>
+                                      <Avatar>{element.availableTime.coOwner.user.username}</Avatar>
                                     )
                                   }
                                   description={
-                                    'Owner: ' + element.availableTime.coOwner.user.username
+                                    'Owner: ' + `${(() => {
+                                      if (element.availableTime.coOwner.user.fullName) {
+                                        return element.availableTime.coOwner.user.fullName
+                                      } else if (!element.availableTime.coOwner.user.fullName && element.availableTime.coOwner.user.username) {
+                                        return element.availableTime.coOwner.user.username
+                                      } else if (!element.availableTime.coOwner.user.fullName && !element.availableTime.coOwner.user.username) {
+                                        return element.availableTime.coOwner.user.email.split("@")[0]
+                                      }
+                                    })()}`
                                   }
                                 />
                                 <div className="px-3 py-2 ">
