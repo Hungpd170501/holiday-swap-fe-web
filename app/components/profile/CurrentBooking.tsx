@@ -13,7 +13,7 @@ interface CurrentBookingProps {
 }
 
 const CurrentBooking: React.FC<CurrentBookingProps> = ({ historyBooking }) => {
-  const [historyBookingList, setHistoryBookingList] = useState<any[]>([]);
+  const [historyBookingList, setHistoryBookingList] = useState<any[]>(historyBooking);
   const router = useRouter();
 
   const calculateNightDifference = (startDate: any, endDate: any) => {
@@ -23,11 +23,12 @@ const CurrentBooking: React.FC<CurrentBookingProps> = ({ historyBooking }) => {
     return nightDifference;
   };
 
-  useEffect(() => {
-    if (historyBooking) {
-      setHistoryBookingList(historyBooking.slice(0, 3));
-    }
-  }, [historyBooking]);
+  const sortedItems = historyBookingList?.sort((a: any, b: any) => {
+    const dateA = new Date(a.createdDate);
+    const dateB = new Date(b.createdDate);
+
+    return dateB.valueOf() - dateA.valueOf();
+  });
 
   return (
     <div className="hidden md:block md:w-auto md:h-auto md:py-10">
@@ -45,8 +46,8 @@ const CurrentBooking: React.FC<CurrentBookingProps> = ({ historyBooking }) => {
    
         ))} */}
 
-      {historyBookingList.length > 0 ? (
-        historyBookingList.reverse().map((item: any, index: number) => (
+      {sortedItems.length > 0 ? (
+        sortedItems.slice(0, 3).map((item: any, index: number) => (
           <div
             onClick={() => router.push(`/dashboard/myBooking/${item.bookingId}`)}
             key={item.bookingId}

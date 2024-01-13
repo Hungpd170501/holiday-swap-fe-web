@@ -158,16 +158,14 @@ const ListPropertyView: React.FC<ListPropertyViewProps> = () => {
           </Table.Body>
         </Table>
 
-       
-          <div className="flex overflow-x-auto sm:justify-center py-3">
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={onPageChange}
-              showIcons
-            />
-          </div>
-       
+        <div className="flex overflow-x-auto sm:justify-center py-3">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={onPageChange}
+            showIcons
+          />
+        </div>
 
         <Modal show={openModal} onClose={() => setOpenModal(false)}>
           <Modal.Header>Delete property view</Modal.Header>
