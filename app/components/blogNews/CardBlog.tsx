@@ -19,7 +19,7 @@ interface CardBlogProps {
 }
 
 const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
-  const [postList, setPostList] = useState<any>(post?.reverse());
+  const [postList, setPostList] = useState<any>(post);
   const axiosAuthClient = useAxiosAuthClient();
   const { data: session } = useSession();
   const router = useRouter();
@@ -40,7 +40,7 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
             `https://holiday-swap.click/api/post/get?userId=${currentUser.userId}`
           );
           if (newData) {
-            setPostList(newData.data.reverse());
+            setPostList(newData.data);
           }
         })
         .catch((response) => {
@@ -50,6 +50,15 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
       toast.error('You must be login to like post!');
     }
   };
+
+  const sortedItems = postList?.sort((a: any, b: any) => {
+    const dateA = new Date(a.datePosted);
+    const dateB = new Date(b.datePosted);
+
+   
+      return dateB.valueOf() - dateA.valueOf();
+ 
+  });
 
   const handleDislikePost = (postId: any) => {
     if (postId && currentUser) {
@@ -65,7 +74,7 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
             `https://holiday-swap.click/api/post/get?userId=${currentUser.userId}`
           );
           if (newData) {
-            setPostList(newData.data.reverse());
+            setPostList(newData.data);
           }
         })
         .catch((response) => {
@@ -80,7 +89,7 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
     if (isSuccess === true) {
       const getNewData = async () => {
         const newData = await GetPostUser(currentUser.userId);
-        setPostList(newData.reverse());
+        setPostList(newData);
         writeBlogModal.onSuccessReset();
       };
       getNewData();
@@ -89,7 +98,7 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
 
   return (
     <div className="bg-white w-full h-auto ">
-      {postList?.map((item: any, index: number) => (
+      {sortedItems?.map((item: any, index: number) => (
         <div key={item.id} className="shadow-sm border border-gray-200 rounded-xl mb-10">
           <div className="px-10 my-8 flex flex-col ">
             <div className="flex flex-row items-center justify-between">
@@ -137,12 +146,13 @@ const CardBlog: React.FC<CardBlogProps> = ({ post, currentUser }) => {
             <div className="text-[25px] pt-3 pb-5">{item.title}</div>
 
             <div>
-              <div
+              <Link
+                href={`/blog/${item.id}`}
                 className="bg-[#5C98F2] hover:cursor-pointer hover:bg-blue-600  w-[130px] h-[51px] flex flex-row items-center justify-center rounded-md mt-5 text-white font-medium"
-                onClick={() => router.push(`/blog/${item.id}`)}
+                target="_blank"
               >
                 Read More
-              </div>
+              </Link>
             </div>
           </div>
         </div>
