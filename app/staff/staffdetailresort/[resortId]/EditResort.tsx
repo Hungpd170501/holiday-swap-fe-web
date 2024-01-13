@@ -135,9 +135,9 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail, params }) => {
               <div className="flex flex-row gap-1 items-center">
                 <div className="font-bold text-[20px]">Status: </div>
                 <div
-                  className={`font-bold ${
-                    detail.status === 'ACTIVE' ? 'text-green-500' : 'text-orange-500'
-                  }`}
+                  className={`font-bold ${detail.status === 'ACTIVE' ? 'text-green-500' : ''} ${
+                    detail.status === 'DEACTIVATE' ? 'text-rose-500' : ''
+                  } ${detail.status === 'MAINTANCE' ? 'text-orange-500' : ''}`}
                 >
                   {detail.status}
                 </div>
