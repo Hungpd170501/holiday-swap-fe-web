@@ -83,6 +83,10 @@ const HistoryPayment: React.FC<HistoryPaymentProps> = ({ historyTransaction }) =
                       return (
                         <Image src="/images/icons/payment.png" alt="icon" width={40} height={40} />
                       );
+                    } else if (item.message.includes('refund for')) {
+                       return (
+                        <Image src="/images/icons/refund.png" alt="icon" width={40} height={40} />
+                      );
                     }
                   })()}
 
