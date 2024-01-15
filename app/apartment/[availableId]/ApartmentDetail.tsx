@@ -182,12 +182,33 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     const endDateOutsideDateRange = subDays(addMonths(startDate, 30), 1);
 
     const datesOutsideDateRange = [];
+ 
     for (
       let i = startDateOutsideDateRange.getTime();
       i <= endDateOutsideDateRange.getTime();
       i += 24 * 60 * 60 * 1000
     ) {
       datesOutsideDateRange.push(new Date(i));
+    }
+
+    if (
+      apartment.availableTime.coOwner.property.resort.resortMaintances &&
+      Array.isArray(apartment.availableTime.coOwner.property.resort.resortMaintances) &&
+      apartment.availableTime.coOwner.property.resort.resortMaintances.length > 0
+    ) {
+      const statrtDateMaintaince = new Date(
+        apartment.availableTime.coOwner.property.resort.resortMaintances.startDate
+      );
+      const endDateMaintaince = new Date(
+        apartment.availableTime.coOwner.property.resort.resortMaintances.endDate
+      );
+      for (
+        let i = statrtDateMaintaince.getTime();
+        i <= endDateMaintaince.getTime();
+        i += 24 * 60 * 60 * 1000
+      ) {
+        datesOutsideDateRange.push(new Date(i));
+      }
     }
 
     if (
