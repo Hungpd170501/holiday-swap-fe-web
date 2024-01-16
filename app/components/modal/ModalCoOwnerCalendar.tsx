@@ -235,6 +235,7 @@ const ModalCoOwnerCalendar = (props: any) => {
       if (new Date(max) > new Date(propertyDeactive[0].startDate))
         max = new Date(propertyDeactive[0].startDate);
     }
+    max.setDate(max.getDate() - 1);
     setMaxDate(max);
   }, []);
 
@@ -259,7 +260,7 @@ const ModalCoOwnerCalendar = (props: any) => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `http://localhost:8080/api/v1/available-times/${coOwnerId}`,
+      url: `https://holiday-swap.click/api/v1/available-times/${coOwnerId}`,
       headers: {
         'Content-Type': 'application/json',
       },
