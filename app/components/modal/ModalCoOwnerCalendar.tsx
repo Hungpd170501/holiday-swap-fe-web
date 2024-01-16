@@ -229,13 +229,14 @@ const ModalCoOwnerCalendar = (props: any) => {
       (e: any) => e.type == 'DEACTIVATE'
     );
     if (resortDeactive.length > 0) {
-      max = new Date(resortDeactive[0].startDate);
+      if (new Date(max) > new Date(resortDeactive[0].startDate))
+        max = new Date(resortDeactive[0].startDate);
     }
     if (propertyDeactive.length > 0) {
       if (new Date(max) > new Date(propertyDeactive[0].startDate))
         max = new Date(propertyDeactive[0].startDate);
     }
-    max.setDate(max.getDate() - 1);
+    if (max != undefined) max.setDate(max.getDate() - 1);
     setMaxDate(max);
   }, []);
 
