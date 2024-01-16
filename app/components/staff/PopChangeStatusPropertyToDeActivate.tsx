@@ -62,7 +62,7 @@ const PopChangeStatusPropertyToDeActivate: React.FC<PopChangeStatusPropertyToDeA
       <Button
         className="border-orange-500 text-orange-500 hover:border-orange-600 hover:text-orange-600"
         onClick={() => {
-          maintanceResortModal.onOpen(id.toString(), 'MAINTANCE');
+          maintanceResortModal.onOpen(id.toString(), 'MAINTENANCE');
           maintanceResortModal.onMaintanceProperty();
         }}
       >
