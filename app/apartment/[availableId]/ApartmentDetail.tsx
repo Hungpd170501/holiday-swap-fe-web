@@ -182,7 +182,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     const endDateOutsideDateRange = subDays(addMonths(startDate, 30), 1);
 
     const datesOutsideDateRange = [];
- 
+
     for (
       let i = startDateOutsideDateRange.getTime();
       i <= endDateOutsideDateRange.getTime();
@@ -192,23 +192,23 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     }
 
     if (
-      apartment.availableTime.coOwner.property.resort.resortMaintances &&
-      Array.isArray(apartment.availableTime.coOwner.property.resort.resortMaintances) &&
-      apartment.availableTime.coOwner.property.resort.resortMaintances.length > 0
+      apartment.availableTime.coOwner.property.resort.resortMaintainces &&
+      Array.isArray(apartment.availableTime.coOwner.property.resort.resortMaintainces) &&
+      apartment.availableTime.coOwner.property.resort.resortMaintainces.length > 0
     ) {
-      const statrtDateMaintaince = new Date(
-        apartment.availableTime.coOwner.property.resort.resortMaintances.startDate
+      apartment.availableTime.coOwner.property.resort.resortMaintainces.forEach(
+        (maintaince: any) => {
+          const statrtDateMaintaince = new Date(maintaince.startDate);
+          const endDateMaintaince = new Date(maintaince.endDate);
+          for (
+            let i = statrtDateMaintaince.getTime();
+            i <= endDateMaintaince.getTime();
+            i += 24 * 60 * 60 * 1000
+          ) {
+            datesOutsideDateRange.push(new Date(i));
+          }
+        }
       );
-      const endDateMaintaince = new Date(
-        apartment.availableTime.coOwner.property.resort.resortMaintances.endDate
-      );
-      for (
-        let i = statrtDateMaintaince.getTime();
-        i <= endDateMaintaince.getTime();
-        i += 24 * 60 * 60 * 1000
-      ) {
-        datesOutsideDateRange.push(new Date(i));
-      }
     }
 
     if (
@@ -293,6 +293,26 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     let endDate = value.selection.endDate;
 
     let result: Date[] = [];
+    if (
+      apartment.availableTime.coOwner.property.resort.resortMaintainces &&
+      Array.isArray(apartment.availableTime.coOwner.property.resort.resortMaintainces) &&
+      apartment.availableTime.coOwner.property.resort.resortMaintainces.length > 0
+    ) {
+      apartment.availableTime.coOwner.property.resort.resortMaintainces.forEach(
+        (maintaince: any) => {
+          const statrtDateMaintaince = new Date(maintaince.startDate);
+          const endDateMaintaince = new Date(maintaince.endDate);
+          for (
+            let i = statrtDateMaintaince.getTime();
+            i <= endDateMaintaince.getTime();
+            i += 24 * 60 * 60 * 1000
+          ) {
+            result.push(new Date(i));
+          }
+        }
+      );
+    }
+
     timeBooked.forEach((element: { checkIn: Date; checkOut: Date }) => {
       let checkIn = new Date(element.checkIn);
       let checkOut = new Date(element.checkOut);

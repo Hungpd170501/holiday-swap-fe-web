@@ -199,17 +199,15 @@ const EditResort: React.FC<EditResortProps> = ({ resortDetail, params }) => {
         </div>
       </div>
 
-      {detail?.resortMaintances && detail?.resortMaintances.length > 0 && (
-        <div className="pt-20">
-          <div className="text-lg font-bold">Maintanance and deactive time</div>
-          <Table
-            columns={columns}
-            dataSource={detail?.resortMaintances}
-            pagination={{ pageSize: 10 }}
-            scroll={{ y: 240 }}
-          />
-        </div>
-      )}
+      <div className="pt-20">
+        <div className="text-lg font-bold">Maintanance and deactive time</div>
+        <Table
+          columns={columns}
+          dataSource={detail?.resortMaintainces}
+          pagination={{ pageSize: 10 }}
+          scroll={{ y: 240 }}
+        />
+      </div>
 
       <div className="flex flex-col"></div>
       <div className="w-full h-[700px] pt-20 pb-3 rounded-lg ">
