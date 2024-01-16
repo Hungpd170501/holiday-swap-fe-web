@@ -16,32 +16,6 @@ import SelectRouterStaff from './SelectRouterStaff';
 import HeadingDashboard from '../HeadingDashboard';
 import Link from 'next/link';
 
-const TABS = [
-  {
-    label: 'All',
-    value: 'all',
-  },
-  {
-    label: 'Monitored',
-    value: 'monitored',
-  },
-  {
-    label: 'Unmonitored',
-    value: 'unmonitored',
-  },
-];
-
-const TABLE_HEAD = [
-  'Property ID',
-  'Room ID',
-  'User ID',
-  'Start date',
-  'End date',
-  'Type',
-  'Status',
-  '',
-];
-
 const statusList = [
   {
     status: 'ACCEPTED',
@@ -71,6 +45,7 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
   const onPageChange = (page: number) => setCurrentPage(page);
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [isSearch, setIsSearch] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState<number>(ownershipStaff?.totalPages);
   const [loading, setLoading] = useState(false);
@@ -96,8 +71,27 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
       console.log(error);
     } finally {
       setLoading(false);
+      setIsSearch(true);
     }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let apiUrl = `https://holiday-swap.click/api/co-owners?pageNo=${
+        currentPage - 1
+      }&pageSize=8&sortDirection=desc`;
+
+      if (searchTerm && isSearch === true) {
+        apiUrl += `&roomId=${searchTerm}`;
+      }
+
+      const ownerships = await axios.get(apiUrl);
+
+      setOwnershipUserList(ownerships?.data);
+      setTotalPages(ownerships?.data.totalPages);
+    };
+    fetchData();
+  }, [currentPage, searchTerm, isSearch]);
 
   return (
     <div>
@@ -191,7 +185,7 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
         ) : (
           <div className="w-full py-6 text-2xl font-bold flex items-center">Not have ownership</div>
         )}
-        {ownershipUserList.pageable.pageNumber > 1 && (
+        {ownershipUserList.totalElements > ownershipUserList.size && (
           <div className="flex py-5 overflow-x-auto sm:justify-center">
             <Pagination
               currentPage={currentPage}
