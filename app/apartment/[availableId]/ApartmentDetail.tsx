@@ -212,6 +212,24 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
     }
 
     if (
+      apartment.availableTime.coOwner.property.propertyMaintenance &&
+      Array.isArray(apartment.availableTime.coOwner.property.propertyMaintenance) &&
+      apartment.availableTime.coOwner.property.propertyMaintenance.length > 0
+    ) {
+      apartment.availableTime.coOwner.property.propertyMaintenance.forEach((maintaince: any) => {
+        const statrtPropertyDateMaintaince = new Date(maintaince.startDate);
+        const endDatePropertyMaintaince = new Date(maintaince.endDate);
+        for (
+          let i = statrtPropertyDateMaintaince.getTime();
+          i <= endDatePropertyMaintaince.getTime();
+          i += 24 * 60 * 60 * 1000
+        ) {
+          datesOutsideDateRange.push(new Date(i));
+        }
+      });
+    }
+
+    if (
       apartment.timeHasBooked &&
       Array.isArray(apartment.timeHasBooked) &&
       apartment.timeHasBooked.length > 0
@@ -311,6 +329,24 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
           }
         }
       );
+    }
+
+    if (
+      apartment.availableTime.coOwner.property.propertyMaintenance &&
+      Array.isArray(apartment.availableTime.coOwner.property.propertyMaintenance) &&
+      apartment.availableTime.coOwner.property.propertyMaintenance.length > 0
+    ) {
+      apartment.availableTime.coOwner.property.propertyMaintenance.forEach((maintaince: any) => {
+        const statrtPropertyDateMaintaince = new Date(maintaince.startDate);
+        const endDatePropertyMaintaince = new Date(maintaince.endDate);
+        for (
+          let i = statrtPropertyDateMaintaince.getTime();
+          i <= endDatePropertyMaintaince.getTime();
+          i += 24 * 60 * 60 * 1000
+        ) {
+          result.push(new Date(i));
+        }
+      });
     }
 
     timeBooked.forEach((element: { checkIn: Date; checkOut: Date }) => {

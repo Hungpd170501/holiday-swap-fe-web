@@ -49,7 +49,7 @@ export default function ModalMaintanceResort() {
     if (isMaintanceProperty === true) {
       resortUpdateRequest = {
         propertyId: resortId,
-        propertyStatus: resortStatus,
+        resortStatus: resortStatus,
         startDate: format(new Date(data.startDateMaintance), 'yyyy-MM-dd') + 'T00:00',
         endDate: format(new Date(data.endDateMaintance), 'yyyy-MM-dd') + 'T00:00',
       };
@@ -164,11 +164,13 @@ export default function ModalMaintanceResort() {
       </div>
 
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
-        <Modal.Header>Maintenance {isMaintanceProperty === true ? "property" : "resort"}</Modal.Header>
+        <Modal.Header>
+          Maintenance {isMaintanceProperty === true ? 'property' : 'resort'}
+        </Modal.Header>
         <Modal.Body>
           <div className="space-y-6">
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              Are you want to maintenance {isMaintanceProperty === true ? "property" : "resort"}?
+              Are you want to maintenance {isMaintanceProperty === true ? 'property' : 'resort'}?
             </p>
           </div>
         </Modal.Body>

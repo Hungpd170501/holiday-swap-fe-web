@@ -314,6 +314,10 @@ export default function ListProperty() {
           text: 'Deactivate',
           value: 'DEACTIVATE',
         },
+        {
+          text: 'Maintenance',
+          value: 'MAINTENANCE',
+        },
       ],
       render: (text, record) => {
         const statusColor = record.status === 'ACTIVE' ? 'green' : 'red';
