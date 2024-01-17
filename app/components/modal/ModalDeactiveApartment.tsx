@@ -1,7 +1,7 @@
 'use client';
 import useLoginModal from '@/app/hooks/useLoginModal';
 import { useRouter } from 'next/navigation';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import Heading from '../Heading';
 import InputComponent from '../input/Input';
@@ -18,6 +18,8 @@ import ModalCreate from './ModalCreate';
 export default function ModalDeactiveApartment() {
   const router = useRouter();
   const deactiveApartmentModal = useDeactiveApartmentModal();
+  const propertyId = deactiveApartmentModal.propertyId;
+  const roomId = deactiveApartmentModal.roomId;
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState<any[]>([]);
   const [openModal, setOpenModal] = useState(false);
@@ -27,16 +29,61 @@ export default function ModalDeactiveApartment() {
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm<FieldValues>({
     defaultValues: {
       startDateDeactive: '',
-      apartmentId: '',
+      propertyId: '',
+      roomId: '',
     },
   });
 
+  useEffect(() => {
+    if (propertyId) {
+      setValue('propertyId', propertyId);
+    }
+
+    if (roomId) {
+      setValue('roomId', roomId);
+    }
+  }, [propertyId, roomId]);
+
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
-   
+    const formData = new FormData();
+
+    const resortUpdateRequest = {
+      propertyId: Number(data.propertyId),
+      roomId: data.roomId,
+      resortStatus: 'DEACTIVATE',
+      startDate: format(new Date(data.startDateDeactive), 'yyyy-MM-dd') + 'T00:00',
+      endDate: null,
+    };
+
+    const resortUpdatRequestBlob = new Blob([JSON.stringify(resortUpdateRequest)], {
+      type: 'application/json',
+    });
+    formData.append('resortUpdateRequest', resortUpdatRequestBlob);
+    file.forEach((element) => {
+      formData.append('resortImage', element);
+    });
+
+    axios
+      .put(`https://holiday-swap.click/api/co-owners/update-status`, formData)
+      .then(() => {
+        toast.success('Updated status successfully!');
+        deactiveApartmentModal.onSuccess();
+        deactiveApartmentModal.onClose();
+        reset();
+      })
+      .catch((response) => {
+        toast.error(response.response.data.message);
+        deactiveApartmentModal.onClose();
+      })
+      .finally(() => {
+        setIsLoading(false);
+        setOpenModal(false);
+      });
   };
 
   const handleDeleteImage = (image: any) => {
@@ -58,14 +105,6 @@ export default function ModalDeactiveApartment() {
           required={true}
           id="startDateDeactive"
           type="date"
-          errors={errors}
-        />
-        <InputComponent
-          register={register}
-          label="Apartment ID"
-          required={true}
-          id="apartmentId"
-          type="text"
           errors={errors}
         />
       </div>

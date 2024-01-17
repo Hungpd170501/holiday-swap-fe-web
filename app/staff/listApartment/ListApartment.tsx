@@ -1,76 +1,212 @@
 'use client';
 
 import useAxiosAuthClient from '@/app/hooks/useAxiosAuthClient';
-import useDeactiveApartmentModal from '@/app/hooks/useDeactiveApartmentModal';
 
 import axios from 'axios';
 import { format } from 'date-fns';
 import { Button, Dropdown, Pagination, Table } from 'flowbite-react';
 import { useRouter } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
 import { BiBlock } from 'react-icons/bi';
 import { BsCheck2Circle } from 'react-icons/bs';
 import { MdOutlinePending } from 'react-icons/md';
-import Link from 'next/link';
+import SelectRouterStaff from '@/app/components/staff/SelectRouterStaff';
 import HeadingDashboard from '@/app/components/HeadingDashboard';
+import useDeactiveApartmentModal from '@/app/hooks/useDeactiveApartmentModal';
 
-const ListApartment = () => {
+const statusList = [
+  {
+    status: 'ACCEPTED',
+    icon: BsCheck2Circle,
+    color: '#2fde26',
+  },
+  {
+    status: 'REJECTED',
+    icon: BiBlock,
+    color: '#e62538',
+  },
+  {
+    status: 'PENDING',
+    icon: MdOutlinePending,
+    color: '#e06d14',
+  },
+];
+
+interface OwnershipProps {
+  ownershipStaff?: any;
+}
+
+const ListApartment: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
+  const [ownershipUserList, setOwnershipUserList] = useState(ownershipStaff);
+  const router = useRouter();
+
+  const onPageChange = (page: number) => setCurrentPage(page);
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isSearch, setIsSearch] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState<number>(ownershipStaff?.totalPages);
+  const [loading, setLoading] = useState(false);
   const deactiveApartmentModal = useDeactiveApartmentModal();
+
+  const axiosAuthClient = useAxiosAuthClient();
+
+  const handleSearch = async () => {
+    try {
+      setLoading(true);
+      let apiUrl = `https://holiday-swap.click/api/co-owners?pageNo=${
+        currentPage - 1
+      }&pageSize=8&sortDirection=desc&coOwnerStatus=ACCEPTED`;
+
+      if (searchTerm) {
+        apiUrl += `&roomId=${searchTerm}`;
+      }
+
+      const ownerships = await axios.get(apiUrl);
+
+      setOwnershipUserList(ownerships?.data);
+      setTotalPages(ownerships?.data.totalPages);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+      setIsSearch(true);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let apiUrl = `https://holiday-swap.click/api/co-owners?pageNo=${
+        currentPage - 1
+      }&pageSize=8&sortDirection=desc&coOwnerStatus=ACCEPTED`;
+
+      if (searchTerm && isSearch === true) {
+        apiUrl += `&roomId=${searchTerm}`;
+      }
+
+      const ownerships = await axios.get(apiUrl);
+
+      setOwnershipUserList(ownerships?.data);
+      setTotalPages(ownerships?.data.totalPages);
+    };
+    fetchData();
+  }, [currentPage, searchTerm, isSearch]);
+
   return (
     <div>
       <div className=" mb-10 mt-2">
         <HeadingDashboard
           routerDashboard="/staff"
-          pageCurrentContent="List Apartment"
-          pageCurrentRouter="/staff/listApartment"
+          pageCurrentContent="List approve ownership"
+          pageCurrentRouter="/staff/listapproveOwnership"
         />
+        <SelectRouterStaff />
       </div>
-
       <Fragment>
-        <Table>
-          <Table.Head>
-            <Table.HeadCell className="w-[130px]">Resort</Table.HeadCell>
-            <Table.HeadCell className="w-[130px]">Property</Table.HeadCell>
-            <Table.HeadCell className="w-[100px]">Apartment ID</Table.HeadCell>
-            <Table.HeadCell className="w-[100px]">User</Table.HeadCell>
+        <div className="flex flex-row items-center gap-2 pb-5">
+          <div>Search by room ID</div>
+          <input
+            className="rounded-md"
+            type="text"
+            id="search"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            disabled={loading}
+          />
+          <Button disabled={loading} onClick={handleSearch}>
+            Search
+          </Button>
+        </div>
+        {ownershipUserList && ownershipUserList.content.length > 0 ? (
+          <Table>
+            <Table.Head>
+              <Table.HeadCell className="w-[130px]">Resort</Table.HeadCell>
+              <Table.HeadCell className="w-[130px]">Property</Table.HeadCell>
+              <Table.HeadCell className="w-[100px]">Apartment ID</Table.HeadCell>
+              <Table.HeadCell className="w-[100px]">User</Table.HeadCell>
 
-            <Table.HeadCell>Type</Table.HeadCell>
-            <Table.HeadCell>Status</Table.HeadCell>
-            <Table.HeadCell className="w-[130px]">Action</Table.HeadCell>
-          </Table.Head>
-          <Table.Body className="divide-y">
-            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <Table.Cell className="w-[250px]">Victory Hotel</Table.Cell>
-              <Table.Cell>Deluxe king room</Table.Cell>
-              <Table.Cell className="w-[140px]">S.0012</Table.Cell>
-              <Table.Cell>Bùi Trí Thức</Table.Cell>
-              <Table.Cell>Owner a previod time</Table.Cell>
-              <Table.Cell>
-                <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
-                  ACCEPTED
-                </div>
-              </Table.Cell>
-              <Table.Cell>
-                <Dropdown
-                  label=""
-                  dismissOnClick={false}
-                  renderTrigger={() => (
-                    <span className="text-sky-500 hover:underline cursor-pointer">Edit</span>
-                  )}
-                >
-                  <Dropdown.Item
-                    onClick={deactiveApartmentModal.onOpen}
-                    className="flex flex-row items-center gap-x-1 text-rose-500"
-                  >
-                    <BiBlock size={18} color="red" />
-                    Deactivate
-                  </Dropdown.Item>
-                </Dropdown>
-              </Table.Cell>
-            </Table.Row>
-          </Table.Body>
-        </Table>
+              <Table.HeadCell>Type</Table.HeadCell>
+              <Table.HeadCell>Status</Table.HeadCell>
+              <Table.HeadCell className="w-[130px]">Action</Table.HeadCell>
+            </Table.Head>
+            <Table.Body className="divide-y">
+              {ownershipUserList?.content.map((item: any, index: number) => {
+                return (
+                  <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                    <Table.Cell className="w-[250px]">
+                      {item?.property.resort?.resortName}
+                    </Table.Cell>
+                    <Table.Cell>{item.property.propertyName}</Table.Cell>
+                    <Table.Cell className="w-[140px]">{item.roomId}</Table.Cell>
+                    <Table.Cell>
+                      {item.user.fullName ? item.user.fullName : item.user.username}
+                    </Table.Cell>
+                    <Table.Cell>
+                      {item.type === 'DEEDED' ? 'Owner forever' : 'Owner a previod time'}
+                    </Table.Cell>
+                    <Table.Cell>
+                      {(() => {
+                        if (item.status === 'ACCEPTED') {
+                          return (
+                            <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
+                              ACCEPTED
+                            </div>
+                          );
+                        } else if (item.status === 'PENDING') {
+                          return (
+                            <div className="py-2 px-1 text-center text-sm bg-slate-200 rounded-md text-orange-600">
+                              PENDING
+                            </div>
+                          );
+                        } else if (item.status === 'REJECTED') {
+                          return (
+                            <div className="py-2 px-1 text-center text-sm bg-slate-200 rounded-md text-rose-600">
+                              REJECTED
+                            </div>
+                          );
+                        }
+                      })()}
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Dropdown
+                        label=""
+                        dismissOnClick={false}
+                        renderTrigger={() => (
+                          <span className="text-sky-500 hover:underline cursor-pointer">Edit</span>
+                        )}
+                      >
+                        <Dropdown.Item
+                          key={index}
+                          value="DEACTIVATE"
+                          className="flex items-center gap-2"
+                          onClick={() =>
+                            deactiveApartmentModal.onOpen(item.property.id, item.roomId)
+                          }
+                        >
+                          <BiBlock size={18} color="red" />
+
+                          <span className={`text-rose-500`}>DEACTIVATE</span>
+                        </Dropdown.Item>
+                      </Dropdown>
+                    </Table.Cell>
+                  </Table.Row>
+                );
+              })}
+            </Table.Body>
+          </Table>
+        ) : (
+          <div className="w-full py-6 text-2xl font-bold flex items-center">Not have ownership</div>
+        )}
+        {ownershipUserList.totalElements > ownershipUserList.size && (
+          <div className="flex py-5 overflow-x-auto sm:justify-center">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+              showIcons
+            />
+          </div>
+        )}
       </Fragment>
     </div>
   );
