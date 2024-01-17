@@ -25,6 +25,7 @@ import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import { forEach } from 'lodash';
+import { arrayBuffer } from 'stream/consumers';
 dayjs.extend(isoWeek);
 
 interface IDate {
@@ -132,9 +133,9 @@ const func4 = (ranges: any, array: IDate[], weeksTimeFrame: number[]) => {
     checkOut.setHours(0, 0, 0, 0);
 
     if (startDate.getTime() <= checkIn.getTime()) {
-      result.push(checkOut);
+      if (startDate.getTime() <= checkOut.getTime()) result.push(checkOut);
     } else if (startDate.getTime() >= checkIn.getTime()) {
-      result.push(checkIn);
+      if (startDate.getTime() >= checkIn.getTime()) result.push(checkIn);
     }
   });
   let x: Date[] = dateDiffIsGreaterTwo(array);
@@ -204,6 +205,7 @@ const ModalCoOwnerCalendar = (props: any) => {
     key: 'selection',
   };
   const [coOwnerId, setCoOwnerId] = useState<number>(props.coOwnerId);
+  const [detailCoOwner, setDetailCoOwner] = useState<any>(props.coOwner);
   const [startTime, setStartTime] = useState<string>('');
   const [endTime, setEndTime] = useState<string>('');
   const [pricePerNight, setPricePerNight] = useState<string>();
@@ -214,6 +216,30 @@ const ModalCoOwnerCalendar = (props: any) => {
   const [weeksTimeFrame, setWeeksTimeFrame] = useState<number[]>([]);
   const [open, setOpen] = useState(false);
   const [dateRange, setDateRange] = useState(initialDate);
+  const [maxDate, setMaxDate] = useState<Date>(new Date());
+  useEffect(() => {
+    let max: any = undefined;
+    props.coOwner.endTime
+      ? (max = new Date(new Date(props.coOwner.endTime).getFullYear(), 10, 31))
+      : (max = undefined);
+    let resortDeactive = props.coOwner.property.resort.resortMaintainces.filter(
+      (e: any) => e.type == 'DEACTIVATE'
+    );
+    let propertyDeactive = props.coOwner.property.propertyMaintenance.filter(
+      (e: any) => e.type == 'DEACTIVATE'
+    );
+    if (resortDeactive.length > 0) {
+      if (new Date(max) > new Date(resortDeactive[0].startDate))
+        max = new Date(resortDeactive[0].startDate);
+    }
+    if (propertyDeactive.length > 0) {
+      if (new Date(max) > new Date(propertyDeactive[0].startDate))
+        max = new Date(propertyDeactive[0].startDate);
+    }
+    if (max != undefined) max.setDate(max.getDate() - 1);
+    setMaxDate(max);
+  }, []);
+
   const [yearSelectBox, setYearSelectBox] = useState(new Date().getFullYear());
   const showModal = () => {
     setOpen(true);
@@ -285,7 +311,27 @@ const ModalCoOwnerCalendar = (props: any) => {
       const obj = { checkIn: startDate, checkOut: endDate };
       return obj;
     });
-    const rs3 = rs?.concat(rs2);
+    let rs3 = rs?.concat(rs2);
+    let arrPropTimeMaintain = detailCoOwner.property?.propertyMaintenance
+      ?.filter((e: any) => e.type == 'MAINTENANCE')
+      .map((e: any) => {
+        let start = new Date(e.startDate);
+        start.setDate(start.getDate() - 1);
+        let end = new Date(e.endDate);
+        end.setDate(end.getDate() + 1);
+        return { checkIn: start, checkOut: end };
+      });
+    let arrResoTimeMaintain = detailCoOwner.property?.resort?.resortMaintainces
+      ?.filter((e: any) => e.type == 'MAINTENANCE')
+      .map((e: any) => {
+        let start = new Date(e.startDate);
+        start.setDate(start.getDate() - 1);
+        let end = new Date(e.endDate);
+        end.setDate(end.getDate() + 1);
+        return { checkIn: start, checkOut: end };
+      });
+    rs3 = rs3.concat(arrPropTimeMaintain);
+    rs3 = rs3.concat(arrResoTimeMaintain);
     setTimesDisable(rs3);
   };
   const fetchWeeks = () => {
@@ -443,7 +489,11 @@ const ModalCoOwnerCalendar = (props: any) => {
                   }}
                   picker="year"
                   className="rounded h-[35px] w-full"
-                  defaultValue={dayjs()}
+                  defaultValue={
+                    new Date(props.coOwner.startTime) > new Date()
+                      ? dayjs(props.coOwner.startTime)
+                      : dayjs()
+                  }
                   disabledDate={(date: any) => {
                     let start;
                     let end;
@@ -451,7 +501,7 @@ const ModalCoOwnerCalendar = (props: any) => {
                       ? (start = new Date(props.coOwner.startTime))
                       : (start = new Date());
                     props.coOwner.endTime ? (end = new Date(props.coOwner.endTime)) : (end = null);
-                    return end ? date <= start || date >= end : date <= start;
+                    return end ? date <= start || date > end : date <= start;
                   }}
                 />
               </div>
@@ -482,11 +532,7 @@ const ModalCoOwnerCalendar = (props: any) => {
                 onChange={(value: any) => {
                   handleDateChange(value);
                 }}
-                maxDate={
-                  props.coOwner.endTime
-                    ? new Date(new Date(props.coOwner.endTime).getFullYear(), 10, 31)
-                    : new Date(new Date().getFullYear() + 50, 10, 31)
-                }
+                maxDate={maxDate}
                 minDate={
                   new Date(props.coOwner.startTime) > new Date()
                     ? new Date(props.coOwner.startTime)
@@ -500,7 +546,7 @@ const ModalCoOwnerCalendar = (props: any) => {
                 }}
                 weekStartsOn={1}
                 weekdayDisplayFormat={'EEEEEE'}
-                months={3}
+                months={2}
                 direction="horizontal"
                 className="2px w-full"
               />
