@@ -90,8 +90,8 @@ const ListApartment: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
       <div className=" mb-10 mt-2">
         <HeadingDashboard
           routerDashboard="/staff"
-          pageCurrentContent="List approve ownership"
-          pageCurrentRouter="/staff/listapproveOwnership"
+          pageCurrentContent="List Apartment"
+          pageCurrentRouter="/staff/listApartment"
         />
         <SelectRouterStaff />
       </div>

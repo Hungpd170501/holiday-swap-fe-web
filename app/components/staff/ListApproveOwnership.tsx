@@ -55,9 +55,7 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
   const handleSearch = async () => {
     try {
       setLoading(true);
-      let apiUrl = `https://holiday-swap.click/api/co-owners?pageNo=${
-        currentPage - 1
-      }&pageSize=8&sortDirection=desc`;
+      let apiUrl = `https://holiday-swap.click/api/co-owners?pageNo=0&pageSize=8&sortDirection=desc`;
 
       if (searchTerm) {
         apiUrl += `&roomId=${searchTerm}`;
@@ -81,17 +79,13 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
         currentPage - 1
       }&pageSize=8&sortDirection=desc`;
 
-      if (searchTerm && isSearch === true) {
-        apiUrl += `&roomId=${searchTerm}`;
-      }
-
       const ownerships = await axios.get(apiUrl);
 
       setOwnershipUserList(ownerships?.data);
       setTotalPages(ownerships?.data.totalPages);
     };
     fetchData();
-  }, [currentPage, searchTerm, isSearch]);
+  }, [currentPage]);
 
   return (
     <div>
@@ -185,7 +179,7 @@ const ListApproveOwnership: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
         ) : (
           <div className="w-full py-6 text-2xl font-bold flex items-center">Not have ownership</div>
         )}
-        {ownershipUserList.totalElements > ownershipUserList.size && (
+        {ownershipUserList?.totalElements > ownershipUserList?.size && (
           <div className="flex py-5 overflow-x-auto sm:justify-center">
             <Pagination
               currentPage={currentPage}
