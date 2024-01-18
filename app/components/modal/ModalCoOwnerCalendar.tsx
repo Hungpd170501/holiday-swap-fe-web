@@ -555,6 +555,11 @@ const ModalCoOwnerCalendar = (props: any) => {
                   </Row>
                 </Checkbox.Group>
               </div>
+              <div className="mt-1 flex justify-end">
+                <Button danger onClick={() => setCheckedList([])}>
+                  Clear
+                </Button>
+              </div>
             </div>
             <div className="w-full">
               <DateRange
