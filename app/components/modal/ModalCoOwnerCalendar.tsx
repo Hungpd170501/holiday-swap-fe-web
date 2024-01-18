@@ -26,6 +26,7 @@ import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import { forEach } from 'lodash';
 import { arrayBuffer } from 'stream/consumers';
+import getApartmentMantainByPropertyIdApartmentId from '@/app/actions/getApartmentMantainByPropertyIdApartmentId';
 dayjs.extend(isoWeek);
 
 interface IDate {
@@ -215,19 +216,22 @@ const ModalCoOwnerCalendar = (props: any) => {
   const [timesDisableOnClick, setTimesDisableOnClick] = useState<Date[]>([]);
   const [weeksTimeFrame, setWeeksTimeFrame] = useState<number[]>([]);
   const [open, setOpen] = useState(false);
+  const [disableButtonSubmit, setDisableButtonSubmit] = useState(false);
   const [dateRange, setDateRange] = useState(initialDate);
   const [maxDate, setMaxDate] = useState<Date>(new Date());
+  const [apartmentMaintain, setApartmentMaintain] = useState<any[]>();
   useEffect(() => {
     let max: any = undefined;
     props.coOwner.endTime
       ? (max = new Date(new Date(props.coOwner.endTime).getFullYear(), 10, 31))
-      : (max = undefined);
+      : (max = new Date(new Date().getFullYear() + 20, 10, 31));
     let resortDeactive = props.coOwner.property.resort.resortMaintainces.filter(
       (e: any) => e.type == 'DEACTIVATE'
     );
     let propertyDeactive = props.coOwner.property.propertyMaintenance.filter(
       (e: any) => e.type == 'DEACTIVATE'
     );
+
     if (resortDeactive.length > 0) {
       if (new Date(max) > new Date(resortDeactive[0].startDate))
         max = new Date(resortDeactive[0].startDate);
@@ -253,6 +257,7 @@ const ModalCoOwnerCalendar = (props: any) => {
   };
 
   const createAvailableTime = () => {
+    setDisableButtonSubmit(true);
     let body = JSON.stringify({
       startTime: startTime,
       endTime: endTime,
@@ -277,6 +282,10 @@ const ModalCoOwnerCalendar = (props: any) => {
       .catch((error) => {
         message.error(error.response.data.message);
       });
+    function disableButton() {
+      setDisableButtonSubmit(false);
+    }
+    setTimeout(disableButton, 1500);
   };
 
   const handleDateChange = (value: any) => {
@@ -332,7 +341,30 @@ const ModalCoOwnerCalendar = (props: any) => {
       });
     rs3 = rs3.concat(arrPropTimeMaintain);
     rs3 = rs3.concat(arrResoTimeMaintain);
+    const apartmentMantain = await getApartmentMantainByPropertyIdApartmentId(detailCoOwner.property.id, detailCoOwner.roomId);
+
+    setApartmentMaintain(apartmentMantain);
+    let arrApartmentMaintain = apartmentMantain
+      ?.filter((e: any) => e.type == 'MAINTENANCE')
+      .map((e: any) => {
+        let start = new Date(e.startDate);
+        start.setDate(start.getDate() - 1);
+        let end = new Date(e.endDate);
+        end.setDate(end.getDate() + 1);
+        return { checkIn: start, checkOut: end };
+      });
+    rs3 = rs3.concat(arrApartmentMaintain);
     setTimesDisable(rs3);
+    //====
+    let apartmentDeactive = apartmentMantain?.filter((e: any) => e.type == 'DEACTIVATE');
+
+    let max = maxDate;
+    if (apartmentDeactive.length > 0) {
+      if (new Date(max) > new Date(apartmentDeactive[0].startDate))
+        max = new Date(apartmentDeactive[0].startDate);
+    }
+    if (max != undefined) max.setDate(max.getDate() - 1);
+    setMaxDate(max);
   };
   const fetchWeeks = () => {
     let weeks: number[] = [];
@@ -580,6 +612,7 @@ const ModalCoOwnerCalendar = (props: any) => {
               className="border rounded-lg border-curent h-10 text-white bg-common hover:bg-sky-500 justify-self-center w-full"
               type="button"
               onClick={() => createAvailableTime()}
+              disabled={disableButtonSubmit}
             >
               Create
             </button>
