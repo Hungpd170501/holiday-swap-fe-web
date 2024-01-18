@@ -537,11 +537,14 @@ const ModalCoOwnerCalendar = (props: any) => {
                   disabledDate={(date: any) => {
                     let start;
                     let end;
+
                     new Date(props.coOwner.startTime) > new Date()
                       ? (start = new Date(props.coOwner.startTime))
                       : (start = new Date());
-                    props.coOwner.endTime ? (end = new Date(props.coOwner.endTime)) : (end = null);
-                    return end ? date <= start || date > end : date <= start;
+                    return (
+                      date.toDate().getFullYear() <= start.getFullYear() ||
+                      date.toDate().getFullYear() > maxDate.getFullYear()
+                    );
                   }}
                 />
               </div>
