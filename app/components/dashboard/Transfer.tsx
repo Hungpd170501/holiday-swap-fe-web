@@ -33,7 +33,7 @@ const Money = [
             <div className="font-bold mb-2 ">Source account</div>
             <Input
               className="w-[500px] rounded-md text-gray-400"
-              value={currentUser?.username}
+              value={currentUser?.fullName ? currentUser?.fullName : currentUser?.username}
               readOnly
               type="text"
             />
@@ -55,7 +55,7 @@ const Money = [
             >
               {filteredMemberships?.map((item: any) => (
                 <Select.Option key={item.userId} value={item.userId}>
-                  {item.username}
+                  {item.fullName ? item.fullName : item.username}
                 </Select.Option>
               ))}
             </Select>
