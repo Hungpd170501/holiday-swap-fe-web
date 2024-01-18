@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-
 import React, { useEffect, useState } from 'react';
 import BookingReview from '../dashboard/BookingReview';
 import Image from 'next/image';
@@ -48,8 +47,9 @@ const CurrentBooking: React.FC<CurrentBookingProps> = ({ historyBooking }) => {
 
       {sortedItems.length > 0 ? (
         sortedItems.slice(0, 3).map((item: any, index: number) => (
-          <div
-            onClick={() => router.push(`/dashboard/myBooking/${item.bookingId}`)}
+          <Link
+            href={`/dashboard/myBooking/${item.bookingId}`}
+            target="_blank"
             key={item.bookingId}
             className="grid grid-cols-12 h-[150px] bg-white rounded-lg shadow-lg justify-between hover:cursor-pointer mb-5 translate-y-0 duration-300 hover:-translate-y-3 
             hover:duration-300 transition-all transform active:scale-95 hover:border-2 hover:border-common"
@@ -93,7 +93,7 @@ const CurrentBooking: React.FC<CurrentBookingProps> = ({ historyBooking }) => {
                 {item.status}
               </div>
             </div>
-          </div>
+          </Link>
         ))
       ) : (
         <div className="flex flex-col items-center justify-center">

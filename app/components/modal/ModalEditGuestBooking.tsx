@@ -1,19 +1,19 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import Input from '../input/Input';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import React, { useCallback, useEffect, useState } from 'react';
 import Modal from './Modal';
-import { addDays, addMonths, format, subDays } from 'date-fns';
-import CalendarAparment from '@/app/apartment/CalendarAparment';
-import useEditDateBookingModal from '@/app/hooks/useEditDateBookingModal';
 import useEditGuestBookingModal from '@/app/hooks/useEditGuestBookingMoadal';
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { useGuest } from '@/app/apartment/GuestContext';
+import qs from 'query-string';
+import useRecharge from '@/app/hooks/useRecharge';
 
 export default function ModalEditGuestBooking() {
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const pathName = usePathname();
+  const searchParams = useSearchParams();
 
   const editGuestBookingModal = useEditGuestBookingModal();
   const isSave = editGuestBookingModal.isSave;
@@ -23,8 +23,8 @@ export default function ModalEditGuestBooking() {
   const [apartmentAllowGuest, setApartmentAllowGuest] = useState<number>(0);
   const [adultsGuest, setAdultsGuest] = useState(1);
   const [childrenGuest, setChildrenGuest] = useState(0);
-
-  console.log('Check is save', isSave);
+  const recharge = useRecharge();
+  const isBackBooking = recharge.isBackBooking;
 
   const {
     adultGuestContext,
@@ -81,9 +81,17 @@ export default function ModalEditGuestBooking() {
   useEffect(() => {
     if (isSave === true) {
       setTotalGuestContext(adultGuestContext + childrenGuestContext);
+      // @ts-ignore
+      const current = new URLSearchParams(Array.from(searchParams?.entries()));
+      current.set('totalGuest', `${adultGuestContext + childrenGuestContext}`);
+      const search = current.toString();
+      const query = search ? `?${search}` : '';
+
+      router.replace(`${pathName}${query}`);
+      localStorage.setItem('bookingLink', `${pathName}${query}`);
       editGuestBookingModal.onSaveReset();
     }
-  }, [isSave, adultGuestContext, childrenGuestContext]);
+  }, [isSave, adultGuestContext, childrenGuestContext, searchParams, pathName, router]);
 
   const bodyContent = (
     <div className="h-full w-full">

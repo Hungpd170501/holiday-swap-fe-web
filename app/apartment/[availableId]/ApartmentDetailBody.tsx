@@ -63,6 +63,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
   const handleContactOwner = (ownerId: string) => {
     ConversationApis.getContactWithOwner(ownerId)
       .then((res) => {
+        console.log('Check response', res);
         res?.conversationId && router.push(`/chat/${res.conversationId}`);
       })
       .catch((err) => {
@@ -195,7 +196,10 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
           )}
         </div>
 
-        <div onClick={() => apartmentAmenitiesModal.onOpen(apartment.availableTime.coOwner)} className="py-4">
+        <div
+          onClick={() => apartmentAmenitiesModal.onOpen(apartment.availableTime.coOwner)}
+          className="py-4"
+        >
           <button className="py-3 px-4 border border-gray-500 rounded-lg w-48 text-center hover:bg-blue-gray-100 hover:cursor-pointer transition-all duration-300 transform active:scale-95">
             Show all aminities
           </button>
@@ -358,7 +362,9 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
           </div>
           <div className="mt-5">
             <div
-              onClick={() => handleContactOwner(apartment?.user?.userId?.toString())}
+              onClick={() =>
+                handleContactOwner(apartment?.availableTime?.coOwner?.user?.userId?.toString())
+              }
               className="hover:bg-hover rounded-md cursor-pointer px-4 py-2 bg-common text-white text-center"
             >
               Contact with owner

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import Input from '../input/Input';
@@ -20,6 +20,9 @@ import useNewDateRange from '@/app/hooks/useNewDateRange';
 
 export default function ModalEditDateBooking() {
   const [isLoading, setIsLoading] = useState(false);
+  const pathName = usePathname();
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   const {
     dateRangeContext,
@@ -33,10 +36,10 @@ export default function ModalEditDateBooking() {
   const editDateBookingModal = useEditDateBookingModal();
   const newDateRange = useNewDateRange();
   const isNew = newDateRange.isNew;
-  const isSave = editDateBookingModal.isSave;
   const handleDatePicker = editDateBookingModal.handleDateRangePicker;
   const dateRangeProp = JSON.parse(editDateBookingModal.dateRange);
   const [dateRange, setDateRange] = useState<any>();
+  const [isSave, setIsSave] = useState(false);
 
   useEffect(() => {
     if (
@@ -52,12 +55,32 @@ export default function ModalEditDateBooking() {
     }
   }, [dateRangeContext]);
 
+  const handleChangeDate = (value: any) => {
+    setDateRangeContext(value.selection);
+  }
+
+  useEffect(() => {
+    if (isSave === true) {
+    // @ts-ignore
+    const current = new URLSearchParams(Array.from(searchParams?.entries()));
+      current.set('dateRange', JSON.stringify(dateRangeContext));
+      const search = current.toString();
+      const query = search ? `?${search}` : '';
+
+      router.replace(`${pathName}${query}`);
+      localStorage.setItem('bookingLink', `${pathName}${query}`);
+      setIsSave(false)
+
+    }
+    
+  }, [isSave])
+
   const bodyContent = (
     <div className="h-full w-full">
       <CalendarAparment
         value={dateRange}
         onChange={(value: any) => {
-          setDateRangeContext(value.selection);
+          handleChangeDate(value);
 
           if (handleDatePicker) {
             handleDatePicker(value);
@@ -92,7 +115,10 @@ export default function ModalEditDateBooking() {
       title="Edit date booking"
       onClose={editDateBookingModal.onClose}
       body={bodyContent}
-      onSubmit={editDateBookingModal.onClose}
+      onSubmit={() => {
+        editDateBookingModal.onClose();
+        setIsSave(true)
+      }}
     />
   );
 }

@@ -12,6 +12,7 @@ import { useParams } from 'next/navigation';
 import useNewDateRange from '../hooks/useNewDateRange';
 import useRecharge from '../hooks/useRecharge';
 import { useDateRange } from '../apartment/DateRangeContext';
+import { useGuest } from '@/app/apartment/GuestContext';
 
 interface BookingProps {
   currentUser?: any;
@@ -71,6 +72,10 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
     username,
   ]);
 
+  const {
+    setTotalGuestContext
+  } = useGuest();
+
   useEffect(() => {
     if (bookingLink) {
       localStorage.setItem('bookingLink', bookingLink);
@@ -79,6 +84,7 @@ const Booking: React.FC<BookingProps> = ({ currentUser }) => {
 
   useEffect(() => {
     if (isBackBooking === false) {
+      setTotalGuestContext(Number(totalGuest))
       recharge.onNewDateRange();
       recharge.onBackBooking();
     }
