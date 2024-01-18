@@ -70,6 +70,8 @@ export default function ModalChangeStatusIssue() {
         toast.success('Change status successfully!');
         changeStatusIssueModal.onSuccess();
         changeStatusIssueModal.onClose();
+        reset();
+        setStatusValue('RESOLVE');
       })
       .catch((response) => {
         toast.error(response.response.data.message);

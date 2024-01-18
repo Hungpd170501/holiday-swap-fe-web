@@ -41,9 +41,8 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
   priceNight,
 }) => {
   const router = useRouter();
-   const [guests, setGuests] = useState([{ email: '', fullName: '', phoneNumber: '' }]);
+  const [guests, setGuests] = useState([{ email: '', fullName: '', phoneNumber: '' }]);
 
- 
   const [totalGuestValue, setTotalGuestValue] = useState(totalGuest);
   const [openModal, setOpenModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -93,17 +92,15 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
     formState: { errors },
   } = useForm<FieldValues>();
 
- 
-
   useEffect(() => {
     if (guests) {
       guests.map((item, index) => ({
         email: setValue(`email${index}`, item.email), // Use the indexed email field
         fullName: setValue(`fullName${index}`, item.fullName), // Use the indexed full name field
         phoneNumber: setValue(`phoneNumber${index}`, item.phoneNumber), // Use the indexed phone number field
-      }))
+      }));
     }
-  }, [guests])
+  }, [guests]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
@@ -134,11 +131,16 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
         toast.error(response.response.data.message);
 
         if (response.response.data.message.includes('does not have enough balance')) {
-          localStorage.setItem('guest', JSON.stringify(guests.map((item, index) => ({
-        email: data[`email${index}`], // Use the indexed email field
-        fullName: data[`fullName${index}`], // Use the indexed full name field
-        phoneNumber: data[`phoneNumber${index}`], // Use the indexed phone number field
-      }))));
+          localStorage.setItem(
+            'guest',
+            JSON.stringify(
+              guests.map((item, index) => ({
+                email: data[`email${index}`], // Use the indexed email field
+                fullName: data[`fullName${index}`], // Use the indexed full name field
+                phoneNumber: data[`phoneNumber${index}`], // Use the indexed phone number field
+              }))
+            )
+          );
           recharge.onAmountPoint(
             Number(
               calculateNightDifference(dateRangeContext?.startDate, dateRangeContext?.endDate) *
@@ -154,7 +156,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
       });
   };
 
-   const addGuest = () => {
+  const addGuest = () => {
     setGuests([...guests, { email: '', fullName: '', phoneNumber: '' }]);
   };
 
@@ -182,7 +184,6 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
     }
   }, [currentUser, setValue]);
 
-  
   return (
     <div className="flex flex-row w-full">
       <div className="flex flex-col w-full">

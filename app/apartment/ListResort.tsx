@@ -130,6 +130,7 @@ const ListResort: React.FC<ListResortProps> = ({
 
   useEffect(() => {
     getListResort();
+    console.log('Chay ne');
   }, [
     page,
     dateRangeNew,
