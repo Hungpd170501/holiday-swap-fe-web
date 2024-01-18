@@ -93,7 +93,11 @@ const PostDetail: React.FC<PostDetailProps> = ({ postDetail, currentUser }) => {
                 alt="Avatar"
               />
               <div>
-                <div className="text-[20px] font-bold">{postDetailValue?.userName}</div>
+                <div className="text-[20px] font-bold">
+                  {postDetailValue?.fullName
+                    ? postDetailValue?.fullName
+                    : postDetailValue?.userName}
+                </div>
                 <div className="text-[15px] text-gray-500">
                   {format(new Date(postDetailValue?.datePosted), 'dd-MM-yyyy')}
                 </div>
