@@ -15,12 +15,12 @@ export default async function getApartmentMantainByPropertyIdApartmentId(
 ) {
   try {
     const apartmentMantain = await axios.get(
-      `https://holiday-swap.click/api/co-owners/getListApartmentMaintain/29/123`
+      `https://holiday-swap.click/api/co-owners/getListApartmentMaintain/${propertyId}/${apartmentId}`
     );
 
     if (!apartmentMantain) {
-      return null;
+      return [];
     }
     return apartmentMantain.data;
-  } catch (error) {}
+  } catch (error) {return []}
 }

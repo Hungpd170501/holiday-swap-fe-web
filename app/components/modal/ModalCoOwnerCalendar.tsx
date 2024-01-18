@@ -341,7 +341,8 @@ const ModalCoOwnerCalendar = (props: any) => {
       });
     rs3 = rs3.concat(arrPropTimeMaintain);
     rs3 = rs3.concat(arrResoTimeMaintain);
-    const apartmentMantain = await getApartmentMantainByPropertyIdApartmentId('1', '1');
+    const apartmentMantain = await getApartmentMantainByPropertyIdApartmentId(detailCoOwner.property.id, detailCoOwner.roomId);
+
     setApartmentMaintain(apartmentMantain);
     let arrApartmentMaintain = apartmentMantain
       ?.filter((e: any) => e.type == 'MAINTENANCE')
@@ -354,9 +355,9 @@ const ModalCoOwnerCalendar = (props: any) => {
       });
     rs3 = rs3.concat(arrApartmentMaintain);
     setTimesDisable(rs3);
-    let apartmentDeactive = apartmentMantain.filter((e: any) => e.type == 'DEACTIVATE');
-    console.log(apartmentDeactive);
-    
+    //====
+    let apartmentDeactive = apartmentMantain?.filter((e: any) => e.type == 'DEACTIVATE');
+
     let max = maxDate;
     if (apartmentDeactive.length > 0) {
       if (new Date(max) > new Date(apartmentDeactive[0].startDate))
