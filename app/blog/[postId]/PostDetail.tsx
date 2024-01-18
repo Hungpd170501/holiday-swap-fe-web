@@ -150,7 +150,9 @@ const PostDetail: React.FC<PostDetailProps> = ({ postDetail, currentUser }) => {
         </div>
         <div>
           <div className="italic text-center  text-gray-700 text-[18px]">About the author</div>
-          <div className="text-[25px]  text-center font-bold">{postDetailValue?.userName}</div>
+          <div className="text-[25px]  text-center font-bold">
+            {postDetailValue?.fullName ? postDetailValue?.fullName : postDetailValue?.userName}
+          </div>
         </div>
         <div className="text-center">
           There is no better way to learn about the Napa Valley and all it has to offer than on a
