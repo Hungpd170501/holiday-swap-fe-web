@@ -26,6 +26,7 @@ import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import { forEach } from 'lodash';
 import { arrayBuffer } from 'stream/consumers';
+import getApartmentMantainByPropertyIdApartmentId from '@/app/actions/getApartmentMantainByPropertyIdApartmentId';
 dayjs.extend(isoWeek);
 
 interface IDate {
@@ -218,6 +219,7 @@ const ModalCoOwnerCalendar = (props: any) => {
   const [disableButtonSubmit, setDisableButtonSubmit] = useState(false);
   const [dateRange, setDateRange] = useState(initialDate);
   const [maxDate, setMaxDate] = useState<Date>(new Date());
+  const [apartmentMaintain, setApartmentMaintain] = useState<any[]>();
   useEffect(() => {
     let max: any = undefined;
     props.coOwner.endTime
@@ -229,17 +231,18 @@ const ModalCoOwnerCalendar = (props: any) => {
     let propertyDeactive = props.coOwner.property.propertyMaintenance.filter(
       (e: any) => e.type == 'DEACTIVATE'
     );
+
     if (resortDeactive.length > 0) {
-            if (new Date(max) > new Date(resortDeactive[0].startDate))
+      if (new Date(max) > new Date(resortDeactive[0].startDate))
         max = new Date(resortDeactive[0].startDate);
     }
-        if (propertyDeactive.length > 0) {
-            if (new Date(max) > new Date(propertyDeactive[0].startDate))
+    if (propertyDeactive.length > 0) {
+      if (new Date(max) > new Date(propertyDeactive[0].startDate))
         max = new Date(propertyDeactive[0].startDate);
     }
-        if (max != undefined) max.setDate(max.getDate() - 1);
+    if (max != undefined) max.setDate(max.getDate() - 1);
     setMaxDate(max);
-      }, []);
+  }, []);
 
   const [yearSelectBox, setYearSelectBox] = useState(new Date().getFullYear());
   const showModal = () => {
@@ -338,7 +341,29 @@ const ModalCoOwnerCalendar = (props: any) => {
       });
     rs3 = rs3.concat(arrPropTimeMaintain);
     rs3 = rs3.concat(arrResoTimeMaintain);
+    const apartmentMantain = await getApartmentMantainByPropertyIdApartmentId('1', '1');
+    setApartmentMaintain(apartmentMantain);
+    let arrApartmentMaintain = apartmentMantain
+      ?.filter((e: any) => e.type == 'MAINTENANCE')
+      .map((e: any) => {
+        let start = new Date(e.startDate);
+        start.setDate(start.getDate() - 1);
+        let end = new Date(e.endDate);
+        end.setDate(end.getDate() + 1);
+        return { checkIn: start, checkOut: end };
+      });
+    rs3 = rs3.concat(arrApartmentMaintain);
     setTimesDisable(rs3);
+    let apartmentDeactive = apartmentMantain.filter((e: any) => e.type == 'DEACTIVATE');
+    console.log(apartmentDeactive);
+    
+    let max = maxDate;
+    if (apartmentDeactive.length > 0) {
+      if (new Date(max) > new Date(apartmentDeactive[0].startDate))
+        max = new Date(apartmentDeactive[0].startDate);
+    }
+    if (max != undefined) max.setDate(max.getDate() - 1);
+    setMaxDate(max);
   };
   const fetchWeeks = () => {
     let weeks: number[] = [];
