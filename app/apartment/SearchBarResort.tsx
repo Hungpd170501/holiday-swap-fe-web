@@ -161,7 +161,7 @@ const SearchBarResort: React.FC<SearchBarResortProps> = ({ listResort }) => {
               className="py-3 w-full outline-none border-0 border-transparent focus:ring-0 rounded-b-lg"
             >
               <option value="">Any</option>
-              {listResort?.content.map((item: any, index: number) => (
+              {listResort?.map((item: any, index: number) => (
                 <option key={item.id} value={item.id}>
                   {item.resortName}
                 </option>
