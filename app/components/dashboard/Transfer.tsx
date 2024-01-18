@@ -214,13 +214,13 @@ const TransferMoney: React.FC<TransferMoneyProps> = ({ currentUser, memberships 
           .then(() => {
             toast.success('Transfer point success!');
             router.push('/dashboard/wallet');
-            router.refresh();
+            // router.refresh();
           })
           .catch((error) => {
             toast.error(error.response.data.message);
           })
           .finally(() => {
-            setCurrent(0);
+            return null;
           });
       }
     }
