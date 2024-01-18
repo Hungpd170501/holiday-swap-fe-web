@@ -26,7 +26,7 @@ import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import { forEach } from 'lodash';
 import { arrayBuffer } from 'stream/consumers';
-import getApartmentMantainByPropertyIdApartmentId from '@/app/actions/getApartmentMantainByPropertyIdApartmentId';
+import GetApartmentMantainByPropertyIdApartmentId from '@/app/actions/getApartmentMantainByPropertyIdApartmentId';
 dayjs.extend(isoWeek);
 
 interface IDate {
@@ -341,7 +341,7 @@ const ModalCoOwnerCalendar = (props: any) => {
       });
     rs3 = rs3.concat(arrPropTimeMaintain);
     rs3 = rs3.concat(arrResoTimeMaintain);
-    const apartmentMantain = await getApartmentMantainByPropertyIdApartmentId(detailCoOwner.property.id, detailCoOwner.roomId);
+    const apartmentMantain = await GetApartmentMantainByPropertyIdApartmentId(detailCoOwner.property.id, detailCoOwner.roomId);
 
     setApartmentMaintain(apartmentMantain);
     let arrApartmentMaintain = apartmentMantain

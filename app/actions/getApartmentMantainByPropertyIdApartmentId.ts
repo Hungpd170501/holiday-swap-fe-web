@@ -9,7 +9,7 @@ interface IParams {
   sortBy: string;
 }
 
-export default async function getApartmentMantainByPropertyIdApartmentId(
+export default async function GetApartmentMantainByPropertyIdApartmentId(
   propertyId: string,
   apartmentId: string
 ) {
