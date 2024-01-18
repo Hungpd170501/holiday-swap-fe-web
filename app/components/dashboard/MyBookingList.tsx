@@ -7,6 +7,7 @@ import HeadingDashboard from '../HeadingDashboard';
 import { Fragment } from 'react';
 import { Pagination } from 'flowbite-react';
 import { CiFilter } from 'react-icons/ci';
+import Link from 'next/link';
 
 interface MyBookingListProps {
   historyBooking: any;
@@ -24,7 +25,7 @@ const MyBookingList: React.FC<MyBookingListProps> = ({ historyBooking }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
   const itemsPerPage = 10; // Số lượng mục trên mỗi trang
-  const [displayedItems, setDisplayItems] = useState<any>();
+  const [displayedItems, setDisplayItems] = useState<any>(historyBooking);
   const [sortOrder, setSortOrder] = useState<'ascending' | 'descending'>('ascending');
 
   // Tính toán số trang dựa trên số lượng mục và số lượng mục trên mỗi trang
@@ -33,12 +34,6 @@ const MyBookingList: React.FC<MyBookingListProps> = ({ historyBooking }) => {
       setPageCount(Math.ceil(historyBooking?.length / itemsPerPage));
     }
   }, [historyBooking]);
-
-  useEffect(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    setDisplayItems(historyBooking?.slice(startIndex, endIndex));
-  }, [currentPage, historyBooking, itemsPerPage]);
 
   // Hàm xử lý sự kiện khi trang thay đổi
   const handlePageChange = (selectedPage: { selected: number }) => {
@@ -54,16 +49,18 @@ const MyBookingList: React.FC<MyBookingListProps> = ({ historyBooking }) => {
     setSortOrder(newSortOrder);
   };
 
-  const sortedItems = displayedItems?.sort((a: any, b: any) => {
+  const sortedItems = historyBooking?.sort((a: any, b: any) => {
     const dateA = new Date(a.createdDate);
     const dateB = new Date(b.createdDate);
 
-    if (sortOrder === 'ascending') {
-      return dateA.valueOf() - dateB.valueOf();
-    } else {
-      return dateB.valueOf() - dateA.valueOf();
-    }
+    return dateB.valueOf() - dateA.valueOf();
   });
+
+  useEffect(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    setDisplayItems(sortedItems?.slice(startIndex, endIndex));
+  }, [currentPage, sortedItems, itemsPerPage]);
 
   return (
     <Fragment>
@@ -75,7 +72,7 @@ const MyBookingList: React.FC<MyBookingListProps> = ({ historyBooking }) => {
         />
       </div>
       <div className="py-6">
-        {sortedItems && sortedItems?.length > 0 && (
+        {/* {displayedItems && displayedItems?.length > 0 && (
           <div className="py-6">
             <div
               onClick={handleSortToggle}
@@ -88,11 +85,12 @@ const MyBookingList: React.FC<MyBookingListProps> = ({ historyBooking }) => {
               <CiFilter size={20} />
             </div>
           </div>
-        )}
-        {sortedItems?.length > 0 ? (
-          sortedItems.map((item: any) => (
-            <div
-              onClick={() => router.push(`/dashboard/myBooking/${item.bookingId}`)}
+        )} */}
+        {displayedItems?.length > 0 ? (
+          displayedItems.map((item: any) => (
+            <Link
+              href={`/dashboard/myBooking/${item.bookingId}`}
+              target="_blank"
               key={item.bookingId}
               className="grid grid-cols-12 h-[150px] bg-white rounded-lg shadow-lg justify-between hover:cursor-pointer mb-5 translate-y-0 duration-300 hover:-translate-y-3 
               hover:duration-300 transition-all transform active:scale-95 hover:border-2 hover:border-common"
@@ -136,7 +134,7 @@ const MyBookingList: React.FC<MyBookingListProps> = ({ historyBooking }) => {
                   {item.status}
                 </div>
               </div>
-            </div>
+            </Link>
           ))
         ) : (
           <div>

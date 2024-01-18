@@ -7,6 +7,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import HeadingDashboard from '../HeadingDashboard';
 import { Pagination } from 'flowbite-react';
 import { CiFilter } from 'react-icons/ci';
+import Link from 'next/link';
 
 interface OwnerBookingProps {
   historyOwnerBooking: any;
@@ -35,12 +36,6 @@ const OwnerBooking: React.FC<OwnerBookingProps> = ({ historyOwnerBooking }) => {
     }
   }, [historyOwnerBooking]);
 
-  useEffect(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    setDisplayItems(historyOwnerBooking?.slice(startIndex, endIndex));
-  }, [currentPage, historyOwnerBooking, itemsPerPage]);
-
   // Hàm xử lý sự kiện khi trang thay đổi
   const handlePageChange = (selectedPage: { selected: number }) => {
     setCurrentPage(selectedPage.selected);
@@ -55,16 +50,18 @@ const OwnerBooking: React.FC<OwnerBookingProps> = ({ historyOwnerBooking }) => {
     setSortOrder(newSortOrder);
   };
 
-  const sortedItems = displayedItems?.sort((a: any, b: any) => {
+  const sortedItems = historyOwnerBooking?.sort((a: any, b: any) => {
     const dateA = new Date(a.createdDate);
     const dateB = new Date(b.createdDate);
 
-    if (sortOrder === 'ascending') {
-      return dateA.valueOf() - dateB.valueOf();
-    } else {
-      return dateB.valueOf() - dateA.valueOf();
-    }
+    return dateB.valueOf() - dateA.valueOf();
   });
+
+  useEffect(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    setDisplayItems(sortedItems?.slice(startIndex, endIndex));
+  }, [currentPage, sortedItems, itemsPerPage]);
 
   return (
     <Fragment>
@@ -76,7 +73,7 @@ const OwnerBooking: React.FC<OwnerBookingProps> = ({ historyOwnerBooking }) => {
         />
       </div>
       <div className="pb-6 pt-3">
-         <div className="py-6">
+        {/* <div className="py-6">
           <div
             onClick={handleSortToggle}
             className="p-3 border border-slate-300 hover:cursor-pointer rounded-full 
@@ -87,12 +84,13 @@ const OwnerBooking: React.FC<OwnerBookingProps> = ({ historyOwnerBooking }) => {
             </div>
             <CiFilter size={20} />
           </div>
-        </div>
-        {sortedItems?.length > 0 ? (
+        </div> */}
+        {displayedItems?.length > 0 ? (
           <Fragment>
-            {sortedItems.map((item: any) => (
-              <div
-                onClick={() => router.push(`/dashboard/ownerBooking/${item.bookingId}`)}
+            {displayedItems.map((item: any) => (
+              <Link
+                href={`/dashboard/ownerBooking/${item.bookingId}`}
+                target="_blank"
                 key={item.bookingId}
                 className="grid grid-cols-12 h-[150px] bg-white rounded-lg shadow-lg justify-between hover:cursor-pointer my-5 translate-y-0 duration-300 
                 hover:-translate-y-3 hover:duration-300 transition-all transform active:scale-95 hover:border-2 hover:border-common"
@@ -136,7 +134,7 @@ const OwnerBooking: React.FC<OwnerBookingProps> = ({ historyOwnerBooking }) => {
                     {item.status}
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
             {historyOwnerBooking?.length > itemsPerPage && (
               <div className="flex justify-center py-3">
