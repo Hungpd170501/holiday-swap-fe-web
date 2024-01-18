@@ -341,7 +341,10 @@ const ModalCoOwnerCalendar = (props: any) => {
       });
     rs3 = rs3.concat(arrPropTimeMaintain);
     rs3 = rs3.concat(arrResoTimeMaintain);
-    const apartmentMantain = await GetApartmentMantainByPropertyIdApartmentId(detailCoOwner.property.id, detailCoOwner.roomId);
+    const apartmentMantain = await GetApartmentMantainByPropertyIdApartmentId(
+      detailCoOwner.property.id,
+      detailCoOwner.roomId
+    );
 
     setApartmentMaintain(apartmentMantain);
     let arrApartmentMaintain = apartmentMantain
@@ -360,11 +363,11 @@ const ModalCoOwnerCalendar = (props: any) => {
 
     let max = maxDate;
     if (apartmentDeactive.length > 0) {
-      if (new Date(max) > new Date(apartmentDeactive[0].startDate))
+      if (new Date(max) > new Date(apartmentDeactive[0].startDate)) {
         max = new Date(apartmentDeactive[0].startDate);
+        setMaxDate(max);
+      }
     }
-    if (max != undefined) max.setDate(max.getDate() - 1);
-    setMaxDate(max);
   };
   const fetchWeeks = () => {
     let weeks: number[] = [];
