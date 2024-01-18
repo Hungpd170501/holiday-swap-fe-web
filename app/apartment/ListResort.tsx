@@ -79,17 +79,6 @@ const ListResort: React.FC<ListResortProps> = ({
     }
   }, [resortIdParams, dateRangeParamsSearch, numberOfGuestParams]);
 
-  // useEffect(() => {
-  //   if (
-  //     numberOfGuestValue === 0 &&
-  //     JSON.stringify(dateRangeNew) === JSON.stringify(initialDateRange) &&
-  //     resortIdValue === undefined
-  //   ) {
-  //     setListResort(listApartment);
-  //     setTotalPages(listApartment?.totalPages);
-  //   }
-  // }, [numberOfGuestValue, dateRangeNew, resortIdValue, listApartment]);
-
   const getListResort = async () => {
     let url = `https://holiday-swap.click/api/v1/apartment-for-rent?pageNo=${
       page - 1
@@ -97,67 +86,59 @@ const ListResort: React.FC<ListResortProps> = ({
 
     const config = { headers: { Authorization: `Bearer ${session?.user.access_token}` } };
 
-    if (
-      numberOfGuestValue === 0 &&
-      JSON.stringify(dateRangeNew) === JSON.stringify(initialDateRange) &&
-      resortIdValue === undefined
-    ) {
-      let list;
-      if (currentUser) {
-        list = await axios.get(url, config);
-      } else {
-        list = await axios.get(url);
-      }
-
-      setListResort(list?.data);
-      setTotalPages(list?.data?.totalPages);
-    } else {
-      if (resortIdValue) {
-        url += `&resortId=${resortIdValue}`;
-      }
-
-      if (
-        dateRangeNew !== undefined &&
-        JSON.stringify(dateRangeNew) !== JSON.stringify(initialDateRange)
-      ) {
-        if (dateRangeNew) {
-          url += `&checkIn=${format(
-            new Date(dateRangeNew?.startDate),
-            'yyyy-MM-dd'
-          )}&checkOut=${format(new Date(dateRangeNew?.endDate), 'yyyy-MM-dd')}`;
-        }
-      } else if (
-        dateRangeNew !== undefined &&
-        JSON.stringify(dateRangeNew) === dateRangeParamsSearch
-      ) {
-        const newDateRange = JSON.parse(dateRangeParamsSearch);
-        url += `&checkIn=${format(
-          new Date(newDateRange.startDate),
-          'yyyy-MM-dd'
-        )}&checkOut=${format(new Date(newDateRange.endDate), 'yyyy-MM-dd')}`;
-      } else {
-        url += ``;
-      }
-
-      if (numberOfGuestValue > 0) {
-        url += `&guest=${numberOfGuestValue}`;
-      }
-
-      let list;
-      if (currentUser) {
-        list = await axios.get(url, config);
-      } else {
-        list = await axios.get(url);
-      }
-
-      setListResort(list?.data);
-      setTotalPages(list?.data?.totalPages);
+    if (resortIdValue) {
+      url += `&resortId=${resortIdValue}`;
     }
+
+    if (
+      dateRangeNew !== undefined &&
+      JSON.stringify(dateRangeNew) !== JSON.stringify(initialDateRange)
+    ) {
+      if (dateRangeNew) {
+        url += `&checkIn=${format(
+          new Date(dateRangeNew?.startDate),
+          'yyyy-MM-dd'
+        )}&checkOut=${format(new Date(dateRangeNew?.endDate), 'yyyy-MM-dd')}`;
+      }
+    } else if (
+      dateRangeNew !== undefined &&
+      JSON.stringify(dateRangeNew) === dateRangeParamsSearch
+    ) {
+      const newDateRange = JSON.parse(dateRangeParamsSearch);
+      url += `&checkIn=${format(new Date(newDateRange.startDate), 'yyyy-MM-dd')}&checkOut=${format(
+        new Date(newDateRange.endDate),
+        'yyyy-MM-dd'
+      )}`;
+    } else {
+      url += ``;
+    }
+
+    if (numberOfGuestValue > 0) {
+      url += `&guest=${numberOfGuestValue}`;
+    }
+
+    let list;
+    if (currentUser) {
+      list = await axios.get(url, config);
+    } else {
+      list = await axios.get(url);
+    }
+
+    setListResort(list?.data);
+    setTotalPages(list?.data?.totalPages);
   };
 
   useEffect(() => {
     getListResort();
-  }, [page, dateRangeNew, numberOfGuestValue, resortIdValue, currentUser]);
+  }, [
+    page,
+    dateRangeNew,
+    numberOfGuestValue,
+    resortIdValue,
+    dateRangeParamsSearch,
+    initialDateRange,
+    currentUser,
+  ]);
 
   return (
     <Fragment>
