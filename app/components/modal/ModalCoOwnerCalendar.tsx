@@ -215,13 +215,14 @@ const ModalCoOwnerCalendar = (props: any) => {
   const [timesDisableOnClick, setTimesDisableOnClick] = useState<Date[]>([]);
   const [weeksTimeFrame, setWeeksTimeFrame] = useState<number[]>([]);
   const [open, setOpen] = useState(false);
+  const [disableButtonSubmit, setDisableButtonSubmit] = useState(false);
   const [dateRange, setDateRange] = useState(initialDate);
   const [maxDate, setMaxDate] = useState<Date>(new Date());
   useEffect(() => {
     let max: any = undefined;
     props.coOwner.endTime
       ? (max = new Date(new Date(props.coOwner.endTime).getFullYear(), 10, 31))
-      : (max = undefined);
+      : (max = new Date(new Date().getFullYear() + 20, 10, 31));
     let resortDeactive = props.coOwner.property.resort.resortMaintainces.filter(
       (e: any) => e.type == 'DEACTIVATE'
     );
@@ -229,16 +230,16 @@ const ModalCoOwnerCalendar = (props: any) => {
       (e: any) => e.type == 'DEACTIVATE'
     );
     if (resortDeactive.length > 0) {
-      if (new Date(max) > new Date(resortDeactive[0].startDate))
+            if (new Date(max) > new Date(resortDeactive[0].startDate))
         max = new Date(resortDeactive[0].startDate);
     }
-    if (propertyDeactive.length > 0) {
-      if (new Date(max) > new Date(propertyDeactive[0].startDate))
+        if (propertyDeactive.length > 0) {
+            if (new Date(max) > new Date(propertyDeactive[0].startDate))
         max = new Date(propertyDeactive[0].startDate);
     }
-    if (max != undefined) max.setDate(max.getDate() - 1);
+        if (max != undefined) max.setDate(max.getDate() - 1);
     setMaxDate(max);
-  }, []);
+      }, []);
 
   const [yearSelectBox, setYearSelectBox] = useState(new Date().getFullYear());
   const showModal = () => {
@@ -253,6 +254,7 @@ const ModalCoOwnerCalendar = (props: any) => {
   };
 
   const createAvailableTime = () => {
+    setDisableButtonSubmit(true);
     let body = JSON.stringify({
       startTime: startTime,
       endTime: endTime,
@@ -277,6 +279,10 @@ const ModalCoOwnerCalendar = (props: any) => {
       .catch((error) => {
         message.error(error.response.data.message);
       });
+    function disableButton() {
+      setDisableButtonSubmit(false);
+    }
+    setTimeout(disableButton, 1500);
   };
 
   const handleDateChange = (value: any) => {
@@ -580,6 +586,7 @@ const ModalCoOwnerCalendar = (props: any) => {
               className="border rounded-lg border-curent h-10 text-white bg-common hover:bg-sky-500 justify-self-center w-full"
               type="button"
               onClick={() => createAvailableTime()}
+              disabled={disableButtonSubmit}
             >
               Create
             </button>
