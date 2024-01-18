@@ -396,6 +396,7 @@ const ModalCoOwnerCalendar = (props: any) => {
     rs = rs.concat(b);
     setTimesDisableOnClick(rs);
   }, [JSON.stringify(timesDisable), JSON.stringify(weeksTimeFrame)]);
+
   function getTheListSelectWeek(year: number) {
     const arr = weeksTimeFrame.map((e: any, i: number) => {
       let disable = false;
@@ -413,6 +414,10 @@ const ModalCoOwnerCalendar = (props: any) => {
 
       const range = getStartAndEndDateOfWeekISO(e, year);
       if (range.startDate < new Date() || range.endDate < new Date()) {
+        disable = true;
+      }
+
+      if (range.endDate > maxDate) {
         disable = true;
       }
 
