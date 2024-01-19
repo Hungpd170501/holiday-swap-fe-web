@@ -84,8 +84,14 @@ const ListResort: React.FC<ListResortProps> = ({
       const response = await axios.get('https://holiday-swap.click/api/v1/apartment-for-rent', {
         params: {
           resortId: resortIdValue,
-          checkIn: format(dateRangeNew.startDate, 'yyyy-MM-dd'),
-          checkOut: format(dateRangeNew.endDate, 'yyyy-MM-dd'),
+          checkIn:
+            JSON.stringify(dateRangeNew) !== JSON.stringify(initialDateRange)
+              ? format(dateRangeNew.startDate, 'yyyy-MM-dd')
+              : '',
+          checkOut:
+            JSON.stringify(dateRangeNew) !== JSON.stringify(initialDateRange)
+              ? format(dateRangeNew.endDate, 'yyyy-MM-dd')
+              : '',
           guest: numberOfGuestValue,
           pageNo: page - 1, // API uses zero-based indexing
           pageSize: 12, // Adjust as needed
