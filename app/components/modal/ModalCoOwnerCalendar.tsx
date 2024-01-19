@@ -8,6 +8,8 @@ import {
   DatePicker,
   Input,
   Modal,
+  Radio,
+  RadioChangeEvent,
   Row,
   Select,
   Space,
@@ -396,6 +398,7 @@ const ModalCoOwnerCalendar = (props: any) => {
     rs = rs.concat(b);
     setTimesDisableOnClick(rs);
   }, [JSON.stringify(timesDisable), JSON.stringify(weeksTimeFrame)]);
+
   function getTheListSelectWeek(year: number) {
     const arr = weeksTimeFrame.map((e: any, i: number) => {
       let disable = false;
@@ -413,6 +416,10 @@ const ModalCoOwnerCalendar = (props: any) => {
 
       const range = getStartAndEndDateOfWeekISO(e, year);
       if (range.startDate < new Date() || range.endDate < new Date()) {
+        disable = true;
+      }
+
+      if (range.endDate > maxDate) {
         disable = true;
       }
 
@@ -467,13 +474,15 @@ const ModalCoOwnerCalendar = (props: any) => {
     const theNewWeekInput: number = Number(list.filter((x) => !checkedList.includes(x))[0]);
     const arrPre: CheckboxValueType[] = list.filter((x) => x != theNewWeekInput);
     arrPre.sort((a, b) => Number(a) - Number(b));
-
-    const minList = arrPre[0] ? (arrPre[0] as number) : -1;
-    const maxList = arrPre[arrPre.length - 1] ? (arrPre[arrPre.length - 1] as number) : -1;
-    if (list.length > checkedList.length)
-      list = getAdjacentNumbers(minList, maxList, theNewWeekInput, plainOptions);
+    if (typeSelectWeek == 2) {
+      const minList = arrPre[0] ? (arrPre[0] as number) : -1;
+      const maxList = arrPre[arrPre.length - 1] ? (arrPre[arrPre.length - 1] as number) : -1;
+      if (list.length > checkedList.length)
+        list = getAdjacentNumbers(minList, maxList, theNewWeekInput, plainOptions);
+    } else {
+      list = list.filter((x) => !checkedList.includes(x));
+    }
     setCheckedList(list);
-
     list.sort((a, b) => Number(a) - Number(b));
     if (list.length > 0) {
       const min: number = list[0] as number;
@@ -497,6 +506,10 @@ const ModalCoOwnerCalendar = (props: any) => {
   const onCheckAllChange = (e: CheckboxChangeEvent) => {
     setCheckedList(e.target.checked ? plainOptions.map((op) => op.value) : []);
   };
+  const [typeSelectWeek, setTypeSelectWeek] = useState<any>(1);
+  function onChangeTypeSelect(e: RadioChangeEvent): void {
+    setTypeSelectWeek(e.target.value);
+  }
 
   return (
     <>
@@ -532,15 +545,35 @@ const ModalCoOwnerCalendar = (props: any) => {
                   disabledDate={(date: any) => {
                     let start;
                     let end;
+
                     new Date(props.coOwner.startTime) > new Date()
                       ? (start = new Date(props.coOwner.startTime))
                       : (start = new Date());
-                    props.coOwner.endTime ? (end = new Date(props.coOwner.endTime)) : (end = null);
-                    return end ? date <= start || date > end : date <= start;
+                    return (
+                      date.toDate().getFullYear() <= start.getFullYear() ||
+                      date.toDate().getFullYear() > maxDate.getFullYear()
+                    );
                   }}
                 />
               </div>
-              <div className="mt-5">
+              <div className="mt-2">
+                <Radio.Group
+                  onChange={(e) => {
+                    onChangeTypeSelect(e);
+                    if (typeSelectWeek == 2) {
+                      setCheckedList([]);
+                    }
+                  }}
+                  optionType="button"
+                  buttonStyle="solid"
+                  size="small"
+                  value={typeSelectWeek}
+                >
+                  <Radio value={1}>Single week</Radio>
+                  <Radio value={2}>Multiple weeks</Radio>
+                </Radio.Group>
+              </div>
+              <div className="mt-2">
                 <Checkbox.Group className="w-full" onChange={onChange} value={checkedList}>
                   <Row>
                     {plainOptions.map((e, i) => {
@@ -554,6 +587,11 @@ const ModalCoOwnerCalendar = (props: any) => {
                     })}
                   </Row>
                 </Checkbox.Group>
+              </div>
+              <div className="mt-2 flex justify-end">
+                <Button danger onClick={() => setCheckedList([])}>
+                  Clear
+                </Button>
               </div>
             </div>
             <div className="w-full">
