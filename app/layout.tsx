@@ -33,9 +33,9 @@ import ModalDeactiveResort from './components/modal/ModalDeactiveResort';
 import ModalMaintanceResort from './components/modal/ModalMaintanceResort';
 import ModalEditResortAmenities from './components/modal/ModalEditResortAmenities';
 import ModalChangeStatusIssue from './components/modal/ModalChangeStatusIssue';
-import GetUserWallet from './actions/getUserWallet';
 import ModalEditPropertyAmenities from './components/modal/ModalEditPropertyAmenities';
 import ModalDeactiveApartment from './components/modal/ModalDeactiveApartment';
+import ModalExchangeApartment from './components/modal/ModalExchangeApartment';
 
 const font = Poppins({
   subsets: ['latin'],
@@ -85,6 +85,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                     <ModalEditPropertyAmenities />
                     <ModalChangeStatusIssue />
                     <ModalDeactiveApartment />
+                    <ModalExchangeApartment />
                     <ToasterProvider />
                   </ClientOnly>
 

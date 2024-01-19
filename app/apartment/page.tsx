@@ -13,13 +13,13 @@ export const metadata = {
 };
 
 export default async function listResortPage() {
-  const listApartment = await GetListApartment();
+  // const listApartment = await GetListApartment();
   const listResort = await GetListResortActiveHaveProperty();
   const currentUser = await GetCurrentUser();
   return (
     <ClientOnly>
       <ListAparment
-        listApartment={listApartment}
+        // listApartment={listApartment}
         listResort={listResort}
         currentUser={currentUser}
       />

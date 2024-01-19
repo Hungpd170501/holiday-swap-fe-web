@@ -16,6 +16,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import ConversationApis from '@/app/actions/ConversationApis';
 import useLoginModal from '@/app/hooks/useLoginModal';
+import useExchangeApartmentModal from '@/app/hooks/useExchangeApartmentModal';
 
 const { Text } = Typography;
 
@@ -26,6 +27,7 @@ interface ApartmentDetailBodyProps {
   handleChangeDateRange: (value: any) => void;
   dateRangeDefault: any;
   rating: any;
+  ownershipUser: any;
 }
 
 const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
@@ -35,8 +37,10 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
   handleChangeDateRange,
   dateRangeDefault,
   rating,
+  ownershipUser,
 }) => {
   const apartmentAmenitiesModal = useAparmentAmenitiesModal();
+  const exchangeApartmentModal = useExchangeApartmentModal();
   const [totalPrice, setTotalPrice] = useState(0);
   const {
     dateRangeContext,
@@ -44,14 +48,6 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
     dateRangeDefaultContext,
     setDateRangeDefaultContext,
   } = useDateRange();
-
-  // useEffect(() => {
-  //   if (!dateRangeContext) {
-  //     setDateRangeContext(dateRangeDefaultContext);
-  //   } else {
-  //     setDateRangeContext(dateRangeContext);
-  //   }
-  // }, [dateRangeDefaultContext, dateRangeContext]);
 
   const calculateNightDifference = (startDate: any, endDate: any) => {
     const start = new Date(startDate);
@@ -347,25 +343,21 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
             <div className="text-gray-700">We support 24/7</div>
           </div>
         </div>
-        <div className="flex flex-col gap-2 mt-20 w-[40%]">
-          <div className="flex flex-row gap-2">
-            <div className="font-bold">Language:</div>
-            <div>English</div>
+        <div className="flex flex-col gap-2 w-[40%]">
+          <div className="py-2">
+            <div
+              onClick={exchangeApartmentModal.onOpen}
+              className="hover:bg-hover rounded-md cursor-pointer font-semibold px-4 py-2 bg-common text-white text-center"
+            >
+              Exchange
+            </div>
           </div>
-          <div className="flex flex-row gap-2">
-            <div className="font-bold">Response rate:</div>
-            <div className="text-gray-700">100%</div>
-          </div>
-          <div className="flex flex-row gap-2">
-            <div className="font-bold">Response time:</div>
-            <div className="text-gray-700">within an hour</div>
-          </div>
-          <div className="mt-5">
+          <div className="py-2">
             <div
               onClick={() =>
                 handleContactOwner(apartment?.availableTime?.coOwner?.user?.userId?.toString())
               }
-              className="hover:bg-hover rounded-md cursor-pointer px-4 py-2 bg-common text-white text-center"
+              className="hover:bg-hover rounded-md cursor-pointer font-semibold px-4 py-2 bg-common text-white text-center"
             >
               Contact with owner
             </div>

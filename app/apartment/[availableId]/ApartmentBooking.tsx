@@ -10,6 +10,7 @@ import useLoginModal from '@/app/hooks/useLoginModal';
 import { useDateRange } from '../DateRangeContext';
 import toast from 'react-hot-toast';
 import { useGuest } from '../GuestContext';
+import useExchangeApartmentModal from '@/app/hooks/useExchangeApartmentModal';
 
 interface ApartmentBookingProps {
   dateRange: any;
@@ -52,6 +53,7 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
     setTotalGuestContext,
     setAllowTotalGuestContext,
   } = useGuest();
+  const exchangeApartmentModal = useExchangeApartmentModal();
 
   useEffect(() => {
     if (apartmentAllowGuest) {
@@ -354,6 +356,7 @@ const ApartmentBooking: React.FC<ApartmentBookingProps> = ({
             )}
 
             {/* Button Booking */}
+
             <div className="py-4">
               <button
                 onClick={handleBooking}

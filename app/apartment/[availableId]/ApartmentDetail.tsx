@@ -22,9 +22,10 @@ import useEditDateBookingModal from '@/app/hooks/useEditDateBookingModal';
 interface ApartmentDetailProps {
   apartment?: any;
   currentUser?: any;
+  ownershipUser?: any;
 }
 
-const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUser }) => {
+const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUser, ownershipUser }) => {
   const initialDateRange = {
     startDate: new Date(apartment.availableTime.startTime),
     endDate: new Date(apartment.availableTime.endTime),
@@ -440,6 +441,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
             rating={rating}
             dateRangeDefault={dateRangeDefault}
             handleChangeDateRange={handleChangeDateRange}
+            ownershipUser={ownershipUser}
           />
         </div>
         {dateRangeContext && (
@@ -452,6 +454,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
               dateRangeDefault={dateRangeDefault}
               handleChangeDateRange={handleChangeDateRange}
               apartmentAllowGuest={apartmentAllowGuest}
+              
             />
           </div>
         )}

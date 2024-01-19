@@ -15,12 +15,12 @@ const initialDateRange = {
 };
 
 interface ListApartmentProps {
-  listApartment: any;
+  // listApartment: any;
   listResort: any;
   currentUser: any;
 }
 
-const ListAparment: React.FC<ListApartmentProps> = ({ listApartment, listResort, currentUser }) => {
+const ListAparment: React.FC<ListApartmentProps> = ({ listResort, currentUser }) => {
   const [resortId, setResortId] = useState<string>('');
   const [dateRange, setDateRange] = useState<any>({
     startDate: new Date(),
@@ -40,9 +40,7 @@ const ListAparment: React.FC<ListApartmentProps> = ({ listApartment, listResort,
 
   return (
     <Fragment>
-      <SearchBarResort
-        listResort={listResort}
-      />
+      <SearchBarResort listResort={listResort} />
 
       <Container className="gap-5">
         {/* <div className="py-2">
