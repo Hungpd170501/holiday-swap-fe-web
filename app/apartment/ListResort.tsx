@@ -115,7 +115,9 @@ const ListResort: React.FC<ListResortProps> = ({
 
   const fetchDataOnMount = async () => {
     // Fetch data only on the client side
-    await fetchData();
+    if (typeof window !== 'undefined') {
+      await fetchData();
+    }
   };
 
   useEffect(() => {
