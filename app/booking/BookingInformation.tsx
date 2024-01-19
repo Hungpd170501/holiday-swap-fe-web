@@ -69,7 +69,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
       setGuests(JSON.parse(storedGuests));
       localStorage.removeItem('guest');
     }
-  }, []);
+  }, [storedGuests]);
 
   const calculateNightDifference = (startDate: any, endDate: any) => {
     const start = new Date(startDate);

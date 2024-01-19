@@ -45,14 +45,6 @@ const ListResort: React.FC<ListResortProps> = ({
   const router = useRouter();
   const isMounted = useRef(false);
 
-  // useEffect(() => {
-  //   setDateRangeNew(dateRange);
-
-  //   if (dateRangeParamsSearch) {
-  //     dateRangeParams = JSON.parse(searchParams?.get('dateRange') ?? '');
-  //   }
-  // }, [dateRange, dateRangeParamsSearch]);
-
   useEffect(() => {
     isMounted.current = true;
     return () => {
@@ -71,17 +63,28 @@ const ListResort: React.FC<ListResortProps> = ({
       setDateRangeNew(newDate);
     }
     if (resortIdParams) {
-      setResortIdValue(resortIdParams);
+      setResortIdValue(resortIdParams as string);
     }
 
     if (numberOfGuestParams) {
-      setNumberOfGuestValue(Number(numberOfGuestParams));
+      setNumberOfGuestValue(Number(numberOfGuestParams as string));
     }
   }, [resortIdParams, dateRangeParamsSearch, numberOfGuestParams]);
 
   const fetchData = async () => {
     try {
+      let config = {};
+
+      if (currentUser) {
+        config = {
+          headers: {
+            Authorization: `Bearer ${session?.user.access_token}`,
+          },
+        };
+      }
+
       const response = await axios.get('https://holiday-swap.click/api/v1/apartment-for-rent', {
+        ...config,
         params: {
           resortId: resortIdValue,
           checkIn:
@@ -110,9 +113,18 @@ const ListResort: React.FC<ListResortProps> = ({
     }
   };
 
+  const fetchDataOnMount = async () => {
+    // Fetch data only on the client side
+    await fetchData();
+  };
+
+  useEffect(() => {
+    fetchDataOnMount();
+  }, []); // Empty dependency array to ensure it runs only on mount
+
   useEffect(() => {
     fetchData();
-  }, [page, resortIdValue, dateRangeNew, numberOfGuestValue]);
+  }, [page, resortIdValue, dateRangeNew, numberOfGuestValue, currentUser]);
 
   return (
     <Fragment>
