@@ -549,7 +549,7 @@ const ModalCoOwnerCalendar = (props: any) => {
                       ? (start = new Date(props.coOwner.startTime))
                       : (start = new Date());
                     return (
-                      date.toDate().getFullYear() <= start.getFullYear() ||
+                      date.toDate().getFullYear() < start.getFullYear() ||
                       date.toDate().getFullYear() > maxDate.getFullYear()
                     );
                   }}

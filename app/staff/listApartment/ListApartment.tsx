@@ -56,8 +56,8 @@ const ListApartment: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
   const handleSearch = async () => {
     try {
       setLoading(true);
-      let apiUrl = `http://localhost:8080/api/co-owners/propertyAndRoomId?pageNo=0&pageSize=8&sortDirection=desc&coOwnerStatus=ACCEPTED`;
-
+      let apiUrl = `https://holiday-swap.click/api/co-owners/propertyAndRoomId?pageNo=0&pageSize=8&sortDirection=desc&coOwnerStatus=ACCEPTED`;
+      setCurrentPage(1);
       if (searchTerm) {
         apiUrl += `&roomId=${searchTerm}`;
       }
@@ -75,10 +75,12 @@ const ListApartment: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      let apiUrl = `http://localhost:8080/api/co-owners/propertyAndRoomId?pageNo=${
+      let apiUrl = `https://holiday-swap.click/api/co-owners/propertyAndRoomId?pageNo=${
         currentPage - 1
       }&pageSize=8&sortDirection=desc&coOwnerStatus=ACCEPTED`;
-
+      if (searchTerm) {
+        apiUrl += `&roomId=${searchTerm}`;
+      }
       const ownerships = await axios.get(apiUrl);
 
       setOwnershipUserList(ownerships?.data);

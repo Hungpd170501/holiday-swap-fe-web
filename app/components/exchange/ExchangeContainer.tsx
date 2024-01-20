@@ -36,6 +36,7 @@ import ApartmentForRentApis from '@/app/components/map/apis/ApartmentForRentApis
 import ConfirmCancelExchangeModal from './ConfirmCancelExchangeModal';
 import ExchangeApis, { ExchangeUpdatingRequest } from '@/app/actions/ExchangeApis';
 import { toast } from 'react-hot-toast';
+import GetApartmentMantainByPropertyIdApartmentId from '@/app/actions/getApartmentMantainByPropertyIdApartmentId';
 
 interface ExchangeContainerProps {
   initialItems: FullMessageType[];
@@ -122,14 +123,91 @@ const ExchangeContainer: React.FC<ExchangeContainerProps> = ({
     },
   ]);
   const [confirmCancelExchangeOpen, setConfirmCancelExchangeOpen] = useState(false);
-  const [disableTimes, setDisableTimes] = useState<any>(
-    yourAvailableTime?.timeHasBooked?.map((element: any) => {
+  const [disableTimes, setDisableTimes] = useState<any>(() => {
+    let arr: any[] = [];
+    const x = yourAvailableTime?.timeHasBooked?.map((element: any) => {
       const startDate = new Date(element.checkIn);
       const endDate = new Date(element.checkOut);
       return { checkIn: startDate, checkOut: endDate };
-    })
-  );
+    });
+
+    const p = yourAvailableTime?.coOwner?.property?.propertyMaintenance
+      ?.filter((e: any) => e.type == 'MAINTENANCE')
+      .map((e: any) => {
+        let start = new Date(e.startDate);
+        start.setDate(start.getDate() - 1);
+        let end = new Date(e.endDate);
+        end.setDate(end.getDate() + 1);
+        return { checkIn: start, checkOut: end };
+      });
+    const r = yourAvailableTime?.coOwner?.property?.resort.resortMaintainces
+      ?.filter((e: any) => e.type == 'MAINTENANCE')
+      .map((e: any) => {
+        let start = new Date(e.startDate);
+        start.setDate(start.getDate() - 1);
+        let end = new Date(e.endDate);
+        end.setDate(end.getDate() + 1);
+        return { checkIn: start, checkOut: end };
+      });
+    arr = arr.concat(x);
+    arr = arr.concat(p);
+    arr = arr.concat(r);
+    return arr;
+  });
   const [timesDisableOnClick, setTimesDisableOnClick] = useState<Date[]>([]);
+  const [maxDate, setMaxDate] = useState<Date>(() => {
+    // new Date();
+    let max: any = undefined;
+    yourAvailableTime?.coOwner.endTime
+      ? (max = new Date(new Date(yourAvailableTime?.coOwner.endTime).getFullYear(), 10, 31))
+      : (max = new Date(new Date().getFullYear() + 20, 10, 31));
+    let resortDeactive = yourAvailableTime?.coOwner?.property?.resort?.resortMaintainces.filter(
+      (e: any) => e.type == 'DEACTIVATE'
+    );
+    let propertyDeactive = yourAvailableTime?.coOwner?.property?.propertyMaintenance.filter(
+      (e: any) => e.type == 'DEACTIVATE'
+    );
+    resortDeactive = resortDeactive ? resortDeactive : [];
+    propertyDeactive = propertyDeactive ? propertyDeactive : [];
+    if (resortDeactive.length > 0) {
+      if (new Date(max) > new Date(resortDeactive[0].startDate))
+        max = new Date(resortDeactive[0].startDate);
+    }
+    if (propertyDeactive.length > 0) {
+      if (new Date(max) > new Date(propertyDeactive[0].startDate))
+        max = new Date(propertyDeactive[0].startDate);
+    }
+    if (max != undefined) max.setDate(max.getDate() - 1);
+
+    return max;
+  });
+  async function getApartmentDeactiveByPIdAndRoomID() {
+    const propertyId: string = yourAvailableTime
+      ? String(yourAvailableTime.coOwner.property.id)
+      : '';
+    const roomId: string = yourAvailableTime ? yourAvailableTime.coOwner.roomId : '';
+    const apartmentMantain = await GetApartmentMantainByPropertyIdApartmentId(propertyId, roomId);
+    // let arrApartmentMaintain = apartmentMantain
+    //   ?.filter((e: any) => e.type == 'MAINTENANCE')
+    //   .map((e: any) => {
+    //     let start = new Date(e.startDate);
+    //     start.setDate(start.getDate() - 1);
+    //     let end = new Date(e.endDate);
+    //     end.setDate(end.getDate() + 1);
+    //     return { checkIn: start, checkOut: end };
+    //   });
+    let apartmentDeactive = apartmentMantain?.filter((e: any) => e.type == 'DEACTIVATE');
+    let max = maxDate;
+    if (apartmentDeactive.length > 0) {
+      if (new Date(max) > new Date(apartmentDeactive[0].startDate)) {
+        max = new Date(apartmentDeactive[0].startDate);
+        setMaxDate(max);
+      }
+    }
+  }
+  useEffect(() => {
+    getApartmentDeactiveByPIdAndRoomID();
+  }, []);
   const handleOnChangeDateRangePicker = (value: any) => {
     const result: Date[] = [];
     disableTimes?.forEach(({ checkIn, checkOut }: { checkIn: Date; checkOut: Date }) => {
@@ -157,8 +235,6 @@ const ExchangeContainer: React.FC<ExchangeContainerProps> = ({
   };
 
   useEffect(() => {
-    console.log(range[0].startDate);
-    console.log(range[0].endDate);
     if (
       range[0]?.startDate &&
       range[0]?.endDate &&
@@ -174,7 +250,6 @@ const ExchangeContainer: React.FC<ExchangeContainerProps> = ({
         if (response && response?.response?.data) {
           toast.error(response?.response?.data?.message);
         } else {
-          console.log(response);
           toast.error('Something went wrong!');
         }
       });
@@ -268,7 +343,7 @@ const ExchangeContainer: React.FC<ExchangeContainerProps> = ({
       yourAvailableTime?.pricePerNight ?? 1
     );
     return exchangeTotalPrice !== undefined && rangeTotalPrice !== undefined
-      ? Number(exchangeTotalPrice - rangeTotalPrice - exchangeTotalPrice * 0.05).toFixed(2)
+      ? (exchangeTotalPrice - rangeTotalPrice - exchangeTotalPrice * 0.05).toFixed(2)
       : '----';
   }, [
     exchangeTripData?.checkOutDate,
@@ -279,9 +354,9 @@ const ExchangeContainer: React.FC<ExchangeContainerProps> = ({
 
   const textColor = useMemo(() => {
     if (typeof memoizedTotal === 'number') {
-      if (Number(memoizedTotal) > 0) {
+      if (memoizedTotal > 0) {
         return 'text-green-500';
-      } else if (Number(memoizedTotal) < 0) {
+      } else if (memoizedTotal < 0) {
         return 'text-red-500';
       } else {
         return 'text-gray-500';
@@ -300,12 +375,8 @@ const ExchangeContainer: React.FC<ExchangeContainerProps> = ({
       formData.append('image', files[0]?.file ?? '');
     }
     MessageApis.sendMessage(conversationId, formData)
-      .then((response) => {
-        console.log('result', JSON.stringify(response.data));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      .then((response) => {})
+      .catch((err) => {});
     setFiles([]);
   };
 
@@ -594,7 +665,14 @@ const ExchangeContainer: React.FC<ExchangeContainerProps> = ({
                         </p>
                       </div>
                       <div className="flex w-full justify-between items-end">
-                        <StartRating reviewCount={5} point={3.5} />
+                        {yourAvailableTime?.coOwner?.property.rating ? (
+                          <StartRating
+                            reviewCount={0}
+                            point={yourAvailableTime?.coOwner?.property.rating}
+                          />
+                        ) : (
+                          <div></div>
+                        )}
                         <span className="flex items-center justify-center px-2.5 py-1.5 border-2 border-yellow-400 rounded-lg leading-none text-sm font-medium text-yellow-400">
                           {yourAvailableTime?.pricePerNight}{' '}
                           <Image width={18} height={18} src="/images/coin.png" alt="" />
@@ -605,9 +683,12 @@ const ExchangeContainer: React.FC<ExchangeContainerProps> = ({
                   </div>
 
                   <div className={`grid grid-cols-3 w-full h-full border-y border-gray-300`}>
-                    <div className={`p-1 border-l border-gray-300`}>
+                    <div
+                      className={`p-1 border-l border-gray-300`}
+                      onClick={() => setOpenDateRange((openDateRange) => !openDateRange)}
+                    >
                       <div className="px-1 text-sm text-gray-500 flex flex-row justify-between">
-                        Arrival{' '}
+                        Arrival
                         {activeStep === 0 && (
                           <MdModeEdit
                             onClick={() => setOpenDateRange((openDateRange) => !openDateRange)}
@@ -626,7 +707,10 @@ const ExchangeContainer: React.FC<ExchangeContainerProps> = ({
                         className="border-0 text-sm text-gray-600 focus:outline-0 focus:outline-transparent focus:border-0 focus:border-transparent focus:ring-0 w-full"
                       />
                     </div>
-                    <div className={`p-1 border-x border-gray-300`}>
+                    <div
+                      className={`p-1 border-x border-gray-300`}
+                      onClick={() => setOpenDateRange((openDateRange) => !openDateRange)}
+                    >
                       <div className="px-1 text-sm text-gray-500 flex flex-row justify-between">
                         Departure{' '}
                         {activeStep === 0 && (
@@ -661,13 +745,14 @@ const ExchangeContainer: React.FC<ExchangeContainerProps> = ({
                           }}
                           disabledDates={timesDisableOnClick}
                           maxDate={
-                            yourAvailableTime?.endTime && isValidDate(yourAvailableTime.endTime)
-                              ? new Date(
-                                  ...(yourAvailableTime.endTime.map((value, index) =>
-                                    index === 1 ? value - 1 : value
-                                  ) as [number, number, number])
-                                )
-                              : dayjs().add(2, 'month').toDate()
+                            // yourAvailableTime?.endTime && isValidDate(yourAvailableTime.endTime)
+                            //   ? new Date(
+                            //       ...(yourAvailableTime.endTime.map((value, index) =>
+                            //         index === 1 ? value - 1 : value
+                            //       ) as [number, number, number])
+                            //     )
+                            //   : dayjs().add(2, 'month').toDate()
+                            maxDate
                           }
                           minDate={
                             yourAvailableTime?.startTime && isValidDate(yourAvailableTime.startTime)
@@ -695,7 +780,7 @@ const ExchangeContainer: React.FC<ExchangeContainerProps> = ({
                     </div>
                     <div className={`p-1 border-r border-gray-300`}>
                       <div className="px-1 text-sm text-gray-500 flex flex-row justify-between">
-                        Guests {activeStep === 0 && <MdModeEdit color={'#28ac81'} />}
+                        Guests {activeStep === 0}
                       </div>
                       <input
                         type="number"
@@ -731,8 +816,8 @@ const ExchangeContainer: React.FC<ExchangeContainerProps> = ({
                     <h1 className="text-lg font-bold capitalize">
                       <span className="line-clamp-2">Total:</span>
                     </h1>
-                    <h1 className={`text-lg font-bold capitalize`}>
-                      <span className={`line-clamp-2 ${textColor}`}>{memoizedTotal}</span>
+                    <h1 className={`text-lg font-bold capitalize ${textColor}`}>
+                      <span className="line-clamp-2">{memoizedTotal}</span>
                     </h1>
                     <Image width={18} height={18} src="/images/coin.png" alt="" />
                   </div>
@@ -869,7 +954,14 @@ const ExchangeContainer: React.FC<ExchangeContainerProps> = ({
                         </p>
                       </div>
                       <div className="flex w-full justify-between items-end">
-                        <StartRating reviewCount={5} point={3.5} />
+                        {exchangeAvailableTime?.coOwner?.property.rating ? (
+                          <StartRating
+                            reviewCount={0}
+                            point={exchangeAvailableTime?.coOwner?.property.rating}
+                          />
+                        ) : (
+                          <div></div>
+                        )}
                         <span className="flex items-center justify-center px-2.5 py-1.5 border-2 border-yellow-400 rounded-lg leading-none text-sm font-medium text-yellow-400">
                           {exchangeAvailableTime?.pricePerNight}{' '}
                           <Image width={18} height={18} src="/images/coin.png" alt="" />
