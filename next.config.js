@@ -3,7 +3,7 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  reactStrictMode: false,
+  reactStrictMode: true,
   output: 'standalone',
   images: {
     domains: ['holiday-swap-file-resouces.s3.ap-southeast-1.amazonaws.com'],
@@ -33,8 +33,8 @@ const nextConfig = {
       //   pathname: '/**',
       // },
       {
-        protocol: "https",
-        hostname: "**",
+        protocol: 'https',
+        hostname: '**',
       },
     ],
   },
