@@ -15,7 +15,7 @@ import {
 } from '@/app/redux/slices/conversationSlice';
 import { usePathname } from 'next/navigation';
 import { NotificationResponse } from '@/app/components/notification/types';
-import { MdDashboard } from 'react-icons/md';
+import { MdDashboard, MdOutlineSwapHorizontalCircle } from 'react-icons/md';
 import { IoIosCreate, IoIosLogOut, IoIosChatboxes } from 'react-icons/io';
 import { FaListCheck, FaList } from 'react-icons/fa6';
 import { FaMoneyCheckAlt, FaHouseUser } from 'react-icons/fa';
@@ -256,6 +256,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, userWallet }) => {
                         icon={FaHouseUser}
                         onClick={() => handleRouter('/dashboard/ownership')}
                         label="My apartment"
+                      />
+                      <MenuItem
+                        icon={MdOutlineSwapHorizontalCircle}
+                        onClick={() => handleRouter('/dashboard/myExchange')}
+                        label="My exchange"
                       />
 
                       <Link

@@ -13,6 +13,7 @@ import CalendarAparment from '@/app/apartment/CalendarAparment';
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import ConversationApis from '@/app/actions/ConversationApis';
+import { useDateRange } from '@/app/apartment/DateRangeContext';
 
 export default function ModalExchangeApartment() {
   const router = useRouter();
@@ -41,6 +42,8 @@ export default function ModalExchangeApartment() {
   const [ownerAvailableTimeIdValue, setOwnerAvailableTimeIdValue] = useState<any>();
   const { data: session } = useSession();
   const isMounted = useRef(false);
+
+  const { dateRangeContext } = useDateRange();
 
   const {
     register,
@@ -86,12 +89,12 @@ export default function ModalExchangeApartment() {
     const config = { headers: { Authorization: `Bearer ${session?.user.access_token}` } };
 
     const exchangeData = {
-      requestAvailableTimeId: availableTimeId,
-      requestCheckInDate: format(new Date(dateRange.startDate), 'yyyy-MM-dd'),
-      requestCheckOutDate: format(new Date(dateRange.endDate), 'yyyy-MM-dd'),
+      requestAvailableTimeId: ownerAvailableTimeId,
+      requestCheckInDate: format(new Date(dateRangeContext?.startDate), 'yyyy-MM-dd'),
+      requestCheckOutDate: format(new Date(dateRangeContext?.endDate), 'yyyy-MM-dd'),
       requestTotalMember: data.guests,
       userId: contactUserId,
-      availableTimeId: ownerAvailableTimeId,
+      availableTimeId: availableTimeId,
     };
 
     await axios
@@ -147,6 +150,18 @@ export default function ModalExchangeApartment() {
     ownerAvailableTimeIdValue,
   ]);
 
+  useEffect(() => {
+    // This effect will run when availableTimeData changes
+    if (availableTimeData && availableTimeData.content.length > 0) {
+      // Fetch availableTimeById based on the first item in availableTimeData
+      const firstAvailableTimeId = availableTimeData.content[0]?.id;
+      if (firstAvailableTimeId) {
+        setAvailableTimeId(firstAvailableTimeId);
+        setIsChangeAvailableTime(true); // Trigger the effect to fetch availableTimeById
+      }
+    }
+  }, [availableTimeData]);
+
   const handleChangeOwnershipId = (value: any) => {
     setOwnershipId(value);
   };
@@ -155,57 +170,91 @@ export default function ModalExchangeApartment() {
     setAvailableTimeId(value);
   };
 
-  const fetchAvailableTimeById = async () => {
-    const rs = await axios.get(
-      `https://holiday-swap.click/api/v1/available-times/${availableTimeId}`
-    );
+  // const fetchAvailableTimeById = async () => {
+  //   const rs = await axios.get(
+  //     `https://holiday-swap.click/api/v1/available-times/${availableTimeId}`
+  //   );
 
-    if (rs) {
-      setAvailableTimeById(rs.data);
-    }
-  };
+  //   if (rs) {
+  //     setAvailableTimeById(rs.data);
+  //   }
+  // };
 
-  const fetchAvailableTimeByCoOwnerId = async () => {
-    const rs = await axios.get(
-      `https://holiday-swap.click/api/v1/available-times/co-owner/${ownershipId}?pageNo=0&pageSize=999&sortDirection=asc&sortBy=id`
-    );
+  // const fetchAvailableTimeByCoOwnerId = async () => {
+  //   const rs = await axios.get(
+  //     `https://holiday-swap.click/api/v1/available-times/co-owner/${ownershipId}?pageNo=0&pageSize=999&sortDirection=asc&sortBy=id`
+  //   );
 
-    if (rs) {
-      setAvailableTimeData(rs.data);
-    }
-  };
+  //   if (rs) {
+  //     setAvailableTimeData(rs.data);
+  //   }
+  // };
 
   useEffect(() => {
-  if (isChangeOwnershipId) {
-    fetchAvailableTimeByCoOwnerId();
-    setIsChangeOwnershipId(false);
-  }
+    const fetchAvailableTimeByCoOwnerId = async () => {
+      try {
+        const response = await axios.get(
+          `https://holiday-swap.click/api/v1/available-times/co-owner/${ownershipId}?pageNo=0&pageSize=999&sortDirection=asc&sortBy=id`
+        );
 
-  if (isChangeAvailableTime) {
-    fetchAvailableTimeById();
-    setIsChangeAvailableTime(false);
-  }
+        if (response.data) {
+          setAvailableTimeData(response.data);
 
-  if (availableTimeById && !isChangeDate) {
-    const startDate = new Date(availableTimeById.startTime);
-    const endDate = new Date(availableTimeById.endTime);
-    
-    setDateRangeDefault({
-      startDate,
-      endDate,
-      key: 'selection',
-    });
+          // Fetch availableTimeById based on the first item in availableTimeData
+          const firstAvailableTimeId = response.data?.content[0]?.id;
+          if (firstAvailableTimeId) {
+            setAvailableTimeId(firstAvailableTimeId);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching availableTimeData:', error);
+      }
+    };
 
-    setDateRange({
-      startDate,
-      endDate,
-      key: 'selection',
-    });
-  }
-}, [isChangeOwnershipId, isChangeAvailableTime, availableTimeById, isChangeDate]);
+    const fetchAvailableTimeById = async () => {
+      try {
+        const response = await axios.get(
+          `https://holiday-swap.click/api/v1/available-times/${availableTimeId}`
+        );
 
+        if (response.data) {
+          setAvailableTimeById(response.data);
 
-  console.log('Check is change date range', isChangeDate);
+          // Set dateRangeDefault based on availableTimeById
+          const startDate = new Date(response.data.startTime);
+          const endDate = new Date(response.data.endTime);
+          setDateRangeDefault({
+            startDate,
+            endDate,
+            key: 'selection',
+          });
+
+          // Set dateRange if isChangeDate is false
+          if (!isChangeDate) {
+            setDateRange({
+              startDate,
+              endDate,
+              key: 'selection',
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching availableTimeById:', error);
+      }
+    };
+
+    // Fetch availableTimeData when ownershipId changes
+    if (ownershipId && isChangeOwnershipId) {
+      fetchAvailableTimeByCoOwnerId();
+      setIsChangeOwnershipId(false);
+    }
+
+    // Fetch availableTimeById when availableTimeId changes
+    if (availableTimeId && isChangeAvailableTime) {
+      fetchAvailableTimeById();
+      setIsChangeAvailableTime(false);
+    }
+  }, [ownershipId, availableTimeId, isChangeOwnershipId, isChangeAvailableTime, isChangeDate]);
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -254,18 +303,6 @@ export default function ModalExchangeApartment() {
           label="Guest"
           type="number"
         />
-
-        {dateRangeDefault && dateRange && (
-          <CalendarAparment
-            value={dateRange}
-            minDate={dateRangeDefault.startDate}
-            onChange={(value: any) => {
-              setDateRange(value.selection);
-              setIsChangeDate(true);
-            }}
-            maxDate={dateRangeDefault.endDate}
-          />
-        )}
       </div>
 
       <Modal show={openModal} onClose={() => setOpenModal(false)}>

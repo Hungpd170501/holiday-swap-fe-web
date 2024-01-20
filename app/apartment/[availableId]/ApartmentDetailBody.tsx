@@ -220,6 +220,9 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
       {/* Calendar */}
       <div className="flex flex-col py-8 border-b border-gray-500">
         <div className="py-8">
+          <div className="text-base italic font-bold text-gray-500">
+            The date you select on this calendar is used for both booking and apartment exchange
+          </div>
           <div className="text-2xl font-bold">
             {' '}
             {dateRangeContext && (
@@ -259,6 +262,8 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
               </Fragment>
             )}
           </div>
+
+          
         </div>
         <div className="hidden md:block lg:block xl:block">
           {dateRangeContext ? (

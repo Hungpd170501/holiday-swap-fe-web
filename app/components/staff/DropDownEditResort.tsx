@@ -33,7 +33,7 @@ const DropDownEditResort: React.FC<IParams> = ({ resortId, resortStatus }) => {
   return (
     <div>
       <Button
-        className="text-[30px]"
+        className="text-[40px]"
         id="basic-button"
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
@@ -51,10 +51,13 @@ const DropDownEditResort: React.FC<IParams> = ({ resortId, resortStatus }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem className="text-green-500 flex flex-row gap-1 hover:underline items-center">
+        <MenuItem className="text-green-500 hover:underline items-center">
           <Link href={`/staff/staffeditresort/${resortId}`} target="_blank">
-            <FaRegEdit size={18} color="green" />
+            <div className="flex flex-row gap-1">
+              <FaRegEdit size={18} color="green" />
             <span>Edit</span>
+            </div>
+            
           </Link>
         </MenuItem>
         {resortStatus === 'ACTIVE' ? (
