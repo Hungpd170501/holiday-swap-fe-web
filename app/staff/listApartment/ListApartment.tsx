@@ -54,7 +54,7 @@ const ListApartment: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
   const handleSearch = async () => {
     try {
       setLoading(true);
-      let apiUrl = `https://holiday-swap.click/api/co-owners?pageNo=0&pageSize=8&sortDirection=desc&coOwnerStatus=ACCEPTED`;
+      let apiUrl = `https://holiday-swap.click/api/co-owners/propertyAndRoomId?pageNo=0&pageSize=8&sortDirection=desc&coOwnerStatus=ACCEPTED`;
 
       if (searchTerm) {
         apiUrl += `&roomId=${searchTerm}`;
@@ -73,7 +73,7 @@ const ListApartment: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      let apiUrl = `https://holiday-swap.click/api/co-owners?pageNo=${
+      let apiUrl = `https://holiday-swap.click/api/co-owners/propertyAndRoomId?pageNo=${
         currentPage - 1
       }&pageSize=8&sortDirection=desc&coOwnerStatus=ACCEPTED`;
 
@@ -113,14 +113,11 @@ const ListApartment: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
         {ownershipUserList && ownershipUserList.content.length > 0 ? (
           <Table>
             <Table.Head>
-              <Table.HeadCell className="w-[130px]">Resort</Table.HeadCell>
-              <Table.HeadCell className="w-[130px]">Property</Table.HeadCell>
-              <Table.HeadCell className="w-[100px]">Apartment ID</Table.HeadCell>
-              <Table.HeadCell className="w-[100px]">User</Table.HeadCell>
-
-              <Table.HeadCell>Type</Table.HeadCell>
+              <Table.HeadCell className="w-[370px]">Resort</Table.HeadCell>
+              <Table.HeadCell className="w-[370px]">Property</Table.HeadCell>
+              <Table.HeadCell className="w-[370px]">Apartment ID</Table.HeadCell>
               <Table.HeadCell>Status</Table.HeadCell>
-              <Table.HeadCell className="w-[130px]">Action</Table.HeadCell>
+              <Table.HeadCell>Action</Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
               {ownershipUserList?.content.map((item: any, index: number) => {
@@ -132,33 +129,16 @@ const ListApartment: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
                     <Table.Cell>{item.property.propertyName}</Table.Cell>
                     <Table.Cell className="w-[140px]">{item.roomId}</Table.Cell>
                     <Table.Cell>
-                      {item.user.fullName ? item.user.fullName : item.user.username}
-                    </Table.Cell>
-                    <Table.Cell>
-                      {item.type === 'DEEDED' ? 'Owner forever' : 'Owner a previod time'}
-                    </Table.Cell>
-                    <Table.Cell>
-                      {(() => {
-                        if (item.status === 'ACCEPTED') {
-                          return (
-                            <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
-                              ACCEPTED
-                            </div>
-                          );
-                        } else if (item.status === 'PENDING') {
-                          return (
-                            <div className="py-2 px-1 text-center text-sm bg-slate-200 rounded-md text-orange-600">
-                              PENDING
-                            </div>
-                          );
-                        } else if (item.status === 'REJECTED') {
-                          return (
-                            <div className="py-2 px-1 text-center text-sm bg-slate-200 rounded-md text-rose-600">
-                              REJECTED
-                            </div>
-                          );
-                        }
-                      })()}
+                      {item.ownerShipMaintenance?.filter((e: any) => e.type == 'DEACTIVATE')
+                        .length > 0 ? (
+                        <div className="py-2 px-1 text-center text-sm bg-slate-200 rounded-md text-rose-600">
+                          DEACTIVE
+                        </div>
+                      ) : (
+                        <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
+                          ACCEPTED
+                        </div>
+                      )}
                     </Table.Cell>
                     <Table.Cell>
                       <Dropdown
