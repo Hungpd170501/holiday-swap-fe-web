@@ -140,6 +140,7 @@ export interface Property {
   resort: Resort;
   propertyImages: PropertyImage[];
   rating?: any;
+  propertyMaintenance: any[];
 }
 
 export interface Resort {
@@ -159,6 +160,7 @@ export interface Resort {
   longitude?: number;
   resortMaintances?: any;
   deleted?: boolean;
+  resortMaintainces: any[];
 }
 
 export interface User {
@@ -225,7 +227,6 @@ export interface AvailableTime {
 //   userId: number;
 //   roomId: string;
 // }
-
 
 export interface ApartmentForRent {
   // coOwnerId: CoOwnerId;
