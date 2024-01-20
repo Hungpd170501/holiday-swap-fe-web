@@ -33,7 +33,8 @@ const ApartmentDetailHeader: React.FC<ApartmentDetailHeaderProps> = ({ apartment
         <div className="font-normal text-base text-black flex flex-row gap-4">
           {apartment.availableTime.coOwner.property.rating && (
             <div className="flex flex-row items-center">
-              <AiFillStar size={18} /> {apartment.availableTime.coOwner.property.rating} ·{' '}
+              <AiFillStar size={18} color="orange" />{' '}
+              {apartment.availableTime.coOwner.property.rating} ·{' '}
               {rating ? `${rating?.content.length} reviews` : ''}
             </div>
           )}
@@ -62,23 +63,25 @@ const ApartmentDetailHeader: React.FC<ApartmentDetailHeaderProps> = ({ apartment
 
           <div className="relative hidden md:block md:relative lg:block lg:relative xl:block xl:relative">
             <div className="hidden md:grid md:grid-cols-2 md:gap-2 md:rounded-r-xl lg:grid lg:grid-cols-2 lg:gap-2 lg:rounded-r-xl xl:grid xl:grid-cols-2 xl:gap-2 xl:rounded-r-xl">
-              {apartment.availableTime.coOwner.property.propertyImages.slice(1, 5).map((item: any, index: number) => (
-                <div
-                  key={item.id}
-                  className={`w-full md:h-[189px] lg:h-[220px] relative overflow-hidden  md:block ${
-                    index === 1 ? 'rounded-tr-xl' : ''
-                  } ${index === 3 ? 'rounded-br-xl' : ''}`}
-                >
-                  <Image
-                    onClick={showDrawer}
+              {apartment.availableTime.coOwner.property.propertyImages
+                .slice(1, 5)
+                .map((item: any, index: number) => (
+                  <div
                     key={item.id}
-                    alt="image"
-                    fill
-                    src={item.link}
-                    className="object-cover w-full cursor-pointer"
-                  />
-                </div>
-              ))}
+                    className={`w-full md:h-[189px] lg:h-[220px] relative overflow-hidden  md:block ${
+                      index === 1 ? 'rounded-tr-xl' : ''
+                    } ${index === 3 ? 'rounded-br-xl' : ''}`}
+                  >
+                    <Image
+                      onClick={showDrawer}
+                      key={item.id}
+                      alt="image"
+                      fill
+                      src={item.link}
+                      className="object-cover w-full cursor-pointer"
+                    />
+                  </div>
+                ))}
             </div>
             <Link
               href="#"

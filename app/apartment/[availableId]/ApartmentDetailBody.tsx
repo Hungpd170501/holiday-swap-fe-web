@@ -262,8 +262,6 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
               </Fragment>
             )}
           </div>
-
-          
         </div>
         <div className="hidden md:block lg:block xl:block">
           {dateRangeContext ? (
@@ -337,9 +335,15 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
               <div className="flex flex-row items-center gap-2">
                 <AiFillStar size={20} color="orange" />
                 <div className="text-gray-700">
-                  {rating?.content?.length === 1
-                    ? `${rating?.content?.length} Review`
-                    : `${rating?.content?.length} Reviews`}
+                  {!rating ? (
+                    <div>0 Review</div>
+                  ) : (
+                    <Fragment>
+                      {rating?.content?.length === 1
+                        ? `${rating?.content?.length} Review`
+                        : `${rating?.content?.length} Reviews`}
+                    </Fragment>
+                  )}
                 </div>
               </div>
             )}
