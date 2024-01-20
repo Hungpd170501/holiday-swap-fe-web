@@ -68,18 +68,17 @@ export default function ModalExchangeApartment() {
     }
   }, [isMounted]);
 
-   const handleContactOwner = (ownerId: string) => {
+  const handleContactOwner = (ownerId: string) => {
     ConversationApis.getContactWithOwner(ownerId)
       .then((res) => {
         console.log('Check response', res);
       })
       .catch((err) => {
-        ConversationApis.createCurrentUserConversation(ownerId)
-          .catch((err) => {
-            console.log(err);
-          });
+        ConversationApis.createCurrentUserConversation(ownerId).catch((err) => {
+          console.log(err);
+        });
       });
-    }
+  };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
@@ -91,7 +90,7 @@ export default function ModalExchangeApartment() {
       requestCheckInDate: format(new Date(dateRange.startDate), 'yyyy-MM-dd'),
       requestCheckOutDate: format(new Date(dateRange.endDate), 'yyyy-MM-dd'),
       requestTotalMember: data.guests,
-      userId: userId,
+      userId: contactUserId,
       availableTimeId: ownerAvailableTimeId,
     };
 
@@ -104,7 +103,7 @@ export default function ModalExchangeApartment() {
         setOwnerAvailableTimeIdValue(null);
         setOpenModal(false);
         exchangeApartmentModal.onClose();
-        handleContactOwner(contactUserId)
+        handleContactOwner(contactUserId);
         router.push('/dashboard/myExchange');
         router.refresh();
       })
@@ -177,40 +176,34 @@ export default function ModalExchangeApartment() {
   };
 
   useEffect(() => {
-    if (ownershipId && isChangeOwnershipId === true) {
-      fetchAvailableTimeByCoOwnerId();
-      setIsChangeOwnershipId(false);
-    }
+  if (isChangeOwnershipId) {
+    fetchAvailableTimeByCoOwnerId();
+    setIsChangeOwnershipId(false);
+  }
 
-    if (availableTimeId && isChangeAvailableTime === true) {
-      fetchAvailableTimeById();
-      setIsChangeAvailableTime(false);
-    }
+  if (isChangeAvailableTime) {
+    fetchAvailableTimeById();
+    setIsChangeAvailableTime(false);
+  }
 
-    if (availableTimeById) {
-      setDateRangeDefault({
-        startDate: new Date(availableTimeById.startTime),
-        endDate: new Date(availableTimeById.endTime),
-        key: 'selection',
-      });
-    }
+  if (availableTimeById && !isChangeDate) {
+    const startDate = new Date(availableTimeById.startTime);
+    const endDate = new Date(availableTimeById.endTime);
+    
+    setDateRangeDefault({
+      startDate,
+      endDate,
+      key: 'selection',
+    });
 
-    if (dateRangeDefault && isChangeDate === false) {
-      setDateRange({
-        startDate: new Date(dateRangeDefault.startDate),
-        endDate: new Date(dateRangeDefault.endDate),
-        key: 'selection',
-      });
-    }
-  }, [
-    ownershipId,
-    availableTimeId,
-    availableTimeById,
-    dateRangeDefault,
-    isChangeDate,
-    isChangeOwnershipId,
-    isChangeAvailableTime,
-  ]);
+    setDateRange({
+      startDate,
+      endDate,
+      key: 'selection',
+    });
+  }
+}, [isChangeOwnershipId, isChangeAvailableTime, availableTimeById, isChangeDate]);
+
 
   console.log('Check is change date range', isChangeDate);
 

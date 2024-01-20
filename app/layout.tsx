@@ -86,7 +86,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                     <ModalEditPropertyAmenities />
                     <ModalChangeStatusIssue />
                     <ModalDeactiveApartment />
-                    <ModalExchangeApartment />
+                    {/* <ModalExchangeApartment /> */}
                     <ToasterProvider />
                   </ClientOnly>
 

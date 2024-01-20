@@ -29,10 +29,6 @@ const mapDate = (date: string | number[] | Dayjs | null | undefined): string | u
 };
 
 
-
-
-
-
 const exchangeId = async ({ params }: { params: IParams }) => {
   const currentUser = await GetCurrentUser();
   const exchange = await ExchangeApis.getCurrentUserExchangeById(params.exchangeId);

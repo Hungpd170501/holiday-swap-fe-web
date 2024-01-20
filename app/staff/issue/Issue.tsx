@@ -85,6 +85,7 @@ const Issue: React.FC<IssueProps> = ({ issue }) => {
             <Table.Head>
               <Table.HeadCell>Booking ID</Table.HeadCell>
               <Table.HeadCell>Description</Table.HeadCell>
+              <Table.HeadCell>Note</Table.HeadCell>
               <Table.HeadCell>Created on</Table.HeadCell>
               <Table.HeadCell>Status</Table.HeadCell>
               <Table.HeadCell>Action</Table.HeadCell>
@@ -94,6 +95,7 @@ const Issue: React.FC<IssueProps> = ({ issue }) => {
                 <Table.Row key={item.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                   <Table.Cell>{item.bookingId}</Table.Cell>
                   <Table.Cell>{item.description}</Table.Cell>
+                  <Table.Cell>{item.note}</Table.Cell>
                   <Table.Cell>{format(new Date(item?.createdOn), 'dd/MM/yyyy')}</Table.Cell>
                   <Table.Cell
                     className={`${item.status === 'OPEN' ? 'text-green-500' : ''} ${
