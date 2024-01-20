@@ -153,7 +153,6 @@ export default function ModalCreateOwnership() {
     fetchDataWhenMount();
   }, [propertyValue, dataResort, resortId]);
 
-  console.log('Check resortId', resortId);
 
   useEffect(() => {
     const fetchProperty = async () => {

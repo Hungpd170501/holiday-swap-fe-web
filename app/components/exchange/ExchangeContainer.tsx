@@ -148,16 +148,38 @@ const ExchangeContainer: React.FC<ExchangeContainerProps> = ({
         end.setDate(end.getDate() + 1);
         return { checkIn: start, checkOut: end };
       });
-    console.log(r);
-
     arr = arr.concat(x);
     arr = arr.concat(p);
     arr = arr.concat(r);
-    console.log('result', arr);
-
     return arr;
   });
   const [timesDisableOnClick, setTimesDisableOnClick] = useState<Date[]>([]);
+  const [maxDate, setMaxDate] = useState<Date>(() => {
+    // new Date();
+    let max: any = undefined;
+    yourAvailableTime?.coOwner.endTime
+      ? (max = new Date(new Date(yourAvailableTime?.coOwner.endTime).getFullYear(), 10, 31))
+      : (max = new Date(new Date().getFullYear() + 20, 10, 31));
+    let resortDeactive = yourAvailableTime?.coOwner?.property?.resort?.resortMaintainces.filter(
+      (e: any) => e.type == 'DEACTIVATE'
+    );
+    let propertyDeactive = yourAvailableTime?.coOwner?.property?.propertyMaintenance.filter(
+      (e: any) => e.type == 'DEACTIVATE'
+    );
+    resortDeactive = resortDeactive ? resortDeactive : [];
+    propertyDeactive = propertyDeactive ? propertyDeactive : [];
+    if (resortDeactive.length > 0) {
+      if (new Date(max) > new Date(resortDeactive[0].startDate))
+        max = new Date(resortDeactive[0].startDate);
+    }
+    if (propertyDeactive.length > 0) {
+      if (new Date(max) > new Date(propertyDeactive[0].startDate))
+        max = new Date(propertyDeactive[0].startDate);
+    }
+    if (max != undefined) max.setDate(max.getDate() - 1);
+
+    return max;
+  });
   const handleOnChangeDateRangePicker = (value: any) => {
     const result: Date[] = [];
     disableTimes?.forEach(({ checkIn, checkOut }: { checkIn: Date; checkOut: Date }) => {
@@ -185,8 +207,6 @@ const ExchangeContainer: React.FC<ExchangeContainerProps> = ({
   };
 
   useEffect(() => {
-    console.log(range[0].startDate);
-    console.log(range[0].endDate);
     if (
       range[0]?.startDate &&
       range[0]?.endDate &&
@@ -202,7 +222,6 @@ const ExchangeContainer: React.FC<ExchangeContainerProps> = ({
         if (response && response?.response?.data) {
           toast.error(response?.response?.data?.message);
         } else {
-          console.log(response);
           toast.error('Something went wrong!');
         }
       });
@@ -328,12 +347,8 @@ const ExchangeContainer: React.FC<ExchangeContainerProps> = ({
       formData.append('image', files[0]?.file ?? '');
     }
     MessageApis.sendMessage(conversationId, formData)
-      .then((response) => {
-        console.log('result', JSON.stringify(response.data));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      .then((response) => {})
+      .catch((err) => {});
     setFiles([]);
   };
 
@@ -702,13 +717,14 @@ const ExchangeContainer: React.FC<ExchangeContainerProps> = ({
                           }}
                           disabledDates={timesDisableOnClick}
                           maxDate={
-                            yourAvailableTime?.endTime && isValidDate(yourAvailableTime.endTime)
-                              ? new Date(
-                                  ...(yourAvailableTime.endTime.map((value, index) =>
-                                    index === 1 ? value - 1 : value
-                                  ) as [number, number, number])
-                                )
-                              : dayjs().add(2, 'month').toDate()
+                            // yourAvailableTime?.endTime && isValidDate(yourAvailableTime.endTime)
+                            //   ? new Date(
+                            //       ...(yourAvailableTime.endTime.map((value, index) =>
+                            //         index === 1 ? value - 1 : value
+                            //       ) as [number, number, number])
+                            //     )
+                            //   : dayjs().add(2, 'month').toDate()
+                            maxDate
                           }
                           minDate={
                             yourAvailableTime?.startTime && isValidDate(yourAvailableTime.startTime)
