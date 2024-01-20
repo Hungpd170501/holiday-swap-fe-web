@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Image } from 'antd';
 import { useRouter } from 'next/navigation';
 import { Button, Modal } from 'flowbite-react';
+import dayjs from 'dayjs';
 
 interface DetailOwnershipApproveProps {
   approveDetail: any;
@@ -135,8 +136,14 @@ const DetailOwnershipApprove: React.FC<DetailOwnershipApproveProps> = ({ approve
                     {detail?.user.fullName ? detail?.user.fullName : detail?.user.username}
                   </span>
                 </div>
-                <div className="text-black">
+                <div className="text-black mb-5">
                   Apartment ID: <span className="text-slate-600">{detail.roomId}</span>
+                </div>
+                <div className="text-black">
+                  Year next use:{' '}
+                  <span className="text-slate-600">
+                    {dayjs(detail.startTime).format('YYYY-MM-DD')}
+                  </span>
                 </div>
               </div>
 
