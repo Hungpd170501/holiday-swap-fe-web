@@ -483,6 +483,7 @@ const CreateResort: React.FC<CreateResortProps> = ({ amenitiesArray, propertyTyp
         </div> */}
         <div>
           <button
+            disabled={isLoading}
             onClick={handleSubmit(onSubmit)}
             className="bg-[#5C98F2] px-4 py-3 mb-10 rounded-md text-white hover:bg-blue-500"
           >

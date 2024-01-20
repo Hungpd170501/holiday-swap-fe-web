@@ -25,7 +25,9 @@ function mapApartmentToStayCard(
       // author: apartmentForRent.user.username,
       // date: null,
       href: `/apartment`,
-      galleryImgs: apartmentForRent?.availableTime?.coOwner?.property?.propertyImages?.map((image) => image?.link),
+      galleryImgs: apartmentForRent?.availableTime?.coOwner?.property?.propertyImages?.map(
+        (image) => image?.link
+      ),
       title: apartmentForRent?.availableTime?.coOwner?.property.propertyName,
       commentCount: 5,
       viewCount: 100,
@@ -33,14 +35,16 @@ function mapApartmentToStayCard(
       reviewCount: 100,
       roomSize: apartmentForRent?.availableTime?.coOwner?.property.roomSize,
       price: apartmentForRent.availableTime.pricePerNight,
-      listingCategory: apartmentForRent?.availableTime?.coOwner?.property.propertyType.propertyTypeName,
+      listingCategory:
+        apartmentForRent?.availableTime?.coOwner?.property.propertyType.propertyTypeName,
       bedrooms: apartmentForRent?.availableTime?.coOwner?.property.numberBedsRoom,
       bathrooms: apartmentForRent?.availableTime?.coOwner?.property.numberBathRoom,
       map: {
         lat: apartmentForRent?.availableTime?.coOwner?.property.resort.latitude,
         lng: apartmentForRent?.availableTime?.coOwner?.property.resort.longitude,
       },
-      propertyView: apartmentForRent?.availableTime?.coOwner?.property.propertyView.propertyViewName,
+      propertyView:
+        apartmentForRent?.availableTime?.coOwner?.property.propertyView.propertyViewName,
       resortName: apartmentForRent?.availableTime?.coOwner?.property.resort.resortName,
       ownerName: apartmentForRent.availableTime.coOwner.user.username,
       ownerAvatar: apartmentForRent.availableTime.coOwner.user?.avatar,
@@ -68,7 +72,6 @@ const MainMap: React.FC<MainMapProps> = ({ data }) => {
 
   useEffect(() => {
     fetchApartmentForRents();
-    
   }, [params]);
 
   const newDateRange = useNewDateRange();
@@ -171,12 +174,12 @@ const MainMap: React.FC<MainMapProps> = ({ data }) => {
           defaultZoom={12}
           yesIWantToUseGoogleMapApiInternals
           // margin={[50,50,50,50]}
-          onChange={(e:any) => {
-              // console.log(e.marginBounds.ne, e.marginBounds.sw);
-              // onChange Event sets new Coordinates for Google Map Component
-              // setCoordinates({ lat: e.center.lat, lng: e.center.lng })
-              // // onChange Event sets new Bounds for Google Map Component
-              // setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw })
+          onChange={(e: any) => {
+            // console.log(e.marginBounds.ne, e.marginBounds.sw);
+            // onChange Event sets new Coordinates for Google Map Component
+            // setCoordinates({ lat: e.center.lat, lng: e.center.lng })
+            // // onChange Event sets new Bounds for Google Map Component
+            // setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw })
           }}
           // onChildClick={() => {}}\
         >

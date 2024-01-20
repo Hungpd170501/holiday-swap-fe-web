@@ -374,7 +374,7 @@ const CreateProperty: React.FC<CreatePropertyProps> = ({
                 Back
               </button>
             </div>
-            <ButtonRegister label="Create" onClick={handleSubmit(onSubmit)} />
+            <ButtonRegister disabled={isLoading} label="Create" onClick={handleSubmit(onSubmit)} />
           </div>
         </div>
       </div>
