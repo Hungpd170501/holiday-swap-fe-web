@@ -78,7 +78,12 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
 
   const handleExchangeApartment = () => {
     if (currentUser && ownershipUser) {
-      exchangeApartmentModal.onOpen(ownershipUser);
+      exchangeApartmentModal.onOpen(
+        ownershipUser,
+        apartment?.availableTime.id,
+        currentUser,
+        apartment?.availableTime?.coOwner?.user?.userId?.toString()
+      );
     } else {
       loginModal.onOpen();
     }

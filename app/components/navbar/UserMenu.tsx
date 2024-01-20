@@ -8,7 +8,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchNotifications } from '@/app/redux/slices/pushNotificationSlice';
 import { useSocket } from '@/app/hooks/useSocket';
 import ChatWidget from '@/app/components/notification/ChatWidget';
-import { fetchConversations, setConversationLoaded, setCurrentUserId } from '@/app/redux/slices/conversationSlice';
+import {
+  fetchConversations,
+  setConversationLoaded,
+  setCurrentUserId,
+} from '@/app/redux/slices/conversationSlice';
 import { usePathname } from 'next/navigation';
 import { NotificationResponse } from '@/app/components/notification/types';
 import { MdDashboard } from 'react-icons/md';
@@ -24,6 +28,7 @@ import useWriteBlogModal from '@/app/hooks/useWriteBlogModal';
 import useRecharge from '@/app/hooks/useRecharge';
 import UserApis from '@/app/actions/UserApis';
 import useLoginModal from '@/app/hooks/useLoginModal';
+import Link from 'next/link';
 
 interface UserMenuProps {
   currentUser?: Object | any | null;
@@ -84,7 +89,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, userWallet }) => {
         const [notifications, userProfile, conversations] = await Promise.all([
           NotificationApis.getAll(),
           UserApis.getCurrentUserProfile(),
-          ConversationApis.getCurrentUserConversation()
+          ConversationApis.getCurrentUserConversation(),
         ]);
         dispatch(fetchNotifications(notifications));
         dispatch(setCurrentUserId(userProfile.userId));
@@ -142,9 +147,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, userWallet }) => {
               </g>
             </svg>
             {conversations && countUnreadMessages != null && countUnreadMessages > 0 && (
-              <div className='px-1 neutral-100 rounded-full text-center text-gray text-sm absolute -top-3 -end-2'>
+              <div className="px-1 neutral-100 rounded-full text-center text-gray text-sm absolute -top-3 -end-2">
                 {countUnreadMessages}
-                <div className='absolute top-0 start-0 rounded-full -z-10 animate-ping bg-gray-200 w-full h-full'></div>
+                <div className="absolute top-0 start-0 rounded-full -z-10 animate-ping bg-gray-200 w-full h-full"></div>
               </div>
             )}
           </div>
@@ -247,19 +252,29 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, userWallet }) => {
                         onClick={() => handleRouter('/dashboard')}
                         label="Dashboard"
                       />
-                       <MenuItem
+                      <MenuItem
                         icon={FaHouseUser}
                         onClick={() => handleRouter('/dashboard/ownership')}
                         label="My apartment"
                       />
-                      <MenuItem
-                        icon={FaMoneyCheckAlt}
+
+                      <Link
+                        href={`/recharge`}
                         onClick={() => {
-                          handleRouter('/recharge');
                           recharge.onClickLink();
+                          setIsOpen(false);
                         }}
-                        label="Recharge"
-                      />
+                      >
+                        <MenuItem
+                          icon={FaMoneyCheckAlt}
+                          // onClick={() => {
+                          //   handleRouter('/recharge');
+                          //   recharge.onClickLink();
+                          // }}
+                          label="Recharge"
+                        />
+                      </Link>
+
                       <MenuItem
                         icon={IoIosChatboxes}
                         onClick={() => handleRouter('/chat')}

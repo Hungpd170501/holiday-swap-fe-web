@@ -119,13 +119,13 @@ const ListResort: React.FC<ListResortProps> = ({
     // Fetch data only on the client side
 
     // Fetch data using the updated state
-    await fetchData();
+    if (typeof window !== 'undefined') {
+      await fetchData();
+    }
   };
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      fetchDataOnMount();
-    }
+    fetchDataOnMount();
   }, []); // Empty dependency array to ensure it runs only on mount
 
   useEffect(() => {
