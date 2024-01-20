@@ -8,6 +8,7 @@ import React, { Fragment, useEffect } from 'react';
 import { Button, Label, Table, TextInput } from 'flowbite-react';
 import useChangeStatusIssueModal from '@/app/hooks/useChangeStatusIssueModal';
 import GetListIssue from '@/app/actions/getListIssue';
+import Link from 'next/link';
 
 interface IssueProps {
   issue: any;
@@ -93,7 +94,9 @@ const Issue: React.FC<IssueProps> = ({ issue }) => {
             <Table.Body className="divide-y">
               {sortedItems.map((item: any, index: any) => (
                 <Table.Row key={item.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell>{item.bookingId}</Table.Cell>
+                  <Table.Cell className="hover:underline">
+                    <Link href={`/dashboard/myBooking/${item.bookingId}`} target='_blank'>{item.bookingId}</Link>
+                  </Table.Cell>
                   <Table.Cell>{item.description}</Table.Cell>
                   <Table.Cell>{item.note}</Table.Cell>
                   <Table.Cell>{format(new Date(item?.createdOn), 'dd/MM/yyyy')}</Table.Cell>

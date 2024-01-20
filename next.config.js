@@ -3,7 +3,7 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  reactStrictMode: true,
+  reactStrictMode: false,
   output: 'standalone',
   images: {
     domains: ['holiday-swap-file-resouces.s3.ap-southeast-1.amazonaws.com'],

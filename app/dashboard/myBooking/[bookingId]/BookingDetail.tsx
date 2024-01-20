@@ -150,7 +150,8 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
                 {/* <div className="text-slate-500">On HolidaySwap since 2015</div> */}
               </div>
             </div>
-            <div>
+            {currentUser.role.roleId !== 3 && (
+              <div>
               <div
                 onClick={() => handleContactOwner(ownerUser?.content[0]?.userId?.toString())}
                 className="hover:bg-hover rounded-md  cursor-pointer px-4 py-2 bg-common text-white text-center"
@@ -158,6 +159,7 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
                 Contact with owner
               </div>
             </div>
+            )}
           </div>
 
           {/* Image apartment */}
@@ -171,7 +173,7 @@ const BookingDetail: React.FC<BookingDetailProps> = ({
             <div className="text-slate-400">Description</div>
           </div>
 
-          {!ratingValue && detail?.status === 'SUCCESS' && (
+          {!ratingValue && detail?.status === 'SUCCESS' && currentUser.role.roleId !== 3 && (
             <div className="flex flex-row gap-3">
               <div className="py-3">
                 <button

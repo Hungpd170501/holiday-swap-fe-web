@@ -42,6 +42,6 @@ export default async function BookingDetailPage({ params }: { params: IParams })
         />
       </div>
     </div>,
-    [2, 4]
+    [2, 4, 3]
   );
 }
