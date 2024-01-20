@@ -29,6 +29,7 @@ import isoWeek from 'dayjs/plugin/isoWeek';
 import { forEach } from 'lodash';
 import { arrayBuffer } from 'stream/consumers';
 import GetApartmentMantainByPropertyIdApartmentId from '@/app/actions/getApartmentMantainByPropertyIdApartmentId';
+import AxiosClient from '@/app/libs/AxiosConfig2';
 dayjs.extend(isoWeek);
 
 interface IDate {
@@ -246,7 +247,7 @@ const ModalCoOwnerCalendar = (props: any) => {
     if (max != undefined) max.setDate(max.getDate() - 1);
     setMaxDate(max);
   }, []);
-
+  
   const [yearSelectBox, setYearSelectBox] = useState(new Date().getFullYear());
   const showModal = () => {
     setOpen(true);
@@ -266,23 +267,14 @@ const ModalCoOwnerCalendar = (props: any) => {
       endTime: endTime,
       pricePerNight: pricePerNight,
     });
-    let config = {
-      method: 'post',
-      maxBodyLength: Infinity,
-      url: `https://holiday-swap.click/api/v1/available-times/${coOwnerId}`,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: body,
-    };
-    axios
-      .request(config)
+      AxiosClient.post(`v1/available-times/${coOwnerId}`, body)
       .then((response) => {
         props.fetchAvailableTimeByCoOwnerId();
         setOpen(false);
         message.success('Create success!.');
       })
       .catch((error) => {
+        console.log(error);
         message.error(error.response.data.message);
       });
     function disableButton() {
