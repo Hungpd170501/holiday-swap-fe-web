@@ -125,9 +125,10 @@ const ListApartment: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
               {ownershipUserList?.content.map((item: any, index: number) => {
                 let status = 'ACTIVE';
                 let type = 'success';
-                const deactive: any[] = item.ownerShipMaintenance?.filter(
+                let deactive: any[] = item.ownerShipMaintenance?.filter(
                   (e: any) => e.type == 'DEACTIVATE'
                 );
+                if (!deactive) deactive = [];
                 if (deactive?.length > 0) {
                   status = `DEACTIVATE in ${dayjs(deactive[0].startDate).format('YYYY-MM-DD')}`;
                   type = 'error';

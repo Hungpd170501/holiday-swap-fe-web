@@ -18,7 +18,8 @@ const useDeactiveApartmentModal = create<DeactiveApartmentModalStore>((set) => (
   isSuccess: false,
   onSuccess: () => set({ isSuccess: true }),
   onSuccessReset: () => set({ isSuccess: false }),
-  onOpen: (propertyId, roomId) => set({ isOpen: true, propertyId: propertyId, roomId: roomId }),
+  onOpen: (propertyId, roomId) =>
+    set({ isOpen: true, propertyId: propertyId, roomId: roomId, isSuccess: false }),
   onClose: () => set({ isOpen: false }),
 }));
 
