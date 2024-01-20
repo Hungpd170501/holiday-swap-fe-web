@@ -6,6 +6,7 @@ import GetConversations from '@/app/actions/getConversations';
 import GetCurrentUser from '@/app/actions/getCurrentUser';
 import ConversationApis, { Conversation } from '@/app/actions/ConversationApis';
 import MessageApis from '@/app/actions/MessageApis';
+import { useDispatch } from 'react-redux';
 
 interface IParams {
   conversationId: string;
@@ -16,7 +17,8 @@ const ConversationId = async ({ params }: { params: IParams }) => {
   const conversations = (await GetConversations()) as Conversation[];
   const currentUser = await GetCurrentUser();
   const messages = await MessageApis.getMessagesByConversationId(params.conversationId);
-
+  MessageApis.markAsReadByConversationId(params.conversationId)
+    .catch(err=> console.log(err));
   if (
     !(conversations?.find(
       (c: Conversation) => c?.conversationId?.toString() === params?.conversationId
@@ -32,7 +34,7 @@ const ConversationId = async ({ params }: { params: IParams }) => {
   }
 
   return (
-    <div className="h-screen custom-max-height">
+    <div className="h-screen custom-max-height pt-6">
       <div className="h-screen flex flex-col custom-max-height">
         <Header
           conversation={
@@ -48,7 +50,7 @@ const ConversationId = async ({ params }: { params: IParams }) => {
             conversations?.find(
               (c: Conversation) => c?.conversationId?.toString() === params?.conversationId
             ) as Conversation
-          )?.participants.map((p) => p.user)}
+          )?.participants?.map((p) => p.user)??[]}
           currentUser={currentUser}
         />
         <Form currentUser={currentUser} />

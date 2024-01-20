@@ -33,6 +33,7 @@ import ModalDeactiveResort from './components/modal/ModalDeactiveResort';
 import ModalMaintanceResort from './components/modal/ModalMaintanceResort';
 import ModalEditResortAmenities from './components/modal/ModalEditResortAmenities';
 import ModalChangeStatusIssue from './components/modal/ModalChangeStatusIssue';
+import HelpSpeedDial from '@/app/components/speed-dial/HelpSpeedDial';
 import ModalEditPropertyAmenities from './components/modal/ModalEditPropertyAmenities';
 import ModalDeactiveApartment from './components/modal/ModalDeactiveApartment';
 import ModalExchangeApartment from './components/modal/ModalExchangeApartment';
@@ -91,6 +92,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
                   {children}
                 </Suspense>
+                {currentUser && currentUser.role.roleId != 1 && currentUser.role.roleId != 3 &&
+                  <HelpSpeedDial currentUser={currentUser}/>}
                 <Footer />
               </GuestProvider>
             </DateRangeProvider>

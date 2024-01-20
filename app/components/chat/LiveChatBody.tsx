@@ -21,6 +21,7 @@ import {
   updateCountUnreadMessages,
 } from '@/app/redux/slices/conversationSlice';
 import MessageApis from '@/app/actions/MessageApis';
+import LiveChatMessageBox from '@/app/components/chat/LiveChatMessageBox';
 
 // export type FullMessageType = Message & {
 //   sender: User;
@@ -30,15 +31,14 @@ export type FullMessageType = Message;
 
 type Props = {
   initialMessages: FullMessageType[];
-  users: User[];
   currentUser?: Object | any | null;
+  conversationId: string;
 };
 
-function Body({ initialMessages, users, currentUser }: Props) {
+function LiveChatBody({ initialMessages, currentUser, conversationId }: Props) {
   const bottomRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState(initialMessages);
   const [loading, setLoading] = useState(true);
-  const { conversationId } = useConversation();
   const [client, setClient] = useState<Client | null>(null);
   const [wsState, setWsState] = useState<'connected' | 'disconnected'>();
   const { data: session } = useSession();
@@ -50,7 +50,7 @@ function Body({ initialMessages, users, currentUser }: Props) {
     if(!loading){
       bottomRef?.current?.scrollIntoView();
       dispatch(readConversationById(conversationId));
-      dispatch(setCurrentConversationId(conversationId));
+      // dispatch(setCurrentConversationId(conversationId));
       MessageApis.markAsReadByConversationId(conversationId)
         .catch(err=> console.log(err));
     }
@@ -81,7 +81,7 @@ function Body({ initialMessages, users, currentUser }: Props) {
           setMessages((current) => {
             return [...current, newMessage];
           })
-          dispatch(updateCountUnreadMessages({ increment: 0, decrement: 1, conversationId: conversationId }));
+          // dispatch(updateCountUnreadMessages({ increment: 0, decrement: 1, conversationId: conversationId }));
           MessageApis.markAsReadByConversationIdEqualsAndMessageIdEquals(conversationId, newMessage?.messageId.toString())
             .catch(err=> console.log(err));
           // bottomRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -95,57 +95,11 @@ function Body({ initialMessages, users, currentUser }: Props) {
     }
     return () => {
       setLoading(true);
-      dispatch(setCurrentConversationId(null));
+      // dispatch(setCurrentConversationId(null));
       client?.deactivate();
     };
   }, [accessToken, client, conversationId, initialMessages]);
 
-
-
-
-  // useEffect(() => {
-  //   axios.post(`/api/conversations/${conversationId}/seen`);
-  // }, [conversationId]);
-
-  // useEffect(() => {
-  //   pusherClient.subscribe(conversationId);
-  //   bottomRef?.current?.scrollIntoView();
-  //
-  //   const messageHandler = (message: FullMessageType) => {
-  //     axios.post(`/api/conversations/${conversationId}/seen`);
-  //
-  //     setMessages((current) => {
-  //       if (find(current, { id: message.id })) {
-  //         return current;
-  //       }
-  //
-  //       return [...current, message];
-  //     });
-  //
-  //     bottomRef?.current?.scrollIntoView();
-  //   };
-  //
-  //   const updateMessageHandler = (newMessage: FullMessageType) => {
-  //     setMessages((current) =>
-  //       current.map((currentMessage) => {
-  //         if (currentMessage.id === newMessage.id) {
-  //           return newMessage;
-  //         }
-  //
-  //         return currentMessage;
-  //       })
-  //     );
-  //   };
-  //
-  //   pusherClient.bind("messages:new", messageHandler);
-  //   pusherClient.bind("message:update", updateMessageHandler);
-  //
-  //   return () => {
-  //     pusherClient.unsubscribe(conversationId);
-  //     pusherClient.unbind("messages:new", messageHandler);
-  //     pusherClient.unbind("message:update", updateMessageHandler);
-  //   };
-  // }, [conversationId]);
   return (
     <>
       {loading ? (
@@ -155,11 +109,10 @@ function Body({ initialMessages, users, currentUser }: Props) {
       ) : (
         <div className="bg-gray-50 flex-1 overflow-y-auto dark:bg-black">
           {messages.map((message, index) => (
-            <MessageBox
+            <LiveChatMessageBox
               isLast={index === messages.length - 1}
               key={message.messageId}
               data={message}
-              users={users}
               currentUser={currentUser}
             />
           ))}
@@ -170,4 +123,4 @@ function Body({ initialMessages, users, currentUser }: Props) {
   );
 }
 
-export default Body;
+export default LiveChatBody;

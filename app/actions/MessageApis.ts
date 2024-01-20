@@ -1,4 +1,5 @@
 import AxiosClient from '@/app/libs/AxiosConfig';
+import { Conversation } from '@/app/actions/ConversationApis';
 
 export interface Message {
   messageId: number;
@@ -15,6 +16,8 @@ const MessageApis = {
     headers: {
       "Content-Type": "multipart/form-data",
     }}),
+  markAsReadByConversationIdEqualsAndMessageIdEquals: (conversationId: string, messageId: string): Promise<Conversation> => AxiosClient.patch(`/message/${conversationId}/${messageId}/read`),
+  markAsReadByConversationId: (conversationId: string): Promise<Conversation> => AxiosClient.patch(`/message/${conversationId}/read-all`),
 };
 
 export default MessageApis;

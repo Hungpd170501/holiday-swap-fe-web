@@ -1,7 +1,7 @@
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 import { HiChat } from "react-icons/hi";
-import useConversation from "./useConverastion";
+import useConversation from "./useConversation";
 import { HiUsers } from "react-icons/hi2";
 
 const useRouteChat = () => {

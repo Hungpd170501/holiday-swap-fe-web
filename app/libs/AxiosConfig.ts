@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getSession } from 'next-auth/react';
+import { getSession as getServerSession } from '@/pages/api/auth/[...nextauth]';
 
 const BASE_URL = process.env.API_URL;
 
@@ -13,15 +14,22 @@ const AxiosClient = axios.create({
 // Add a request interceptor
 AxiosClient.interceptors.request.use(
   async function(config) {
-    const session = await getSession();
-    if (session && session?.user?.access_token && session.user?.access_token!=="") {
-      config.headers.Authorization = `Bearer ${session?.user?.access_token}`;
+    if (typeof window === 'undefined') {
+      const serverSession = await getServerSession();
+      if (serverSession) {
+        config.headers.Authorization = `Bearer ${serverSession?.user?.access_token}`;
+      }
+    } else {
+      const session = await getSession();
+      if (session) {
+        config.headers.Authorization = `Bearer ${session?.user?.access_token}`;
+      }
     }
     return config;
   },
   function(error) {
     // Do something with request error
-    // return Promise.reject(error);
+    return Promise.reject(error);
   },
 );
 

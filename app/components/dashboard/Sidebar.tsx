@@ -87,42 +87,42 @@ const Sidebar = () => {
     // },
   ];
 
-  // const sidebarExchange = [
-  //   {
-  //     name: 'My Exchange',
-  //     href: '/dashboard/myExchange',
-  //     icon: MdOutlineSwapHorizontalCircle,
-  //     current: pathName?.includes('/dashboard/myExchange') ? true : false,
-  //   },
-  //   {
-  //     name: 'Invoices Exchange',
-  //     href: '/dashboard/invoiceExchange',
-  //     icon: LiaFileInvoiceDollarSolid,
-  //     current: pathName?.includes('/dashboard/invoiceExchange') ? true : false,
-  //   },
-  //   {
-  //     name: 'Reviews Exchange',
-  //     href: '/dashboard/reviewExchange',
-  //     icon: AiOutlineStar,
-  //     current: pathName?.includes('/dashboard/reviewExchange') ? true : false,
-  //   },
-  // ];
+  const sidebarExchange = [
+    {
+      name: 'My Exchange',
+      href: '/dashboard/myExchange',
+      icon: MdOutlineSwapHorizontalCircle,
+      current: pathName?.includes('/dashboard/myExchange') ? true : false,
+    },
+    // {
+    //   name: 'Invoices Exchange',
+    //   href: '/dashboard/invoiceExchange',
+    //   icon: LiaFileInvoiceDollarSolid,
+    //   current: pathName?.includes('/dashboard/invoiceExchange') ? true : false,
+    // },
+    // {
+    //   name: 'Reviews Exchange',
+    //   href: '/dashboard/reviewExchange',
+    //   icon: AiOutlineStar,
+    //   current: pathName?.includes('/dashboard/reviewExchange') ? true : false,
+    // },
+  ];
 
   //
-  const sidebarMessages = [
-    {
-      name: 'Chats',
-      href: '/chat',
-      icon: BiMessageDetail,
-      current: pathName === '/chat',
-    },
+  // const sidebarMessages = [
+  //   {
+  //     name: 'Chats',
+  //     href: '/chat',
+  //     icon: BiMessageDetail,
+  //     current: pathName === '/chat',
+  //   },
     // {
     //   name: 'Notifications',
     //   href: '/dashboard/invoiceExchange',
     //   icon: BiSolidNotification,
     //   current: pathName === '/notification',
     // }
-  ];
+  // ];
 
   return (
     <div className="hidden md:hidden md:pt-5 md:pl-5 md:pr-5 lg:block ">
@@ -212,7 +212,7 @@ const Sidebar = () => {
               </li>
             </ul>
           </div>
-          {/* <div className="flex h-16 shrink-0 items-center">
+          <div className="flex h-16 shrink-0 items-center">
             <div className="text-3xl font-bold text-gray-700">Exchange</div>
           </div>
           <div className="flex flex-1 flex-col">
@@ -239,35 +239,34 @@ const Sidebar = () => {
               </li>
             </ul>
           </div>
-          </div> */}
 
-          <div className="flex h-16 shrink-0 items-center">
-            <h1 className="text-3xl font-bold text-gray-700">Messages</h1>
-          </div>
-          <div className="flex flex-1 flex-col">
-            <ul role="list" className="flex flex-1 flex-col gap-y-7">
-              <li>
-                <ul role="list" className="-mx-2 space-y-1">
-                  {sidebarMessages.map((option) => (
-                    <li key={option.name}>
-                      <Link
-                        href={option.href}
-                        className={classNames(
-                          option.current
-                            ? 'bg-common text-white'
-                            : 'text-gray-400 hover:text-white hover:bg-common',
-                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                        )}
-                      >
-                        <option.icon className="text-gray-300 group-hover:text-white h-6 w-6 shrink-0" />
-                        {option.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            </ul>
-          </div>
+          {/*<div className="flex h-16 shrink-0 items-center">*/}
+          {/*  <h1 className="text-3xl font-bold text-gray-700">Messages</h1>*/}
+          {/*</div>*/}
+          {/*<div className="flex flex-1 flex-col">*/}
+          {/*  <ul role="list" className="flex flex-1 flex-col gap-y-7">*/}
+          {/*    <li>*/}
+          {/*      <ul role="list" className="-mx-2 space-y-1">*/}
+          {/*        {sidebarMessages.map((option) => (*/}
+          {/*          <li key={option.name}>*/}
+          {/*            <Link*/}
+          {/*              href={option.href}*/}
+          {/*              className={classNames(*/}
+          {/*                option.current*/}
+          {/*                  ? 'bg-common text-white'*/}
+          {/*                  : 'text-gray-400 hover:text-white hover:bg-common',*/}
+          {/*                'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'*/}
+          {/*              )}*/}
+          {/*            >*/}
+          {/*              <option.icon className="text-gray-300 group-hover:text-white h-6 w-6 shrink-0" />*/}
+          {/*              {option.name}*/}
+          {/*            </Link>*/}
+          {/*          </li>*/}
+          {/*        ))}*/}
+          {/*      </ul>*/}
+          {/*    </li>*/}
+          {/*  </ul>*/}
+          {/*</div>*/}
           <div>
             <button className="bg-[#5C98F2] px-4 py-3 rounded-md text-white">Sign Out</button>
           </div>

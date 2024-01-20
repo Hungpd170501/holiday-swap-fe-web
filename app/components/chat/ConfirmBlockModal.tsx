@@ -8,7 +8,7 @@ import { FiAlertTriangle } from "react-icons/fi";
 import { toast } from "react-toastify";
 import Modal from "./Modal";
 import Button from "./input/Button";
-import useConversation from "@/app/hooks/useConverastion";
+import useConversation from "@/app/hooks/useConversation";
 
 type Props = {
   isOpen?: boolean;

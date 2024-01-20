@@ -13,14 +13,20 @@ export interface Message {
 export interface Participant {
   leftChat: boolean;
   user: User;
+  messageId: number | null;
+  countUnreadMessages: number | null;
+  createdOn: string;
+  lastModifiedOn: string;
+  createdBy: string;
+  lastModifiedBy: string;
 }
 
 export interface Conversation {
   conversationId: number;
-  creationDate: string;
-  conversationName: string | null;
-  participants: Participant[];
-  message: Message;
+  creationDate?: string | null;
+  conversationName?: string | null;
+  participants?: Participant[] | null;
+  message?: Message | null;
 }
 
 
@@ -30,8 +36,11 @@ const ConversationApis = {
     conversationName,
     userIds,
   }),
-  getContactWithOwner: (ownerId: string):Promise<Conversation> => AxiosClient.get(`/conversation/current-user/contact/${ownerId}`),
-  createCurrentUserConversation: (ownerId: string): Promise<Conversation> => AxiosClient.post(`/conversation/current-user/contact/${ownerId}`),
+  getContactWithOwner: (userId: string): Promise<any> => AxiosClient.get(`/conversation/current-user/contact/${userId}`),
+  createCurrentUserConversation: (userId: string): Promise<Conversation> => AxiosClient.post(`/conversation/current-user/contact/${userId}`),
+  getSupportConversation: ():Promise<Conversation> => AxiosClient.get(`/conversation/current-user/support`),
+  createSupportConversation: (): Promise<Conversation> => AxiosClient.post(`/conversation/current-user/support`),
+  getParticipantsByConversationId: (conversationId: string): Promise<Participant[]> => AxiosClient.get(`/conversation/${conversationId}/participants`),
 };
 
 export default ConversationApis;

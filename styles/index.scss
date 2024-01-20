@@ -35,11 +35,11 @@
 }
 
 .custom-max-height{
-  max-height: calc(100% - 0em) !important;
+  max-height: calc(100% - 0.25em) !important;
 }
 
 .max-height-conversation-list{
-  max-height: 75vh !important;
+  max-height: calc(90% - 8em) !important;
 }
 
 .profile-dob {
@@ -60,4 +60,13 @@
     border: none !important;
     border-width: 0;
   }
+}
+
+.calendarElement {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 50%;
+  border: 1px solid #ccc;
+  z-index: 999;
 }

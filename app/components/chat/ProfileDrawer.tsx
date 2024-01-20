@@ -21,14 +21,14 @@ type Props = {
 function ProfileDrawer({ isOpen, onClose, data, currentUser }: Props) {
   const otherUser = data?.participants?.filter(
     (user) => user?.user?.userId !== currentUser?.userId
-  );
+  )??[];
   const members = data?.participants;
   const isActive = true;
   const [confirmLeaveOpen, setConfirmLeaveOpen] = useState(false);
   const [confirmBlockOpen, setConfirmBlockOpen] = useState(false);
 
   const joinDate = useMemo(() => {
-    return format(new Date(data?.creationDate), 'PP');
+    return format(new Date(data?.creationDate??0), 'PP');
   }, [data?.creationDate]);
 
   const title = useMemo(() => {
@@ -36,7 +36,7 @@ function ProfileDrawer({ isOpen, onClose, data, currentUser }: Props) {
   }, [data?.conversationName, otherUser]);
 
   const statusText = useMemo(() => {
-    if (data?.participants?.length > 2) {
+    if (data?.participants?.length??0 > 2) {
       return `${data?.participants?.length} Members`;
     }
 
@@ -103,7 +103,7 @@ function ProfileDrawer({ isOpen, onClose, data, currentUser }: Props) {
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
                         <div className="flex flex-col items-center">
                           <div className="mb-2">
-                            {data?.participants?.length > 2 ? (
+                            {data?.participants?.length??0 > 2 ? (
                               <AvatarGroup
                                 name={data?.conversationName || otherUser[0]?.user?.username}
                               />
@@ -142,7 +142,7 @@ function ProfileDrawer({ isOpen, onClose, data, currentUser }: Props) {
                               </div>
                             </div>
 
-                            {data?.participants?.length <= 2 && (
+                            {(data?.participants?.length??0) <= 2 && (
                               <div className="flex gap-10 my-8">
                                 <div
                                   onClick={() => setConfirmBlockOpen(true)}
@@ -160,7 +160,7 @@ function ProfileDrawer({ isOpen, onClose, data, currentUser }: Props) {
                           </div>
                           <div className="w-full pb-5 pt-5 sm:px-0 sm:pt-0">
                             <dl className="space-y-8 px-4 sm:space-y-6 sm:px-6">
-                              {data?.participants?.length > 2 && (
+                              {(data?.participants?.length??0) > 2 && (
                                 <div>
                                   <dt className="text-sm font-medium text-gray-500 dark:text-gray-300 sm:w-40 sm:flex-shrink-0">
                                     Members:
@@ -171,7 +171,7 @@ function ProfileDrawer({ isOpen, onClose, data, currentUser }: Props) {
                                   {/*    .join(", ")}*/}
                                   {/*</dd>*/}
                                   <dd className="mt-1 text-sm text-gray-900 dark:text-gray-100 sm:col-span-2">
-                                    {data?.participants.map((user) => (
+                                    {data?.participants?.map((user) => (
                                       <div
                                         key={`${user?.user?.userId}`}
                                         style={{ display: 'flex', alignItems: 'center' }}
@@ -193,17 +193,17 @@ function ProfileDrawer({ isOpen, onClose, data, currentUser }: Props) {
                                   </dd>
                                 </div>
                               )}
-                              {!(data?.participants?.length > 2) && (
+                              {!(data?.participants?.length??0 > 2) && (
                                 <div>
                                   <dt className="text-sm font-medium text-gray-500 dark:text-gray-300 sm:w-40 sm:flex-shrink-0">
                                     Email
                                   </dt>
                                   <dd className="mt-1 text-sm text-gray-900 dark:text-gray-100 sm:col-span-2">
-                                    {otherUser[0]?.user.email}
+                                    {otherUser[0]?.user?.email}
                                   </dd>
                                 </div>
                               )}
-                              {!(data?.participants?.length > 2) && (
+                              {!(data?.participants?.length??0 > 2) && (
                                 <>
                                   <hr />
                                   <div>

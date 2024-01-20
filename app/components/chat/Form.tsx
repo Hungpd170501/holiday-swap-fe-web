@@ -4,7 +4,7 @@ import axios from 'axios';
 import { CldUploadButton } from 'next-cloudinary';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { HiPaperAirplane, HiPhoto } from 'react-icons/hi2';
-import useConversation from '@/app/hooks/useConverastion';
+import useConversation from '@/app/hooks/useConversation';
 import MessageInput from './MessageInput';
 import MessageApis from '@/app/actions/MessageApis';
 import React, { useEffect, useRef, useState } from 'react';

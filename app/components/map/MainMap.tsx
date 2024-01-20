@@ -19,41 +19,29 @@ import useNewDateRange from '@/app/hooks/useNewDateRange';
 function mapApartmentToStayCard(
   apartmentForRentResponse: ApartmentForRentResponse
 ): StayDataType[] {
-  const result = apartmentForRentResponse.content.map((apartmentForRent, newDateRange) => {
-    return {
-      id: `${apartmentForRent.availableTime.id}`,
-      href: `/apartment`,
-      galleryImgs: apartmentForRent.availableTime.coOwner.property.propertyImages,
-    };
-  });
-  console.log('result', result);
-
-  return apartmentForRentResponse.content.map((apartmentForRent, newDateRange) => {
+  return apartmentForRentResponse?.content?.map((apartmentForRent, newDateRange) => {
     return {
       id: `${apartmentForRent.availableTime.id}`,
       // author: apartmentForRent.user.username,
       // date: null,
       href: `/apartment`,
-      galleryImgs: apartmentForRent.availableTime.coOwner.property.propertyImages.map(
-        (image) => image.link
-      ),
-      title: apartmentForRent.availableTime.coOwner.property.propertyName,
+      galleryImgs: apartmentForRent?.availableTime?.coOwner?.property?.propertyImages?.map((image) => image?.link),
+      title: apartmentForRent?.availableTime?.coOwner?.property.propertyName,
       commentCount: 5,
       viewCount: 100,
       reviewStart: 5,
       reviewCount: 100,
-      roomSize: apartmentForRent.availableTime.coOwner.property.roomSize,
+      roomSize: apartmentForRent?.availableTime?.coOwner?.property.roomSize,
       price: apartmentForRent.availableTime.pricePerNight,
-      listingCategory:
-        apartmentForRent.availableTime.coOwner.property.propertyType.propertyTypeName,
-      bedrooms: apartmentForRent.availableTime.coOwner.property.numberBedsRoom,
-      bathrooms: apartmentForRent.availableTime.coOwner.property.numberBathRoom,
+      listingCategory: apartmentForRent?.availableTime?.coOwner?.property.propertyType.propertyTypeName,
+      bedrooms: apartmentForRent?.availableTime?.coOwner?.property.numberBedsRoom,
+      bathrooms: apartmentForRent?.availableTime?.coOwner?.property.numberBathRoom,
       map: {
-        lat: apartmentForRent.availableTime.coOwner.property.resort.latitude,
-        lng: apartmentForRent.availableTime.coOwner.property.resort.longitude,
+        lat: apartmentForRent?.availableTime?.coOwner?.property.resort.latitude,
+        lng: apartmentForRent?.availableTime?.coOwner?.property.resort.longitude,
       },
-      propertyView: apartmentForRent.availableTime.coOwner.property.propertyView.propertyViewName,
-      resortName: apartmentForRent.availableTime.coOwner.property.resort.resortName,
+      propertyView: apartmentForRent?.availableTime?.coOwner?.property.propertyView.propertyViewName,
+      resortName: apartmentForRent?.availableTime?.coOwner?.property.resort.resortName,
       ownerName: apartmentForRent.availableTime.coOwner.user.username,
       ownerAvatar: apartmentForRent.availableTime.coOwner.user?.avatar,
     } as unknown as StayDataType;
@@ -80,6 +68,7 @@ const MainMap: React.FC<MainMapProps> = ({ data }) => {
 
   useEffect(() => {
     fetchApartmentForRents();
+    
   }, [params]);
 
   const newDateRange = useNewDateRange();
@@ -128,7 +117,13 @@ const MainMap: React.FC<MainMapProps> = ({ data }) => {
             )}
           </>
         ) : (
-          <Skeleton />
+          <div className="grid grid-cols-1 gap-8">
+            <Skeleton />
+            <Skeleton />
+            <Skeleton />
+            <Skeleton />
+            <Skeleton />
+          </div>
         )}
       </div>
       <div className="h-[60vh] md:h-full w-full relative">
@@ -176,13 +171,13 @@ const MainMap: React.FC<MainMapProps> = ({ data }) => {
           defaultZoom={12}
           yesIWantToUseGoogleMapApiInternals
           // margin={[50,50,50,50]}
-          // onChange={(e:any) => {
-          //     // console.log(e);
-          //     // onChange Event sets new Coordinates for Google Map Component
-          //     setCoordinates({ lat: e.center.lat, lng: e.center.lng })
-          //     // onChange Event sets new Bounds for Google Map Component
-          //     setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw })
-          // }}
+          onChange={(e:any) => {
+              // console.log(e.marginBounds.ne, e.marginBounds.sw);
+              // onChange Event sets new Coordinates for Google Map Component
+              // setCoordinates({ lat: e.center.lat, lng: e.center.lng })
+              // // onChange Event sets new Bounds for Google Map Component
+              // setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw })
+          }}
           // onChildClick={() => {}}\
         >
           {places.map((item) => (
