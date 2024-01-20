@@ -125,7 +125,9 @@ const ListResort: React.FC<ListResortProps> = ({
   };
 
   useEffect(() => {
-    fetchDataOnMount();
+    if (typeof window !== 'undefined') {
+      fetchDataOnMount();
+    }
   }, []); // Empty dependency array to ensure it runs only on mount
 
   useEffect(() => {
