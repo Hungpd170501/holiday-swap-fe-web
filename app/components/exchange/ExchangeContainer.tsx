@@ -1011,7 +1011,9 @@ const ExchangeContainer: React.FC<ExchangeContainerProps> = ({
                       <input
                         type="number"
                         readOnly
-                        value={exchangeTripData?.numberOfGuest ?? 1}
+                        value={
+                          exchangeTripData?.numberOfGuest > 0 ? exchangeTripData?.numberOfGuest : 1
+                        }
                         className="border-0 text-sm text-gray-600 focus:outline-0 focus:outline-transparent focus:border-0 focus:border-transparent focus:ring-0 w-full"
                       />
                     </div>
