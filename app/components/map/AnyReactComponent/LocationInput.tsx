@@ -87,6 +87,25 @@ const LocationInput: FC<LocationInputProps> = ({
     });
     setShowPopover(false);
   };
+  interface CoordinatesLookup {
+    [key: string]: Coords;
+  }
+  const handleSelectLocationv2 = (description: string, place_id: string) => {
+    setValue(description);
+    setPlaceId(place_id);
+    console.log(description, place_id);
+    const coordinatesLookup:CoordinatesLookup = {
+      "ChIJb4jMEXhncDERudweqAq8S1w": { lat: 12.2529152, lng: 109.1899018 },
+      "ChIJ0en_g_GLpzERFBvXmwFqVk4": { lat: 10.2228734, lng: 103.9626259 },
+      "ChIJ9QxPVdRvdTERQPpB9jvST7I": { lat: 10.4113797, lng: 107.136224 },
+    };
+    if (setCoordinates) {
+      if (coordinatesLookup.hasOwnProperty(place_id)) {
+        setCoordinates(coordinatesLookup[place_id]);
+      }
+    }
+    setShowPopover(false);
+  };
   const renderRecentSearches = () => {
     return (
       <>
@@ -109,7 +128,7 @@ const LocationInput: FC<LocationInputProps> = ({
             },
           ].map((item) => (
             <span
-              onClick={() => handleSelectLocation(item.description, item.place_id)}
+              onClick={() => handleSelectLocationv2(item.description, item.place_id)}
               key={item.place_id}
               className="flex px-4 sm:px-8 items-center space-x-3 sm:space-x-4 py-4 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer"
             >

@@ -68,9 +68,10 @@ export interface GuestsObject {
 export type StaySearchFormFields = 'location' | 'guests' | 'dates';
 
 export interface PropertyType {
-  name: string;
-  description: string;
-  checked: boolean;
+  id: number;
+  propertyTypeName: string;
+  propertyTypeDescription: string;
+  deleted: boolean;
 }
 
 export interface ClassOfProperties extends PropertyType {}
@@ -101,6 +102,13 @@ export interface PropertyView {
   deleted: boolean;
 }
 
+export interface PropertyImage {
+  id: number;
+  propertyId?: number;
+  link: string;
+  deleted?: boolean;
+}
+
 export interface PropertyType {
   id: number;
   propertyTypeName: string;
@@ -126,39 +134,38 @@ export interface Property {
   isDeleted: boolean;
   status: string;
   resortId: number;
-  resort: Resort;
   propertyType: PropertyType;
   propertyView: PropertyView;
   inRoomAmenityType: InRoomAmenityType[];
-  propertyImages: {
-    id: number;
-    propertyId: number;
-    link: string;
-    deleted: boolean;
-  }[];
+  resort: Resort;
+  propertyImages: PropertyImage[];
+  rating?: any;
 }
 
 export interface Resort {
   id: number;
   resortName: string;
-  resortDescription: string;
-  resortImages: any[]; // Assuming it's an array of images
-  propertyTypes: PropertyType[];
-  resortAmenityTypes: any; // Type not provided in the JSON
-  addressLine: string;
-  locationFormattedName: string;
-  locationDescription: string;
-  locationCode: string;
-  postalCode: string;
-  latitude: number;
-  longitude: number;
-  deleted: boolean;
+  resortDescription?: string;
+  status?: string;
+  resortImages?: any[]; // Assuming it's an array of images
+  propertyTypes?: PropertyType[];
+  resortAmenityTypes?: any; // Type not provided in the JSON
+  addressLine?: string;
+  locationFormattedName?: string;
+  locationDescription?: string;
+  locationCode?: string;
+  postalCode?: string;
+  latitude?: number;
+  longitude?: number;
+  resortMaintances?: any;
+  deleted?: boolean;
 }
 
 export interface User {
   userId: number;
   email: string;
   username: string;
+  fullName?: string;
   gender: string;
   dob: number[];
   phone: string;
@@ -175,45 +182,50 @@ export interface User {
   email_verified: boolean;
   phone_verified: boolean;
 }
-
-export interface AvailableTime {
-  id: number;
-  startTime: string;
-  endTime: string;
-  pricePerNight: number;
-  status: string;
-  coOwner: CoOwner;
-  deleted: boolean;
+export interface ContractImage {
+  id?: number;
+  link?: string;
+  deleted?: boolean;
 }
 
+export interface TimeFrame {
+  id?: number;
+  weekNumber?: number;
+  coOwnerId?: number;
+  deleted?: boolean;
+}
 export interface CoOwner {
   id: number;
   roomId: string;
-  endTime: string;
   startTime: string;
+  endTime: string;
   type: string;
   status: string;
-  contractImages: [
-    {
-      id: number;
-      link: string;
-      deleted: true;
-    }
-  ];
-  timeFrames: [
-    {
-      id: number;
-      weekNumber: number;
-      coOwnerId: number;
-      deleted: true;
-    }
-  ];
+  contractImages?: ContractImage[];
+  timeFrames?: TimeFrame[];
   createDate: string;
   property: Property;
-
   user: User;
-  deleted: true;
+  deleted: boolean;
 }
+export interface AvailableTime {
+  id: number;
+  startTime: number[];
+  endTime: number[];
+  pricePerNight: number;
+  status: string;
+  coOwner: CoOwner;
+  // timeFrameId: number;
+  timeHasBooked?: any;
+  deleted: boolean;
+}
+
+// export interface CoOwnerId {
+//   propertyId: number;
+//   userId: number;
+//   roomId: string;
+// }
+
 
 export interface ApartmentForRent {
   // coOwnerId: CoOwnerId;
@@ -221,6 +233,7 @@ export interface ApartmentForRent {
   // resort: Resort;
   // user: User;
   availableTime: AvailableTime;
+  timeHasBooked?: any;
 }
 
 export interface Pageable {

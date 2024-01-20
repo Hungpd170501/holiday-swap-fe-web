@@ -47,7 +47,7 @@ export default function NotificationWidget() {
 
 
   return (
-    <div className="w-[448px] rounded overflow-hidden">
+    <div className="rounded-xl shadow-md border border-gray-300 w-[448px] rounded overflow-hidden">
       <header className="rounded-t border-b bg-white dark:bg-zinc-900 py-4 px-6 flex items-center justify-between">
         <span className="font-semibold text-center text-gray-700">Notifications</span>
         <RemoveAll

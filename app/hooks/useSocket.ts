@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addNotification, fetchNotifications } from '@/app/redux/slices/pushNotificationSlice';
 import { NotificationResponse } from '@/app/components/notification/types';
 import { Conversation, Message as ConversationMessage } from '@/app/actions/ConversationApis';
-import { fetchConversations } from '@/app/redux/slices/conversationSlice';
+import { fetchConversations, fetchConversationsV2, updateCountUnreadMessages } from '@/app/redux/slices/conversationSlice';
 
 export const useSocket = () => {
   const dispatch = useDispatch();
@@ -89,7 +89,8 @@ export const useSocket = () => {
             }
             return conversation;
           });
-          dispatch(fetchConversations(updatedConversations));
+          dispatch(fetchConversationsV2(updatedConversations));
+          dispatch(updateCountUnreadMessages({ increment: 1, decrement: 0, conversationId: conversationId }));
         }, {
           ['Authorization']: `${accessToken}`,
         });

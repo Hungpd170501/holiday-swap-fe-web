@@ -67,7 +67,7 @@ const rows = [
   createData("Vinpearl Luxury Da Nang", "	February 1, 2030", "	$0", "Pending"),
 ];
 
-export default function MyExchangeList() {
+export default function   MyExchangeList() {
   return (
     <TableContainer className="mt-10" component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">

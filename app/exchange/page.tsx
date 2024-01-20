@@ -1,10 +1,10 @@
-import MyExchangeList from '@/app/components/dashboard/MyExchangeList';
-import requireAuth from '@/app/libs/requireAuth';
-import React from 'react';
+import React from "react";
+import useExchange from '@/app/hooks/useExchange';
 import GetCurrentUser from '@/app/actions/getCurrentUser';
-import ExchangeApis, { Exchange } from '@/app/actions/ExchangeApis';
+import requireAuth from '@/app/libs/requireAuth';
+import { Layout } from 'antd';
 import ExchangeTable from '@/app/components/exchange/ExchangeTable';
-
+import ExchangeApis, { Exchange } from '@/app/actions/ExchangeApis';
 function swapData(exchange: Exchange, currentUserUserId: number): Exchange {
   if (exchange.requestUserId === currentUserUserId) {
     return {
@@ -32,20 +32,17 @@ function swapData(exchange: Exchange, currentUserUserId: number): Exchange {
   return exchange;
 }
 
-
-export default async function MyExchange() {
+export default async function Exchange() {
   const currentUser = await GetCurrentUser();
   const exchanges = await ExchangeApis.getCurrentUserExchanges();
+
+  // exchanges.content = exchanges?.content?.map((exchange) => swapData(exchange, currentUser.userId));
   return requireAuth(
-    <div>
-      <div>
-        Dashboard {'>'} <span className="text-common">My Exchange</span>
-      </div>
-      <div className="mt-10">
-        <ExchangeTable initialItems={exchanges?.content?.map((exchange) => swapData(exchange, currentUser.userId))}
-                       currentUser={currentUser}/>
-      </div>
-    </div>,
-    [2]
+    <>
+      <ExchangeTable initialItems={exchanges?.content?.map((exchange) => swapData(exchange, currentUser.userId))}
+                     currentUser={currentUser}/>
+    </>,
+    [2],
   );
+
 }

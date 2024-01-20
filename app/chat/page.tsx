@@ -3,7 +3,7 @@
 import React from "react";
 import EmptyState from "../components/chat/EmptyState";
 import clsx from "clsx";
-import useConversation from "../hooks/useConverastion";
+import useConversation from "../hooks/useConversation";
 
 export default function Chat() {
   const { isOpen } = useConversation();

@@ -1,6 +1,6 @@
 import AxiosClient from '@/app/libs/AxiosConfig';
 import { Response } from '@/common/models';
-import { ApartmentForRentResponse } from '@/app/components/map/type';
+import { ApartmentForRent, ApartmentForRentResponse, AvailableTime } from '@/app/components/map/type';
 
 export function constructQueryString(params: string) {
   const queryStringParts = [];
@@ -19,6 +19,8 @@ export function constructQueryString(params: string) {
 const ApartmentForRentApis = {
   getAll: (): Promise<ApartmentForRentResponse> => AxiosClient.get('/apartment-for-rent?guest=1&numberBedsRoom=1&numberBathRoom=1&pageNo=0&pageSize=100&sortBy=id&sortDirection=asc'),
   getAllBySearchParams: (params: string) : Promise<ApartmentForRentResponse> => AxiosClient.get(`/apartment-for-rent?${constructQueryString(params)}`),
+  getByAvailableTimeId: (availableTimeId: string) : Promise<AvailableTime> => AxiosClient.get(`/available-times/${availableTimeId}`),
+  getApartmentForRentByAvailableTimeId: (availableTimeId: string) : Promise<ApartmentForRent> => AxiosClient.get(`/apartment-for-rent/${availableTimeId}`),
 };
 
 export default ApartmentForRentApis;

@@ -25,7 +25,7 @@ function Header({ conversation, currentUser }: Props) {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const statusText = useMemo(() => {
-    if (conversation?.participants?.length > 2) {
+    if (conversation?.participants?.length??0 > 2) {
       return `${conversation?.participants?.length} Members`;
     }
 
@@ -42,13 +42,7 @@ function Header({ conversation, currentUser }: Props) {
       />
       <div className="bg-white dark:bg-black w-full flex border-b-[1px] dark:border-b-gray-600 sm:px-4 py-3 px-4 lg:px-6 justify-between items-center shadow-sm">
         <div className="flex gap-3 items-center">
-          <Link
-            href="/chat"
-            className="lg:hidden block text-sky-500 hover:text-sky-600 transition cursor-pointer"
-          >
-            <HiChevronLeft size={32} />
-          </Link>
-          {conversation?.participants?.length > 2 ? (
+          {conversation?.participants?.length??0 > 2 ? (
             <AvatarGroup name={conversation?.conversationName || otherUser[0]?.user?.username} />
           ) : (
             <div className="relative">

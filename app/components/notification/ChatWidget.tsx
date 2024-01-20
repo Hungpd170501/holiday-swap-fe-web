@@ -32,7 +32,7 @@ export default function ChatWidget({ currentUser }: Props) {
 
 
   return (
-    <div className="w-[448px] rounded overflow-hidden">
+    <div className="rounded-xl shadow-md border border-gray-300 w-[448px] overflow-hidden">
       <header className="bg-white rounded-t border-b dark:bg-zinc-900 py-4 px-6 flex items-center justify-between">
         <span className="font-bold">Messages</span>
       </header>

@@ -7,7 +7,8 @@ import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchNotifications } from '@/app/redux/slices/pushNotificationSlice';
 import { useSocket } from '@/app/hooks/useSocket';
-import { fetchConversations, setConversationLoaded } from '@/app/redux/slices/conversationSlice';
+import ChatWidget from '@/app/components/notification/ChatWidget';
+import { fetchConversations, setConversationLoaded, setCurrentUserId } from '@/app/redux/slices/conversationSlice';
 import { usePathname } from 'next/navigation';
 import { NotificationResponse } from '@/app/components/notification/types';
 import { MdDashboard } from 'react-icons/md';
@@ -19,9 +20,9 @@ import MenuItem from './MenuItem';
 import Image from 'next/image';
 import NotificationWidget from '@/app/components/notification/NotificationWidget';
 import NotificationApis from '@/app/actions/NotificationApis';
-import ChatWidget from '@/app/components/notification/ChatWidget';
 import useWriteBlogModal from '@/app/hooks/useWriteBlogModal';
 import useRecharge from '@/app/hooks/useRecharge';
+import UserApis from '@/app/actions/UserApis';
 import useLoginModal from '@/app/hooks/useLoginModal';
 
 interface UserMenuProps {
@@ -44,6 +45,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, userWallet }) => {
   const { data: session } = useSession();
   const notifications = useSelector((state: any) => state.pushNotification.data);
   const conversations = useSelector((state: any) => state.conversation.data);
+  const countUnreadMessages = useSelector((state: any) => state.conversation.countUnreadMessages);
   const conversationsLoaded = useSelector((state: any) => state.conversation.loaded);
   const writeBlogModal = useWriteBlogModal();
   const [isOpen, setIsOpen] = useState(false);
@@ -76,16 +78,25 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, userWallet }) => {
   }, [pathName]);
 
   useEffect(() => {
-    console.log('FETCH NOTIFICATIONS...');
-    NotificationApis.getAll().then((res) => {
-      dispatch(fetchNotifications(res));
-    });
-    console.log('FETCH CONVERSATIONS...');
-    dispatch(setConversationLoaded(false));
-    ConversationApis.getCurrentUserConversation().then((res) => {
-      dispatch(fetchConversations(res));
-      dispatch(setConversationLoaded(true));
-    });
+    console.log('FETCHING DATA...');
+    const fetchData = async () => {
+      try {
+        const [notifications, userProfile, conversations] = await Promise.all([
+          NotificationApis.getAll(),
+          UserApis.getCurrentUserProfile(),
+          ConversationApis.getCurrentUserConversation()
+        ]);
+        dispatch(fetchNotifications(notifications));
+        dispatch(setCurrentUserId(userProfile.userId));
+        dispatch(setConversationLoaded(false));
+        dispatch(fetchConversations(conversations));
+        dispatch(setConversationLoaded(true));
+        console.log('FETCH SUCCESSFUL');
+      } catch (error) {
+        console.error('FETCH ERROR:', error);
+      }
+    };
+    fetchData();
   }, [dispatch]);
 
   useEffect(() => {
@@ -130,19 +141,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, userWallet }) => {
                 ></path>
               </g>
             </svg>
+            {conversations && countUnreadMessages != null && countUnreadMessages > 0 && (
+              <div className='px-1 neutral-100 rounded-full text-center text-gray text-sm absolute -top-3 -end-2'>
+                {countUnreadMessages}
+                <div className='absolute top-0 start-0 rounded-full -z-10 animate-ping bg-gray-200 w-full h-full'></div>
+              </div>
+            )}
           </div>
-          <svg
-            className="-mr-1 h-5 w-5 text-gray-400 ml-1.5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fillRule="evenodd"
-              d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-              clipRule="evenodd"
-            />
-          </svg>
         </div>
 
         <div className="cursor-pointer flex items-center" onClick={toggleNotificationOpen}>
@@ -173,18 +178,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, userWallet }) => {
                 ) : null;
               })()}
           </div>
-          <svg
-            className="-mr-1 h-5 w-5 text-gray-400 ml-1.5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fillRule="evenodd"
-              d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-              clipRule="evenodd"
-            />
-          </svg>
         </div>
         <div onClick={toggleOpen} className="cursor-pointer flex items-center gap-3">
           <Image
