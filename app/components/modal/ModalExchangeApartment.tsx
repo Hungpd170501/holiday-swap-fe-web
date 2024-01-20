@@ -9,6 +9,7 @@ import ModalCreate from './ModalCreate';
 import useExchangeApartmentModal from '@/app/hooks/useExchangeApartmentModal';
 import axios from 'axios';
 import { format } from 'date-fns';
+import CalendarAparment from '@/app/apartment/CalendarAparment';
 
 export default function ModalExchangeApartment() {
   const router = useRouter();
@@ -20,6 +21,13 @@ export default function ModalExchangeApartment() {
   const [ownershipId, setOwnershipId] = useState<any>();
   const [availableTimeData, setAvailableTimeData] = useState<any>();
   const [availableTimeId, setAvailableTimeId] = useState<any>();
+  const [availableTimeById, setAvailableTimeById] = useState<any>();
+  const [dateRange, setDateRange] = useState<any>({
+    startDate: new Date(),
+    endDate: new Date().getTime() + 24 * 60 * 60 * 1000,
+    key: 'selection',
+  });
+  const [dateRangeDefault, setDateRangeDefault] = useState<any>();
 
   const {
     register,
@@ -28,7 +36,7 @@ export default function ModalExchangeApartment() {
     reset,
   } = useForm<FieldValues>({
     defaultValues: {
-      startDateDeactive: '',
+      guests: '',
     },
   });
 
@@ -44,7 +52,11 @@ export default function ModalExchangeApartment() {
     if (ownershipData && !ownershipId) {
       setOwnershipId(ownershipData.content[0].id);
     }
-  }, [ownershipData, ownershipUser, ownershipId]);
+
+    if (availableTimeData && !availableTimeId) {
+      setAvailableTimeId(availableTimeData.content[0].id);
+    }
+  }, [ownershipData, ownershipUser, ownershipId, availableTimeData, availableTimeId]);
 
   const handleChangeOwnershipId = (value: any) => {
     setOwnershipId(value);
@@ -67,13 +79,35 @@ export default function ModalExchangeApartment() {
       };
       fetchAvailableTimeByCoOwnerId();
     }
-  }, [ownershipId]);
+
+    if (availableTimeId) {
+      const fetchAvailableTimeById = async () => {
+        const rs = await axios.get(
+          `https://holiday-swap.click/api/v1/available-times/${availableTimeId}`
+        );
+
+        if (rs) {
+          setAvailableTimeById(rs.data);
+        }
+      };
+
+      fetchAvailableTimeById();
+    }
+
+    if (availableTimeById) {
+      setDateRangeDefault({
+        startDate: new Date(availableTimeById.startTime),
+        endDate: new Date(availableTimeById.endTime),
+        key: 'selection',
+      });
+    }
+  }, [ownershipId, availableTimeId, availableTimeById]);
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col justify-center gap-y-4">
-        <div>
-          <Label value="Selection apartment" />
+        <div className="flex flex-col gap-y-1">
+          <label>Select apartment</label>
           <Select
             id="roomId"
             value={availableTimeId}
@@ -89,8 +123,8 @@ export default function ModalExchangeApartment() {
           </Select>
         </div>
 
-        <div>
-          <Label value="Selection available time" />
+        <div className="flex flex-col gap-y-1">
+          <label>Select available time</label>
           <Select
             id="availableTimeId"
             value={availableTimeId}
@@ -107,9 +141,24 @@ export default function ModalExchangeApartment() {
           </Select>
         </div>
 
-        <div>
-          <Label value="Selection available time" />
-        </div>
+        <InputComponent
+          id="guests"
+          register={register}
+          errors={errors}
+          label="Guest"
+          type="number"
+        />
+
+        {dateRangeDefault && dateRange && (
+          <CalendarAparment
+            value={dateRange}
+            minDate={dateRangeDefault.startDate}
+            onChange={(value: any) => {
+              setDateRange(value.selection);
+            }}
+            maxDate={dateRangeDefault.endDate}
+          />
+        )}
       </div>
 
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
