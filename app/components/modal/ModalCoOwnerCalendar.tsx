@@ -222,6 +222,7 @@ const ModalCoOwnerCalendar = (props: any) => {
   const [dateRange, setDateRange] = useState(initialDate);
   const [maxDate, setMaxDate] = useState<Date>(new Date());
   const [apartmentMaintain, setApartmentMaintain] = useState<any[]>();
+
   useEffect(() => {
     let max: any = undefined;
     props.coOwner.endTime
@@ -296,6 +297,7 @@ const ModalCoOwnerCalendar = (props: any) => {
     setTimesDisableOnClick(rs);
     setDateRange(value.selection);
   };
+
   useEffect(() => {
     const offset = new Date().getTimezoneOffset();
     var startDate = new Date(dateRange.startDate.getTime() - offset * 60 * 1000);
@@ -381,6 +383,7 @@ const ModalCoOwnerCalendar = (props: any) => {
     });
     setWeeksTimeFrame(weeks);
   };
+
   useEffect(() => {
     fetchTimesDisable();
     fetchWeeks();
@@ -388,6 +391,7 @@ const ModalCoOwnerCalendar = (props: any) => {
     setCheckedList([]);
     setDateRange(initialDate);
   }, [open]);
+
   useEffect(() => {
     let rs: Date[] = [];
     let p1 = dateDiffIsGreaterTwo(timesDisable);
@@ -433,6 +437,7 @@ const ModalCoOwnerCalendar = (props: any) => {
     });
     setPlainOptions(arr);
   }
+
   const [plainOptions, setPlainOptions] = useState<Option[]>([]);
   const defaultCheckedList: CheckboxValueType[] = [];
   const [checkedList, setCheckedList] = useState<CheckboxValueType[]>(defaultCheckedList);
@@ -499,10 +504,12 @@ const ModalCoOwnerCalendar = (props: any) => {
       setDateRange(dateWeek);
     }
   };
+
   useEffect(() => {
     getTheListSelectWeek(yearSelectBox);
     setCheckedList([]);
   }, [yearSelectBox]);
+
   const onCheckAllChange = (e: CheckboxChangeEvent) => {
     setCheckedList(e.target.checked ? plainOptions.map((op) => op.value) : []);
   };

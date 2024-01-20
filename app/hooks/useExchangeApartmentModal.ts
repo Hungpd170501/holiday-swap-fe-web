@@ -2,13 +2,15 @@ import { create } from 'zustand';
 
 interface ExchangeApartmentModalStore {
   isOpen: boolean;
-  onOpen: () => void;
+  ownershipUser: any;
+  onOpen: (ownershipUser: any) => void;
   onClose: () => void;
 }
 
 const useExchangeApartmentModal = create<ExchangeApartmentModalStore>((set) => ({
   isOpen: false,
-  onOpen: () => set({ isOpen: true }),
+  ownershipUser: null,
+  onOpen: (ownershipUser) => set({ isOpen: true, ownershipUser: ownershipUser }),
   onClose: () => set({ isOpen: false }),
 }));
 

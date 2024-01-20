@@ -25,7 +25,11 @@ interface ApartmentDetailProps {
   ownershipUser?: any;
 }
 
-const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUser, ownershipUser }) => {
+const ApartmentDetail: React.FC<ApartmentDetailProps> = ({
+  apartment,
+  currentUser,
+  ownershipUser,
+}) => {
   const initialDateRange = {
     startDate: new Date(apartment.availableTime.startTime),
     endDate: new Date(apartment.availableTime.endTime),
@@ -441,6 +445,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
             rating={rating}
             dateRangeDefault={dateRangeDefault}
             handleChangeDateRange={handleChangeDateRange}
+            currentUser={currentUser}
             ownershipUser={ownershipUser}
           />
         </div>
@@ -454,7 +459,6 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({ apartment, currentUse
               dateRangeDefault={dateRangeDefault}
               handleChangeDateRange={handleChangeDateRange}
               apartmentAllowGuest={apartmentAllowGuest}
-              
             />
           </div>
         )}

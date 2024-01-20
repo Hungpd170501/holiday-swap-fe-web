@@ -53,21 +53,23 @@ const ListResort: React.FC<ListResortProps> = ({
   }, []);
 
   useEffect(() => {
-    if (dateRangeParamsSearch) {
-      const JSONDateRange = JSON.parse(dateRangeParamsSearch);
-      const newDate = {
-        key: 'selection',
-        startDate: new Date(JSONDateRange.startDate),
-        endDate: new Date(JSONDateRange.endDate),
-      };
-      setDateRangeNew(newDate);
-    }
-    if (resortIdParams) {
-      setResortIdValue(resortIdParams as string);
-    }
+    if (typeof window !== 'undefined') {
+      if (dateRangeParamsSearch) {
+        const JSONDateRange = JSON.parse(dateRangeParamsSearch);
+        const newDate = {
+          key: 'selection',
+          startDate: new Date(JSONDateRange.startDate),
+          endDate: new Date(JSONDateRange.endDate),
+        };
+        setDateRangeNew(newDate);
+      }
+      if (resortIdParams) {
+        setResortIdValue(resortIdParams as string);
+      }
 
-    if (numberOfGuestParams) {
-      setNumberOfGuestValue(Number(numberOfGuestParams as string));
+      if (numberOfGuestParams) {
+        setNumberOfGuestValue(Number(numberOfGuestParams as string));
+      }
     }
   }, [resortIdParams, dateRangeParamsSearch, numberOfGuestParams]);
 
@@ -115,9 +117,9 @@ const ListResort: React.FC<ListResortProps> = ({
 
   const fetchDataOnMount = async () => {
     // Fetch data only on the client side
-    if (typeof window !== 'undefined') {
-      await fetchData();
-    }
+
+    // Fetch data using the updated state
+    await fetchData();
   };
 
   useEffect(() => {

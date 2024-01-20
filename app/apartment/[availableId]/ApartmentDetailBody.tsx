@@ -27,6 +27,7 @@ interface ApartmentDetailBodyProps {
   handleChangeDateRange: (value: any) => void;
   dateRangeDefault: any;
   rating: any;
+  currentUser: any;
   ownershipUser: any;
 }
 
@@ -37,6 +38,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
   handleChangeDateRange,
   dateRangeDefault,
   rating,
+  currentUser,
   ownershipUser,
 }) => {
   const apartmentAmenitiesModal = useAparmentAmenitiesModal();
@@ -72,6 +74,14 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
             console.log(err);
           });
       });
+  };
+
+  const handleExchangeApartment = () => {
+    if (currentUser && ownershipUser) {
+      exchangeApartmentModal.onOpen(ownershipUser);
+    } else {
+      loginModal.onOpen();
+    }
   };
 
   const router = useRouter();
@@ -346,7 +356,7 @@ const ApartmentDetailBody: React.FC<ApartmentDetailBodyProps> = ({
         <div className="flex flex-col gap-2 w-[40%]">
           <div className="py-2">
             <div
-              onClick={exchangeApartmentModal.onOpen}
+              onClick={handleExchangeApartment}
               className="hover:bg-hover rounded-md cursor-pointer font-semibold px-4 py-2 bg-common text-white text-center"
             >
               Exchange
