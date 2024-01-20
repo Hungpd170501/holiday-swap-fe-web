@@ -74,7 +74,7 @@ const ListResort: React.FC<ListResortProps> = ({
 
   const fetchData = async () => {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       let config = {};
 
       if (currentUser) {
@@ -85,28 +85,29 @@ const ListResort: React.FC<ListResortProps> = ({
         };
       }
 
-      const response = await axios.get('https://holiday-swap.click/api/v1/apartment-for-rent', {
-        ...config,
-        params: {
-          resortId: resortIdValue,
-          checkIn:
-            JSON.stringify(dateRangeNew) !== JSON.stringify(initialDateRange)
-              ? format(dateRangeNew.startDate, 'yyyy-MM-dd')
-              : '',
-          checkOut:
-            JSON.stringify(dateRangeNew) !== JSON.stringify(initialDateRange)
-              ? format(dateRangeNew.endDate, 'yyyy-MM-dd')
-              : '',
-          guest: numberOfGuestValue,
-          pageNo: page - 1, // API uses zero-based indexing
-          pageSize: 12, // Adjust as needed
-          sortBy: 'startTime',
-          sortDirection: 'asc',
-        },
-      }).
-      finally(() => {
-        setIsLoading(false);
-      })
+      const response = await axios
+        .get('https://holiday-swap.click/api/v1/apartment-for-rent', {
+          ...config,
+          params: {
+            resortId: resortIdValue,
+            checkIn:
+              JSON.stringify(dateRangeNew) !== JSON.stringify(initialDateRange)
+                ? format(dateRangeNew.startDate, 'yyyy-MM-dd')
+                : '',
+            checkOut:
+              JSON.stringify(dateRangeNew) !== JSON.stringify(initialDateRange)
+                ? format(dateRangeNew.endDate, 'yyyy-MM-dd')
+                : '',
+            guest: numberOfGuestValue,
+            pageNo: page - 1, // API uses zero-based indexing
+            pageSize: 12, // Adjust as needed
+            sortBy: 'id',
+            sortDirection: 'desc',
+          },
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
 
       if (isMounted.current) {
         setListResort(response.data);
@@ -145,15 +146,15 @@ const ListResort: React.FC<ListResortProps> = ({
             <Fragment>
               {isLoading ? (
                 <section className="py-24 min-h-screen max-w-[2520px] flex items-center justify-center">
-      <div
-        className="w-20 h-20 rounded-full animate-spin
+                  <div
+                    className="w-20 h-20 rounded-full animate-spin
                     border-4 border-solid border-common border-t-transparent"
-      ></div>
-    </section>
+                  ></div>
+                </section>
               ) : (
                 listResort?.content?.map((item: any, index: number) => (
-              <CardListResort key={index} data={item} />
-            ))
+                  <CardListResort key={index} data={item} />
+                ))
               )}
             </Fragment>
           ) : (
