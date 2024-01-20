@@ -36,6 +36,7 @@ import ApartmentForRentApis from '@/app/components/map/apis/ApartmentForRentApis
 import ConfirmCancelExchangeModal from './ConfirmCancelExchangeModal';
 import ExchangeApis, { ExchangeUpdatingRequest } from '@/app/actions/ExchangeApis';
 import { toast } from 'react-hot-toast';
+import GetApartmentMantainByPropertyIdApartmentId from '@/app/actions/getApartmentMantainByPropertyIdApartmentId';
 
 interface ExchangeContainerProps {
   initialItems: FullMessageType[];
@@ -180,6 +181,33 @@ const ExchangeContainer: React.FC<ExchangeContainerProps> = ({
 
     return max;
   });
+  async function getApartmentDeactiveByPIdAndRoomID() {
+    const propertyId: string = yourAvailableTime
+      ? String(yourAvailableTime.coOwner.property.id)
+      : '';
+    const roomId: string = yourAvailableTime ? yourAvailableTime.coOwner.roomId : '';
+    const apartmentMantain = await GetApartmentMantainByPropertyIdApartmentId(propertyId, roomId);
+    // let arrApartmentMaintain = apartmentMantain
+    //   ?.filter((e: any) => e.type == 'MAINTENANCE')
+    //   .map((e: any) => {
+    //     let start = new Date(e.startDate);
+    //     start.setDate(start.getDate() - 1);
+    //     let end = new Date(e.endDate);
+    //     end.setDate(end.getDate() + 1);
+    //     return { checkIn: start, checkOut: end };
+    //   });
+    let apartmentDeactive = apartmentMantain?.filter((e: any) => e.type == 'DEACTIVATE');
+    let max = maxDate;
+    if (apartmentDeactive.length > 0) {
+      if (new Date(max) > new Date(apartmentDeactive[0].startDate)) {
+        max = new Date(apartmentDeactive[0].startDate);
+        setMaxDate(max);
+      }
+    }
+  }
+  useEffect(() => {
+    getApartmentDeactiveByPIdAndRoomID();
+  }, []);
   const handleOnChangeDateRangePicker = (value: any) => {
     const result: Date[] = [];
     disableTimes?.forEach(({ checkIn, checkOut }: { checkIn: Date; checkOut: Date }) => {
