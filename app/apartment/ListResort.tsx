@@ -37,6 +37,7 @@ const ListResort: React.FC<ListResortProps> = ({
   const [dateRangeNew, setDateRangeNew] = useState<any>(initialDateRange);
   const [totalPages, setTotalPages] = useState<any>();
   const { data: session } = useSession();
+  const [isLoading, setIsLoading] = useState(false);
 
   const searchParams = useSearchParams();
   const resortIdParams = searchParams?.get('resortId');
@@ -73,6 +74,7 @@ const ListResort: React.FC<ListResortProps> = ({
 
   const fetchData = async () => {
     try {
+      setIsLoading(true)
       let config = {};
 
       if (currentUser) {
@@ -101,7 +103,10 @@ const ListResort: React.FC<ListResortProps> = ({
           sortBy: 'startTime',
           sortDirection: 'asc',
         },
-      });
+      }).
+      finally(() => {
+        setIsLoading(false);
+      })
 
       if (isMounted.current) {
         setListResort(response.data);
@@ -137,9 +142,20 @@ const ListResort: React.FC<ListResortProps> = ({
       <div className="bg-white px-[20px] flex flex-col items-center justify-center xl:px-[50px]">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grid-cols-1 gap-5 py-[30px] w-full">
           {listResort && listResort.content.length > 0 ? (
-            listResort?.content?.map((item: any, index: number) => (
+            <Fragment>
+              {isLoading ? (
+                <section className="py-24 min-h-screen max-w-[2520px] flex items-center justify-center">
+      <div
+        className="w-20 h-20 rounded-full animate-spin
+                    border-4 border-solid border-common border-t-transparent"
+      ></div>
+    </section>
+              ) : (
+                listResort?.content?.map((item: any, index: number) => (
               <CardListResort key={index} data={item} />
             ))
+              )}
+            </Fragment>
           ) : (
             <div className="w-full md:col-span-2 lg:col-span-3 xl:col-span-4 col-span-1 h-[500px] text-3xl font-bold justify-center">
               Not have apartment. You can search more apartment

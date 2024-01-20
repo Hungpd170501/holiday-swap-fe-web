@@ -93,14 +93,14 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
   } = useForm<FieldValues>();
 
   useEffect(() => {
-    if (guests) {
+    if (storedGuests) {
       guests.map((item, index) => ({
         email: setValue(`email${index}`, item.email), // Use the indexed email field
         fullName: setValue(`fullName${index}`, item.fullName), // Use the indexed full name field
         phoneNumber: setValue(`phoneNumber${index}`, item.phoneNumber), // Use the indexed phone number field
       }));
     }
-  }, [guests]);
+  }, [guests, storedGuests]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
@@ -157,7 +157,8 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
   };
 
   const addGuest = () => {
-    setGuests([...guests, { email: '', fullName: '', phoneNumber: '' }]);
+    const newGuest = { email: '', fullName: '', phoneNumber: '' };
+    setGuests([...guests, newGuest]);
   };
 
   const removeGuest = (index: number) => {
@@ -182,7 +183,7 @@ const BookingInformation: React.FC<BookingInformationProps> = ({
       );
       setValue('phoneNumber0', currentUser.phone);
     }
-  }, [currentUser, setValue]);
+  }, [currentUser]);
 
   return (
     <div className="flex flex-row w-full">
