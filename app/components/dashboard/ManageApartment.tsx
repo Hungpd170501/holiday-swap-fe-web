@@ -68,11 +68,6 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
   const isCreated = createModalPublicTime.isCreated;
   const axiosAuthClient = useAxiosAuthClient();
   const apartmentReviewModal = useAparmentReviewModal();
-
-  const [isOpenTimePublicArr, setIsOpenTimePublicArr] = useState(
-    new Array(detailCoOwner.timeFrames.length).fill(false)
-  );
-
   const fetchAvailableTimeByCoOwnerId = async () => {
     setLoadingTableAvailableTime(true);
     var rs = await GetAvailableTimeByCoOwnerId({
@@ -114,7 +109,7 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
       const getData = async () => {
         const detailCoOwner = await GetApproveOwnershipById({ slug });
         if (detailCoOwner) {
-          setDetail(detailCoOwner);
+          setDetail(detailCoOwner.data);
           setWeeksTimeFrame(detailCoOwner.timeFrames);
           createModalPublicTime.onCreatedReset();
         }
@@ -312,14 +307,14 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                                       )
                                     }
                                     title={(() => {
-                                              if (e.user.fullName) {
-                                                return e.user.fullName;
-                                              } else if (!e.user.fullName && e.user.username) {
-                                                return e.user.username;
-                                              } else if (!e.user.fullName && !e.user.username) {
-                                                return e.user.email.split('@')[0];
-                                              }
-                                          })()}
+                                      if (e.user.fullName) {
+                                        return e.user.fullName;
+                                      } else if (!e.user.fullName && e.user.username) {
+                                        return e.user.username;
+                                      } else if (!e.user.fullName && !e.user.username) {
+                                        return e.user.email.split('@')[0];
+                                      }
+                                    })()}
                                     description={
                                       <Rate
                                         disabled
@@ -448,14 +443,14 @@ const ManageApartment: React.FC<ManageApartmentProps> = ({
                                     )
                                   }
                                   title={(() => {
-                                          if (e.user.fullName) {
-                                            return e.user.fullName;
-                                          } else if (!e.user.fullName && e.user.username) {
-                                            return e.user.username;
-                                          } else if (!e.user.fullName && !e.user.username) {
-                                            return e.user.email.split('@')[0];
-                                          }
-                                        })()}
+                                    if (e.user.fullName) {
+                                      return e.user.fullName;
+                                    } else if (!e.user.fullName && e.user.username) {
+                                      return e.user.username;
+                                    } else if (!e.user.fullName && !e.user.username) {
+                                      return e.user.email.split('@')[0];
+                                    }
+                                  })()}
                                 />
                                 <div className="flex justify-between my-1">
                                   <b>{'Price :' + e.actualPrice}</b>
