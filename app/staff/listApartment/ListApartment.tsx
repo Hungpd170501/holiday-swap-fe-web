@@ -13,6 +13,8 @@ import { MdOutlinePending } from 'react-icons/md';
 import SelectRouterStaff from '@/app/components/staff/SelectRouterStaff';
 import HeadingDashboard from '@/app/components/HeadingDashboard';
 import useDeactiveApartmentModal from '@/app/hooks/useDeactiveApartmentModal';
+import dayjs from 'dayjs';
+import { Tag } from 'antd';
 
 const statusList = [
   {
@@ -54,7 +56,7 @@ const ListApartment: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
   const handleSearch = async () => {
     try {
       setLoading(true);
-      let apiUrl = `https://holiday-swap.click/api/co-owners/propertyAndRoomId?pageNo=0&pageSize=8&sortDirection=desc&coOwnerStatus=ACCEPTED`;
+      let apiUrl = `http://localhost:8080/api/co-owners/propertyAndRoomId?pageNo=0&pageSize=8&sortDirection=desc&coOwnerStatus=ACCEPTED`;
 
       if (searchTerm) {
         apiUrl += `&roomId=${searchTerm}`;
@@ -73,7 +75,7 @@ const ListApartment: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      let apiUrl = `https://holiday-swap.click/api/co-owners/propertyAndRoomId?pageNo=${
+      let apiUrl = `http://localhost:8080/api/co-owners/propertyAndRoomId?pageNo=${
         currentPage - 1
       }&pageSize=8&sortDirection=desc&coOwnerStatus=ACCEPTED`;
 
@@ -83,7 +85,7 @@ const ListApartment: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
       setTotalPages(ownerships?.data.totalPages);
     };
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, deactiveApartmentModal.isSuccess]);
 
   return (
     <div>
@@ -113,14 +115,24 @@ const ListApartment: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
         {ownershipUserList && ownershipUserList.content.length > 0 ? (
           <Table>
             <Table.Head>
-              <Table.HeadCell className="w-[370px]">Resort</Table.HeadCell>
-              <Table.HeadCell className="w-[370px]">Property</Table.HeadCell>
-              <Table.HeadCell className="w-[370px]">Apartment ID</Table.HeadCell>
-              <Table.HeadCell>Status</Table.HeadCell>
+              <Table.HeadCell className="w-[300px]">Resort</Table.HeadCell>
+              <Table.HeadCell className="w-[300px]">Property</Table.HeadCell>
+              <Table.HeadCell className="w-[300px]">Apartment ID</Table.HeadCell>
+              <Table.HeadCell className="w-[300px]">Status</Table.HeadCell>
               <Table.HeadCell>Action</Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
               {ownershipUserList?.content.map((item: any, index: number) => {
+                let status = 'ACTIVE';
+                let type = 'success';
+                const deactive: any[] = item.ownerShipMaintenance?.filter(
+                  (e: any) => e.type == 'DEACTIVATE'
+                );
+                if (deactive?.length > 0) {
+                  status = `DEACTIVATE in ${dayjs(deactive[0].startDate).format('YYYY-MM-DD')}`;
+                  type = 'error';
+                }
+
                 return (
                   <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                     <Table.Cell className="w-[250px]">
@@ -129,38 +141,35 @@ const ListApartment: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
                     <Table.Cell>{item.property.propertyName}</Table.Cell>
                     <Table.Cell className="w-[140px]">{item.roomId}</Table.Cell>
                     <Table.Cell>
-                      {item.ownerShipMaintenance?.filter((e: any) => e.type == 'DEACTIVATE')
-                        .length > 0 ? (
-                        <div className="py-2 px-1 text-center text-sm bg-slate-200 rounded-md text-rose-600">
-                          DEACTIVE
-                        </div>
-                      ) : (
-                        <div className="py-2 px-1 text-sm text-center  bg-slate-200 rounded-md text-green-500">
-                          ACCEPTED
-                        </div>
-                      )}
+                      <Tag color={type}>{status}</Tag>
                     </Table.Cell>
                     <Table.Cell>
-                      <Dropdown
-                        label=""
-                        dismissOnClick={false}
-                        renderTrigger={() => (
-                          <span className="text-sky-500 hover:underline cursor-pointer">Edit</span>
-                        )}
-                      >
-                        <Dropdown.Item
-                          key={index}
-                          value="DEACTIVATE"
-                          className="flex items-center gap-2"
-                          onClick={() =>
-                            deactiveApartmentModal.onOpen(item.property.id, item.roomId)
-                          }
+                      {deactive.length <= 0 ? (
+                        <Dropdown
+                          label=""
+                          dismissOnClick={false}
+                          renderTrigger={() => (
+                            <span className="text-sky-500 hover:underline cursor-pointer">
+                              Edit
+                            </span>
+                          )}
                         >
-                          <BiBlock size={18} color="red" />
+                          <Dropdown.Item
+                            key={index}
+                            value="DEACTIVATE"
+                            className="flex items-center gap-2"
+                            onClick={() =>
+                              deactiveApartmentModal.onOpen(item.property.id, item.roomId)
+                            }
+                          >
+                            <BiBlock size={18} color="red" />
 
-                          <span className={`text-rose-500`}>DEACTIVATE</span>
-                        </Dropdown.Item>
-                      </Dropdown>
+                            <span className={`text-rose-500`}>DEACTIVATE</span>
+                          </Dropdown.Item>
+                        </Dropdown>
+                      ) : (
+                        <></>
+                      )}
                     </Table.Cell>
                   </Table.Row>
                 );
