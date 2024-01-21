@@ -40,6 +40,8 @@ const ApartmentDetailHeader: React.FC<ApartmentDetailHeaderProps> = ({ apartment
           )}
           <div>·</div>
           <div>{apartment.availableTime.coOwner.property.resort.resortName}</div>
+          <div>·</div>
+          <div>Apartment ID: {apartment.availableTime.coOwner.roomId}</div>
         </div>
 
         <div className="w-full  gap-2 py-4 md:grid md:grid-cols-2 md:h-[55vh] lg:h-[60vh] md:gap-2 md:py-4">

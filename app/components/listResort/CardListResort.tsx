@@ -66,6 +66,10 @@ const CardListResort: React.FC<CardListResortProps> = ({ data }) => {
               : data?.availableTime.coOwner.user.username}
           </div>
           <div className="text-gray-600 text-base">
+            Apartment ID:{' '}
+            {data?.availableTime.coOwner.roomId}
+          </div>
+          <div className="text-gray-600 text-base">
             {new Date(data?.availableTime.startTime).getMonth() ===
             new Date(data?.availableTime.endTime).getMonth()
               ? `${format(new Date(data?.availableTime.startTime), 'd ')} -

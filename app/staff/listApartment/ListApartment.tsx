@@ -101,7 +101,7 @@ const ListApartment: React.FC<OwnershipProps> = ({ ownershipStaff }) => {
       </div>
       <Fragment>
         <div className="flex flex-row items-center gap-2 pb-5">
-          <div>Search by room ID</div>
+          <div>Search by Apartment ID</div>
           <input
             className="rounded-md"
             type="text"

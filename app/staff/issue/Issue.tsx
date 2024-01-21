@@ -94,11 +94,13 @@ const Issue: React.FC<IssueProps> = ({ issue }) => {
             <Table.Body className="divide-y">
               {sortedItems.map((item: any, index: any) => (
                 <Table.Row key={item.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="hover:underline">
-                    <Link href={`/dashboard/myBooking/${item.bookingId}`} target='_blank'>{item.bookingId}</Link>
+                  <Table.Cell className="">
+                  
+                      {item.bookingId}
+                   
                   </Table.Cell>
                   <Table.Cell>{item.description}</Table.Cell>
-                  <Table.Cell>{item.note}</Table.Cell>
+                  <Table.Cell className="w-[200px]">{item.note}</Table.Cell>
                   <Table.Cell>{format(new Date(item?.createdOn), 'dd/MM/yyyy')}</Table.Cell>
                   <Table.Cell
                     className={`${item.status === 'OPEN' ? 'text-green-500' : ''} ${
